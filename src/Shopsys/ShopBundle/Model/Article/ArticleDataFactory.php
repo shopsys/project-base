@@ -19,6 +19,7 @@ class ArticleDataFactory extends BaseArticleDataFactory
         $this->fillFromArticle($articleData, $article);
 
         $articleData->createdAt = $article->getCreatedAt() ?? new DateTime();
+        $articleData->products
 
         return $articleData;
     }

@@ -12,9 +12,15 @@ class ArticleData extends BaseArticleData
      */
     public $createdAt;
 
+    /**
+     * @var array
+     */
+    public $products;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
+        $this->products = [];
         parent::__construct();
     }
 }
