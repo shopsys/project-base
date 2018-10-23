@@ -1,4 +1,5 @@
 {% extends '@ShopsysShop/Front/Layout/layoutWithoutPanel.html.twig' %}
+{% import '@ShopsysShop/Front/Content/Product/productListMacro.html.twig' as macro %}
 
 {% block title %}
     {{- article.seoTitle|default(article.name) -}}
@@ -22,4 +23,7 @@
     <div class="in-user-text">
         {{ article.text|raw }}
     </div>
+
+    {{ macro.list(products) }}
+
 {% endblock %}
