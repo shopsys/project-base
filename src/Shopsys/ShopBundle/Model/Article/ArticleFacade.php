@@ -87,4 +87,20 @@ class ArticleFacade extends BaseArticleFacade
         }
         $this->em->flush($newArticleProducts);
     }
+
+    /**
+     * @param \Shopsys\ShopBundle\Model\Article\Article $article
+     * @return \Shopsys\ShopBundle\Model\Product\Product[]
+     */
+    public function getProductsByArticle(Article $article)
+    {
+        $articleProducts = $this->articleProductRepository->getArticleProductsByArticle($article);
+
+        $products = [];
+        foreach ($articleProducts as $articleProduct) {
+            $products[] = $articleProduct->getProduct();
+        }
+
+        return $products;
+    }
 }
