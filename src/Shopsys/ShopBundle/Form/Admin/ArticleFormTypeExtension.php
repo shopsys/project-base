@@ -4,6 +4,7 @@ namespace Shopsys\ShopBundle\Form\Admin;
 
 use Shopsys\FrameworkBundle\Form\Admin\Article\ArticleFormType;
 use Shopsys\FrameworkBundle\Form\DatePickerType;
+use Shopsys\FrameworkBundle\Form\ProductsType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints;
@@ -22,6 +23,9 @@ class ArticleFormTypeExtension extends AbstractTypeExtension
                 new Constraints\NotBlank(['message' => 'Please enter date of creation']),
             ],
             'label' => 'Creation date',
+        ]);
+        $builderArticleDataGroup->add('products', ProductsType::class, [
+            'label' => 'Products',
         ]);
         $builder->add($builderArticleDataGroup);
     }
