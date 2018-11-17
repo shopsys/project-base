@@ -4,17 +4,17 @@ metadata:
     name: shopsys
 spec:
     rules:
-    -   host: ~
-        http:
-            paths:
-            -   path: /
-                backend:
-                    serviceName: webserver-php-fpm
-                    servicePort: 8080
-    -   host: ~
-        http:
-            paths:
-            -   path: /
-                backend:
-                    serviceName: webserver-php-fpm
-                    servicePort: 8080
+        -   host: ~
+            http:
+                paths:
+                    -   path: /
+                        backend:
+                            serviceName: webserver-php-fpm
+                            servicePort: 8080
+        -   host: ~
+            http:
+                paths:
+                    -   path: /
+                        backend:
+                            serviceName: webserver-php-fpm
+                            servicePort: 8080

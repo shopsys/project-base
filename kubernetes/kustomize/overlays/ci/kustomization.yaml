@@ -10,4 +10,4 @@ resources:
 configMapGenerator:
 -   name: nginx-configuration
     files:
-    - ../../../../../docker/nginx/nginx.conf
+        - ../../../../../docker/nginx/nginx.conf

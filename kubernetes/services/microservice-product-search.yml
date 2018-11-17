@@ -7,6 +7,6 @@ spec:
         app: microservice-product-search
     type: NodePort
     ports:
-    -   name: microservice-product-search
-        port: 80
-        targetPort: 80
+        -   name: microservice-product-search
+            port: 80
+            targetPort: 80

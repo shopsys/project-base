@@ -36,6 +36,7 @@
     <property name="path.web.scripts" value="${path.web}/assets/scripts"/>
     <property name="path.web.styles.admin" value="${path.web}/assets/admin/styles"/>
     <property name="path.web.styles.front" value="${path.web}/assets/frontend/styles"/>
+    <property name="path.yaml-standards" value="${path.bin}/yaml-standards"/>
 
     <property name="path.bin-console" value="bin/console"/>
 

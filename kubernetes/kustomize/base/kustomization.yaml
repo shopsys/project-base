@@ -17,10 +17,10 @@ resources:
 configMapGenerator:
     -   name: postgres-configuration
         files:
-        -   ../../../docker/postgres/postgres.conf
+            - ../../../docker/postgres/postgres.conf
     -   name: domains-urls
         files:
-        -   ../../../app/config/domains_urls.yml
+            - ../../../app/config/domains_urls.yml
     -   name: parameters
         files:
-        -   ../../../app/config/parameters.yml
+            - ../../../app/config/parameters.yml

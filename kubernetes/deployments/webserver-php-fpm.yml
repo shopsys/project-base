@@ -20,11 +20,11 @@ spec:
                 app: webserver-php-fpm
         spec:
             hostAliases:
-            -   ip: "127.0.0.1"
-                hostnames:
-                -   "webserver-php-fpm"
-                -   "php-fpm"
-                -   "webserver"
+                -   ip: "127.0.0.1"
+                    hostnames:
+                        - "webserver-php-fpm"
+                        - "php-fpm"
+                        - "webserver"
             volumes:
                 -   name: source-codes
                     emptyDir: {}
@@ -38,8 +38,8 @@ spec:
                     configMap:
                         name: nginx-configuration
                         items:
-                        -   key: nginx.conf
-                            path: default.conf
+                            -   key: nginx.conf
+                                path: default.conf
             initContainers:
             -   name: copy-source-codes-to-volume
                 image: ~

@@ -71,8 +71,8 @@ front_image_without_type:
         imageId: \d+
 
 front_login_check:
-    path: /login/check/
     # controller's action is unnecessary, because firewall processes whole request
+    path: /login/check/
 
 front_newsletter_send:
     path: /newsletter/subscribe-email/
