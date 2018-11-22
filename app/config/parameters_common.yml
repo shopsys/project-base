@@ -27,3 +27,7 @@ parameters:
         Shopsys\FrameworkBundle\Model\Payment\Payment: Shopsys\ShopBundle\Model\Payment\Payment
         Shopsys\FrameworkBundle\Model\Product\Product: Shopsys\ShopBundle\Model\Product\Product
         Shopsys\FrameworkBundle\Model\Product\Brand\Brand: Shopsys\ShopBundle\Model\Product\Brand\Brand
+        Shopsys\FrameworkBundle\Model\Order\Item\OrderItem: Shopsys\ShopBundle\Model\Order\Item\OrderItem
+        Shopsys\FrameworkBundle\Model\Order\Item\OrderPayment: Shopsys\ShopBundle\Model\Order\Item\OrderPayment
+        Shopsys\FrameworkBundle\Model\Order\Item\OrderTransport: Shopsys\ShopBundle\Model\Order\Item\OrderTransport
+        Shopsys\FrameworkBundle\Model\Order\Item\OrderProduct: Shopsys\ShopBundle\Model\Order\Item\OrderProduct

@@ -50,3 +50,6 @@ services:
     Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface: '@Shopsys\ShopBundle\Model\Product\ProductDataFactory'
 
     Shopsys\FrameworkBundle\Model\Product\Brand\BrandDataFactoryInterface: '@Shopsys\ShopBundle\Model\Product\Brand\BrandDataFactory'
+    Shopsys\FrameworkBundle\Model\Order\Item\OrderProductFactory: '@Shopsys\ShopBundle\Model\Order\Item\OrderProductFactory'
+    Shopsys\FrameworkBundle\Model\Order\Item\OrderPaymentFactory: '@Shopsys\ShopBundle\Model\Order\Item\OrderPaymentFactory'
+    Shopsys\FrameworkBundle\Model\Order\Item\OrderTransportFactory: '@Shopsys\ShopBundle\Model\Order\Item\OrderTransportFactory'
