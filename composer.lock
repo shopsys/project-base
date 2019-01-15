@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d762198d896e185b402c5682adbbb449",
+    "content-hash": "dd7356a9adf487b9c69cd5a16bf0eaa5",
     "packages": [
         {
             "name": "arvenil/ninja-mutex",
@@ -5453,72 +5453,6 @@
             "time": "2018-11-28T16:58:49+00:00"
         },
         {
-            "name": "shopsys/product-feed-heureka",
-            "version": "v7.0.0-beta4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/shopsys/product-feed-heureka.git",
-                "reference": "7632bdd9ccd92485aca612384d0e0a276f46fcd8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/shopsys/product-feed-heureka/zipball/7632bdd9ccd92485aca612384d0e0a276f46fcd8",
-                "reference": "7632bdd9ccd92485aca612384d0e0a276f46fcd8",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/collections": "^1.5",
-                "doctrine/dbal": "^2.7",
-                "doctrine/doctrine-bundle": "^1.8",
-                "ext-json": "*",
-                "ext-libxml": "*",
-                "ext-pdo": "*",
-                "ext-simplexml": "*",
-                "php": "^7.1",
-                "shopsys/doctrine-orm": "^2.6.2",
-                "shopsys/form-types-bundle": "7.0.0-beta4",
-                "shopsys/framework": "7.0.0-beta4",
-                "shopsys/migrations": "7.0.0-beta4",
-                "shopsys/plugin-interface": "7.0.0-beta4",
-                "symfony/symfony": "^3.4.8"
-            },
-            "conflict": {
-                "symfony/dependency-injection": "3.4.15|3.4.16"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^6.0|^7.0",
-                "shopsys/coding-standards": "7.0.0-beta4",
-                "twig/extensions": "^1.5.1",
-                "twig/twig": "^2.4.8"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Shopsys\\ProductFeed\\HeurekaBundle\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Shopsys",
-                    "homepage": "https://www.shopsys.com/"
-                }
-            ],
-            "description": "Shopsys Framework plugin interface for Heureka XML product feed generation",
-            "keywords": [
-                "SSFW",
-                "Shopsys Framework",
-                "XML feed",
-                "heureka",
-                "plugin",
-                "product feed"
-            ],
-            "time": "2018-11-28T16:58:49+00:00"
-        },
-        {
             "name": "shopsys/product-feed-heureka-delivery",
             "version": "v7.0.0-beta4",
             "source": {
@@ -10386,7 +10320,6 @@
         "shopsys/form-types-bundle": 10,
         "shopsys/framework": 10,
         "shopsys/plugin-interface": 10,
-        "shopsys/product-feed-heureka": 10,
         "shopsys/product-feed-heureka-delivery": 10,
         "shopsys/product-feed-zbozi": 10,
         "shopsys/product-feed-google": 10,

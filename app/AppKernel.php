@@ -29,7 +29,6 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Shopsys\FormTypesBundle\ShopsysFormTypesBundle(),
             new Shopsys\MigrationBundle\ShopsysMigrationBundle(),
-            new Shopsys\ProductFeed\HeurekaBundle\ShopsysProductFeedHeurekaBundle(),
             new Shopsys\ProductFeed\HeurekaDeliveryBundle\ShopsysProductFeedHeurekaDeliveryBundle(),
             new Shopsys\ProductFeed\ZboziBundle\ShopsysProductFeedZboziBundle(),
             new Shopsys\ProductFeed\GoogleBundle\ShopsysProductFeedGoogleBundle(),
