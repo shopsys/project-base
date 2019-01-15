@@ -1,5 +1,6 @@
 imports:
     - { resource: forms.yml }
+    - { resource: cron.yml }
 
 services:
     _defaults:
@@ -50,3 +51,11 @@ services:
     Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface: '@Shopsys\ShopBundle\Model\Product\ProductDataFactory'
 
     Shopsys\FrameworkBundle\Model\Product\Brand\BrandDataFactoryInterface: '@Shopsys\ShopBundle\Model\Product\Brand\BrandDataFactory'
+
+    Shopsys\FrameworkBundle\Model\Product\ProductFacade: '@Shopsys\ShopBundle\Model\Product\ProductFacade'
+
+    Shopsys\FrameworkBundle\Model\Product\ProductRepository: '@Shopsys\ShopBundle\Model\Product\ProductRepository'
+
+    Shopsys\FrameworkBundle\Model\Pricing\Vat\VatFacade: '@Shopsys\ShopBundle\Model\Pricing\Vat\VatFacade'
+
+    Shopsys\FrameworkBundle\Model\Pricing\Vat\VatRepository: '@Shopsys\ShopBundle\Model\Pricing\Vat\VatRepository'
