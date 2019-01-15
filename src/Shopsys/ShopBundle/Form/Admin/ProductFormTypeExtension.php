@@ -4,7 +4,9 @@ namespace Shopsys\ShopBundle\Form\Admin;
 
 use Shopsys\FrameworkBundle\Form\Admin\Product\ProductFormType;
 use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints;
 
 class ProductFormTypeExtension extends AbstractTypeExtension
 {
@@ -13,6 +15,14 @@ class ProductFormTypeExtension extends AbstractTypeExtension
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $basicInformationGroup = $builder->get('basicInformationGroup');
+        $basicInformationGroup->add('extId', IntegerType::class, [
+            'required' => true,
+            'constraints' => [
+                new Constraints\NotBlank(['message' => 'Please enter external ID']),
+            ],
+            'label' => 'External ID',
+        ]);
     }
 
     /**

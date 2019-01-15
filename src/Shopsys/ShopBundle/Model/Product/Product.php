@@ -14,11 +14,19 @@ use Shopsys\FrameworkBundle\Model\Product\ProductData as BaseProductData;
 class Product extends BaseProduct
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $extId;
+
+    /**
      * @param \Shopsys\ShopBundle\Model\Product\ProductData $productData
      * @param \Shopsys\ShopBundle\Model\Product\Product[]|null $variants
      */
     protected function __construct(BaseProductData $productData, array $variants = null)
     {
+        $this->extId = $productData->extId ?? 0;
         parent::__construct($productData, $variants);
     }
 
@@ -30,6 +38,15 @@ class Product extends BaseProduct
         ProductCategoryDomainFactoryInterface $productCategoryDomainFactory,
         BaseProductData $productData
     ) {
+        $this->extId = $productData->extId;
         parent::edit($productCategoryDomainFactory, $productData);
+    }
+
+    /**
+     * @return int
+     */
+    public function getExtId(): int
+    {
+        return $this->extId;
     }
 }
