@@ -269,5 +269,9 @@
                 </div>
             </div>
         {% endif %}
+
+        {% block lastVisitedProductBox %}
+            {{ render(controller('ShopsysShopBundle:Front/LastVisitedProduct:box')) }}
+        {% endblock %}
     </div>
 {% endblock %}

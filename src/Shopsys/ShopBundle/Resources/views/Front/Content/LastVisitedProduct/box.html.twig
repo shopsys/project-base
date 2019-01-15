@@ -1,0 +1,7 @@
+{% import '@ShopsysShop/Front/Content/Product/productListMacro.html.twig' as productList %}
+{% if lastVisitedProducts|length > 0 %}
+    <h3>
+        Naposledy navštívené produkty
+    </h3>
+    {{ productList.list(lastVisitedProducts, null, 'h4') }}
+{% endif %}
