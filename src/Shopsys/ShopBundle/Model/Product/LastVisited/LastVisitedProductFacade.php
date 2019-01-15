@@ -25,7 +25,8 @@ class LastVisitedProductFacade
     /**
      * @param \Symfony\Component\HttpFoundation\RequestStack $request
      */
-    public function __construct(RequestStack $request) {
+    public function __construct(RequestStack $request)
+    {
         $this->request = $request;
     }
 
@@ -45,8 +46,9 @@ class LastVisitedProductFacade
             $lastVisitedProductsIdsString
         );
 
-        if (($key = array_search($productId, $lastVisitedProductsIds)) !== false) {
-            unset($lastVisitedProductsIds[$key]);
+        $indexOfProductIdIfAlreadyVisited = array_search($productId, $lastVisitedProductsIds, true);
+        if ($indexOfProductIdIfAlreadyVisited !== false) {
+            unset($lastVisitedProductsIds[$indexOfProductIdIfAlreadyVisited]);
         }
 
         array_unshift($lastVisitedProductsIds, $productId);
