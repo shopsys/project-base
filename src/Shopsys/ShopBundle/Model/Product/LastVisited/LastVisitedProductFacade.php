@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace Shopsys\ShopBundle\Model\Product\LastVisited;
 
 use DateTime;
-use Shopsys\ShopBundle\Model\Product\ProductOnCurrentDomainFacade;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,20 +23,10 @@ class LastVisitedProductFacade
     private $request;
 
     /**
-     * @var \Shopsys\ShopBundle\Model\Product\ProductOnCurrentDomainFacade
-     */
-    private $productOnCurrentDomainFacade;
-
-    /**
      * @param \Symfony\Component\HttpFoundation\RequestStack $request
-     * @param \Shopsys\ShopBundle\Model\Product\ProductOnCurrentDomainFacade $productOnCurrentDomainFacade
      */
-    public function __construct(
-        RequestStack $request,
-        ProductOnCurrentDomainFacade $productOnCurrentDomainFacade
-    ) {
+    public function __construct(RequestStack $request) {
         $this->request = $request;
-        $this->productOnCurrentDomainFacade = $productOnCurrentDomainFacade;
     }
 
     /**
@@ -46,20 +35,23 @@ class LastVisitedProductFacade
      */
     public function updateLastVisitedProductsIds(int $productId, Response $response)
     {
-        $oldLastVisitedProductsIdsString = $this->request->getMasterRequest()->cookies->get(
+        $lastVisitedProductsIdsString = $this->request->getMasterRequest()->cookies->get(
             self::LAST_VISITED_PRODUCTS_COOKIES_IDENTIFIER,
             ''
         );
 
-        $oldLastVisitedProductsIds = explode(
+        $lastVisitedProductsIds = explode(
             self::LAST_VISITED_PRODUCTS_COOKIES_IDS_DELIMITER,
-            $oldLastVisitedProductsIdsString
+            $lastVisitedProductsIdsString
         );
 
-        $newLastVisitedProductsIds = $oldLastVisitedProductsIds;
+        if (($key = array_search($productId, $lastVisitedProductsIds)) !== false) {
+            unset($lastVisitedProductsIds[$key]);
+        }
 
-        $newLastVisitedProductsIds[] = $productId;
-        $newLastVisitedProductsIds = array_unique(array_filter(array_map('intval', $newLastVisitedProductsIds)));
+        array_unshift($lastVisitedProductsIds, $productId);
+
+        $newLastVisitedProductsIds = array_filter(array_map('intval', $lastVisitedProductsIds));
 
         $cookie = new Cookie(
             self::LAST_VISITED_PRODUCTS_COOKIES_IDENTIFIER,
@@ -68,26 +60,5 @@ class LastVisitedProductFacade
         );
 
         $response->headers->setCookie($cookie);
-    }
-
-    /**
-     * @param int $limit
-     * @return \Shopsys\ShopBundle\Model\Product\Product[]
-     */
-    public function getLastVisitedProducts(int $limit)
-    {
-        $lastVisitedProductsIdsString = $this->request->getMasterRequest()->cookies->get(
-            self::LAST_VISITED_PRODUCTS_COOKIES_IDENTIFIER,
-            ''
-        );
-
-        $lastVisitedProductsIds = array_filter(explode(
-            self::LAST_VISITED_PRODUCTS_COOKIES_IDS_DELIMITER,
-            $lastVisitedProductsIdsString
-        ));
-
-        $limitedLastVisitedProductsIds = array_slice($lastVisitedProductsIds, 0, $limit);
-
-        return $this->productOnCurrentDomainFacade->getVisibleProductsByIds($limitedLastVisitedProductsIds);
     }
 }
