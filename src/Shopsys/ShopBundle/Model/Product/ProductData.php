@@ -6,4 +6,8 @@ use Shopsys\FrameworkBundle\Model\Product\ProductData as BaseProductData;
 
 class ProductData extends BaseProductData
 {
+    /**
+     * @var int
+     */
+    public $extId;
 }

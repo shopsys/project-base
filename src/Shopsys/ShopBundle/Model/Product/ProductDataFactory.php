@@ -27,6 +27,7 @@ class ProductDataFactory extends BaseProductDataFactory
     {
         $productData = new ProductData();
         $this->fillFromProduct($productData, $product);
+        $productData->extId = $product->getExtId();
 
         return $productData;
     }
