@@ -4,6 +4,15 @@ resource "google_storage_bucket" "file-store" {
   force_destroy = true
 }
 
+resource "google_storage_bucket_iam_binding" "binding" {
+  bucket = "${google_storage_bucket.file-store.name}"
+  role   = "roles/storage.objectViewer"
+
+  members = [
+    "allUsers"
+  ]
+}
+
 data "google_service_account" "gcs-service-account" {
   account_id = "${var.GOOGLE_CLOUD_ACCOUNT_ID}"
 }
