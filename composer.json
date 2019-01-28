@@ -96,7 +96,8 @@
         "phpstan/phpstan": "^0.7",
         "phpunit/phpunit": "^7.0",
         "shopsys/coding-standards": "dev-master",
-        "shopsys/http-smoke-testing": "dev-master"
+        "shopsys/http-smoke-testing": "dev-master",
+        "sspooky13/yaml-standards": "^4.0.0"
     },
     "conflict": {
         "symfony/dependency-injection": "3.4.15|3.4.16",
