@@ -734,6 +734,7 @@
                 checkreturn="true"
         >
             <arg value="." />
+            <arg value="--exclude-dir=./app/config/domains_urls.yml" />
             <arg value="--exclude-dir=./vendor" />
             <arg value="--exclude-dir=./node_modules" />
             <arg value="--exclude-dir=./var/postgres-data" />
