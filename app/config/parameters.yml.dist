@@ -10,6 +10,7 @@ parameters:
 
     mailer_transport: smtp
     mailer_host: smtp-server
+    mailer_port: ~
     mailer_user: ~
     mailer_password: ~
     mailer_disable_delivery: false

@@ -44,6 +44,8 @@ yq write --inplace app/config/domains_urls.yml domains_urls[1].url https://${SEC
 
 # Add a mask for trusted proxies so that load balanced traffic is trusted and headers from outside of the network are not lost
 yq write --inplace app/config/parameters.yml parameters.trusted_proxies[+] 10.0.0.0/8
+yq write --inplace app/config/parameters.yml parameters.mailer_host smtp.mailgun.org
+yq write --inplace app/config/parameters.yml parameters.mailer_port 2525
 
 cd /tmp/infrastructure/google-cloud
 
