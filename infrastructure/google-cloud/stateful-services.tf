@@ -3,6 +3,11 @@ resource "google_storage_bucket" "file-store" {
   location = "EU"
   force_destroy = true
 }
+resource "google_compute_backend_bucket" "bucket_backend" {
+  name        = "${var.GOOGLE_CLOUD_STORAGE_BUCKET_NAME}-backend"
+  bucket_name = "${google_storage_bucket.file-store.name}"
+  enable_cdn  = true
+}
 
 resource "google_storage_bucket_iam_binding" "binding" {
   bucket = "${google_storage_bucket.file-store.name}"
