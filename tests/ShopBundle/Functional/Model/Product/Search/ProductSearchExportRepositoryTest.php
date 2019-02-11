@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\ShopBundle\Functional\Model\Product\ProductSearchExport;
+namespace Tests\ShopBundle\Functional\Model\Product\Search;
 
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
-use Shopsys\FrameworkBundle\Model\Product\ProductSearchExport\ProductSearchExportRepository;
+use Shopsys\FrameworkBundle\Model\Product\Search\Export\ProductSearchExportRepository;
 use Tests\ShopBundle\Test\TransactionFunctionalTestCase;
 
 class ProductSearchExportRepositoryTest extends TransactionFunctionalTestCase
 {
     /**
-     * @var \Shopsys\FrameworkBundle\Model\Product\ProductSearchExport\ProductSearchExportRepository
+     * @var \Shopsys\FrameworkBundle\Model\Product\Search\Export\ProductSearchExportRepository
      */
     private $repository;
 
