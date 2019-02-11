@@ -51,8 +51,8 @@ yq write --inplace kubernetes/deployments/webserver-php-fpm.yml spec.template.sp
 yq write --inplace kubernetes/deployments/webserver-php-fpm.yml spec.template.spec.initContainers[1].env[1].value ${PROJECT_ID}
 
 # Set domain urls
-yq write --inplace app/config/domains_urls.yml domains_urls[0].url https://${FIRST_DOMAIN_HOSTNAME}
-yq write --inplace app/config/domains_urls.yml domains_urls[1].url https://${SECOND_DOMAIN_HOSTNAME}
+yq write --inplace app/config/domains_urls.yml domains_urls[0].url http://${FIRST_DOMAIN_HOSTNAME}
+yq write --inplace app/config/domains_urls.yml domains_urls[1].url http://${SECOND_DOMAIN_HOSTNAME}
 
 # Add a mask for trusted proxies so that load balanced traffic is trusted and headers from outside of the network are not lost
 yq write --inplace app/config/parameters.yml parameters.trusted_proxies[+] 10.0.0.0/8
@@ -97,4 +97,4 @@ kustomize build overlays/production | kubectl apply -f -
 
 echo "Cluster and containers are ready."
 echo "IP adderss to loadbalancer is: ${LOAD_BALANCER_IP}"
-echo -e "Hosts set to domain are: 1. https://${FIRST_DOMAIN_HOSTNAME} 2. https://${SECOND_DOMAIN_HOSTNAME}"
+echo -e "Hosts set to domain are: 1. http://${FIRST_DOMAIN_HOSTNAME} 2. http://${SECOND_DOMAIN_HOSTNAME}"
