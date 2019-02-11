@@ -70,7 +70,7 @@
         "shopsys/postgres-search-bundle": "0.1",
         "shopsys/migrations": "dev-master",
         "shopsys/form-types-bundle": "dev-master",
-        "shopsys/framework": "dev-master",
+        "shopsys/framework": "dev-mc-cdn-bucket as dev-master",
         "shopsys/plugin-interface": "dev-master",
         "shopsys/product-feed-heureka": "dev-master",
         "shopsys/product-feed-heureka-delivery": "dev-master",
