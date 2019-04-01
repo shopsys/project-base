@@ -30,4 +30,23 @@ class TransportDataFactory extends BaseTransportDataFactory
 
         return $transportData;
     }
+
+    /**
+     * @param \Shopsys\ShopBundle\Model\Transport\TransportData $transportData
+     */
+    protected function fillNew(BaseTransportData $transportData)
+    {
+        parent::fillNew($transportData);
+        $transportData->type = Transport::TYPE_DEFAULT;
+    }
+
+    /**
+     * @param \Shopsys\ShopBundle\Model\Transport\TransportData $transportData
+     * @param \Shopsys\ShopBundle\Model\Transport\Transport $transport
+     */
+    protected function fillFromTransport(BaseTransportData $transportData, BaseTransport $transport)
+    {
+        parent::fillFromTransport($transportData, $transport);
+        $transportData->type = $transport->getType();
+    }
 }
