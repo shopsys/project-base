@@ -1,5 +1,6 @@
 imports:
     - { resource: forms.yml }
+    - { resource: cron.yml }
     - { resource: services/commands.yml }
     - { resource: services/data_fixtures.yml }
 
@@ -96,3 +97,5 @@ services:
     Shopsys\ShopBundle\Model\AdvancedSearch\ProductAdvancedSearchConfig: ~
 
     Shopsys\FrameworkBundle\Model\AdvancedSearch\ProductAdvancedSearchConfig: '@Shopsys\ShopBundle\Model\AdvancedSearch\ProductAdvancedSearchConfig'
+
+    Shopsys\ShopBundle\Model\PickUpPlace\PickUpPlaceLoader: ~

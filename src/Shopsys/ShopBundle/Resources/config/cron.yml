@@ -1,0 +1,11 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Shopsys\ShopBundle\Model\PickUpPlace\PickUpPlaceCronModule:
+    tags:
+      - { name: shopsys.cron, hours: '2', minutes: '0' }
+    arguments:
+      - '%shopsys.zasilkovna_feed%'
