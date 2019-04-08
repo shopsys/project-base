@@ -9,12 +9,14 @@ use Shopsys\FrameworkBundle\Component\Money\Money;
 use Shopsys\FrameworkBundle\Model\Transport\TransportData;
 use Shopsys\FrameworkBundle\Model\Transport\TransportDataFactoryInterface;
 use Shopsys\FrameworkBundle\Model\Transport\TransportFacade;
+use Shopsys\ShopBundle\Model\Transport\Transport;
 
 class TransportDataFixture extends AbstractReferenceFixture implements DependentFixtureInterface
 {
     const TRANSPORT_CZECH_POST = 'transport_cp';
     const TRANSPORT_PPL = 'transport_ppl';
     const TRANSPORT_PERSONAL = 'transport_personal';
+    const TRANSPORT_ZASILKOVNA = 'transport_zasilkovna';
 
     /** @var \Shopsys\FrameworkBundle\Model\Transport\TransportFacade */
     protected $transportFacade;
@@ -84,6 +86,21 @@ class TransportDataFixture extends AbstractReferenceFixture implements Dependent
         ];
         $transportData->vat = $this->getReference(VatDataFixture::VAT_ZERO);
         $this->createTransport(self::TRANSPORT_PERSONAL, $transportData);
+
+        $transportData = $this->transportDataFactory->create();
+        $transportData->name = [
+            'cs' => 'Zásilkovna',
+            'en' => 'Zásilkovna',
+        ];
+        $transportData->pricesByCurrencyId = [
+            $this->getReference(CurrencyDataFixture::CURRENCY_CZK)->getId() => Money::zero(),
+            $this->getReference(CurrencyDataFixture::CURRENCY_EUR)->getId() => Money::zero(),
+        ];
+
+        $transportData->type = Transport::TYPE_ZASILKOVNA;
+
+        $transportData->vat = $this->getReference(VatDataFixture::VAT_ZERO);
+        $this->createTransport(self::TRANSPORT_ZASILKOVNA, $transportData);
     }
 
     /**
