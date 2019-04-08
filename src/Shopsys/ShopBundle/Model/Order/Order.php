@@ -18,7 +18,15 @@ use Shopsys\FrameworkBundle\Model\Order\OrderPriceCalculation;
 class Order extends BaseOrder
 {
     /**
-     * @param \Shopsys\FrameworkBundle\Model\Order\OrderData $orderData
+     * @var \Shopsys\ShopBundle\Model\PickUpPlace\PickUpPlace|null
+     *
+     * @ORM\ManyToOne(targetEntity="Shopsys\ShopBundle\Model\PickUpPlace\PickUpPlace")
+     * @ORM\JoinColumn(nullable=true, name="pick_up_place_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $pickUpPlace;
+
+    /**
+     * @param \Shopsys\ShopBundle\Model\Order\OrderData $orderData
      * @param string $orderNumber
      * @param string $urlHash
      * @param \Shopsys\FrameworkBundle\Model\Customer\User|null $user
@@ -30,6 +38,11 @@ class Order extends BaseOrder
         ?User $user = null
     ) {
         parent::__construct($orderData, $orderNumber, $urlHash, $user);
+        if ($orderData->transport !== null && $orderData->transport->isPickUpPlaceType()) {
+            $this->pickUpPlace = $orderData->pickUpPlace;
+        } else {
+            $this->pickUpPlace = null;
+        }
     }
 
     /**
@@ -45,6 +58,15 @@ class Order extends BaseOrder
         OrderItemFactoryInterface $orderItemFactory,
         OrderPriceCalculation $orderPriceCalculation
     ): OrderEditResult {
+        $this->pickUpPlace = $orderData->pickUpPlace;
         return parent::edit($orderData, $orderItemPriceCalculation, $orderItemFactory, $orderPriceCalculation);
+    }
+
+    /**
+     * @return null|\Shopsys\ShopBundle\Model\PickUpPlace\PickUpPlace
+     */
+    public function getPickUpPlace()
+    {
+        return $this->pickUpPlace;
     }
 }

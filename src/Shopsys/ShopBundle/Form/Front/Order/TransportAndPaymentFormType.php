@@ -8,6 +8,7 @@ use Shopsys\FrameworkBundle\Model\Payment\Payment;
 use Shopsys\FrameworkBundle\Model\Payment\PaymentFacade;
 use Shopsys\FrameworkBundle\Model\Transport\Transport;
 use Shopsys\FrameworkBundle\Model\Transport\TransportFacade;
+use Shopsys\ShopBundle\Model\PickUpPlace\PickUpPlaceIdToEntityTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -29,13 +30,23 @@ class TransportAndPaymentFormType extends AbstractType
     private $paymentFacade;
 
     /**
+     * @var \Shopsys\ShopBundle\Model\PickUpPlace\PickUpPlaceIdToEntityTransformer
+     */
+    private $pickUpPlaceIdToEntityTransformer;
+
+    /**
      * @param \Shopsys\FrameworkBundle\Model\Transport\TransportFacade $transportFacade
      * @param \Shopsys\FrameworkBundle\Model\Payment\PaymentFacade $paymentFacade
+     * @param \Shopsys\ShopBundle\Model\PickUpPlace\PickUpPlaceIdToEntityTransformer $pickUpPlaceIdToEntityTransformer
      */
-    public function __construct(TransportFacade $transportFacade, PaymentFacade $paymentFacade)
-    {
+    public function __construct(
+        TransportFacade $transportFacade,
+        PaymentFacade $paymentFacade,
+        PickUpPlaceIdToEntityTransformer $pickUpPlaceIdToEntityTransformer
+    ) {
         $this->transportFacade = $transportFacade;
         $this->paymentFacade = $paymentFacade;
+        $this->pickUpPlaceIdToEntityTransformer = $pickUpPlaceIdToEntityTransformer;
     }
 
     /**
@@ -68,9 +79,8 @@ class TransportAndPaymentFormType extends AbstractType
             ])
             ->add(
                 $builder
-                    ->create('pickUpPlace', HiddenType::class, [
-                        'mapped' => false,
-                    ])
+                    ->create('pickUpPlace', HiddenType::class)
+                    ->addModelTransformer($this->pickUpPlaceIdToEntityTransformer)
             )
             ->add('save', SubmitType::class);
     }

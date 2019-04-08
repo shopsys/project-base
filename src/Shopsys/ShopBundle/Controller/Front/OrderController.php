@@ -247,6 +247,7 @@ class OrderController extends FrontBaseController
             'transport' => $transport,
             'payment' => $payment,
             'payments' => $payments,
+            'pickUpPlace' => $orderData->pickUpPlace,
             'transportsPrices' => $this->transportPriceCalculation->getCalculatedPricesIndexedByTransportId(
                 $transports,
                 $currency,

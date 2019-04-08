@@ -99,3 +99,9 @@ services:
     Shopsys\FrameworkBundle\Model\AdvancedSearch\ProductAdvancedSearchConfig: '@Shopsys\ShopBundle\Model\AdvancedSearch\ProductAdvancedSearchConfig'
 
     Shopsys\ShopBundle\Model\PickUpPlace\PickUpPlaceLoader: ~
+
+    Shopsys\ShopBundle\Model\PickUpPlace\PickUpPlaceIdToEntityTransformer: ~
+
+    Shopsys\FrameworkBundle\Model\Country\CountryRepository: '@Shopsys\ShopBundle\Model\Country\CountryRepository'
+
+    Shopsys\FrameworkBundle\Model\Country\CountryFacade: '@Shopsys\ShopBundle\Model\Country\CountryFacade'

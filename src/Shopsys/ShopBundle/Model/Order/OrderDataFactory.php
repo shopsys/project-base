@@ -35,5 +35,6 @@ class OrderDataFactory extends BaseOrderDataFactory
     protected function fillFromOrder(BaseOrderData $orderData, BaseOrder $order)
     {
         parent::fillFromOrder($orderData, $order);
+        $orderData->pickUpPlace = $order->getPickUpPlace();
     }
 }
