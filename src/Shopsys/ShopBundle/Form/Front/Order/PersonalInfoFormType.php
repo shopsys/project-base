@@ -9,6 +9,7 @@ use Shopsys\FrameworkBundle\Form\ValidationGroup;
 use Shopsys\FrameworkBundle\Model\Country\CountryFacade;
 use Shopsys\FrameworkBundle\Model\Heureka\HeurekaFacade;
 use Shopsys\FrameworkBundle\Model\Order\FrontOrderData;
+use Shopsys\ShopBundle\Model\Transport\Transport;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -309,7 +310,8 @@ class PersonalInfoFormType extends AbstractType
                     if ($orderData->companyCustomer) {
                         $validationGroups[] = self::VALIDATION_GROUP_COMPANY_CUSTOMER;
                     }
-                    if (!$orderData->deliveryAddressSameAsBillingAddress) {
+                    $isPickUpPlaceTransport = $orderData->transport instanceof Transport && $orderData->transport->isPickUpPlaceType();
+                    if (!$isPickUpPlaceTransport && !$orderData->deliveryAddressSameAsBillingAddress) {
                         $validationGroups[] = self::VALIDATION_GROUP_DIFFERENT_DELIVERY_ADDRESS;
                     }
 

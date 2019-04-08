@@ -9,6 +9,7 @@ use Shopsys\FrameworkBundle\Model\Payment\PaymentFacade;
 use Shopsys\FrameworkBundle\Model\Transport\Transport;
 use Shopsys\FrameworkBundle\Model\Transport\TransportFacade;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -65,6 +66,12 @@ class TransportAndPaymentFormType extends AbstractType
                 ],
                 'invalid_message' => 'Please choose payment type',
             ])
+            ->add(
+                $builder
+                    ->create('pickUpPlace', HiddenType::class, [
+                        'mapped' => false,
+                    ])
+            )
             ->add('save', SubmitType::class);
     }
 

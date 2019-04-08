@@ -145,4 +145,121 @@ class PickUpPlace
         $this->active = false;
         $this->pending = false;
     }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransportType()
+    {
+        return $this->transportType;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPlaceId()
+    {
+        return $this->placeId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountryCode()
+    {
+        return $this->countryCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStreet()
+    {
+        return $this->street;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPostCode()
+    {
+        return $this->postCode;
+    }
+
+    /**
+     * @return float
+     */
+    public function getGpsLatitude()
+    {
+        return $this->gpsLatitude;
+    }
+
+    /**
+     * @return float
+     */
+    public function getGpsLongitude()
+    {
+        return $this->gpsLongitude;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPending()
+    {
+        return $this->pending;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullAddress()
+    {
+        return sprintf(
+            '%s, %s, %s',
+            $this->getStreet(),
+            $this->getCity(),
+            $this->getPostCode()
+        );
+    }
 }

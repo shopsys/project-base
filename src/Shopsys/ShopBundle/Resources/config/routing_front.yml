@@ -146,3 +146,14 @@ front_login_window_form:
     path: /login/form
     defaults: { _controller: ShopsysShopBundle:Front\Login:windowForm }
     methods: [POST]
+
+front_pick_up_place_search:
+    path: /pick-up-place/search/
+    defaults: { _controller: ShopsysShopBundle:Front\PickUpPlace:search }
+    condition: "request.isXmlHttpRequest()"
+
+front_pick_up_place_autocomplete:
+    path: /pick-up-place/autocomplete/
+    defaults: { _controller: ShopsysShopBundle:Front\PickUpPlace:autocomplete }
+    methods: [POST]
+    condition: "request.isXmlHttpRequest()"

@@ -1,0 +1,28 @@
+<div class="js-pick-up-place-search" data-pick-up-place-autocomplete-url="{{ url('front_pick_up_place_autocomplete') }}">
+    <div>
+        <h3>{{ 'Choose pick up place'|trans }}</h3>
+    </div>
+    <div>
+        <div>
+            <strong class="box-pick-up-place__search-title">
+                {{ 'Fill in city or post number'|trans }}:
+            </strong>
+            <div class="box-pick-up-place__control">
+                <input
+                        type="text"
+                        placeholder="{{ 'etc. Praha'|trans }}"
+                        class="js-pick-up-place-city-post-code-autocomplete-input input"
+                        autocomplete="off"
+                />
+                <button class="btn btn--primary" type="button">
+                    {{ 'Search'|trans }}
+                </button>
+            </div>
+        </div>
+        <div class="js-pick-up-place-autocomplete-results box-pick-up-place__results wrap-border--bold wrap-border--inner-padding {% if pickUpPlaces|length > 0 %}display-block{% endif %}">
+            {% if pickUpPlaces|length > 0 %}
+                {% include '@ShopsysShop/Front/Inline/PickUpPlace/autocompleteResult.html.twig' %}
+            {% endif %}
+        </div>
+    </div>
+</div>

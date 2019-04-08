@@ -47,4 +47,12 @@ class Transport extends BaseTransport
     {
         return $this->type;
     }
+
+    /**
+     * @return bool
+     */
+    public function isPickUpPlaceType(): bool
+    {
+        return $this->type === self::TYPE_ZASILKOVNA;
+    }
 }

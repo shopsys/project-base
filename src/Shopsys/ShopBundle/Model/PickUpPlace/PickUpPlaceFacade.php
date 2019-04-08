@@ -93,4 +93,28 @@ class PickUpPlaceFacade
         );
         $logger->info($message);
     }
+
+    /**
+     * @param int $id
+     * @return null|\Shopsys\ShopBundle\Model\PickUpPlace\PickUpPlace
+     */
+    public function getById($id)
+    {
+        return $this->pickUpPlaceRepository->getById($id);
+    }
+
+    /**
+     * @param string $searchQuery
+     * @param string[] $countryCodes
+     * @param string $transportType
+     * @return mixed
+     */
+    public function findActiveBySearchQueryAndTransportType($searchQuery, $countryCodes, $transportType)
+    {
+        return $this->pickUpPlaceRepository->findActiveBySearchQueryAndTransportType(
+            $searchQuery,
+            $countryCodes,
+            $transportType
+        );
+    }
 }

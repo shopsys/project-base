@@ -1,0 +1,25 @@
+{% if pickUpPlaces is empty %}
+    <i>{{ 'No pickup places found.'|trans }}</i>
+{% else %}
+    {% for pickUpPlace in pickUpPlaces %}
+        <div class="box-pick-up-place__item">
+            <div class="js-pick-up-place-row box-pick-up-place__item__info">
+                <div class="">
+                    {{ pickUpPlace.name }}, {{ pickUpPlace.postCode }}
+                </div>
+            </div>
+            <div class="js-pick-up-place-autocomplete-results-detail-container box-pick-up-place__item__button-wrap">
+                <div class="js-pick-up-place-autocomplete-results-detail"></div>
+
+                <button type="button" class="js-pick-up-place-button btn btn--success "
+                        data-id="{{ pickUpPlace.id }}"
+                        data-name="{{ pickUpPlace.name }}"
+                        data-address="{{ pickUpPlace.fullAddress }}"
+                        data-description="{{ pickUpPlace.description }}"
+                >
+                    {{ 'Choose'|trans }}
+                </button>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}

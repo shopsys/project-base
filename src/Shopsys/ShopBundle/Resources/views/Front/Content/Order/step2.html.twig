@@ -17,13 +17,22 @@
                 <div class="box-chooser js-form-group">
                     {{ form_errors(form.transport, { errors_attr: {class: 'form-error--inline'} }) }}
 
+                    {{ form_widget(form.pickUpPlace, { attr: {
+                        class: 'js-pick-up-place-input',
+                        'data-pick-up-place-search-url': url('front_pick_up_place_search') }
+                    }) }}
+
                     <div id="{{ form.transport.vars.id }}">
                         {% for child in form.transport %}
                             {% set choice = form.transport.vars.choices[child.vars.name] %}
                             {% set transportPrice = transportsPrices[choice.data.id] %}
-                            <label class="box-chooser__item">
+                            <label class="box-chooser__item js-order-transport">
                                 <span class="box-chooser__item__check">
-                                    {{ form_widget(child, { attr: { class: 'js-order-transport-input', 'data-id': choice.data.id} }) }}
+                                    {{ form_widget(child, { attr: {
+                                        class: 'js-order-transport-input',
+                                        'data-id': choice.data.id,
+                                        'data-transport-type': choice.data.type
+                                    } }) }}
                                 </span>
 
                                 <span class="box-chooser__item__image">
@@ -42,6 +51,21 @@
                                         </span>
                                     {% endif %}
                                 </span>
+
+                                {% if choice.data.isPickUpPlaceType() %}
+                                    <div class="js-pick-up-place-detail box-pick-up-place__selected-place-wrap">
+                                        <p>
+                                            <strong class="js-pick-up-place-detail-name">
+                                            </strong>
+                                            <br>
+                                            <span class="js-pick-up-place-detail-address">
+                                             </span>
+                                        </p>
+                                        <button type="button" class="js-pick-up-place-change-button link-style btn-no-style">
+                                            {{ 'Change'|trans }}
+                                        </button>
+                                    </div>
+                                {% endif %}
 
                                 <span class="box-chooser__item__price">
                                     {{ transportPrice.priceWithVat|priceText }}
