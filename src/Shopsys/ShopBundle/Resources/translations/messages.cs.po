@@ -46,6 +46,9 @@ msgstr "Zpět na výběr dopravy a platby"
 msgid "Back to store"
 msgstr "Zpět do obchodu"
 
+msgid "Basic"
+msgstr "Základní"
+
 msgid "Basic information"
 msgstr "Základní informace"
 
@@ -70,11 +73,20 @@ msgstr "Košík"
 msgid "Catalogue number"
 msgstr "Katalogové číslo"
 
+msgid "Change"
+msgstr "Změnit"
+
 msgid "Changing password"
 msgstr "Změna hesla"
 
 msgid "Check the address correctness"
 msgstr "Zkontrolujte správnost adresy"
+
+msgid "Choose"
+msgstr "Vybrat"
+
+msgid "Choose pick up place"
+msgstr "Volba odběrných míst"
 
 msgid "Choose variant"
 msgstr "Vybrat variantu"
@@ -133,6 +145,9 @@ msgstr "Dodací adresa"
 msgid "Delivery data"
 msgstr "Dodací údaje"
 
+msgid "Description"
+msgstr "Popis"
+
 msgid "Detail"
 msgstr "Detail"
 
@@ -174,6 +189,9 @@ msgstr "Nastala chyba"
 
 msgid "Error occurred when sending e-mail."
 msgstr "Nastala chyba při odesílání mailu."
+
+msgid "Fill in city or post number"
+msgstr "Zadejte mēsto nebo PSČ"
 
 msgid "Finish the order"
 msgstr "Dokončit objednávku"
@@ -229,6 +247,9 @@ msgstr "Zboží chci doručit na jinou adresu než fakturační"
 msgid "I want to subscribe to the newsletter"
 msgstr "Chci se přihlásit k odběru newsletteru"
 
+msgid "Id"
+msgstr ""
+
 msgid "Image"
 msgstr "Obrázek"
 
@@ -279,6 +300,9 @@ msgstr "Dosud nemáte žádnou objednávku."
 
 msgid "No personal data for this e-mail address"
 msgstr "Pro zadaný e-mail neevidujeme žádné osobní údaje"
+
+msgid "No pickup places found."
+msgstr "Nebyla nalezena žádná výdejní místa."
 
 msgid "No products found for this brand"
 msgstr "Pro tuto značku nebyly nalezeny žádné produkty"
@@ -466,6 +490,9 @@ msgstr "Zaokrouhlení"
 msgid "Save changes"
 msgstr "Uložit změny"
 
+msgid "Search"
+msgstr "Vyhledat"
+
 msgid "Search [verb]"
 msgstr "Vyhledat"
 
@@ -507,6 +534,9 @@ msgstr "Způsob dopravy"
 
 msgid "Shipping selection"
 msgstr "Výběr dopravy"
+
+msgid "Shipping type"
+msgstr "Typ dopravy"
 
 msgid "Special offers"
 msgstr "Akční zboží"
@@ -648,6 +678,15 @@ msgstr "Vaše údaje byly úspěšně zaktualizovány"
 
 msgid "Your discount"
 msgstr "Vaše sleva"
+
+msgid "Zasilkovna.cz - dispensing point"
+msgstr "Zasilkovna.cz - výdejní místo"
+
+msgid "Zásilkovna"
+msgstr "Zásilkovna"
+
+msgid "etc. Praha"
+msgstr "např. Praha"
 
 msgid "excluding VAT"
 msgstr "bez DPH"
