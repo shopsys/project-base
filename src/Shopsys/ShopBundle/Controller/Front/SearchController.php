@@ -3,7 +3,7 @@
 namespace Shopsys\ShopBundle\Controller\Front;
 
 use Shopsys\FrameworkBundle\Model\Category\CategoryFacade;
-use Shopsys\FrameworkBundle\Model\Product\ProductOnCurrentDomainFacade;
+use Shopsys\FrameworkBundle\Model\Product\ProductOnCurrentDomainFacadeInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class SearchController extends FrontBaseController
@@ -23,11 +23,11 @@ class SearchController extends FrontBaseController
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Category\CategoryFacade $categoryFacade
-     * @param \Shopsys\FrameworkBundle\Model\Product\ProductOnCurrentDomainFacade $productOnCurrentDomainFacade
+     * @param \Shopsys\FrameworkBundle\Model\Product\ProductOnCurrentDomainFacadeInterface $productOnCurrentDomainFacade
      */
     public function __construct(
         CategoryFacade $categoryFacade,
-        ProductOnCurrentDomainFacade $productOnCurrentDomainFacade
+        ProductOnCurrentDomainFacadeInterface $productOnCurrentDomainFacade
     ) {
         $this->categoryFacade = $categoryFacade;
         $this->productOnCurrentDomainFacade = $productOnCurrentDomainFacade;
