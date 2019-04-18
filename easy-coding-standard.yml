@@ -1,5 +1,6 @@
 imports:
     - { resource: '%vendor_dir%/shopsys/coding-standards/easy-coding-standard.yml', ignore_errors: true  }
+    - { resource: '%vendor_dir%/symplify/better-phpdoc-parser/config/config.yaml', ignore_errors: true  }
 
 parameters:
     exclude_files:
