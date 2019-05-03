@@ -17,7 +17,7 @@ class SearchController extends FrontBaseController
     private $categoryFacade;
 
     /**
-     * @var \Shopsys\FrameworkBundle\Model\Product\ProductOnCurrentDomainFacade
+     * @var \Shopsys\FrameworkBundle\Model\Product\ProductOnCurrentDomainFacadeInterface
      */
     private $productOnCurrentDomainFacade;
 
