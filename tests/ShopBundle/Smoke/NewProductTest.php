@@ -72,6 +72,7 @@ class NewProductTest extends FunctionalTestCase
         foreach ($nameForms as $nameForm) {
             $nameForm->setValue('testProduct');
         }
+        $form['product_form[basicInformationGroup][catnum]'] = '123456';
         $form['product_form[basicInformationGroup][partno]'] = '123456';
         $form['product_form[basicInformationGroup][ean]'] = '123456';
         $form['product_form[descriptionsGroup][descriptions][1]'] = 'test description';
