@@ -9,7 +9,6 @@ fos_rest:
             - { path: '^/api', prefer_extension: true, fallback_format: 'json', priorities: [ 'json', 'xml' ] }
             - { path: '^/', stop: true }
     exception:
-        codes:
-            'Shopsys\FrameworkBundle\Model\Product\Exception\ProductNotFoundException': 404
+        enabled: true
     zone:
         - { path: ^/api/* }
