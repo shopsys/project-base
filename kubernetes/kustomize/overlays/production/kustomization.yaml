@@ -7,15 +7,15 @@ patches:
 namespace: production
 secretGenerator:
     -   name: domain-1-ssl-certificates
-        commands:
-            tls.key: "cat ${FIRST_DOMAIN_SSL_DIRECTORY}/tls.key"
-            tls.crt: "cat ${FIRST_DOMAIN_SSL_DIRECTORY}/tls.crt"
-            ca.crt: "cat ${FIRST_DOMAIN_SSL_DIRECTORY}/ca.crt"
+        files:
+            - "${FIRST_DOMAIN_SSL_DIRECTORY}/fullchain.cert"
+            - "${FIRST_DOMAIN_SSL_DIRECTORY}/tls.key"
+        type: "kubernetes.io/tls"
     -   name: domain-2-ssl-certificates
-        commands:
-            tls.key: "cat ${SECOND_DOMAIN_SSL_DIRECTORY}/tls.key"
-            tls.crt: "cat ${SECOND_DOMAIN_SSL_DIRECTORY}/tls.crt"
-            ca.crt: "cat ${SECOND_DOMAIN_SSL_DIRECTORY}/ca.crt"
+        files:
+            - "${SECOND_DOMAIN_SSL_DIRECTORY}/fullchain.cert"
+            - "${SECOND_DOMAIN_SSL_DIRECTORY}/tls.key"
+        type: "kubernetes.io/tls"
 configMapGenerator:
     -   name: nginx-configuration
         files:
