@@ -5,7 +5,7 @@ data "google_container_engine_versions" "primary" {
 resource "google_container_cluster" "primary" {
   name               = "primary"
   zone               = "${data.google_container_engine_versions.primary.zone}"
-  min_master_version = "${data.google_container_engine_versions.primary.latest_master_version}"
+  min_master_version = "${data.google_container_engine_versions.primary.latest_node_version}"
   node_version       = "${data.google_container_engine_versions.primary.latest_node_version}"
   initial_node_count = 3
 
