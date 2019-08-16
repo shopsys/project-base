@@ -5,7 +5,7 @@ security:
             cost: 12
 
     role_hierarchy:
-        ROLE_SUPER_ADMIN: [ROLE_ADMIN]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_VIEW_PRODUCTS, ROLE_VIEW_MAIL_TEMPLATES]
 
     providers:
         administrators:
@@ -21,6 +21,7 @@ security:
             anonymous: ~
             provider: administrators
             logout_on_user_change: true
+            access_denied_url: "/admin/access-denied/"
             form_login:
                 check_path: admin_login_check
                 login_path: admin_login
@@ -71,6 +72,9 @@ security:
         - { path: ^/admin/translation/list/$, roles: ROLE_SUPER_ADMIN }
         - { path: ^/admin/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/authorization/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/product/, roles: ROLE_VIEW_PRODUCTS }
+        - { path: ^/admin/category/, roles: ROLE_VIEW_PRODUCTS }
+        - { path: ^/admin/mail/template/$, roles: ROLE_VIEW_MAIL_TEMPLATES }
         - { path: ^/admin/, roles: ROLE_ADMIN }
         - { path: ^/efconnect, roles: ROLE_ADMIN }
         - { path: ^/elfinder, roles: ROLE_ADMIN }

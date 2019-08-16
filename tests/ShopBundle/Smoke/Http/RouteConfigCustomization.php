@@ -157,7 +157,7 @@ class RouteConfigCustomization
             ->customize(function (RouteConfig $config, RouteInfo $info) {
                 if (preg_match('~^admin_(superadmin_|translation_list$)~', $info->getRouteName())) {
                     $config->changeDefaultRequestDataSet('Only superadmin should be able to see this route.')
-                        ->setExpectedStatusCode(404);
+                        ->setExpectedStatusCode(302);
                     $config->addExtraRequestDataSet('Should be OK when logged in as "superadmin".')
                         ->setAuth(new BasicHttpAuth('superadmin', 'admin123'))
                         ->setExpectedStatusCode(200);
@@ -177,7 +177,7 @@ class RouteConfigCustomization
             })
             ->customizeByRouteName('admin_administrator_edit', function (RouteConfig $config) {
                 $config->changeDefaultRequestDataSet('Standard admin is not allowed to edit superadmin (with ID 1)')
-                    ->setExpectedStatusCode(404);
+                    ->setExpectedStatusCode(302);
                 $config->addExtraRequestDataSet('Superadmin can edit superadmin')
                     ->setAuth(new BasicHttpAuth('superadmin', 'admin123'))
                     ->setExpectedStatusCode(200);
@@ -235,6 +235,10 @@ class RouteConfigCustomization
                 $config->changeDefaultRequestDataSet($debugNote)
                     ->setParameter('id', $vat->getId())
                     ->setParameter('newId', $newVat->getId());
+            })
+            ->customizeByRouteName('admin_accessdenied_accessdenied', function (RouteConfig $config) {
+                $config->changeDefaultRequestDataSet('Access denied route just redirects')
+                    ->setExpectedStatusCode(302);
             });
     }
 

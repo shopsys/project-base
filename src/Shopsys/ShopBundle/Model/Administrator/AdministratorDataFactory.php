@@ -26,6 +26,9 @@ class AdministratorDataFactory extends BaseAdministratorDataFactory
     {
         $administratorData = new AdministratorData();
         $this->fillFromAdministrator($administratorData, $administrator);
+
+        $administratorData->roles = $administrator->getRoles();
+
         return $administratorData;
     }
 }
