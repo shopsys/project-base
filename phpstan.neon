@@ -2,9 +2,6 @@ parameters:
     ignoreErrors:
         # Add ignored errors here as regular expressions, e.g.:
         # - '#PHPUnit_Framework_MockObject_MockObject(.*) given#'
-        -
-            message: '#Undefined variable: \$undefined#'
-            path: *
         # Ignore annotations in generated code
         -
             message: '#(PHPDoc tag @(param|return) has invalid value (.|\n)+ expected TOKEN_IDENTIFIER at offset \d+)#'
@@ -12,10 +9,10 @@ parameters:
         -
             message: '#(PHPDoc tag @throws with type .+ is not subtype of Throwable)#'
             path: %currentWorkingDirectory%/tests/ShopBundle/Test/Codeception/_generated/AcceptanceTesterActions.php
-        # In tests, we often grab services using container->get or access persistent refrences using $this->getReference
+        # Actually, the method is called on NodeBuilder which is implementing the interface, however, annotating would worsen the readability of the code in Configuration class
         -
-            message: '#(Property (Shopsys|Tests)\\.+::\$.+ \(.+\) does not accept object.)#'
-            path: %currentWorkingDirectory%/tests/ShopBundle/*
+            message: '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface::scalarNode\(\)#'
+            path: %currentWorkingDirectory%/src/Shopsys/ShopBundle/DependencyInjection/Configuration.php
         # In data fixtures, we often access persistent references using $this->getReference
         -
             message: '#(Property Shopsys\\.+::\$.+ \(Shopsys\\.+\) does not accept object\.)#'
@@ -24,18 +21,26 @@ parameters:
         -
             message: '#Method Shopsys\\ShopBundle\\DataFixtures\\ProductDataFixtureReferenceInjector::.+\(\) should return array<.+> but returns array<string, object>\.#'
             path: %currentWorkingDirectory%/src/Shopsys/ShopBundle/DataFixtures/ProductDataFixtureReferenceInjector.php
+        # In tests, we often grab services using container->get or access persistent refrences using $this->getReference
+        -
+            message: '#(Property (Shopsys|Tests)\\.+::\$.+ \(.+\) does not accept object\.)#'
+            path: %currentWorkingDirectory%/tests/ShopBundle/*
+        # In tests, we often grab services using container->get or access persistent refrences using $this->getReference
+        -
+            message: '#(Property (Shopsys|Tests)\\.+::\$.+ \(.+\) does not accept object\|null\.)#'
+            path: %currentWorkingDirectory%/tests/ShopBundle/*
         # In tests, there are helper methods for grabbing services using container->get
         -
-            message: '#(Method .+::.+\(\) should return .+ but returns (object))#'
+            message: '#(Method .+::.+\(\) should return .+ but returns object.)#'
             path: %currentWorkingDirectory%/tests/ShopBundle/*
         # Actually, we are setting an array item using "$array[] = $this->getReference"
         -
             message: '#Array \(array<.+>\) does not accept object\.#'
             path: %currentWorkingDirectory%/tests/ShopBundle/Functional/Model/Product/ProductOnCurrentDomainFacadeCountDataTest.php
-        # Actually, the method is called on NodeBuilder which is implementing the interface, however, annotating would worsen the readability of the code in Configuration class
+        # We need to have undefined variable for testing purposes
         -
-            message: '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface::scalarNode\(\)#'
-            path: %currentWorkingDirectory%/src/Shopsys/ShopBundle/DependencyInjection/Configuration.php
+            message: '#Undefined variable: \$undefined#'
+            path: %currentWorkingDirectory%/src/Shopsys/ShopBundle/Controller/Test/ErrorHandlerController.php
 includes:
     - vendor/phpstan/phpstan-doctrine/extension.neon
     - vendor/phpstan/phpstan-phpunit/extension.neon
