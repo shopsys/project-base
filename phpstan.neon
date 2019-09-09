@@ -13,23 +13,23 @@ parameters:
             message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface::scalarNode\(\)\.$#'
             path: %currentWorkingDirectory%/src/Shopsys/ShopBundle/DependencyInjection/Configuration.php
         -
-            # In data fixtures, we often access persistent references using $this->getReference
+            # In data fixtures, we often access persistent references using $this->getReference()
             message: '#^Property Shopsys\\.+::\$.+ \(Shopsys\\.+\) does not accept object\.$#'
             path: %currentWorkingDirectory%/src/Shopsys/ShopBundle/DataFixtures/*
         -
-            # A helper methods returning an array of persistent references using $this->getReference
+            # A helper methods returning an array of persistent references using $this->getReference()
             message: '#^Method Shopsys\\ShopBundle\\DataFixtures\\ProductDataFixtureReferenceInjector::.+\(\) should return array<.+> but returns array<string, object>\.$#'
             path: %currentWorkingDirectory%/src/Shopsys/ShopBundle/DataFixtures/ProductDataFixtureReferenceInjector.php
         -
-            # In tests, we often grab services using container->get or access persistent refrences using $this->getReference
+            # In tests, we often grab services using $container->get() or access persistent references using $this->getReference()
             message: '#^Property (Shopsys|Tests)\\.+::\$.+ \(.+\) does not accept (object|object\|null)\.$#'
             path: %currentWorkingDirectory%/tests/ShopBundle/*
         -
-            # In tests, there are helper methods for grabbing services using container->get
+            # In tests, there are helper methods for grabbing services using $container->get()
             message: '#^Method .+::.+\(\) should return .+ but returns (object|object\|null)\.$#'
             path: %currentWorkingDirectory%/tests/ShopBundle/*
         -
-            # Actually, we are setting an array item using "$array[] = $this->getReference"
+            # Actually, we are setting an array item using "$array[] = $this->getReference()"
             message: '#^Array \(array<.+>\) does not accept object\.$#'
             path: %currentWorkingDirectory%/tests/ShopBundle/Functional/Model/Product/ProductOnCurrentDomainFacadeCountDataTest.php
         -
