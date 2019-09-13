@@ -46,7 +46,7 @@ class PaymentDataFixture extends AbstractReferenceFixture implements DependentFi
         $paymentData = $this->paymentDataFactory->create();
         $paymentData->name = [
             'cs' => 'Kreditní kartou',
-            'en' => 'Credit card',
+            'es' => 'Credit card',
         ];
         $paymentData->pricesByCurrencyId = [
             $this->getReference(CurrencyDataFixture::CURRENCY_CZK)->getId() => Money::create('99.95'),
@@ -54,11 +54,11 @@ class PaymentDataFixture extends AbstractReferenceFixture implements DependentFi
         ];
         $paymentData->description = [
             'cs' => 'Rychle, levně a spolehlivě!',
-            'en' => 'Quick, cheap and reliable!',
+            'es' => 'Quick, cheap and reliable!',
         ];
         $paymentData->instructions = [
             'cs' => '<b>Zvolili jste platbu kreditní kartou. Prosím proveďte ji do dvou pracovních dnů.</b>',
-            'en' => '<b>You have chosen payment by credit card. Please finish it in two business days.</b>',
+            'es' => '<b>You have chosen payment by credit card. Please finish it in two business days.</b>',
         ];
         $paymentData->vat = $this->getReference(VatDataFixture::VAT_ZERO);
         $this->createPayment(self::PAYMENT_CARD, $paymentData, [
@@ -69,7 +69,7 @@ class PaymentDataFixture extends AbstractReferenceFixture implements DependentFi
         $paymentData = $this->paymentDataFactory->create();
         $paymentData->name = [
             'cs' => 'Dobírka',
-            'en' => 'Cash on delivery',
+            'es' => 'Cash on delivery',
         ];
         $paymentData->pricesByCurrencyId = [
             $this->getReference(CurrencyDataFixture::CURRENCY_CZK)->getId() => Money::create('49.90'),
@@ -81,7 +81,7 @@ class PaymentDataFixture extends AbstractReferenceFixture implements DependentFi
         $paymentData = $this->paymentDataFactory->create();
         $paymentData->name = [
             'cs' => 'Hotově',
-            'en' => 'Cash',
+            'es' => 'Cash',
         ];
         $paymentData->czkRounding = true;
         $paymentData->pricesByCurrencyId = [

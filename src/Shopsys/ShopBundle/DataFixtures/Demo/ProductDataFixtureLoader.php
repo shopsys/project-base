@@ -270,7 +270,7 @@ class ProductDataFixtureLoader
         switch ($locale) {
             case 'cs':
                 return self::COLUMN_SHORT_DESCRIPTION_CS;
-            case 'en':
+            case 'es':
                 return self::COLUMN_SHORT_DESCRIPTION_EN;
             default:
                 throw new \Shopsys\FrameworkBundle\Component\DataFixture\Exception\UnsupportedLocaleException($locale);
@@ -288,7 +288,7 @@ class ProductDataFixtureLoader
         switch ($locale) {
             case 'cs':
                 return self::COLUMN_DESCRIPTION_CS;
-            case 'en':
+            case 'es':
                 return self::COLUMN_DESCRIPTION_EN;
             default:
                 throw new \Shopsys\FrameworkBundle\Component\DataFixture\Exception\UnsupportedLocaleException($locale);
@@ -379,7 +379,7 @@ class ProductDataFixtureLoader
         switch ($this->domain->getDomainConfigById($domainId)->getLocale()) {
             case 'cs':
                 return self::COLUMN_NAME_CS;
-            case 'en':
+            case 'es':
                 return self::COLUMN_NAME_EN;
             default:
                 throw new \Shopsys\FrameworkBundle\Component\DataFixture\Exception\UnsupportedLocaleException($this->domain->getDomainConfigById($domainId)->getLocale());

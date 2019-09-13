@@ -107,7 +107,7 @@
             },
             "keyword": {
               "type": "icu_collation_keyword",
-              "language": "en",
+              "language": "es",
               "index": false
             }
           }

@@ -54,20 +54,20 @@ class AvailabilityDataFixture extends AbstractReferenceFixture
     public function load(ObjectManager $manager)
     {
         $availabilityData = $this->availabilityDataFactory->create();
-        $availabilityData->name = ['cs' => 'Připravujeme', 'en' => 'Preparing'];
+        $availabilityData->name = ['cs' => 'Připravujeme', 'es' => 'Preparing'];
         $availabilityData->dispatchTime = 14;
         $this->createAvailability($availabilityData, self::AVAILABILITY_PREPARING);
 
-        $availabilityData->name = ['cs' => 'Skladem', 'en' => 'In stock'];
+        $availabilityData->name = ['cs' => 'Skladem', 'es' => 'In stock'];
         $availabilityData->dispatchTime = 0;
         $inStockAvailability = $this->createAvailability($availabilityData, self::AVAILABILITY_IN_STOCK);
         $this->setting->set(Setting::DEFAULT_AVAILABILITY_IN_STOCK, $inStockAvailability->getId());
 
-        $availabilityData->name = ['cs' => 'Na dotaz', 'en' => 'On request'];
+        $availabilityData->name = ['cs' => 'Na dotaz', 'es' => 'On request'];
         $availabilityData->dispatchTime = 7;
         $this->createAvailability($availabilityData, self::AVAILABILITY_ON_REQUEST);
 
-        $availabilityData->name = ['cs' => 'Nedostupné', 'en' => 'Out of stock'];
+        $availabilityData->name = ['cs' => 'Nedostupné', 'es' => 'Out of stock'];
         $availabilityData->dispatchTime = null;
         $this->createAvailability($availabilityData, self::AVAILABILITY_OUT_OF_STOCK);
     }

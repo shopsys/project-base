@@ -63,7 +63,7 @@ class BrandDataFixture extends AbstractReferenceFixture
             $brandData->name = $brandName;
             $brandData->descriptions = [
                 'cs' => 'Toto je popis značky ' . $brandData->name . '.',
-                'en' => 'This is description of brand ' . $brandData->name . '.',
+                'es' => 'This is description of brand ' . $brandData->name . '.',
             ];
 
             $brand = $this->brandFacade->create($brandData);
