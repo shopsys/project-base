@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\ShopBundle\Functional\Model\Order;
 
+use Shopsys\FrameworkBundle\Model\Localization\Localization;
 use Shopsys\FrameworkBundle\Model\Payment\PaymentDataFactoryInterface;
 use Shopsys\FrameworkBundle\Model\Payment\PaymentFacade;
 use Shopsys\FrameworkBundle\Model\Pricing\Vat\Vat;
@@ -16,6 +17,17 @@ use Tests\ShopBundle\Test\TransactionFunctionalTestCase;
 
 class OrderTransportAndPaymentTest extends TransactionFunctionalTestCase
 {
+    /**
+     * @var \Shopsys\FrameworkBundle\Model\Localization\Localization
+     */
+    private $localization;
+
+    protected function setUp()
+    {
+        $this->localization = $this->getContainer()->get(Localization::class);
+        parent::setUp();
+    }
+
 //    public function testVisibleTransport()
 //    {
 //        $em = $this->getEntityManager();
@@ -382,10 +394,11 @@ class OrderTransportAndPaymentTest extends TransactionFunctionalTestCase
         $paymentDataFactory = $this->getPaymentDataFactory();
 
         $paymentData = $paymentDataFactory->create();
-        $paymentData->name = [
-            'cs' => 'paymentName',
-            'en' => 'paymentName',
-        ];
+        $names = [];
+        foreach ($this->localization->getLocalesOfAllDomains() as $locale) {
+            $names[$locale] = 'paymentName';
+        }
+        $paymentData->name = $names;
         $paymentData->vat = $vat;
         $paymentData->hidden = $hidden;
         $paymentData->enabled = $enabledForDomains;
@@ -404,10 +417,11 @@ class OrderTransportAndPaymentTest extends TransactionFunctionalTestCase
         $transportDataFactory = $this->getTransportDataFactory();
 
         $transportData = $transportDataFactory->create();
-        $transportData->name = [
-            'cs' => 'paymentName',
-            'en' => 'paymentName',
-        ];
+        $names = [];
+        foreach ($this->localization->getLocalesOfAllDomains() as $locale) {
+            $names[$locale] = 'transportName';
+        }
+        $transportData->name = $names;
 
         $transportData->vat = $vat;
         $transportData->hidden = $hidden;
