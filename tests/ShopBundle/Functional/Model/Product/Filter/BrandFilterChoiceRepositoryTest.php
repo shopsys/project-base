@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\ShopBundle\Functional\Model\Product\Filter;
 
+use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Model\Product\Brand\Brand;
 use Shopsys\FrameworkBundle\Model\Product\Filter\BrandFilterChoiceRepository;
 use Shopsys\ShopBundle\DataFixtures\Demo\CategoryDataFixture;
@@ -97,7 +98,11 @@ class BrandFilterChoiceRepositoryTest extends TransactionFunctionalTestCase
         /** @var \Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroup $pricingGroup */
         $pricingGroup = $this->getReference(PricingGroupDataFixture::PRICING_GROUP_ORDINARY_DOMAIN_1);
 
-        return $repository->getBrandFilterChoicesForSearch(1, $pricingGroup, 'en', $searchText);
+        /** @var \Shopsys\FrameworkBundle\Component\Domain\Domain $domain */
+        $domain = $this->getContainer()->get(Domain::class);
+        $domainConfig1 = $domain->getDomainConfigById(1);
+
+        return $repository->getBrandFilterChoicesForSearch($domainConfig1->getId(), $pricingGroup, $domainConfig1->getLocale(), $searchText);
     }
 
     /**
