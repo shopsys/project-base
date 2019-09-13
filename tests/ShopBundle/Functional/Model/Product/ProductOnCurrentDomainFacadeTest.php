@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\ShopBundle\Functional\Model\Product;
 
+use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Component\Money\Money;
 use Shopsys\FrameworkBundle\Component\Paginator\PaginationResult;
+use Shopsys\FrameworkBundle\Model\Localization\Localization;
 use Shopsys\FrameworkBundle\Model\Product\Brand\Brand;
 use Shopsys\FrameworkBundle\Model\Product\Filter\ParameterFilterData;
 use Shopsys\FrameworkBundle\Model\Product\Filter\ProductFilterData;
@@ -21,6 +23,17 @@ use Tests\ShopBundle\Test\TransactionFunctionalTestCase;
 
 abstract class ProductOnCurrentDomainFacadeTest extends TransactionFunctionalTestCase
 {
+    /**
+     * @var \Shopsys\FrameworkBundle\Component\Domain\Domain
+     */
+    protected $domain;
+
+    protected function setUp()
+    {
+        $this->domain = $this->getContainer()->get(Domain::class);
+        parent::setUp();
+    }
+
     public function testFilterByMinimalPrice()
     {
         $category = $this->getReference(CategoryDataFixture::CATEGORY_TV);
@@ -114,9 +127,10 @@ abstract class ProductOnCurrentDomainFacadeTest extends TransactionFunctionalTes
     {
         $category = $this->getReference(CategoryDataFixture::CATEGORY_PRINTERS);
 
+        $firstDomainLocale = $this->domain->getDomainConfigById(1)->getLocale();
         $parameterFilterData = $this->createParameterFilterData(
-            ['en' => 'Print resolution'],
-            [['en' => '4800x1200']]
+            [$firstDomainLocale => 'Print resolution'],
+            [[$firstDomainLocale => '4800x1200']]
         );
 
         $productFilterData = new ProductFilterData();
@@ -131,11 +145,12 @@ abstract class ProductOnCurrentDomainFacadeTest extends TransactionFunctionalTes
     {
         $category = $this->getReference(CategoryDataFixture::CATEGORY_PRINTERS);
 
+        $firstDomainLocale = $this->domain->getDomainConfigById(1)->getLocale();
         $parameterFilterData = $this->createParameterFilterData(
-            ['en' => 'Print resolution'],
+            [$firstDomainLocale => 'Print resolution'],
             [
-                ['en' => '4800x1200'],
-                ['en' => '2400x600'],
+                [$firstDomainLocale => '4800x1200'],
+                [$firstDomainLocale => '2400x600'],
             ]
         );
         $productFilterData = new ProductFilterData();
@@ -149,15 +164,16 @@ abstract class ProductOnCurrentDomainFacadeTest extends TransactionFunctionalTes
     {
         $category = $this->getReference(CategoryDataFixture::CATEGORY_PRINTERS);
 
+        $firstDomainLocale = $this->domain->getDomainConfigById(1)->getLocale();
         $parameterFilterData1 = $this->createParameterFilterData(
-            ['en' => 'Print resolution'],
+            [$firstDomainLocale => 'Print resolution'],
             [
-                ['en' => '4800x1200'],
-                ['en' => '2400x600'],
+                [$firstDomainLocale => '4800x1200'],
+                [$firstDomainLocale => '2400x600'],
             ]
         );
         $parameterFilterData2 = $this->createParameterFilterData(
-            ['en' => 'LCD'],
+            [$firstDomainLocale => 'LCD'],
             []
         );
 
@@ -172,13 +188,14 @@ abstract class ProductOnCurrentDomainFacadeTest extends TransactionFunctionalTes
     {
         $category = $this->getReference(CategoryDataFixture::CATEGORY_PRINTERS);
 
+        $firstDomainLocale = $this->domain->getDomainConfigById(1)->getLocale();
         $parameterFilterData1 = $this->createParameterFilterData(
-            ['en' => 'Print resolution'],
-            [['en' => '2400x600']]
+            [$firstDomainLocale => 'Print resolution'],
+            [[$firstDomainLocale => '2400x600']]
         );
         $parameterFilterData2 = $this->createParameterFilterData(
-            ['en' => 'LCD'],
-            [['en' => 'Yes']]
+            [$firstDomainLocale => 'LCD'],
+            [[$firstDomainLocale => 'Yes']]
         );
         $productFilterData = new ProductFilterData();
         $productFilterData->parameters = [$parameterFilterData1, $parameterFilterData2];
