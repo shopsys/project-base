@@ -471,16 +471,16 @@ abstract class ProductOnCurrentDomainFacadeCountDataTest extends TransactionFunc
         $filterData->brands[] = $this->getReference(BrandDataFixture::BRAND_CANON);
         $filterData->flags[] = $this->getReference(FlagDataFixture::FLAG_NEW_PRODUCT);
         $filterData->parameters[] = $this->createParameterFilterData(
-            ['en' => 'Dimensions'],
-            [['en' => '449x304x152 mm']]
+            ['es' => 'Dimensions'],
+            [['es' => '449x304x152 mm']]
         );
         $filterData->parameters[] = $this->createParameterFilterData(
-            ['en' => 'Print resolution'],
-            [['en' => '2400x600'], ['en' => '4800x1200']]
+            ['es' => 'Print resolution'],
+            [['es' => '2400x600'], ['es' => '4800x1200']]
         );
         $filterData->parameters[] = $this->createParameterFilterData(
-            ['en' => 'Weight'],
-            [['en' => '3.5 kg']]
+            ['es' => 'Weight'],
+            [['es' => '3.5 kg']]
         );
 
         $countData = new ProductFilterCountData();
@@ -538,16 +538,16 @@ abstract class ProductOnCurrentDomainFacadeCountDataTest extends TransactionFunc
         $category = $this->getReference(CategoryDataFixture::CATEGORY_PRINTERS);
         $filterData = new ProductFilterData();
         $filterData->parameters[] = $this->createParameterFilterData(
-            ['en' => 'Dimensions'],
-            [['en' => '449x304x152 mm']]
+            ['es' => 'Dimensions'],
+            [['es' => '449x304x152 mm']]
         );
         $filterData->parameters[] = $this->createParameterFilterData(
-            ['en' => 'Print resolution'],
-            [['en' => '2400x600'], ['en' => '4800x1200']]
+            ['es' => 'Print resolution'],
+            [['es' => '2400x600'], ['es' => '4800x1200']]
         );
         $filterData->parameters[] = $this->createParameterFilterData(
-            ['en' => 'Weight'],
-            [['en' => '3.5 kg']]
+            ['es' => 'Weight'],
+            [['es' => '3.5 kg']]
         );
 
         $countData = new ProductFilterCountData();
