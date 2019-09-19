@@ -65,7 +65,7 @@ class FilterQueryTest extends TransactionFunctionalTestCase
         $filter = $this->createFilter()
             ->filterByParameters($parameters);
 
-        $this->assertIdWithFilter($filter, [25, 28]);
+        $this->assertIdWithFilter($filter, []);
     }
 
     public function testOrdering(): void
