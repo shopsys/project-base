@@ -6260,7 +6260,6 @@ class ProductDataFixture extends AbstractReferenceFixture implements DependentFi
             BrandDataFixture::class,
             UnitDataFixture::class,
             PricingGroupDataFixture::class,
-            MultidomainPricingGroupDataFixture::class,
         ];
     }
 }
