@@ -95,10 +95,6 @@ services:
         arguments:
             - '%shopsys.data_fixtures.resource_products_filepath%'
 
-    Shopsys\ShopBundle\DataFixtures\Demo\UserDataFixtureLoader:
-        arguments:
-            - '%shopsys.data_fixtures.resource_customers_filepath%'
-
     Shopsys\FrameworkBundle\Controller\Admin\PromoCodeController:
         arguments:
             $useInlineEditation: false
