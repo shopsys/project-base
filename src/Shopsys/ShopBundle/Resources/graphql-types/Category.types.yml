@@ -1,0 +1,12 @@
+Category:
+    type: object
+    inherits:
+        - 'CategoryDecorator'
+    config:
+        fields:
+            children:
+                type: "[Category!]"
+                description: "descendants"
+            parent:
+                type: "Category"
+                description: "ancestor"

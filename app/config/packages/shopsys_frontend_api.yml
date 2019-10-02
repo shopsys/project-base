@@ -1,0 +1,13 @@
+shopsys_frontend_api:
+    enabled_domains:
+# uncomment following line to enable frontend api for the first domain
+#        - 1
+
+overblog_graphql:
+    definitions:
+        schema:
+            query: Query
+        mappings:
+            types:
+                -   type: yaml
+                    dir: "%shopsys.resources_dir%/graphql-types"
