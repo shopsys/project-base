@@ -1,0 +1,6 @@
+{% extends '@ShopsysShop/Admin/Content/Customer/detail.html.twig' %}
+
+{% block title %}- {{ 'Editing Company'|trans }} - {{ company.billingAddress.companyName|default('test') }}{% endblock %}
+{% block h1 %}
+    {{ 'Editing Company'|trans }} - {{ company.billingAddress.companyName|default('test') }}
+{% endblock %}

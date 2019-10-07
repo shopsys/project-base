@@ -182,7 +182,9 @@ class OrderController extends FrontBaseController
         $frontOrderFormData = new FrontOrderData();
         $frontOrderFormData->deliveryAddressSameAsBillingAddress = true;
         if ($user instanceof User) {
+            /** @var $user \Shopsys\ShopBundle\Model\Customer\User */
             $this->orderFacade->prefillFrontOrderData($frontOrderFormData, $user);
+            $frontOrderFormData->company = $user->getCompany();
         }
         $domainId = $this->domain->getId();
         $frontOrderFormData->domainId = $domainId;

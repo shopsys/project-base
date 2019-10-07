@@ -106,3 +106,7 @@ services:
     Shopsys\ShopBundle\Controller\Front\ErrorController:
         arguments:
             $environment: '%kernel.environment%'
+
+    Shopsys\FrameworkBundle\Controller\Admin\CustomerController:
+        class: Shopsys\ShopBundle\Controller\Admin\CustomerController
+        tags: ['controller.service_arguments']

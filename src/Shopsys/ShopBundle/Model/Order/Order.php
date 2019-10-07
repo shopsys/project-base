@@ -29,7 +29,6 @@ use Shopsys\FrameworkBundle\Model\Order\OrderEditResult;
  * @method \Shopsys\ShopBundle\Model\Order\Item\OrderItem getItemById(int $orderItemId)
  * @method \Shopsys\ShopBundle\Model\Order\Item\OrderItem[] getProductItems()
  * @method \Shopsys\ShopBundle\Model\Administrator\Administrator|null getCreatedAsAdministrator()
- * @method editData(\Shopsys\ShopBundle\Model\Order\OrderData $orderData)
  * @method editOrderTransport(\Shopsys\ShopBundle\Model\Order\OrderData $orderData)
  * @method editOrderPayment(\Shopsys\ShopBundle\Model\Order\OrderData $orderData)
  * @method setDeliveryAddress(\Shopsys\ShopBundle\Model\Order\OrderData $orderData)
@@ -38,6 +37,14 @@ use Shopsys\FrameworkBundle\Model\Order\OrderEditResult;
  */
 class Order extends BaseOrder
 {
+    /**
+     * @var \Shopsys\ShopBundle\Model\Company\Company|null
+     *
+     * @ORM\ManyToOne(targetEntity="Shopsys\ShopBundle\Model\Company\Company")
+     * @ORM\JoinColumn(nullable=true, name="company_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $company;
+
     /**
      * @param \Shopsys\ShopBundle\Model\Order\OrderData $orderData
      * @param string $orderNumber
@@ -51,6 +58,7 @@ class Order extends BaseOrder
         ?User $user = null
     ) {
         parent::__construct($orderData, $orderNumber, $urlHash, $user);
+        $this->company = $orderData->company;
     }
 
     /**
@@ -60,5 +68,14 @@ class Order extends BaseOrder
     public function edit(BaseOrderData $orderData): OrderEditResult
     {
         return parent::edit($orderData);
+    }
+
+    /**
+     * @param \Shopsys\ShopBundle\Model\Order\OrderData $orderData
+     */
+    protected function editData(BaseOrderData $orderData)
+    {
+        parent::editData($orderData);
+        $this->company = $orderData->company;
     }
 }

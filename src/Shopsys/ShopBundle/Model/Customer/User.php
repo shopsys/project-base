@@ -9,6 +9,7 @@ use Shopsys\FrameworkBundle\Model\Customer\BillingAddress;
 use Shopsys\FrameworkBundle\Model\Customer\DeliveryAddress;
 use Shopsys\FrameworkBundle\Model\Customer\User as BaseUser;
 use Shopsys\FrameworkBundle\Model\Customer\UserData as BaseUserData;
+use Shopsys\ShopBundle\Model\Company\Company;
 
 /**
  * @ORM\Table(
@@ -21,13 +22,23 @@ use Shopsys\FrameworkBundle\Model\Customer\UserData as BaseUserData;
  *     }
  * )
  * @ORM\Entity
+ * @property \Shopsys\ShopBundle\Model\Customer\DeliveryAddress|null $deliveryAddress
+ * @method \Shopsys\ShopBundle\Model\Customer\DeliveryAddress|null getDeliveryAddress()
+ * @method setDeliveryAddress(\Shopsys\ShopBundle\Model\Customer\DeliveryAddress|null $deliveryAddress)
  */
 class User extends BaseUser
 {
     /**
+     * @var \Shopsys\ShopBundle\Model\Company\Company
+     * @ORM\ManyToOne(targetEntity="Shopsys\ShopBundle\Model\Company\Company", inversedBy="users")
+     * @ORM\JoinColumn(name="company_id", referencedColumnName="id", nullable=true)
+     */
+    private $company;
+
+    /**
      * @param \Shopsys\ShopBundle\Model\Customer\UserData $userData
      * @param \Shopsys\FrameworkBundle\Model\Customer\BillingAddress $billingAddress
-     * @param \Shopsys\FrameworkBundle\Model\Customer\DeliveryAddress|null $deliveryAddress
+     * @param \Shopsys\ShopBundle\Model\Customer\DeliveryAddress|null $deliveryAddress
      */
     public function __construct(
         BaseUserData $userData,
@@ -35,6 +46,7 @@ class User extends BaseUser
         ?DeliveryAddress $deliveryAddress
     ) {
         parent::__construct($userData, $billingAddress, $deliveryAddress);
+        $this->company = $userData->company;
     }
 
     /**
@@ -43,5 +55,14 @@ class User extends BaseUser
     public function edit(BaseUserData $userData)
     {
         parent::edit($userData);
+        $this->company = $userData->company;
+    }
+
+    /**
+     * @return \Shopsys\ShopBundle\Model\Company\Company
+     */
+    public function getCompany(): Company
+    {
+        return $this->company;
     }
 }

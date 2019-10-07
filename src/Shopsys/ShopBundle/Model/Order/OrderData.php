@@ -17,8 +17,14 @@ use Shopsys\FrameworkBundle\Model\Order\OrderData as BaseOrderData;
  */
 class OrderData extends BaseOrderData
 {
+    /**
+     * @var \Shopsys\ShopBundle\Model\Company\Company|null
+     */
+    public $company;
+
     public function __construct()
     {
         parent::__construct();
+        $this->company = null;
     }
 }

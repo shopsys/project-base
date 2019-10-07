@@ -29,6 +29,7 @@ class OrderDataMapper extends BaseOrderDataMapper
     {
         /** @var \Shopsys\ShopBundle\Model\Order\OrderData $orderData */
         $orderData = parent::getOrderDataFromFrontOrderData($frontOrderData);
+        $orderData->company = $frontOrderData->company;
 
         return $orderData;
     }

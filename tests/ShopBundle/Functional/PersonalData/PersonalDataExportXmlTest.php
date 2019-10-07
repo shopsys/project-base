@@ -100,7 +100,7 @@ class PersonalDataExportXmlTest extends TransactionFunctionalTestCase
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Country\Country $country
-     * @return \Shopsys\FrameworkBundle\Model\Customer\DeliveryAddress
+     * @return \Shopsys\ShopBundle\Model\Customer\DeliveryAddress
      */
     private function createDeliveryAddress(Country $country)
     {
@@ -120,7 +120,7 @@ class PersonalDataExportXmlTest extends TransactionFunctionalTestCase
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Customer\BillingAddress $billingAddress
-     * @param \Shopsys\FrameworkBundle\Model\Customer\DeliveryAddress $deliveryAddress
+     * @param \Shopsys\ShopBundle\Model\Customer\DeliveryAddress $deliveryAddress
      * @return \Shopsys\ShopBundle\Model\Customer\User
      */
     private function createUser(BillingAddress $billingAddress, DeliveryAddress $deliveryAddress)
