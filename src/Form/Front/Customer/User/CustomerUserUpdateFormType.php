@@ -2,27 +2,29 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Front\Customer;
+namespace App\Form\Front\Customer\User;
 
-use Shopsys\FrameworkBundle\Model\Customer\CustomerDataFactoryInterface;
+use App\Form\Front\Customer\BillingAddressFormType;
+use App\Form\Front\Customer\DeliveryAddressFormType;
+use Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserUpdateDataFactoryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CustomerFormType extends AbstractType
+class CustomerUserUpdateFormType extends AbstractType
 {
     /**
-     * @var \Shopsys\FrameworkBundle\Model\Customer\CustomerDataFactoryInterface
+     * @var \Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserUpdateDataFactoryInterface
      */
-    private $customerDataFactory;
+    private $customerUserUpdateDataFactory;
 
     /**
-     * @param \Shopsys\FrameworkBundle\Model\Customer\CustomerDataFactoryInterface $customerDataFactory
+     * @param \Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserUpdateDataFactoryInterface $customerUserUpdateDataFactory
      */
-    public function __construct(CustomerDataFactoryInterface $customerDataFactory)
+    public function __construct(CustomerUserUpdateDataFactoryInterface $customerUserUpdateDataFactory)
     {
-        $this->customerDataFactory = $customerDataFactory;
+        $this->customerUserUpdateDataFactory = $customerUserUpdateDataFactory;
     }
 
     /**
@@ -32,7 +34,7 @@ class CustomerFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('userData', UserFormType::class)
+            ->add('customerUserData', CustomerUserFormType::class)
             ->add('billingAddressData', BillingAddressFormType::class, [
                 'domain_id' => $options['domain_id'],
             ])
@@ -51,7 +53,7 @@ class CustomerFormType extends AbstractType
             ->setRequired('domain_id')
             ->addAllowedTypes('domain_id', 'int')
             ->setDefaults([
-                'empty_data' => $this->customerDataFactory->create(),
+                'empty_data' => $this->customerUserUpdateDataFactory->create(),
                 'attr' => ['novalidate' => 'novalidate'],
             ]);
     }
