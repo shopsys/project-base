@@ -1,5 +1,5 @@
 import CustomizeBundle from 'framework/common/validation/customizeBundle';
-import Window from './window';
+import Window from './Window';
 import Translator from 'bazinga-translator';
 
 export default function showFormErrorsWindow (container) {

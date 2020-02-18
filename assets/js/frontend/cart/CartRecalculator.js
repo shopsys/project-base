@@ -1,8 +1,8 @@
-import Ajax from 'framework/common/utils/ajax';
-import Timeout from 'framework/common/utils/timeout';
-import Register from 'framework/common/utils/register';
+import Ajax from 'framework/common/utils/Ajax';
+import Timeout from 'framework/common/utils/Timeout';
+import Register from 'framework/common/utils/Register';
 import constant from '../utils/constant';
-import { KeyCodes } from 'framework/common/utils/keyCodes';
+import { KeyCodes } from 'framework/common/utils/KeyCodes';
 
 export default class CartRecalculator {
 

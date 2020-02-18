@@ -1,7 +1,7 @@
-import Ajax from 'framework/common/utils/ajax';
-import Register from 'framework/common/utils/register';
+import Ajax from 'framework/common/utils/Ajax';
+import Register from 'framework/common/utils/Register';
 import { createLoaderOverlay, showLoaderOverlay } from 'framework/common/utils/loaderOverlay';
-import Window from '../utils/window';
+import Window from '../utils/Window';
 import Translator from 'bazinga-translator';
 
 export default class Login {

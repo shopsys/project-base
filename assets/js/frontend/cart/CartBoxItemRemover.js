@@ -1,6 +1,6 @@
-import Register from 'framework/common/utils/register';
-import Ajax from 'framework/common/utils/ajax';
-import Window from '../utils/window';
+import Register from 'framework/common/utils/Register';
+import Ajax from 'framework/common/utils/Ajax';
+import Window from '../utils/Window';
 
 export default class CartBoxItemRemover {
 

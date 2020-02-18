@@ -1,6 +1,6 @@
-import Ajax from 'framework/common/utils/ajax';
-import Register from 'framework/common/utils/register';
-import Window from '../utils/window';
+import Ajax from 'framework/common/utils/Ajax';
+import Register from 'framework/common/utils/Register';
+import Window from '../utils/Window';
 import Translator from 'bazinga-translator';
 
 const subscriptionFormSelector = 'form[name="subscription_form"]';

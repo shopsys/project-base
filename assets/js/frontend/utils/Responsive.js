@@ -1,4 +1,4 @@
-import Timeout from 'framework/common/utils/timeout';
+import Timeout from 'framework/common/utils/Timeout';
 
 export default class Responsive {
 
