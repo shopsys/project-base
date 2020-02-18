@@ -1,5 +1,5 @@
 import constant from '../../utils/constant';
-import Register from 'framework/common/utils/register';
+import Register from 'framework/common/utils/Register';
 
 export default function customerValidator () {
 

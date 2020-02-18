@@ -40,9 +40,9 @@
  * It is automatically initialized on all DOM containers with class "js-responsive-tabs".
  */
 
-import HybridTabs from 'framework/common/utils/hybridTabs';
-import Responsive from '../utils/responsive';
-import Register from 'framework/common/utils/register';
+import HybridTabs from 'framework/common/utils/HybridTabs';
+import Responsive from '../utils/Responsive';
+import Register from 'framework/common/utils/Register';
 
 export default class ResponsiveTabsInit {
 

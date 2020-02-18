@@ -1,5 +1,5 @@
 import constant from '../utils/constant';
-import Register from 'framework/common/utils/register';
+import Register from 'framework/common/utils/Register';
 
 const cookieName = constant('\\Shopsys\\FrameworkBundle\\Model\\Cookies\\CookiesFacade::EU_COOKIES_COOKIE_CONSENT_NAME');
 const tenYears = 10 * 365;

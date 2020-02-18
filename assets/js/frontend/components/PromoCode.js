@@ -1,8 +1,8 @@
-import Ajax from 'framework/common/utils/ajax';
-import Window from '../utils/window';
-import Register from 'framework/common/utils/register';
+import Ajax from 'framework/common/utils/Ajax';
+import Window from '../utils/Window';
+import Register from 'framework/common/utils/Register';
 import constant from '../utils/constant';
-import { KeyCodes } from 'framework/common/utils/keyCodes';
+import { KeyCodes } from 'framework/common/utils/KeyCodes';
 import Translator from 'bazinga-translator';
 
 const PROMOCODE_SUBMIT_BUTTON_ID = '#js-promo-code-submit-button';

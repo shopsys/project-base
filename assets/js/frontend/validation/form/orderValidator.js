@@ -1,6 +1,6 @@
 import 'framework/common/components';
 import constant from '../../utils/constant';
-import Register from 'framework/common/utils/register';
+import Register from 'framework/common/utils/Register';
 
 export default function orderValidator ($container) {
     window.$('form[name="transport_and_payment_form"]').jsFormValidator({
