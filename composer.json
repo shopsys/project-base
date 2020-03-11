@@ -119,6 +119,7 @@
         "shopsys/http-smoke-testing": "dev-tp-symfony4 as dev-master",
         "sspooky13/yaml-standards": "^5.0.0",
         "symfony/var-dumper": "^4.4.0",
+        "symfony/browser-kit": "^4.4.0",
         "zalas/phpunit-injector": "^1.4"
     },
     "conflict": {
