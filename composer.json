@@ -18,6 +18,8 @@
             "Tests\\": "tests/"
         }
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": "^7.2",
         "ext-bcmath": "*",
@@ -58,11 +60,11 @@
         "phing/phing": "^2.16.1",
         "presta/sitemap-bundle": "^1.5.3",
         "prezent/doctrine-translatable-bundle": "^1.0.3",
-        "sensio/generator-bundle": "^3.1.7",
+        "sensio/framework-extra-bundle": "^5.2",
         "sensiolabs/security-checker": "^6.0",
         "shopsys/doctrine-orm": "^2.6.2",
         "shopsys/google-cloud-bundle": "dev-tp-symfony4 as dev-master",
-        "shopsys/postgres-search-bundle": "^0.1",
+        "shopsys/postgres-search-bundle": "^0.2",
         "shopsys/migrations": "dev-tp-symfony4 as dev-master",
         "shopsys/form-types-bundle": "dev-tp-symfony4 as dev-master",
         "shopsys/framework": "dev-tp-symfony4 as dev-master",
@@ -159,7 +161,7 @@
         },
         "symfony": {
             "allow-contrib": true,
-            "require": "^3.4"
+            "require": "^4.4"
         },
         "incenteev-parameters": [
             {
