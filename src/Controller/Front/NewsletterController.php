@@ -6,9 +6,12 @@ namespace App\Controller\Front;
 
 use App\Form\Front\Newsletter\SubscriptionFormType;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
+use Shopsys\FrameworkBundle\Component\Form\FormTimeProvider;
 use Shopsys\FrameworkBundle\Model\LegalConditions\LegalConditionsFacade;
+use Shopsys\FrameworkBundle\Model\Newsletter\Exception\EmailWasAlreadySubscribedException;
 use Shopsys\FrameworkBundle\Model\Newsletter\NewsletterFacade;
 use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -30,18 +33,26 @@ class NewsletterController extends FrontBaseController
     private $domain;
 
     /**
+     * @var \Shopsys\FrameworkBundle\Component\Form\FormTimeProvider
+     */
+    private $formTimeProvider;
+
+    /**
      * @param \Shopsys\FrameworkBundle\Model\Newsletter\NewsletterFacade $newsletterFacade
      * @param \Shopsys\FrameworkBundle\Model\LegalConditions\LegalConditionsFacade $legalConditionsFacade
      * @param \Shopsys\FrameworkBundle\Component\Domain\Domain $domain
+     * @param \Shopsys\FrameworkBundle\Component\Form\FormTimeProvider $formTimeProvider
      */
     public function __construct(
         NewsletterFacade $newsletterFacade,
         LegalConditionsFacade $legalConditionsFacade,
-        Domain $domain
+        Domain $domain,
+        FormTimeProvider $formTimeProvider
     ) {
         $this->newsletterFacade = $newsletterFacade;
         $this->legalConditionsFacade = $legalConditionsFacade;
         $this->domain = $domain;
+        $this->formTimeProvider = $formTimeProvider;
     }
 
     /**
@@ -53,12 +64,43 @@ class NewsletterController extends FrontBaseController
         $form = $this->createSubscriptionForm();
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $email = $form->getData()['email'];
-            $this->newsletterFacade->addSubscribedEmail($email, $this->domain->getId());
+        if ($form->isSubmitted()) {
+            $this->formTimeProvider->generateFormTime($form->getName());
+
+            if ($form->isValid()) {
+                $email = $form->getData()['email'];
+
+                try {
+                    $this->newsletterFacade->addSubscribedEmail($email, $this->domain->getId());
+                    return $this->json(['success' => true]);
+                } catch (EmailWasAlreadySubscribedException $exception) {
+                    return $this->json([
+                        'success' => false,
+                        'errors' => [t('Email was already subscribed')],
+                    ]);
+                }
+            } else {
+                return $this->json([
+                    'success' => false,
+                    'errors' => $this->parseErrors($form->getErrors()),
+                ]);
+            }
         }
 
-        return $this->renderSubscription($form);
+        return null;
+    }
+
+    /**
+     * @param \Symfony\Component\Form\FormErrorIterator $formErrors
+     */
+    private function parseErrors(FormErrorIterator $formErrors)
+    {
+        $errors = [];
+        foreach ($formErrors as $error) {
+            $errors[] = $error->getMessage();
+        }
+
+        return $errors;
     }
 
     /**
@@ -79,6 +121,7 @@ class NewsletterController extends FrontBaseController
         /** @var \Symfony\Component\Form\Form $form */
         $form = $this->createForm(SubscriptionFormType::class, null, [
             'action' => $this->generateUrl('front_newsletter_send'),
+            'compound' => true,
         ]);
 
         return $form;
