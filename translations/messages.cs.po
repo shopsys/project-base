@@ -175,6 +175,9 @@ msgstr "EAN"
 msgid "Email"
 msgstr "E-mail"
 
+msgid "Email was already subscribed"
+msgstr "Email byl úspěšně přihlášen k odběru novinek"
+
 msgid "Email with a link to the export of your personal data was sent to your email address."
 msgstr "E-mail s odkazem na stránku exportu osobních údajů byl odeslán na vaši e-mailovou adresu."
 
@@ -543,6 +546,9 @@ msgstr "Ulice"
 
 msgid "Subscription to email newsletter"
 msgstr "Přihlášení k zpravodaji"
+
+msgid "Subscription was failed"
+msgstr ""
 
 msgid "Tax number"
 msgstr "DIČ"

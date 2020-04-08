@@ -175,6 +175,9 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
+msgid "Email was already subscribed"
+msgstr ""
+
 msgid "Email with a link to the export of your personal data was sent to your email address."
 msgstr ""
 
@@ -542,6 +545,9 @@ msgid "Street"
 msgstr ""
 
 msgid "Subscription to email newsletter"
+msgstr ""
+
+msgid "Subscription was failed"
 msgstr ""
 
 msgid "Tax number"
