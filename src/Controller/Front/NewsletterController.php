@@ -64,6 +64,10 @@ class NewsletterController extends FrontBaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
+            /*
+             * We submit form by ajax and don't rerender it when an error occurs,
+             * so the submission date for TimedFormTypeValidator is not set correctly and we have to set it here explicit
+             */
             $this->formTimeProvider->generateFormTime($form->getName());
 
             if ($form->isValid()) {
@@ -113,7 +117,6 @@ class NewsletterController extends FrontBaseController
         /** @var \Symfony\Component\Form\Form $form */
         $form = $this->createForm(SubscriptionFormType::class, null, [
             'action' => $this->generateUrl('front_newsletter_send'),
-            'compound' => true,
         ]);
 
         return $form;
