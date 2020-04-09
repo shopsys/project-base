@@ -8,7 +8,6 @@ use App\Form\Front\Newsletter\SubscriptionFormType;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Component\Form\FormTimeProvider;
 use Shopsys\FrameworkBundle\Model\LegalConditions\LegalConditionsFacade;
-use Shopsys\FrameworkBundle\Model\Newsletter\Exception\EmailWasAlreadySubscribedException;
 use Shopsys\FrameworkBundle\Model\Newsletter\NewsletterFacade;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormErrorIterator;
@@ -69,16 +68,8 @@ class NewsletterController extends FrontBaseController
 
             if ($form->isValid()) {
                 $email = $form->getData()['email'];
-
-                try {
-                    $this->newsletterFacade->addSubscribedEmail($email, $this->domain->getId());
-                    return $this->json(['success' => true]);
-                } catch (EmailWasAlreadySubscribedException $exception) {
-                    return $this->json([
-                        'success' => false,
-                        'errors' => [t('Email was already subscribed')],
-                    ]);
-                }
+                $this->newsletterFacade->addSubscribedEmail($email, $this->domain->getId());
+                return $this->json(['success' => true]);
             } else {
                 return $this->json([
                     'success' => false,
@@ -92,8 +83,9 @@ class NewsletterController extends FrontBaseController
 
     /**
      * @param \Symfony\Component\Form\FormErrorIterator $formErrors
+     * @return array
      */
-    private function parseErrors(FormErrorIterator $formErrors)
+    private function parseErrors(FormErrorIterator $formErrors): array
     {
         $errors = [];
         foreach ($formErrors as $error) {
