@@ -23,7 +23,7 @@ class ProductDomainTest extends TransactionFunctionalTestCase
     protected const DEMONSTRATIVE_SHORT_DESCRIPTION = 'Demonstrative short description';
 
     /**
-     * @var \Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface
+     * @var \App\Model\Product\ProductDataFactory
      * @inject
      */
     private $productDataFactory;
@@ -56,6 +56,7 @@ class ProductDomainTest extends TransactionFunctionalTestCase
         $productData->outOfStockAvailability = $this->getReference(AvailabilityDataFixture::AVAILABILITY_OUT_OF_STOCK);
         $this->setVats($productData);
 
+        /** @var \App\Model\Product\Product $product */
         $product = $this->productFactory->create($productData);
 
         $refreshedProduct = $this->getRefreshedProductFromDatabase($product);
@@ -88,6 +89,7 @@ class ProductDomainTest extends TransactionFunctionalTestCase
         $productData->outOfStockAvailability = $this->getReference(AvailabilityDataFixture::AVAILABILITY_OUT_OF_STOCK);
         $this->setVats($productData);
 
+        /** @var \App\Model\Product\Product $product */
         $product = $this->productFactory->create($productData);
 
         $refreshedProduct = $this->getRefreshedProductFromDatabase($product);
