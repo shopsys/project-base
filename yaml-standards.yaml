@@ -5,6 +5,7 @@
         - ./node_modules
         - ./config/domains_urls.yaml
         - ./config/oauth2/parameters_oauth.yaml.dist
+        - ./.github/workflows/docker-build.yaml
     checkers:
         -   pathToChecker: YamlStandards\Model\YamlIndent\YamlIndentChecker
             parameters:
