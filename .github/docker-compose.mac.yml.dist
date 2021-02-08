@@ -1,0 +1,65 @@
+version: "3.4"
+services:
+    postgres:
+        image: postgres:12.1-alpine
+        container_name: shopsys-framework-postgres
+        environment:
+            - PGDATA=/var/lib/postgresql/data/pgdata
+            - POSTGRES_USER=root
+            - POSTGRES_PASSWORD=root
+            - POSTGRES_DB=shopsys
+        command:
+            - postgres
+            - -c
+            - config_file=/var/lib/postgresql/data/postgresql.conf
+
+    webserver:
+        image: nginx:1.13-alpine
+        container_name: shopsys-framework-webserver
+        depends_on:
+            - php-fpm
+        ports:
+            - "8000:8080"
+
+    php-fpm:
+        build:
+            context: .
+            dockerfile: docker/php-fpm/Dockerfile
+            target: development
+            args:
+                www_data_uid: 501
+                www_data_gid: 20
+        container_name: shopsys-framework-php-fpm
+        ports:
+            - "35729:35729"
+
+    redis:
+        image: redis:5.0-alpine
+        container_name: shopsys-framework-redis
+
+    selenium-server:
+        image: selenium/standalone-chrome:3.141.5
+        container_name: shopsys-framework-acceptance-tests
+        ports:
+            - "4400:4444"
+        environment:
+            - HUB_PORT_4444_TCP_ADDR=hub
+            - HUB_PORT_4444_TCP_PORT=4444
+
+    smtp-server:
+        image: namshi/smtp:latest
+        container_name: shopsys-framework-smtp-server
+
+    elasticsearch:
+        build:
+            context: .
+            dockerfile: docker/elasticsearch/Dockerfile
+        container_name: shopsys-framework-elasticsearch
+        ulimits:
+            nofile:
+                soft: 65536
+                hard: 65536
+        ports:
+            - "9200:9200"
+        environment:
+            - discovery.type=single-node
