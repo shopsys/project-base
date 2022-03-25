@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\App\Test\Codeception\Helper;
 
 use Codeception\Module;
-use Doctrine\DBAL\Connection;
+use Shopsys\FrameworkBundle\Component\Doctrine\DatabaseConnectionCredentialsProvider;
 use Tests\App\Test\Codeception\Module\Db;
 
 class DatabaseHelper extends Module
@@ -19,34 +19,27 @@ class DatabaseHelper extends Module
         $dbModule = $this->getModule(Db::class);
         /** @var \Tests\App\Test\Codeception\Helper\SymfonyHelper $symfonyHelper */
         $symfonyHelper = $this->getModule(SymfonyHelper::class);
-        /** @var \Doctrine\DBAL\Connection $connection */
-        $connection = $symfonyHelper->grabServiceFromContainer('doctrine.dbal.default_connection');
+        /** @var \Shopsys\FrameworkBundle\Component\Doctrine\DatabaseConnectionCredentialsProvider $databaseConnectionCredentialsProvider */
+        $databaseConnectionCredentialsProvider = $symfonyHelper->grabServiceFromContainer(DatabaseConnectionCredentialsProvider::class);
 
         $dbModule->_reconfigure([
-            'dsn' => $this->getConnectionDsn($connection),
-            'user' => $connection->getUsername(),
-            'password' => $connection->getPassword(),
+            'dsn' => $this->getConnectionDsn($databaseConnectionCredentialsProvider),
+            'user' => $databaseConnectionCredentialsProvider->getDatabaseUsername(),
+            'password' => $databaseConnectionCredentialsProvider->getDatabasePassword(),
         ]);
     }
 
     /**
-     * @param \Doctrine\DBAL\Connection $connection
+     * @param \Shopsys\FrameworkBundle\Component\Doctrine\DatabaseConnectionCredentialsProvider $databaseConnectionCredentialsProvider
      * @return string
      */
-    private function getConnectionDsn(Connection $connection)
+    private function getConnectionDsn(DatabaseConnectionCredentialsProvider $databaseConnectionCredentialsProvider): string
     {
-        $connectionParams = $connection->getParams();
-
-        $dsnParams = [];
-        if (isset($connectionParams['host'])) {
-            $dsnParams['host'] = $connectionParams['host'];
-        }
-        if (isset($connectionParams['port'])) {
-            $dsnParams['port'] = $connectionParams['port'];
-        }
-        if (isset($connectionParams['dbname'])) {
-            $dsnParams['dbname'] = $connectionParams['dbname'];
-        }
+        $dsnParams = [
+            'host' => $databaseConnectionCredentialsProvider->getDatabaseHost(),
+            'port' => $databaseConnectionCredentialsProvider->getDatabasePort(),
+            'dbname' => $databaseConnectionCredentialsProvider->getDatabaseName(),
+        ];
 
         return 'pgsql:' . http_build_query($dsnParams, '', ';');
     }
