@@ -1,0 +1,26 @@
+--- /dev/null
++++ ../Profiler/FileProfilerStorage.php
+@@ -144,6 +145,23 @@
+             return $profileToken !== $p->getToken() ? $p->getToken() : null;
+         }, $profile->getChildren()));
+ 
++        if (str_ends_with($profile->getUrl(), '/graphql/') && $profile->hasCollector('request')) {
++            $collector = $profile->getCollector('request');
++            if ($collector instanceof \Symfony\Component\HttpKernel\DataCollector\RequestDataCollector) {
++                try {
++                    $content = \GuzzleHttp\json_decode($collector->getContent(), true);
++                    if (is_array($content) && array_key_exists('query', $content) && strpos($content['query'], '{')) {
++                        $queryString = $content['query'];
++                        $re = '/(?<type>query|mutation){(\s*(?<name>[a-zA-Z0-9]+))/m';
++                        $matches = [];
++                        preg_match($re, $queryString, $matches);
++                        $profile->setUrl($profile->getUrl() . ' - ' . $matches['type'] . '{' . $matches['name'] . '}');
++                    }
++                } catch (\GuzzleHttp\Exception\InvalidArgumentException) {
++                }
++            }
++        }
++        
+         // Store profile
+         $data = [
+             'token' => $profileToken,
