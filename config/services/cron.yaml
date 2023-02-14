@@ -60,3 +60,7 @@ services:
     Shopsys\FrameworkBundle\Component\Error\ErrorPageCronModule:
         tags:
             - { name: shopsys.cron, hours: '21', minutes: '10', readableName: 'Generate Error pages' }
+
+    App\Component\CnbExchangeRate\CnbExchangeRateCronModule:
+        tags:
+            - { name: shopsys.cron, hours: '3', minutes: '0', instanceName: import, readableName: 'Import CNB currency exchange rates' }
