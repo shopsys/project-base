@@ -84,7 +84,7 @@ class OrderController extends FrontBaseController
     private $paymentPriceCalculation;
 
     /**
-     * @var \Shopsys\FrameworkBundle\Model\Pricing\Currency\CurrencyFacade
+     * @var \App\Model\Pricing\Currency\CurrencyFacade
      */
     private $currencyFacade;
 
@@ -122,7 +122,7 @@ class OrderController extends FrontBaseController
      * @param \Shopsys\FrameworkBundle\Component\Domain\Domain $domain
      * @param \Shopsys\FrameworkBundle\Model\Transport\TransportFacade $transportFacade
      * @param \Shopsys\FrameworkBundle\Model\Payment\PaymentFacade $paymentFacade
-     * @param \Shopsys\FrameworkBundle\Model\Pricing\Currency\CurrencyFacade $currencyFacade
+     * @param \App\Model\Pricing\Currency\CurrencyFacade $currencyFacade
      * @param \App\Model\Order\OrderDataMapper $orderDataMapper
      * @param \App\Form\Front\Order\DomainAwareOrderFlowFactory $domainAwareOrderFlowFactory
      * @param \Symfony\Component\HttpFoundation\Session\SessionInterface $session

@@ -17,7 +17,7 @@ class CurrencyDataFixture extends AbstractReferenceFixture
     private const CZK_EXCHANGE_RATE_TO_EUR = '0.04';
 
     /**
-     * @var \Shopsys\FrameworkBundle\Model\Pricing\Currency\CurrencyFacade
+     * @var \App\Model\Pricing\Currency\CurrencyFacade
      */
     private $currencyFacade;
 
@@ -27,7 +27,7 @@ class CurrencyDataFixture extends AbstractReferenceFixture
     private $currencyDataFactory;
 
     /**
-     * @param \Shopsys\FrameworkBundle\Model\Pricing\Currency\CurrencyFacade $currencyFacade
+     * @param \App\Model\Pricing\Currency\CurrencyFacade $currencyFacade
      * @param \Shopsys\FrameworkBundle\Model\Pricing\Currency\CurrencyDataFactoryInterface $currencyDataFactory
      */
     public function __construct(
