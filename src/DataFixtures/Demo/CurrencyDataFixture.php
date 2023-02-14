@@ -14,7 +14,7 @@ class CurrencyDataFixture extends AbstractReferenceFixture
 {
     public const CURRENCY_CZK = 'currency_czk';
     public const CURRENCY_EUR = 'currency_eur';
-    private const CZK_EXCHANGE_RATE_TO_EUR = '0.04';
+    public const EUR_EXCHANGE_RATE_TO_CZK = '25';
 
     /**
      * @var \App\Model\Pricing\Currency\CurrencyFacade
@@ -52,13 +52,14 @@ class CurrencyDataFixture extends AbstractReferenceFixture
         $currencyData = $this->currencyDataFactory->createFromCurrency($currencyCzk);
         $currencyData->minFractionDigits = Currency::DEFAULT_MIN_FRACTION_DIGITS;
         $currencyData->roundingType = Currency::ROUNDING_TYPE_INTEGER;
-        $currencyData->exchangeRate = self::CZK_EXCHANGE_RATE_TO_EUR;
+        $currencyData->exchangeRate = Currency::DEFAULT_EXCHANGE_RATE;
         $currencyCzk = $this->currencyFacade->edit($currencyCzk->getId(), $currencyData);
         $this->addReference(self::CURRENCY_CZK, $currencyCzk);
 
         $currencyEur = $this->currencyFacade->getById(2);
         $currencyData = $this->currencyDataFactory->createFromCurrency($currencyEur);
-        $currencyData->exchangeRate = Currency::DEFAULT_EXCHANGE_RATE;
+        $currencyData->roundingType = Currency::ROUNDING_TYPE_HUNDREDTHS;
+        $currencyData->exchangeRate = self::EUR_EXCHANGE_RATE_TO_CZK;
         $currencyEur = $this->currencyFacade->edit($currencyEur->getId(), $currencyData);
         $this->addReference(self::CURRENCY_EUR, $currencyEur);
     }

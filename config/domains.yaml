@@ -1,10 +1,10 @@
 domains:
     -   id: 1
         name: shopsys
-        locale: en
+        locale: cs
         styles_directory: common
 
     -   id: 2
         name: 2.shopsys
-        locale: cs
+        locale: en
         styles_directory: domain2
