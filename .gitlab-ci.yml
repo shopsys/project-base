@@ -22,6 +22,9 @@ variables:
 before_script:
     - echo ${CI_REGISTRY_PASSWORD} | docker login -u ${CI_REGISTRY_USER} ${CI_REGISTRY} --password-stdin
 
+# Can be removed if mirroring is not needed
+include: gitlab/mirror-repository/gitlab-stage.yml
+
 build:
     stage: build
     <<: *only-default
