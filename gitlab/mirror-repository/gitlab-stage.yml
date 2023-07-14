@@ -1,8 +1,8 @@
 mirror-project-from-github:
     stage: service
-    only:
-        - web
-        - triggers
+    rules:
+        -   if: '$MIRROR_ONLY == "true"'
+            when: always
     needs: []
     script:
         - apk add git openssh-client
