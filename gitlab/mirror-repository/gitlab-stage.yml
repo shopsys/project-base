@@ -10,4 +10,4 @@ mirror-project-from-github:
         - mkdir -p ~/.ssh
         - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
         - echo "$SSHKEY_MIRROR_PROJECT_BASE" | ssh-add -
-        - sh ./gitlab/mirror-repository/mirror.sh "shopsys-project-base" "git@github.com:shopsys/project-base.git" "13.0" "git@gitlab.shopsys.cz:ss6-projects/project-base.git" "devel"
+        - sh ./gitlab/mirror-repository/mirror.sh "shopsys-project-base" "git@github.com:shopsys/project-base.git" "$MIRROR_SOURCE_BRANCH" "git@gitlab.shopsys.cz:ss6-projects/project-base.git" "$MIRROR_TARGET_BRANCH"
