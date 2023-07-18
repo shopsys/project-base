@@ -3,7 +3,7 @@ name: "Docker build"
 jobs:
     build-whole-application:
         name: Build application and run standards checks and tests
-        runs-on: 'ubuntu-20.04'
+        runs-on: 'ubuntu-22.04'
         steps:
             -   name: GIT checkout branch - ${{ github.ref }}
                 uses: actions/checkout@v3
@@ -11,10 +11,10 @@ jobs:
                     ref: ${{ github.ref }}
             -   name: Configure application
                 run: echo 1 | ./scripts/configure.sh
+            -   name: Check containers
+                run: docker-compose ps -a && docker-compose logs storefront
             -   name: Install composer dependencies
                 run: docker-compose exec -T php-fpm composer install
-            -   name: Ensure Symfony 4 version
-                run: docker-compose exec -T php-fpm composer update
             -   name: Build application
                 run: docker-compose exec -T php-fpm php phing db-create test-db-create frontend-api-generate-new-keys build-demo-dev-quick error-pages-generate
             -   name: Check standards
