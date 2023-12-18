@@ -41,9 +41,6 @@ services:
             - web-volume:/var/www/html/web
         ports:
             - "35729:35729"
-        environment:
-            MESSENGER_TRANSPORT_DSN: 'amqp://guest:guest@rabbitmq:5672/%2f/messages'
-            MESSENGER_TRANSPORT_VHOST: ${COMPOSE_PROJECT_NAME}
 
     redis:
         image: redis:5.0-alpine
