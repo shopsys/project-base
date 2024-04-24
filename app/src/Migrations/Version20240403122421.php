@@ -5,17 +5,20 @@ declare(strict_types=1);
 namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
+use Shopsys\FrameworkBundle\Migrations\MultidomainMigrationTrait;
 use Shopsys\MigrationBundle\Component\Doctrine\Migrations\AbstractMigration;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
-class Version20200203123245 extends AbstractMigration
+class Version20240403122421 extends AbstractMigration implements ContainerAwareInterface
 {
+    use MultidomainMigrationTrait;
+
     /**
      * @param \Doctrine\DBAL\Schema\Schema $schema
      */
     public function up(Schema $schema): void
     {
-        $this->sql('ALTER TABLE promo_codes ADD datetime_valid_from TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
-        $this->sql('ALTER TABLE promo_codes ADD datetime_valid_to TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
+        $this->sql('ALTER TABLE order_items DROP promo_code_identifier');
     }
 
     /**
