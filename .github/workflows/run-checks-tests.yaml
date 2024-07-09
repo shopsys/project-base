@@ -24,7 +24,7 @@ jobs:
             -   name: Check standards
                 run: docker-compose exec -T php-fpm php phing standards
             -   name: Run PHPStan level 5
-                run: php ./app/vendor/bin/phpstan analyze -c ./app/phpstan.neon ./app/src --level=5
+                run: docker-compose exec -T php-fpm php ./vendor/bin/phpstan analyze -c ./phpstan.neon ./src --level=5
             -   name: Run tests
                 run: docker-compose exec -T php-fpm php phing tests
             -   name: Run acceptance tests
@@ -121,7 +121,7 @@ jobs:
             -   name: Check standards
                 run: docker-compose exec -T php-fpm php phing standards
             -   name: Run PHPStan level 5
-                run: php ./app/vendor/bin/phpstan analyze -c ./app/phpstan.neon ./app/src --level=5
+                run: docker-compose exec -T php-fpm php ./vendor/bin/phpstan analyze -c ./phpstan.neon ./src --level=5
             -   name: Run tests
                 run: docker-compose exec -T php-fpm php phing tests
             -   name: Run acceptance tests
