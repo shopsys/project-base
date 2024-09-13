@@ -7133,6 +7133,15 @@ Identifiers of GoPay payment method
 </thead>
 <tbody>
 <tr>
+<td colspan="2" valign="top"><strong>complaints</strong></td>
+<td valign="top">[<a href="#complaint">Complaint</a>!]!</td>
+<td>
+
+Customer complaints
+
+</td>
+</tr>
+<tr>
 <td colspan="2" valign="top"><strong>customerUser</strong></td>
 <td valign="top"><a href="#customeruser">CustomerUser</a></td>
 <td>

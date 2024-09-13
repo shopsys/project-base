@@ -1660,6 +1660,8 @@ type PaymentSetupCreationData {
 }
 
 type PersonalData {
+  "Customer complaints"
+  complaints: [Complaint!]!
   "Customer user data"
   customerUser: CustomerUser
   "A link for downloading the personal data in an XML file"
