@@ -1007,6 +1007,7 @@ type MainVariant implements Product & Hreflang & Breadcrumb & Slug {
   id: Int!
   "Product images"
   images(type: String = null): [Image!]!
+  isInquiryType: Boolean!
   isMainVariant: Boolean!
   isSellingDenied: Boolean!
   isVisible: Boolean!
@@ -1026,6 +1027,7 @@ type MainVariant implements Product & Hreflang & Breadcrumb & Slug {
   partNumber: String
   "Product price"
   price: ProductPrice!
+  productType: ProductTypeEnum!
   productVideos: [VideoToken!]!
   "List of related products"
   relatedProducts: [Product!]!
@@ -1717,6 +1719,7 @@ interface Product {
   id: Int!
   "Product images"
   images(type: String = null): [Image!]!
+  isInquiryType: Boolean!
   isMainVariant: Boolean!
   isSellingDenied: Boolean!
   isVisible: Boolean!
@@ -1736,6 +1739,7 @@ interface Product {
   partNumber: String
   "Product price"
   price: ProductPrice!
+  productType: ProductTypeEnum!
   productVideos: [VideoToken!]!
   "List of related products"
   relatedProducts: [Product!]!
@@ -1875,6 +1879,14 @@ type ProductPrice {
   priceWithVat: Money!
   "Total value of VAT"
   vatAmount: Money!
+}
+
+"One of possible product types"
+enum ProductTypeEnum {
+  "Basic product"
+  BASIC
+  "Product with inquiry form instead of add to cart button"
+  INQUIRY
 }
 
 type Query {
@@ -2168,6 +2180,7 @@ type RegularProduct implements Product & Hreflang & Breadcrumb & Slug {
   id: Int!
   "Product images"
   images(type: String = null): [Image!]!
+  isInquiryType: Boolean!
   isMainVariant: Boolean!
   isSellingDenied: Boolean!
   isVisible: Boolean!
@@ -2187,6 +2200,7 @@ type RegularProduct implements Product & Hreflang & Breadcrumb & Slug {
   partNumber: String
   "Product price"
   price: ProductPrice!
+  productType: ProductTypeEnum!
   productVideos: [VideoToken!]!
   "List of related products"
   relatedProducts: [Product!]!
@@ -2497,6 +2511,7 @@ type Variant implements Product & Hreflang & Breadcrumb & Slug {
   id: Int!
   "Product images"
   images(type: String = null): [Image!]!
+  isInquiryType: Boolean!
   isMainVariant: Boolean!
   isSellingDenied: Boolean!
   isVisible: Boolean!
@@ -2517,6 +2532,7 @@ type Variant implements Product & Hreflang & Breadcrumb & Slug {
   partNumber: String
   "Product price"
   price: ProductPrice!
+  productType: ProductTypeEnum!
   productVideos: [VideoToken!]!
   "List of related products"
   relatedProducts: [Product!]!
