@@ -92,6 +92,19 @@ module.exports = {
             actionInvertedBorderDisabled: '#A3ACBD',
             actionInvertedBorderHovered: '#7892BC',
 
+            actionTransparentText: '#FFFFFF',
+            actionTransparentTextActive: '#FFFFFF',
+            actionTransparentTextDisabled: '#FFFFFF66',
+            actionTransparentTextHovered: '#FFFFFF',
+            actionTransparentBackground: 'transparent',
+            actionTransparentBackgroundActive: '#FFFFFF33',
+            actionTransparentBackgroundDisabled: 'transparent',
+            actionTransparentBackgroundHovered: '#FFFFFF66',
+            actionTransparentBorder: '#FFFFFF',
+            actionTransparentBorderActive: '#FFFFFF',
+            actionTransparentBorderDisabled: '#FFFFFF66',
+            actionTransparentBorderHovered: '#FFFFFF',
+
             activeIconFull: '#EC5353',
 
             availabilityInStock: '#00CDBE',
