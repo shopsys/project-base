@@ -113,22 +113,24 @@ export const ProductListItem = forwardRef<HTMLLIElement, ProductItemProps>(
                         {product.fullName}
                     </div>
 
-                    {visibleItemsConfig.price && !(product.isMainVariant && product.isSellingDenied) && (
-                        <ProductPrice
-                            isPriceFromVisible={visibleItemsConfig.priceFromWord}
-                            productPrice={product.price}
-                        />
-                    )}
+                    <div className="min-h-6 sm:min-h-7">
+                        {visibleItemsConfig.price && !(product.isMainVariant && product.isSellingDenied) && (
+                            <ProductPrice
+                                isPriceFromVisible={visibleItemsConfig.priceFromWord}
+                                productPrice={product.price}
+                            />
+                        )}
+                    </div>
 
-                    {visibleItemsConfig.storeAvailability && (
-                        <div className="min-h-10">
+                    <div className="min-h-10 xs:min-h-[60px] sm:min-h-10">
+                        {visibleItemsConfig.storeAvailability && !product.isInquiryType && (
                             <ProductAvailableStoresCount
                                 availableStoresCount={product.availableStoresCount}
                                 isMainVariant={product.isMainVariant}
                                 name={product.availability.name}
                             />
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </ExtendedNextLink>
 
                 <div className="flex w-full items-center justify-between gap-1 sm:justify-normal sm:gap-2.5">
