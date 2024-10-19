@@ -52,7 +52,10 @@ class TransportDataFixture extends AbstractReferenceFixture implements Dependent
         $transportData->daysUntilDelivery = 5;
         $transportData->trackingUrl = 'https://www.postaonline.cz/trackandtrace/-/zasilka/cislo?parcelNumbers={tracking_number}';
 
-        foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataLocales() as $locale) {
+        foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataDomains() as $domainConfig) {
+            $locale = $domainConfig->getLocale();
+
+            $transportData->enabled[$domainConfig->getId()] = true;
             $transportData->name[$locale] = t('Czech post', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
             $transportData->trackingInstructions[$locale] = t('To track your package, click on this link: <a href="{tracking_url}">{tracking_number}</a>.', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
             $transportData->description[$locale] = t('Czech state post service.', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
@@ -66,7 +69,10 @@ class TransportDataFixture extends AbstractReferenceFixture implements Dependent
         $transportData->daysUntilDelivery = 4;
         $transportData->trackingUrl = 'https://www.ppl.cz/vyhledat-zasilku?shipmentId={tracking_number}';
 
-        foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataLocales() as $locale) {
+        foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataDomains() as $domainConfig) {
+            $locale = $domainConfig->getLocale();
+
+            $transportData->enabled[$domainConfig->getId()] = true;
             $transportData->name[$locale] = t('PPL', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
             $transportData->trackingInstructions[$locale] = t('To track your package, click on this link: <a href="{tracking_url}">{tracking_url}</a>.', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
         }
@@ -77,7 +83,10 @@ class TransportDataFixture extends AbstractReferenceFixture implements Dependent
         $transportData = $this->transportDataFactory->create();
         $transportData->daysUntilDelivery = 0;
 
-        foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataLocales() as $locale) {
+        foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataDomains() as $domainConfig) {
+            $locale = $domainConfig->getLocale();
+
+            $transportData->enabled[$domainConfig->getId()] = true;
             $transportData->name[$locale] = t('Personal collection', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
             $transportData->description[$locale] = t(
                 'You will be welcomed by friendly staff!',
@@ -101,7 +110,10 @@ class TransportDataFixture extends AbstractReferenceFixture implements Dependent
         $transportData = $this->transportDataFactory->create();
         $transportData->daysUntilDelivery = 0;
 
-        foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataLocales() as $locale) {
+        foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataDomains() as $domainConfig) {
+            $locale = $domainConfig->getLocale();
+
+            $transportData->enabled[$domainConfig->getId()] = true;
             $transportData->name[$locale] = t('Drone delivery', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
             $transportData->description[$locale] = t('Suitable for all kinds of goods', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
             $transportData->instructions[$locale] = t('Expect delivery by the end of next month', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
@@ -113,7 +125,10 @@ class TransportDataFixture extends AbstractReferenceFixture implements Dependent
         $transportData = $this->transportDataFactory->create();
         $transportData->daysUntilDelivery = 2;
 
-        foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataLocales() as $locale) {
+        foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataDomains() as $domainConfig) {
+            $locale = $domainConfig->getLocale();
+
+            $transportData->enabled[$domainConfig->getId()] = true;
             $transportData->name[$locale] = t('Packeta', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
             $transportData->description[$locale] = t('Packeta delivery company', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
             $transportData->instructions[$locale] = t('Probably best value for your money', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
