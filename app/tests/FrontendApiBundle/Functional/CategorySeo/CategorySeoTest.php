@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\FrontendApiBundle\Functional\Category\ReadyCategorySeoMix;
+namespace Tests\FrontendApiBundle\Functional\CategorySeo;
 
 use App\DataFixtures\Demo\CategoryDataFixture;
 use App\DataFixtures\Demo\FlagDataFixture;
@@ -18,7 +18,7 @@ use Shopsys\FrameworkBundle\Model\Product\Parameter\Parameter;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Tests\FrontendApiBundle\Test\GraphQlTestCase;
 
-class ReadyCategorySeoMixTest extends GraphQlTestCase
+class CategorySeoTest extends GraphQlTestCase
 {
     /**
      * @inject
@@ -30,36 +30,9 @@ class ReadyCategorySeoMixTest extends GraphQlTestCase
      */
     private ParameterFacade $parameterFacade;
 
-    public function testGetReadyCategorySeoMixDataBySlug(): void
+    public function testGetReadyCategorySeoMixData(): void
     {
         $readyCategorySeoMix = $this->getReferenceForDomain(ReadyCategorySeoDataFixture::READY_CATEGORY_SEO_ELECTRONICS_WITHOUT_HDMI_PROMOTION, 1, ReadyCategorySeoMix::class);
-        $query = '
-            query slug {
-                slug(slug: "elektro-bez-hdmi-akce") {
-                    ... on Category {
-                        name
-                        slug
-                        seoH1
-                        seoTitle
-                        seoMetaDescription
-                        bestsellers {
-                            name
-                        }
-                        breadcrumb {
-                            name
-                            slug
-                        }
-                        readyCategorySeoMixLinks {
-                            name
-                            slug
-                        }
-                        linkedCategories {
-                            name
-                        }
-                    }
-                }
-            }
-        ';
 
         $readyCategorySeoMixLinks = [
             [
@@ -91,150 +64,106 @@ class ReadyCategorySeoMixTest extends GraphQlTestCase
         ArraySorter::sortArrayAlphabeticallyByValue('name', $readyCategorySeoMixLinks, $this->getLocaleForFirstDomain());
 
         $arrayExpected = [
-            'data' => [
-                'slug' => [
+            'name' => t('Electronics', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain()),
+            'slug' => '/elektro-bez-hdmi-akce',
+            'seoH1' => t('Electronics without HDMI in sale', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain()),
+            'seoTitle' => t('Electronics without HDMI in sale', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain()),
+            'seoMetaDescription' => t('All kind of electronic devices.', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain()),
+            'bestsellers' => [
+                ['name' => t('47" LG 47LA790V (FHD)', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain())],
+                ['name' => t('32" Philips 32PFL4308', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain())],
+                ['name' => t('22" Sencor SLE 22F46DM4 HELLO KITTY', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain())],
+                ['name' => t('A4tech mouse X-710BK, OSCAR Game, 2000DPI, black,', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain())],
+            ],
+            'breadcrumb' => [
+                [
                     'name' => t('Electronics', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain()),
-                    'slug' => '/elektro-bez-hdmi-akce',
-                    'seoH1' => t('Electronics without HDMI in sale', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain()),
-                    'seoTitle' => t('Electronics without HDMI in sale', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain()),
-                    'seoMetaDescription' => t('All kind of electronic devices.', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain()),
-                    'bestsellers' => [
-                        ['name' => t('47" LG 47LA790V (FHD)', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain())],
-                        ['name' => t('32" Philips 32PFL4308', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain())],
-                        ['name' => t('22" Sencor SLE 22F46DM4 HELLO KITTY', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain())],
-                        ['name' => t('A4tech mouse X-710BK, OSCAR Game, 2000DPI, black,', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain())],
-                    ],
-                    'breadcrumb' => [
-                        [
-                            'name' => t('Electronics', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain()),
-                            'slug' => $this->urlGenerator->generate('front_product_list', ['id' => $readyCategorySeoMix->getCategory()->getId()]),
-                        ],
-                    ],
-                    'readyCategorySeoMixLinks' => $readyCategorySeoMixLinks,
-                    'linkedCategories' => [
-                        ['name' => t('Food', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain())],
-                        ['name' => t('Garden tools', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain())],
-                    ],
+                    'slug' => $this->urlGenerator->generate('front_product_list', ['id' => $readyCategorySeoMix->getCategory()->getId()]),
                 ],
+            ],
+            'readyCategorySeoMixLinks' => $readyCategorySeoMixLinks,
+            'linkedCategories' => [
+                ['name' => t('Food', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain())],
+                ['name' => t('Garden tools', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain())],
             ],
         ];
 
-        $this->assertQueryWithExpectedArray($query, $arrayExpected);
+        $response = $this->getResponseContentForGql(__DIR__ . '/graphql/CategorySeoWithLinks.graphql', [
+            'urlSlug' => '/elektro-bez-hdmi-akce',
+        ]);
+        $data = $this->getResponseDataForGraphQlType($response, 'category');
+
+        $this->assertSame($arrayExpected, $data);
     }
 
     public function testReadyCategorySeoMixProductsOrdering(): void
     {
         $readyCategorySeoMix = $this->getReferenceForDomain(ReadyCategorySeoDataFixture::READY_CATEGORY_SEO_TV_FROM_CHEAPEST, 1, ReadyCategorySeoMix::class);
         $urlSlug = $this->urlGenerator->generate('front_category_seo', ['id' => $readyCategorySeoMix->getId()]);
-        $query = '
-            query slug {
-                slug(slug: "' . $urlSlug . '") {
-                    ... on Category {
-                        products(first:1) {
-                            orderingMode
-                            defaultOrderingMode
-                            edges {
-                                node {
-                                  name
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        ';
+
+        $response = $this->getResponseContentForGql(__DIR__ . '/graphql/CategorySeo.graphql', [
+            'urlSlug' => $urlSlug,
+            'first' => 1,
+        ]);
+        $data = $this->getResponseDataForGraphQlType($response, 'category');
 
         $arrayExpected = [
-            'data' => [
-                'slug' => [
-                    'products' => [
-                        'orderingMode' => 'PRICE_ASC',
-                        'defaultOrderingMode' => 'PRICE_ASC',
-                        'edges' => [
-                            ['node' => ['name' => t('Defender 2.0 SPK-480', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain())]],
-                        ],
-                    ],
-                ],
+            'orderingMode' => 'PRICE_ASC',
+            'defaultOrderingMode' => 'PRICE_ASC',
+            'edges' => [
+                ['node' => ['name' => t('Defender 2.0 SPK-480', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain())]],
             ],
         ];
 
-        $this->assertQueryWithExpectedArray($query, $arrayExpected);
+        $this->assertSame($arrayExpected, $data['products']);
     }
 
     public function testReadyCategorySeoMixProductsWithFlag(): void
     {
         $readyCategorySeoMix = $this->getReferenceForDomain(ReadyCategorySeoDataFixture::READY_CATEGORY_SEO_TV_IN_SALE, 1, ReadyCategorySeoMix::class);
         $urlSlug = $this->urlGenerator->generate('front_category_seo', ['id' => $readyCategorySeoMix->getId()]);
-        $query = $this->getSlugQueryForCategoryWithProductNames($urlSlug);
+
+        $response = $this->getResponseContentForGql(__DIR__ . '/graphql/CategorySeo.graphql', [
+            'urlSlug' => $urlSlug,
+        ]);
+        $data = $this->getResponseDataForGraphQlType($response, 'category');
 
         $arrayExpected = [
-            'data' => [
-                'slug' => [
-                    'products' => [
-                        'orderingMode' => 'PRIORITY',
-                        'defaultOrderingMode' => 'PRIORITY',
-                        'edges' => [
-                            ['node' => ['name' => t('Philips 32PFL4308', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain())]],
-                        ],
-                    ],
-                ],
+            'orderingMode' => 'PRIORITY',
+            'defaultOrderingMode' => 'PRIORITY',
+            'edges' => [
+                ['node' => ['name' => t('Philips 32PFL4308', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain())]],
             ],
         ];
 
-        $this->assertQueryWithExpectedArray($query, $arrayExpected);
+        $this->assertSame($arrayExpected, $data['products']);
     }
 
     public function testReadyCategorySeoMixProductsWithParameters(): void
     {
         $readyCategorySeoMix = $this->getReferenceForDomain(ReadyCategorySeoDataFixture::READY_CATEGORY_SEO_TV_PLASMA_WITH_HDMI, 1, ReadyCategorySeoMix::class);
         $urlSlug = $this->urlGenerator->generate('front_category_seo', ['id' => $readyCategorySeoMix->getId()]);
-        $query = $this->getSlugQueryForCategoryWithProductNames($urlSlug);
+
+        $response = $this->getResponseContentForGql(__DIR__ . '/graphql/CategorySeo.graphql', [
+            'urlSlug' => $urlSlug,
+        ]);
+        $data = $this->getResponseDataForGraphQlType($response, 'category');
+
 
         $arrayExpected = [
-            'data' => [
-                'slug' => [
-                    'products' => [
-                        'orderingMode' => 'PRIORITY',
-                        'defaultOrderingMode' => 'PRIORITY',
-                        'edges' => [
-                            ['node' => ['name' => t('32" Hyundai 32PFL4400', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain())]],
-                        ],
-                    ],
-                ],
+            'orderingMode' => 'PRIORITY',
+            'defaultOrderingMode' => 'PRIORITY',
+            'edges' => [
+                ['node' => ['name' => t('32" Hyundai 32PFL4400', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain())]],
             ],
         ];
 
-        $this->assertQueryWithExpectedArray($query, $arrayExpected);
-    }
-
-    /**
-     * @param string $urlSlug
-     * @return string
-     */
-    private function getSlugQueryForCategoryWithProductNames(string $urlSlug): string
-    {
-        return '
-            query slug {
-                slug(slug: "' . $urlSlug . '") {
-                    ... on Category {
-                        products {
-                            orderingMode
-                            defaultOrderingMode
-                            edges {
-                                node {
-                                  name
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        ';
+        $this->assertSame($arrayExpected, $data['products']);
     }
 
     public function testReadyCategorySeoMixReturnsSelectedFilterOptions(): void
     {
-        $data = $this->getDataForCategorySeoMixPcNewWithUsb(__DIR__ . '/../../_graphql/query/ReadyCategorySeoMixQuery.graphql');
+        $data = $this->getDataForCategorySeoMixPcNewWithUsb();
 
         $this->assertSelectedFlags($data['products']['productFilterOptions']['flags']);
         $this->assertSelectedParameterCheckboxFilterOptions($data['products']['productFilterOptions']['parameters']);
@@ -242,7 +171,7 @@ class ReadyCategorySeoMixTest extends GraphQlTestCase
 
     public function testReadyCategorySeoMixDataAreReturnedWhenMatchedFromCategory(): void
     {
-        $dataForCategorySeoMix = $this->getDataForCategorySeoMixPcNewWithUsb(__DIR__ . '/../../_graphql/query/SlugQueryCategoryMatchingSeoMix.graphql');
+        $dataForCategorySeoMix = $this->getDataForCategorySeoMixPcNewWithUsb();
         $dataForCategory = $this->getDataForCategoryWithFiltersMatchingSeoMix();
 
         $this->assertSame($dataForCategorySeoMix, $dataForCategory);
@@ -252,11 +181,11 @@ class ReadyCategorySeoMixTest extends GraphQlTestCase
     {
         $readyCategorySeoPcNewWithUsb = $this->getReferenceForDomain(ReadyCategorySeoDataFixture::READY_CATEGORY_SEO_PC_NEW_WITH_USB, 1, ReadyCategorySeoMix::class);
         $seoMixUrlSlug = $this->urlGenerator->generate('front_category_seo', ['id' => $readyCategorySeoPcNewWithUsb->getId()]);
+
         $categoryPc = $this->getReference(CategoryDataFixture::CATEGORY_PC, Category::class);
         $categoryPcSlug = $this->urlGenerator->generate('front_product_list', ['id' => $categoryPc->getId()]);
-        $data = $this->getDataForCategorySeoMixPcNewWithUsb(__DIR__ . '/../../_graphql/query/ReadyCategorySeoMixQuery.graphql', [
-            'orderingMode' => null,
-        ]);
+
+        $data = $this->getDataForCategorySeoMixPcNewWithUsb(['orderingMode' => null]);
 
         $this->assertSame($categoryPcSlug, $data['originalCategorySlug']);
         $this->assertSame($seoMixUrlSlug, $data['slug']);
@@ -266,11 +195,11 @@ class ReadyCategorySeoMixTest extends GraphQlTestCase
     {
         $readyCategorySeoPcNewWithUsb = $this->getReferenceForDomain(ReadyCategorySeoDataFixture::READY_CATEGORY_SEO_PC_NEW_WITH_USB, 1, ReadyCategorySeoMix::class);
         $seoMixUrlSlug = $this->urlGenerator->generate('front_category_seo', ['id' => $readyCategorySeoPcNewWithUsb->getId()]);
+
         $categoryPc = $this->getReference(CategoryDataFixture::CATEGORY_PC, Category::class);
         $categoryPcSlug = $this->urlGenerator->generate('front_product_list', ['id' => $categoryPc->getId()]);
-        $data = $this->getDataForCategorySeoMixPcNewWithUsb(__DIR__ . '/../../_graphql/query/ReadyCategorySeoMixQuery.graphql', [
-            'orderingMode' => strtoupper($readyCategorySeoPcNewWithUsb->getOrdering()),
-        ]);
+
+        $data = $this->getDataForCategorySeoMixPcNewWithUsb(['orderingMode' => strtoupper($readyCategorySeoPcNewWithUsb->getOrdering())]);
 
         $this->assertSame($categoryPcSlug, $data['originalCategorySlug']);
         $this->assertSame($seoMixUrlSlug, $data['slug']);
@@ -280,9 +209,8 @@ class ReadyCategorySeoMixTest extends GraphQlTestCase
     {
         $categoryPc = $this->getReference(CategoryDataFixture::CATEGORY_PC, Category::class);
         $categoryPcSlug = $this->urlGenerator->generate('front_product_list', ['id' => $categoryPc->getId()]);
-        $data = $this->getDataForCategorySeoMixPcNewWithUsb(__DIR__ . '/../../_graphql/query/ReadyCategorySeoMixQuery.graphql', [
-            'orderingMode' => 'NAME_ASC',
-        ]);
+
+        $data = $this->getDataForCategorySeoMixPcNewWithUsb(['orderingMode' => 'NAME_ASC']);
 
         $this->assertNull($data['originalCategorySlug']);
         $this->assertSame($categoryPcSlug, $data['slug']);
@@ -293,7 +221,7 @@ class ReadyCategorySeoMixTest extends GraphQlTestCase
         $flagSale = $this->getReference(FlagDataFixture::FLAG_PRODUCT_SALE, Flag::class);
         $categoryPc = $this->getReference(CategoryDataFixture::CATEGORY_PC, Category::class);
         $categoryPcSlug = $this->urlGenerator->generate('front_product_list', ['id' => $categoryPc->getId()]);
-        $data = $this->getDataForCategorySeoMixPcNewWithUsb(__DIR__ . '/../../_graphql/query/ReadyCategorySeoMixQuery.graphql', [
+        $data = $this->getDataForCategorySeoMixPcNewWithUsb([
             'filter' => ['flags' => [$flagSale->getUuid()]],
         ]);
 
@@ -344,20 +272,20 @@ class ReadyCategorySeoMixTest extends GraphQlTestCase
     }
 
     /**
-     * @param string $graphQlFilePath
      * @param array $additionalVariables
      * @return array
      */
     private function getDataForCategorySeoMixPcNewWithUsb(
-        string $graphQlFilePath,
         array $additionalVariables = [],
     ): array {
         $readyCategorySeoPcNewWithUsb = $this->getReferenceForDomain(ReadyCategorySeoDataFixture::READY_CATEGORY_SEO_PC_NEW_WITH_USB, 1, ReadyCategorySeoMix::class);
         $seoMixUrlSlug = $this->urlGenerator->generate('front_category_seo', ['id' => $readyCategorySeoPcNewWithUsb->getId()]);
-        $variables = array_merge($additionalVariables, ['slug' => $seoMixUrlSlug]);
-        $responseForSeoMix = $this->getResponseContentForGql($graphQlFilePath, $variables);
 
-        return $this->getResponseDataForGraphQlType($responseForSeoMix, 'slug');
+        $variables = [...$additionalVariables, 'urlSlug' => $seoMixUrlSlug];
+
+        $responseForSeoMix = $this->getResponseContentForGql(__DIR__ . '/graphql/CategorySeoWithFilters.graphql', $variables);
+
+        return $this->getResponseDataForGraphQlType($responseForSeoMix, 'category');
     }
 
     /**
@@ -366,6 +294,7 @@ class ReadyCategorySeoMixTest extends GraphQlTestCase
     private function getDataForCategoryWithFiltersMatchingSeoMix(): array
     {
         $firstDomainLocale = $this->getFirstDomainLocale();
+
         $categoryPc = $this->getReference(CategoryDataFixture::CATEGORY_PC, Category::class);
         $flagNew = $this->getReference(FlagDataFixture::FLAG_PRODUCT_NEW, Flag::class);
         $parameterUsb = $this->getReference(ParameterDataFixture::PARAM_USB, Parameter::class);
@@ -374,8 +303,9 @@ class ReadyCategorySeoMixTest extends GraphQlTestCase
             t('Yes', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $firstDomainLocale),
             $firstDomainLocale,
         );
-        $responseForCategory = $this->getResponseContentForGql(__DIR__ . '/../../_graphql/query/SlugQueryCategoryMatchingSeoMix.graphql', [
-            'slug' => $categorySlug,
+
+        $responseForCategory = $this->getResponseContentForGql(__DIR__ . '/graphql/CategorySeoWithFilters.graphql', [
+            'urlSlug' => $categorySlug,
             'orderingMode' => 'PRICE_DESC',
             'filter' => [
                 'flags' => [$flagNew->getUuid()],
@@ -390,17 +320,16 @@ class ReadyCategorySeoMixTest extends GraphQlTestCase
             ],
         ]);
 
-        return $this->getResponseDataForGraphQlType($responseForCategory, 'slug');
+        return $this->getResponseDataForGraphQlType($responseForCategory, 'category');
     }
 
     public function testCategoryFilterIsCorrectlySetAsSelected(): void
     {
         $blackElectronicsSeoCategory = $this->getReferenceForDomain(ReadyCategorySeoDataFixture::READY_CATEGORY_SEO_BLACK_ELECTRONICS, 1, ReadyCategorySeoMix::class);
         $seoMixUrlSlug = $this->urlGenerator->generate('front_category_seo', ['id' => $blackElectronicsSeoCategory->getId()]);
-        $variables = array_merge(['slug' => $seoMixUrlSlug]);
-        $responseForSeoMix = $this->getResponseContentForGql(__DIR__ . '/../../_graphql/query/ReadyCategorySeoMixQuery.graphql', $variables);
+        $responseForSeoMix = $this->getResponseContentForGql(__DIR__ . '/graphql/CategorySeoWithFilters.graphql', ['urlSlug' => $seoMixUrlSlug]);
 
-        $data = $this->getResponseDataForGraphQlType($responseForSeoMix, 'slug');
+        $data = $this->getResponseDataForGraphQlType($responseForSeoMix, 'category');
 
         $colorFilter = array_filter(
             $data['products']['productFilterOptions']['parameters'],
