@@ -30,8 +30,8 @@ class CompanyComplaintDataFixture extends AbstractReferenceFixture implements De
      */
     public function load(ObjectManager $manager): void
     {
-        $customerUserNovotny = $this->getReferenceForDomain(CompanyDataFixture::COMPANY_USER_JOZEF_NOVOTNY, Domain::SECOND_DOMAIN_ID, CustomerUser::class);
-        $customerUserKovac = $this->getReferenceForDomain(CompanyDataFixture::COMPANY_USER_PETER_KOVAC, Domain::SECOND_DOMAIN_ID, CustomerUser::class);
+        $customerUserNovotny = $this->getReferenceForDomain(CompanyDataFixture::B2B_COMPANY_OWNER_EMAIL, Domain::SECOND_DOMAIN_ID, CustomerUser::class);
+        $customerUserKovac = $this->getReferenceForDomain(CompanyDataFixture::B2B_COMPANY_LIMITED_USER_EMAIL, Domain::SECOND_DOMAIN_ID, CustomerUser::class);
 
         $uploadedFile1 = $this->complaintHelper->createUploadedFile(__DIR__ . '/../resources/images/complaint/404.jpg');
         $uploadedFile2 = $this->complaintHelper->createUploadedFile(__DIR__ . '/../resources/images/complaint/405.jpg');
