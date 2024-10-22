@@ -16,6 +16,7 @@ import useTranslation from 'next-translate/useTranslation';
 import { FormProvider, SubmitHandler } from 'react-hook-form';
 import { CurrentCustomerType } from 'types/customer';
 import { CustomerChangeProfileFormType } from 'types/form';
+import { getUserFriendlyErrors } from 'utils/errors/friendlyErrorMessageParser';
 import { handleFormErrors } from 'utils/forms/handleFormErrors';
 import { useErrorPopup } from 'utils/forms/useErrorPopup';
 import { showSuccessMessage } from 'utils/toasts/showSuccessMessage';
@@ -44,11 +45,17 @@ export const EditProfileContent: FC<EditProfileContentProps> = ({ currentCustome
     ) => {
         event?.preventDefault();
 
-        onChangeProfileHandler(customerChangeProfileFormData);
-        onChangePasswordHandler(customerChangeProfileFormData);
+        const postponedProfileChangeAction = await onChangeProfileHandler(customerChangeProfileFormData);
+        const passwordChangeResponse = await onChangePasswordHandler(customerChangeProfileFormData);
+
+        if (!passwordChangeResponse.error) {
+            postponedProfileChangeAction();
+        }
     };
 
-    const onChangeProfileHandler = async (customerChangeProfileFormData: CustomerChangeProfileFormType) => {
+    const onChangeProfileHandler = async (
+        customerChangeProfileFormData: CustomerChangeProfileFormType,
+    ): Promise<() => void> => {
         const changeProfileResult = await customerEditProfile({
             input: {
                 billingAddressUuid: currentCustomerUser.billingAddressUuid,
@@ -68,18 +75,20 @@ export const EditProfileContent: FC<EditProfileContentProps> = ({ currentCustome
         });
 
         if (changeProfileResult.data?.ChangePersonalData !== undefined) {
-            showSuccessMessage(formMeta.messages.success);
+            return () => showSuccessMessage(formMeta.messages.success);
         }
 
-        handleFormErrors(changeProfileResult.error, formProviderMethods, t, formMeta.messages.error);
+        return () => handleFormErrors(changeProfileResult.error, formProviderMethods, t, formMeta.messages.error);
     };
 
-    const onChangePasswordHandler = async (customerChangeProfileFormData: CustomerChangeProfileFormType) => {
+    const onChangePasswordHandler = async (
+        customerChangeProfileFormData: CustomerChangeProfileFormType,
+    ): Promise<{ error: boolean }> => {
         if (
             customerChangeProfileFormData.newPassword === '' ||
             customerChangeProfileFormData.newPasswordConfirm === ''
         ) {
-            return;
+            return { error: false };
         }
 
         const changePasswordResult = await changePassword({
@@ -90,6 +99,17 @@ export const EditProfileContent: FC<EditProfileContentProps> = ({ currentCustome
 
         if (changePasswordResult.data?.ChangePassword !== undefined) {
             showSuccessMessage(t('Your password has been changed.'));
+            return { error: false };
+        }
+
+        if (changePasswordResult.error) {
+            const { applicationError } = getUserFriendlyErrors(changePasswordResult.error, t);
+
+            if (applicationError?.type === 'invalid-account-or-password') {
+                formProviderMethods.setError('oldPassword', {
+                    message: t('The current password is incorrect'),
+                });
+            }
         }
 
         handleFormErrors(
@@ -98,6 +118,10 @@ export const EditProfileContent: FC<EditProfileContentProps> = ({ currentCustome
             t,
             t('There was an error while changing your password'),
         );
+
+        return {
+            error: !!changePasswordResult.error,
+        };
     };
 
     useErrorPopup(formProviderMethods, formMeta.fields, undefined, GtmMessageOriginType.other);
