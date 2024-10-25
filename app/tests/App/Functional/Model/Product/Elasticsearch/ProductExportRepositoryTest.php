@@ -63,6 +63,7 @@ class ProductExportRepositoryTest extends TransactionFunctionalTestCase
             'detail_url',
             'visibility',
             'product_type',
+            'priority_by_product_type',
             'uuid',
             'unit',
             'stock_quantity',

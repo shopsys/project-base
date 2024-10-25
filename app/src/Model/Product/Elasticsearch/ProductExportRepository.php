@@ -49,6 +49,7 @@ use Shopsys\FrameworkBundle\Model\Seo\HreflangLinksFacade;
  * @method array extractAccessoriesIds(\App\Model\Product\Product $product)
  * @method \App\Model\Product\Product[] getVariantsForDefaultPricingGroup(\App\Model\Product\Product $mainVariant, int $domainId)
  * @method string extractProductType(\App\Model\Product\Product $product, int $domainId)
+ * @method int extractPriorityByProductType(\App\Model\Product\Product $product, int $domainId)
  */
 class ProductExportRepository extends BaseProductExportRepository
 {
