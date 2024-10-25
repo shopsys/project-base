@@ -12,7 +12,6 @@ import { TIDs } from 'cypress/tids';
 import { AnimatePresence } from 'framer-motion';
 import { TypeTransportWithAvailablePaymentsFragment } from 'graphql/requests/transports/fragments/TransportWithAvailablePaymentsFragment.generated';
 import useTranslation from 'next-translate/useTranslation';
-import { collapseExpandAnimation } from 'utils/animations/animationVariants';
 import { ChangePaymentInCart } from 'utils/cart/useChangePaymentInCart';
 import { ChangeTransportInCart } from 'utils/cart/useChangeTransportInCart';
 import { useCurrentCart } from 'utils/cart/useCurrentCart';
@@ -51,7 +50,7 @@ export const TransportAndPaymentSelect: FC<TransportAndPaymentSelectProps> = ({
                     <div className="h4 mb-3">{t('Choose transport')}</div>
                     <ul>
                         <AnimatePresence initial={false}>
-                            {transport ? (
+                            {!!transport && (
                                 <AnimateCollapseDiv className="relative !block" keyName="transport-selected">
                                     <TransportListItem
                                         isActive
@@ -60,8 +59,11 @@ export const TransportAndPaymentSelect: FC<TransportAndPaymentSelectProps> = ({
                                         transport={transport}
                                     />
                                 </AnimateCollapseDiv>
-                            ) : (
-                                <AnimateCollapseDiv className="relative !block" keyName="transports-list">
+                            )}
+                        </AnimatePresence>
+                        <AnimatePresence initial={false}>
+                            {!transport && (
+                                <AnimateCollapseDiv className="relative !block" keyName="transport-list">
                                     {transports.map((transportItem) => (
                                         <TransportListItem
                                             key={transportItem.uuid}
@@ -74,13 +76,17 @@ export const TransportAndPaymentSelect: FC<TransportAndPaymentSelectProps> = ({
                             )}
                         </AnimatePresence>
                     </ul>
-                    {!!transport && (
-                        <ResetButton
-                            text={t('Change transport type')}
-                            tid={TIDs.reset_transport_button}
-                            onClick={resetTransportAndPayment}
-                        />
-                    )}
+                    <AnimatePresence initial={false}>
+                        {!!transport && (
+                            <AnimateCollapseDiv className="relative !flex flex-col" keyName="transport-reset">
+                                <ResetButton
+                                    text={t('Change transport type')}
+                                    tid={TIDs.reset_transport_button}
+                                    onClick={resetTransportAndPayment}
+                                />
+                            </AnimateCollapseDiv>
+                        )}
+                    </AnimatePresence>
                 </div>
                 <AnimatePresence initial={false}>
                     {transport !== null && (
@@ -88,39 +94,42 @@ export const TransportAndPaymentSelect: FC<TransportAndPaymentSelectProps> = ({
                             className="relative mt-12 !flex flex-col"
                             keyName="payments-list"
                             tid={TIDs.pages_order_payment}
-                            variants={collapseExpandAnimation}
                         >
                             {isTransportSelectionLoading && <LoaderWithOverlay className="w-8" />}
                             <div className="h4 mb-3">{t('Choose payment')}</div>
-                            <ul>
-                                <AnimatePresence initial={false}>
-                                    {payment ? (
-                                        <AnimateCollapseDiv className="relative !block" keyName="payment-selected">
-                                            <PaymentListItem isActive changePayment={changePayment} payment={payment} />
-                                        </AnimateCollapseDiv>
-                                    ) : (
-                                        <AnimateCollapseDiv
-                                            className="relative !block"
-                                            keyName="transport-payments-list"
-                                        >
-                                            {transport.payments.map((paymentItem) => (
-                                                <PaymentListItem
-                                                    key={paymentItem.uuid}
-                                                    changePayment={changePayment}
-                                                    payment={paymentItem}
-                                                />
-                                            ))}
-                                        </AnimateCollapseDiv>
-                                    )}
-                                </AnimatePresence>
-                            </ul>
-                            {payment !== null && (
-                                <ResetButton
-                                    text={t('Change payment type')}
-                                    tid={TIDs.reset_payment_button}
-                                    onClick={resetPaymentAndGoPayBankSwift}
-                                />
-                            )}
+
+                            <AnimatePresence initial={false}>
+                                {!!payment && (
+                                    <AnimateCollapseDiv className="relative !block" keyName="payment-selected">
+                                        <PaymentListItem isActive changePayment={changePayment} payment={payment} />
+                                    </AnimateCollapseDiv>
+                                )}
+                            </AnimatePresence>
+
+                            <AnimatePresence initial={false}>
+                                {!payment && (
+                                    <AnimateCollapseDiv className="relative !block" keyName="payment-list">
+                                        {transport.payments.map((paymentItem) => (
+                                            <PaymentListItem
+                                                key={paymentItem.uuid}
+                                                changePayment={changePayment}
+                                                payment={paymentItem}
+                                            />
+                                        ))}
+                                    </AnimateCollapseDiv>
+                                )}
+                            </AnimatePresence>
+                            <AnimatePresence initial={false}>
+                                {payment !== null && (
+                                    <AnimateCollapseDiv className="relative !flex flex-col" keyName="payment-reset">
+                                        <ResetButton
+                                            text={t('Change payment type')}
+                                            tid={TIDs.reset_payment_button}
+                                            onClick={resetPaymentAndGoPayBankSwift}
+                                        />
+                                    </AnimateCollapseDiv>
+                                )}
+                            </AnimatePresence>
                         </AnimateCollapseDiv>
                     )}
                 </AnimatePresence>
