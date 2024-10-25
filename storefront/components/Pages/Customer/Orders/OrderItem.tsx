@@ -27,6 +27,10 @@ export const OrderItem: FC<OrderItemProps> = ({ order, addOrderItemsToEmptyCart,
     const { url } = useDomainConfig();
     const [customerOrderDetailUrl] = getInternationalizedStaticUrls(['/customer/order-detail'], url);
 
+    const showRepeatOrderButton = order.productItems.some(
+        (item) => item.product?.isVisible && !item.product.isSellingDenied,
+    );
+
     return (
         <div className="flex flex-col gap-5 rounded-md bg-backgroundMore p-4 vl:p-6">
             <OrderPaymentStatusBar orderIsPaid={order.isPaid} orderPaymentType={order.payment.type} />
@@ -99,14 +103,16 @@ export const OrderItem: FC<OrderItemProps> = ({ order, addOrderItemsToEmptyCart,
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
-                    <Button
-                        size="small"
-                        tid={TIDs.order_list_repeat_order_button}
-                        variant="inverted"
-                        onClick={() => addOrderItemsToEmptyCart(order.uuid)}
-                    >
-                        {t('Repeat order')}
-                    </Button>
+                    {showRepeatOrderButton && (
+                        <Button
+                            size="small"
+                            tid={TIDs.order_list_repeat_order_button}
+                            variant="inverted"
+                            onClick={() => addOrderItemsToEmptyCart(order.uuid)}
+                        >
+                            {t('Repeat order')}
+                        </Button>
+                    )}
                     <LinkButton
                         size="small"
                         tid={TIDs.my_orders_link_ + listIndex}

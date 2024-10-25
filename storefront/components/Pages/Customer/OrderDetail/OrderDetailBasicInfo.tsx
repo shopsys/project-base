@@ -32,6 +32,10 @@ export const OrderDetailBasicInfo: FC<OrderDetailBasicInfoProps> = ({ order }) =
             ),
     );
 
+    const showRepeatOrderButton = filteredOrderItems.some(
+        (item) => item.product?.isVisible && !item.product.isSellingDenied,
+    );
+
     return (
         <div className="my-6 flex flex-col gap-4 bg-background vl:mb-8">
             <OrderRowWrapper className="flex items-center justify-between gap-4">
@@ -55,14 +59,16 @@ export const OrderDetailBasicInfo: FC<OrderDetailBasicInfoProps> = ({ order }) =
                     )}
                     <OrderItemColumnInfo title={t('Status')} value={order.status} />
                 </div>
-                <Button
-                    size="small"
-                    tid={TIDs.order_detail_repeat_order_button}
-                    variant="inverted"
-                    onClick={() => addOrderItemsToEmptyCart(order.uuid)}
-                >
-                    {t('Repeat order')}
-                </Button>
+                {showRepeatOrderButton && (
+                    <Button
+                        size="small"
+                        tid={TIDs.order_detail_repeat_order_button}
+                        variant="inverted"
+                        onClick={() => addOrderItemsToEmptyCart(order.uuid)}
+                    >
+                        {t('Repeat order')}
+                    </Button>
+                )}
             </OrderRowWrapper>
             {orderTransport && (
                 <OrderRowWrapper className="flex flex-col gap-4">
