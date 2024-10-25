@@ -1,4 +1,8 @@
 import { MetaRobots } from 'components/Basic/Head/MetaRobots';
+import {
+    SkeletonCustomerUsersTable,
+    SkeletonModuleAddButton,
+} from 'components/Blocks/Skeleton/SkeletonModuleCustomerUsers';
 import { Button } from 'components/Forms/Button/Button';
 import { CustomerLayout } from 'components/Layout/CustomerLayout';
 import { CustomerUsersTable } from 'components/Pages/Customer/Users/CustomerUsersTable';
@@ -36,12 +40,12 @@ const UsersPage: FC = () => {
     const breadcrumbs: TypeBreadcrumbFragment[] = [
         { __typename: 'Link', name: t('Customer users'), slug: customerUsersUrl },
     ];
-    const { canManageUsers } = useUserPermissions();
+    const { canManageUsers, isPermissionsFetching } = useUserPermissions();
     const { redirect } = useRedirectOnPermissionsChange();
     const gtmStaticPageViewEvent = useGtmStaticPageViewEvent(GtmPageType.other, breadcrumbs);
     useGtmPageViewEvent(gtmStaticPageViewEvent);
 
-    if (canManageUsers === false) {
+    if (!isPermissionsFetching && canManageUsers === false) {
         redirect();
     }
 
@@ -59,12 +63,19 @@ const UsersPage: FC = () => {
         <>
             <MetaRobots content="noindex" />
             <CustomerLayout breadcrumbs={breadcrumbs} pageHeading={t('Customer users')} title={t('Customer users')}>
-                <div className="flex w-full flex-col gap-4">
-                    <Button className="w-fit" size="small" onClick={(e) => openManageCustomerUserPopup(e)}>
-                        {t('Add new user')}
-                    </Button>
-                    <CustomerUsersTable />
-                </div>
+                {isPermissionsFetching ? (
+                    <div className="-mt-1 flex w-full flex-col">
+                        <SkeletonModuleAddButton />
+                        <SkeletonCustomerUsersTable />
+                    </div>
+                ) : (
+                    <div className="flex w-full flex-col gap-4">
+                        <Button className="w-fit" size="small" onClick={(e) => openManageCustomerUserPopup(e)}>
+                            {t('Add new user')}
+                        </Button>
+                        <CustomerUsersTable />
+                    </div>
+                )}
             </CustomerLayout>
         </>
     );
