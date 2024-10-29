@@ -32,9 +32,12 @@ export const ContactInformationWrapper: FC = () => {
                 <Form tid={TIDs.contact_information_form} onSubmit={formProviderMethods.handleSubmit(createOrder)}>
                     <FormContentWrapper>
                         <ContactInformationEmail />
+
                         {shouldDisplayContactInformationForm && <ContactInformationFormContent />}
                     </FormContentWrapper>
+
                     <ContactInformationSendOrderButton />
+
                     <OrderAction
                         withGapBottom
                         backStepClickHandler={goToPreviousStepFromContactInformationPage}
