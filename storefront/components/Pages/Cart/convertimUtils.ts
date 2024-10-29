@@ -1,9 +1,5 @@
 import {
-    CardData,
-    GetCartType,
-    GetPaymentsType,
-    GetStoresType,
-    GetTransportsType,
+    CartData,
     PaymentData,
     PaymentTypes,
     StoreData,
@@ -17,43 +13,9 @@ import { TypeCartFragment } from 'graphql/requests/cart/fragments/CartFragment.g
 import { TypeCartItemFragment } from 'graphql/requests/cart/fragments/CartItemFragment.generated';
 import { TypeTransportWithAvailablePaymentsAndStoresFragment } from 'graphql/requests/transports/fragments/TransportWithAvailablePaymentsAndStoresFragment.generated';
 import { TypeTransportWithAvailablePaymentsFragment } from 'graphql/requests/transports/fragments/TransportWithAvailablePaymentsFragment.generated';
-import { TypeOpeningHours, TypeTransportTypeEnum } from 'graphql/types';
-
-export const getTransports = (transports?: TypeTransportWithAvailablePaymentsFragment[]): GetTransportsType => {
-    const transportsData = mapTransportsData(transports);
-
-    return (setData) => {
-        setData(transportsData);
-    };
-};
-
-export const getPayments = (transports?: TypeTransportWithAvailablePaymentsFragment[]): GetPaymentsType => {
-    const paymentsData = mapPaymentsData(transports);
-
-    return (setData) => {
-        setData(paymentsData);
-    };
-};
-
-export const getCart = (cart: TypeCartFragment): GetCartType => {
-    const cartData = mapCartData(cart);
-
-    return (setData) => {
-        setData(cartData);
-    };
-};
-
-export const getStores = (
-    dayNames: string[],
-    cart: TypeCartFragment,
-    transports?: TypeTransportWithAvailablePaymentsAndStoresFragment[],
-): GetStoresType => {
-    const storesData = mapStoresData(dayNames, cart, transports);
-
-    return (setData) => {
-        setData(storesData);
-    };
-};
+import { TypeOpeningHours, TypePromoCodeTypeEnum, TypeTransportTypeEnum } from 'graphql/types';
+import { formatPercent } from 'utils/formaters/formatPercent';
+import { FormatPriceFunctionType } from 'utils/formatting/useFormatPrice';
 
 export const getGtm = () => {
     return {};
@@ -85,7 +47,7 @@ const mapTransportType = (type: TypeTransportTypeEnum): TransportTypes | null =>
     }
 };
 
-const mapTransportsData = (transports?: TypeTransportWithAvailablePaymentsFragment[]): TransportData[] => {
+export const mapTransportsData = (transports?: TypeTransportWithAvailablePaymentsFragment[]): TransportData[] => {
     return (
         transports?.map((transport) => ({
             uuid: transport.uuid,
@@ -118,7 +80,7 @@ const mapPaymentType = (type: string): PaymentTypes => {
     }
 };
 
-const mapPaymentsData = (transports?: TypeTransportWithAvailablePaymentsFragment[]): PaymentData[] => {
+export const mapPaymentsData = (transports?: TypeTransportWithAvailablePaymentsFragment[]): PaymentData[] => {
     const transportUuids = transports?.map((transport) => transport.uuid) ?? [];
     const payments: Map<string, PaymentData> = new Map();
 
@@ -153,7 +115,7 @@ const mapPaymentsData = (transports?: TypeTransportWithAvailablePaymentsFragment
     return Array.from(payments.values());
 };
 
-const mapCartData = (cart: TypeCartFragment): CardData => {
+export const mapCartData = (cart: TypeCartFragment, formatPrice: FormatPriceFunctionType): CartData => {
     return {
         items: cart.items.map(({ product, discounts, quantity }) => ({
             id: product.uuid,
@@ -166,18 +128,24 @@ const mapCartData = (cart: TypeCartFragment): CardData => {
             image: product.mainImage?.url ?? null,
             gtm: {},
             labels: product.flags.map(({ name }) => name),
-            discount: discounts.map(({ promoCode, totalDiscount }) => ({
+            discounts: discounts.map(({ promoCode, totalDiscount }) => ({
                 [promoCode]: {
-                    withVat: parseFloat(totalDiscount.priceWithVat),
-                    withoutVat: parseFloat(totalDiscount.priceWithoutVat),
+                    withVat: Math.abs(parseFloat(totalDiscount.priceWithVat)),
+                    withoutVat: Math.abs(parseFloat(totalDiscount.priceWithoutVat)),
                 },
             }))[0],
         })),
-        promoCodes: cart.promoCodes.map(({ code, discount }) => ({
+        promoCodes: cart.promoCodes.map(({ code, discount, type }) => ({
             code,
             uuid: code,
-            discount: discount.priceWithVat,
-            discountWithoutVat: discount.priceWithoutVat,
+            discount:
+                type === TypePromoCodeTypeEnum.Nominal
+                    ? formatPrice(discount.priceWithVat)
+                    : formatPercent(discount.priceWithVat) ?? '',
+            discountWithoutVat:
+                type === TypePromoCodeTypeEnum.Nominal
+                    ? formatPrice(discount.priceWithoutVat)
+                    : formatPercent(discount.priceWithoutVat) ?? '',
         })),
     };
 };
@@ -199,7 +167,7 @@ const mapOpeningHours = (dayNames: string[], openingHours?: TypeOpeningHours): S
     );
 };
 
-const mapStoresData = (
+export const mapStoresData = (
     dayNames: string[],
     cart: TypeCartFragment,
     transports?: TypeTransportWithAvailablePaymentsAndStoresFragment[],
@@ -241,7 +209,7 @@ const getProductOnStoreAvailability = ({
     ]);
 };
 
-export function groupByStoreUuid<T>(acc: Map<string, T[]>, [storeUuid, item]: [string, T]) {
+function groupByStoreUuid<T>(acc: Map<string, T[]>, [storeUuid, item]: [string, T]) {
     if (!acc.has(storeUuid)) {
         acc.set(storeUuid, []);
     }

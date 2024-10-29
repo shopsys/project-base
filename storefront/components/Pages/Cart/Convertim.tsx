@@ -1,16 +1,27 @@
-import { getCart, getGtm, getPayments, getStores, getTransports } from './convertimUtils';
-import { ConvertimComponent } from 'convertim-react-lib';
+import { getGtm, mapCartData, mapPaymentsData, mapStoresData, mapTransportsData } from './convertimUtils';
+import {
+    ConvertimComponent,
+    ConvertimOrderObject,
+    GetCartType,
+    GetPaymentsType,
+    GetStoresType,
+    GetTransportsType,
+} from 'convertim-react-lib';
 import { TypeCartFragment } from 'graphql/requests/cart/fragments/CartFragment.generated';
 import { useTransportsWithStoresQuery } from 'graphql/requests/transports/queries/TransportsWithStoresQuery.generated';
 import useTranslation from 'next-translate/useTranslation';
+import { useCallback } from 'react';
+import { usePersistStore } from 'store/usePersistStore';
+import { useFormatPrice } from 'utils/formatting/useFormatPrice';
 
 type ConvertimProps = { cart: TypeCartFragment; convertimUuid: string };
 
 export const Convertim: FC<ConvertimProps> = ({ cart, convertimUuid }) => {
     const { t } = useTranslation();
+    const formatPrice = useFormatPrice();
+    const updateCartUuid = usePersistStore((store) => store.updateCartUuid);
     const [{ data: transportsData, fetching: isTransportsFetching }] = useTransportsWithStoresQuery({
         variables: { cartUuid: cart.uuid },
-        requestPolicy: 'network-only',
     });
 
     const dayNames = [
@@ -23,6 +34,26 @@ export const Convertim: FC<ConvertimProps> = ({ cart, convertimUuid }) => {
         t('Sunday'),
     ];
 
+    const getCart = useCallback<GetCartType>((setData) => setData(mapCartData(cart, formatPrice)), [cart, formatPrice]);
+    const getPayments = useCallback<GetPaymentsType>(
+        (setData) => setData(mapPaymentsData(transportsData?.transports)),
+        [transportsData],
+    );
+    const getStores = useCallback<GetStoresType>(
+        (setData) => setData(mapStoresData(dayNames, cart, transportsData?.transports)),
+        [dayNames, cart, transportsData],
+    );
+    const getTransports = useCallback<GetTransportsType>(
+        (setData) => setData(mapTransportsData(transportsData?.transports)),
+        [transportsData],
+    );
+
+    const handleEventsAfterOrderCreation = () => {
+        if (cart.uuid) {
+            updateCartUuid(null);
+        }
+    };
+
     if (isTransportsFetching) {
         return null;
     }
@@ -30,14 +61,15 @@ export const Convertim: FC<ConvertimProps> = ({ cart, convertimUuid }) => {
     return (
         <ConvertimComponent
             convertimUuid={convertimUuid}
-            getCart={getCart(cart)}
-            getPayments={getPayments(transportsData?.transports)}
-            getStores={getStores(dayNames, cart, transportsData?.transports)}
-            getTransports={getTransports(transportsData?.transports)}
+            getCart={getCart}
+            getPayments={getPayments}
+            getStores={getStores}
+            getTransports={getTransports}
             gtm={getGtm()}
             isProduction={false}
             callbacks={{
-                afterSaveOrder: (orderObject, continueFunction) => {
+                afterSaveOrder: (orderObject: ConvertimOrderObject, continueFunction) => {
+                    handleEventsAfterOrderCreation();
                     continueFunction();
                 },
                 beforeOpenConvertim: (continueFunction) => {
