@@ -7,6 +7,10 @@ import { Schema } from 'yup';
 export const validateEmail = (t: Translate): Schema => {
     return Yup.string()
         .required(t('Please enter email'))
+        .matches(
+            /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/i,
+            t('This value is not a valid email'),
+        )
         .email(t('This value is not a valid email'))
         .max(
             VALIDATION_CONSTANTS.emailMaxLength,
