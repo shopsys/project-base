@@ -1,3 +1,4 @@
+import { getDeliveryMessage } from 'components/Pages/Order/TransportAndPayment/transportAndPaymentUtils';
 import {
     CartData,
     PaymentData,
@@ -14,6 +15,7 @@ import { TypeCartItemFragment } from 'graphql/requests/cart/fragments/CartItemFr
 import { TypeTransportWithAvailablePaymentsAndStoresFragment } from 'graphql/requests/transports/fragments/TransportWithAvailablePaymentsAndStoresFragment.generated';
 import { TypeTransportWithAvailablePaymentsFragment } from 'graphql/requests/transports/fragments/TransportWithAvailablePaymentsFragment.generated';
 import { TypeOpeningHours, TypePromoCodeTypeEnum, TypeTransportTypeEnum } from 'graphql/types';
+import { Translate } from 'next-translate';
 import { formatPercent } from 'utils/formaters/formatPercent';
 import { FormatPriceFunctionType } from 'utils/formatting/useFormatPrice';
 
@@ -47,7 +49,10 @@ const mapTransportType = (type: TypeTransportTypeEnum): TransportTypes | null =>
     }
 };
 
-export const mapTransportsData = (transports?: TypeTransportWithAvailablePaymentsFragment[]): TransportData[] => {
+export const mapTransportsData = (
+    transports: TypeTransportWithAvailablePaymentsFragment[] | undefined,
+    t: Translate,
+): TransportData[] => {
     return (
         transports?.map((transport) => ({
             uuid: transport.uuid,
@@ -63,7 +68,11 @@ export const mapTransportsData = (transports?: TypeTransportWithAvailablePayment
             services: [],
             image: transport.mainImage?.url ?? null,
             groupDescription: null,
-            deliveryTime: transport.daysUntilDelivery.toString(),
+            deliveryTime: getDeliveryMessage(
+                transport.daysUntilDelivery,
+                mapTransportType(transport.transportTypeCode) === TransportTypes.PICKUP_PLACE,
+                t,
+            ),
             calculatedDeliveryTime: null,
         })) ?? []
     );
@@ -184,10 +193,10 @@ export const mapStoresData = (
             (transport) =>
                 transport.stores?.edges?.map((store) => ({
                     name: store?.node?.name ?? '',
-                    code: store?.node?.country.code ?? '',
+                    code: store?.node?.identifier ?? '',
                     latitude: store?.node?.latitude ?? '',
                     longitude: store?.node?.longitude ?? '',
-                    company: store?.node?.slug ?? '',
+                    company: store?.node?.name ?? '',
                     street: store?.node?.street ?? '',
                     postcode: store?.node?.postcode ?? '',
                     city: store?.node?.city ?? '',

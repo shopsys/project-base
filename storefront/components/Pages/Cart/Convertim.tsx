@@ -44,7 +44,7 @@ export const Convertim: FC<ConvertimProps> = ({ cart, convertimProjectUuid }) =>
         [dayNames, cart, transportsData],
     );
     const getTransports = useCallback<GetTransportsType>(
-        (setData) => setData(mapTransportsData(transportsData?.transports)),
+        (setData) => setData(mapTransportsData(transportsData?.transports, t)),
         [transportsData],
     );
 
