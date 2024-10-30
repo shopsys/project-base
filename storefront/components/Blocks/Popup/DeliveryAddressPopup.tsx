@@ -6,7 +6,10 @@ import { FormLineError } from 'components/Forms/Lib/FormLineError';
 import { Select } from 'components/Forms/Select/Select';
 import { TextInputControlled } from 'components/Forms/TextInput/TextInputControlled';
 import { Popup } from 'components/Layout/Popup/Popup';
-import { useDeliveryAddressForm, useDeliveryAddressFormMeta } from 'components/Pages/Customer/deliveryAddressFormMeta';
+import {
+    useDeliveryAddressForm,
+    useDeliveryAddressFormMeta,
+} from 'components/Pages/Customer/EditProfile/deliveryAddressFormMeta';
 import { useCreateDeliveryAddressMutation } from 'graphql/requests/customer/mutations/CreateDeliveryAddressMutation.generated';
 import { useEditDeliveryAddressMutation } from 'graphql/requests/customer/mutations/EditDeliveryAddressMutation.generated';
 import { GtmMessageOriginType } from 'gtm/enums/GtmMessageOriginType';

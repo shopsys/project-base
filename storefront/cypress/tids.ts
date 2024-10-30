@@ -51,6 +51,7 @@ export enum TIDs {
     login_popup_register_button = 'login_popup_register_button',
     registration_submit_button = 'registration_submit_button',
     header_edit_profile_link = 'header_edit_profile_link',
+    header_change_password_link = 'header_change_password_link',
     registration_after_order_submit_button = 'registration_after_order_submit_button',
     header_my_orders_link = 'header_my_orders_link',
     header_my_complaints_link = 'header_my_complaints_link',

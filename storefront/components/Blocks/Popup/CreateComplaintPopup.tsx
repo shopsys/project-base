@@ -10,7 +10,7 @@ import { Select } from 'components/Forms/Select/Select';
 import { TextInputControlled } from 'components/Forms/TextInput/TextInputControlled';
 import { TextareaControlled } from 'components/Forms/Textarea/TextareaControlled';
 import { Popup } from 'components/Layout/Popup/Popup';
-import { useComplaintForm, useComplaintFormMeta } from 'components/Pages/Customer/complaintFormMeta';
+import { useComplaintForm, useComplaintFormMeta } from 'components/Pages/Customer/Complaints/complaintFormMeta';
 import { useDomainConfig } from 'components/providers/DomainConfigProvider';
 import { useCurrentCustomerData } from 'connectors/customer/CurrentCustomer';
 import { useCreateComplaint } from 'graphql/requests/complaints/mutations/CreateComplaintMutation.generated';

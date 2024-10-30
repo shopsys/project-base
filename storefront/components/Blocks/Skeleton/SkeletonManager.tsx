@@ -9,6 +9,7 @@ import { SkeletonPageConfirmation } from './SkeletonPageConfirmation';
 import { SkeletonPageContact } from './SkeletonPageContact';
 import { SkeletonPageContactInformation } from './SkeletonPageContactInformation';
 import { SkeletonPageCustomerAccount } from './SkeletonPageCustomerAccount';
+import { SkeletonPageCustomerChangePassword } from './SkeletonPageCustomerChangePassword';
 import { SkeletonPageCustomerComplaintDetail } from './SkeletonPageCustomerComplaintDetail';
 import { SkeletonPageCustomerComplaintList } from './SkeletonPageCustomerComplaintList';
 import { SkeletonPageCustomerComplaintNew } from './SkeletonPageCustomerComplaintNew';
@@ -99,6 +100,8 @@ export const SkeletonManager: FC<SkeletonManagerProps> = ({
             return <SkeletonPageCustomerOrderDetail />;
         case 'editProfile':
             return <SkeletonPageCustomerEditProfile />;
+        case 'changePassword':
+            return <SkeletonPageCustomerChangePassword />;
         case 'flag':
             return <SkeletonPageFlag />;
         case 'homepage':

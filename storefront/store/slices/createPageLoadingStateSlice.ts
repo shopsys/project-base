@@ -13,6 +13,7 @@ const CUSTOM_PAGE_TYPES = [
     'complaintDetail',
     'complaintList',
     'editProfile',
+    'changePassword',
     'account',
     'productMainVariant',
     'registration',

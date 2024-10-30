@@ -1,15 +1,15 @@
 import { Button } from 'components/Forms/Button/Button';
-import { FormHeading, FormBlockWrapper } from 'components/Forms/Form/Form';
+import { FormBlockWrapper } from 'components/Forms/Form/Form';
 import { FormColumn } from 'components/Forms/Lib/FormColumn';
 import { FormLine } from 'components/Forms/Lib/FormLine';
 import { PasswordInputControlled } from 'components/Forms/TextInput/PasswordInputControlled';
-import { useCustomerChangeProfileFormMeta } from 'components/Pages/Customer/customerChangeProfileFormMeta';
+import { useChangePasswordFormMeta } from 'components/Pages/Customer/ChangePassword/changePasswordFormMeta';
 import { usePasswordRecoveryMutation } from 'graphql/requests/passwordRecovery/mutations/PasswordRecoveryMutation.generated';
 import { GtmFormType } from 'gtm/enums/GtmFormType';
 import { onGtmSendFormEventHandler } from 'gtm/handlers/onGtmSendFormEventHandler';
 import useTranslation from 'next-translate/useTranslation';
 import { useFormContext } from 'react-hook-form';
-import { CustomerChangeProfileFormType } from 'types/form';
+import { ChangePasswordFormType } from 'types/form';
 import { showSuccessMessage } from 'utils/toasts/showSuccessMessage';
 
 type ChangePasswordProps = {
@@ -18,8 +18,8 @@ type ChangePasswordProps = {
 };
 export const ChangePassword: FC<ChangePasswordProps> = ({ email, hasPasswordSet }) => {
     const { t } = useTranslation();
-    const formProviderMethods = useFormContext<CustomerChangeProfileFormType>();
-    const formMeta = useCustomerChangeProfileFormMeta(formProviderMethods);
+    const formProviderMethods = useFormContext<ChangePasswordFormType>();
+    const formMeta = useChangePasswordFormMeta(formProviderMethods);
     const [, resetPassword] = usePasswordRecoveryMutation();
 
     const onResetPasswordHandler = async () => {
@@ -32,8 +32,7 @@ export const ChangePassword: FC<ChangePasswordProps> = ({ email, hasPasswordSet 
     };
 
     return (
-        <FormBlockWrapper>
-            <FormHeading>{t('Change password')}</FormHeading>
+        <FormBlockWrapper className="border-b-0">
             {hasPasswordSet ? (
                 <>
                     <PasswordInputControlled

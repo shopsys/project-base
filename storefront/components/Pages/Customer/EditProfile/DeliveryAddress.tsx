@@ -1,7 +1,7 @@
+import { AddressList } from './AddressList';
 import { Button } from 'components/Forms/Button/Button';
 import { FormBlockWrapper, FormHeading } from 'components/Forms/Form/Form';
 import { FormLine } from 'components/Forms/Lib/FormLine';
-import { AddressList } from 'components/Pages/Customer/AddressList';
 import useTranslation from 'next-translate/useTranslation';
 import dynamic from 'next/dynamic';
 import { useSessionStore } from 'store/useSessionStore';

@@ -1,3 +1,4 @@
+import { SkeletonModuleCustomer } from './SkeletonModuleCustomer';
 import Skeleton from 'react-loading-skeleton';
 
 export const SkeletonModuleAddButton: FC = () => <Skeleton className="mb-4 h-8 w-[124px] rounded-lg" />;
@@ -11,18 +12,12 @@ export const SkeletonCustomerUsersTable: FC = () => (
 );
 
 export const SkeletonModuleCustomerUsers: FC = () => (
-    <div className="flex flex-row items-stretch gap-5">
-        <Skeleton className="h-[300px] w-[300px]" containerClassName="hidden lg:block" />
+    <SkeletonModuleCustomer>
+        <div className="flex w-full flex-col">
+            <Skeleton className="mb-4 h-10 w-40" />
+            <Skeleton className="mb-4 h-8 w-36" />
 
-        <div className="w-full">
-            <div className="flex">
-                <div className="flex w-full flex-col">
-                    <Skeleton className="mb-4 h-10 w-40" />
-                    <Skeleton className="mb-4 h-8 w-36" />
-
-                    <SkeletonCustomerUsersTable />
-                </div>
-            </div>
+            <SkeletonCustomerUsersTable />
         </div>
-    </div>
+    </SkeletonModuleCustomer>
 );

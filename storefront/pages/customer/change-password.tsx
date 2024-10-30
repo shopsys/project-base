@@ -1,6 +1,6 @@
 import { MetaRobots } from 'components/Basic/Head/MetaRobots';
 import { CustomerLayout } from 'components/Layout/CustomerLayout';
-import { EditProfileContent } from 'components/Pages/Customer/EditProfile/EditProfileContent';
+import { ChangePasswordContent } from 'components/Pages/Customer/ChangePassword/ChangePasswordContent';
 import { useDomainConfig } from 'components/providers/DomainConfigProvider';
 import { useCurrentCustomerData } from 'connectors/customer/CurrentCustomer';
 import { TypeBreadcrumbFragment } from 'graphql/requests/breadcrumbs/fragments/BreadcrumbFragment.generated';
@@ -12,13 +12,13 @@ import { getServerSidePropsWrapper } from 'utils/serverSide/getServerSidePropsWr
 import { initServerSideProps } from 'utils/serverSide/initServerSideProps';
 import { getInternationalizedStaticUrls } from 'utils/staticUrls/getInternationalizedStaticUrls';
 
-const EditProfilePage: FC = () => {
+const ChangePasswordPage: FC = () => {
     const { t } = useTranslation();
     const { url } = useDomainConfig();
-    const [customerEditProfileUrl] = getInternationalizedStaticUrls(['/customer', '/customer/edit-profile'], url);
+    const [changePasswordUrl] = getInternationalizedStaticUrls(['/customer', '/customer/change-password'], url);
     const currentCustomerUserData = useCurrentCustomerData();
     const breadcrumbs: TypeBreadcrumbFragment[] = [
-        { __typename: 'Link', name: t('Edit profile'), slug: customerEditProfileUrl },
+        { __typename: 'Link', name: t('Change password'), slug: changePasswordUrl },
     ];
 
     const gtmStaticPageViewEvent = useGtmStaticPageViewEvent(GtmPageType.other, breadcrumbs);
@@ -30,11 +30,11 @@ const EditProfilePage: FC = () => {
             <CustomerLayout
                 breadcrumbs={breadcrumbs}
                 breadcrumbsType="account"
-                pageHeading={t('Edit profile')}
-                title={t('Edit profile')}
+                pageHeading={t('Change password')}
+                title={t('Change password')}
             >
                 {currentCustomerUserData !== undefined && (
-                    <EditProfileContent currentCustomerUser={currentCustomerUserData} />
+                    <ChangePasswordContent currentCustomerUser={currentCustomerUserData} />
                 )}
             </CustomerLayout>
         </>
@@ -53,4 +53,4 @@ export const getServerSideProps = getServerSidePropsWrapper(
             }),
 );
 
-export default EditProfilePage;
+export default ChangePasswordPage;
