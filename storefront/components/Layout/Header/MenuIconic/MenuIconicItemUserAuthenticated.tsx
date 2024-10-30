@@ -6,6 +6,7 @@ import { UserIcon } from 'components/Basic/Icon/UserIcon';
 import { Overlay } from 'components/Basic/Overlay/Overlay';
 import { useDomainConfig } from 'components/providers/DomainConfigProvider';
 import { TIDs } from 'cypress/tids';
+import { useCurrentCustomerUserQuery } from 'graphql/requests/customer/queries/CurrentCustomerUserQuery.generated';
 import useTranslation from 'next-translate/useTranslation';
 import { useState } from 'react';
 import { desktopFirstSizes } from 'utils/mediaQueries';
@@ -17,10 +18,12 @@ import { useDebounce } from 'utils/useDebounce';
 export const MenuIconicItemUserAuthenticated: FC = () => {
     const { t } = useTranslation();
     const { url } = useDomainConfig();
+    const [{ data: currentCustomerUserData }] = useCurrentCustomerUserQuery();
     const [customerUrl] = getInternationalizedStaticUrls(['/customer'], url);
     const [isClicked, setIsClicked] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     const isHoveredDelayed = useDebounce(isHovered, 200);
+    const currentCustomerUserUuid = currentCustomerUserData?.currentCustomerUser?.uuid;
 
     const { width } = useGetWindowSize();
     const isDesktop = width > desktopFirstSizes.tablet;
@@ -29,6 +32,7 @@ export const MenuIconicItemUserAuthenticated: FC = () => {
         <>
             <div
                 className={twMergeCustom('group lg:relative lg:flex', (isClicked || isHovered) && 'z-aboveOverlay')}
+                data-convertim-eshop-customer-uuid={currentCustomerUserUuid}
                 tid={TIDs.my_account_link}
                 onMouseEnter={() => isDesktop && setIsHovered(true)}
                 onMouseLeave={() => isDesktop && setIsHovered(false)}
