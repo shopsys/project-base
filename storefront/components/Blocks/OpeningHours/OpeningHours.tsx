@@ -87,10 +87,13 @@ export const OpeningHours: FC<{ openingHours: StoreOrPacketeryPoint['openingHour
                                 isToday && 'bg-backgroundAccentLess',
                             )}
                         >
-                            <h6 className="basis-32 uppercase md:shrink-0">
+                            <h6
+                                className="basis-32 uppercase md:shrink-0"
+                                tid={TIDs.opening_hours_day_of_week_with_date}
+                            >
                                 {getDayName(openingHours.dayOfWeek, dayOfWeek)} {formatDate(date)}
                             </h6>
-                            <span className="text-sm">
+                            <span className="text-sm" tid={TIDs.opening_hours_ranges}>
                                 {isClosedWholeDay ? (
                                     <>{t('Closed')}</>
                                 ) : (

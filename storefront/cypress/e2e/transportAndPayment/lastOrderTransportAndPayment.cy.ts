@@ -1,4 +1,6 @@
 import {
+    changeOpeningHoursDayOfWeekWithDateToStaticString,
+    changeOpeningHoursRangesToStaticString,
     changeOpeningHoursStatusToEmptyString,
     changeSelectionOfPaymentByName,
     changeSelectionOfTransportByName,
@@ -63,7 +65,9 @@ describe('Last Order Transport And Payment Select Tests', { retries: { runMode: 
         changeSelectionOfPaymentByName(payment.cash.name);
         checkLoaderOverlayIsNotVisibleAfterTimePeriod(500);
         cy.reloadAndWaitForStableAndInteractiveDOM();
+        changeOpeningHoursDayOfWeekWithDateToStaticString('Wednesday 30.10.2024');
         changeOpeningHoursStatusToEmptyString();
+        changeOpeningHoursRangesToStaticString('8:00 - 18:00');
         takeSnapshotAndCompare(this.test?.title, 'after second change and refresh', {
             blackout: [
                 { tid: TIDs.transport_and_payment_list_item_image },
