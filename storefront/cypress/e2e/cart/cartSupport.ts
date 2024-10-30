@@ -67,8 +67,8 @@ export const loginInThirdOrderStep = (password: string) => {
     cy.getByTID([TIDs.layout_popup]).get('button').contains(buttonName.login).click();
 };
 
-export const openHeaderCartByHovering = () => {
-    cy.getByTID([TIDs.header_cart_link]).realHover();
+export const openHeaderCartByMouseover = () => {
+    cy.getByTID([TIDs.header_cart_link]).trigger('mouseover');
     cy.wait(1000);
     cy.scrollTo('topLeft');
 };
