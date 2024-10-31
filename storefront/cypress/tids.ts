@@ -56,6 +56,7 @@ export enum TIDs {
     header_my_complaints_link = 'header_my_complaints_link',
     my_orders_link_ = 'my_orders_link_',
     breadcrumbs_tail = 'breadcrumbs_tail',
+    header_cart = 'header_cart',
     header_cart_link = 'header_cart_link',
     header_cart_list_item_image = 'header_cart_list_item_image',
     header_homepage_link = 'header_homepage_link',

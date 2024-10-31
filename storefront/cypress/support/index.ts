@@ -12,6 +12,7 @@ const FILENAME_LENGTH_LIMIT = 250;
 const ELEMENTS_WITH_DISABLED_HOVER_DURING_SCREENSHOTS = [
     '[for="newsletter-form-privacyPolicy"]',
     TIDs.simple_header_contact,
+    TIDs.header_cart,
 ];
 const SKIP_SNAPHOTS = Cypress.env('skipSnapshots');
 
@@ -163,7 +164,10 @@ export const takeSnapshotAndCompare = (
     hideScrollbars();
     callbackBeforeBlackout?.();
     blackoutBeforeScreenshot(optionsWithDefaultValues.blackout);
-    removePointerEventsBeforeScreenshot(ELEMENTS_WITH_DISABLED_HOVER_DURING_SCREENSHOTS);
+    removePointerEventsBeforeScreenshot([
+        ...ELEMENTS_WITH_DISABLED_HOVER_DURING_SCREENSHOTS,
+        ...optionsWithDefaultValues.removePointerEvents,
+    ]);
 
     const snapshotNameFormatted = getSnapshotNameFormatted(testName, snapshotName);
 
