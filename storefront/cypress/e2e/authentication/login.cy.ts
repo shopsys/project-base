@@ -28,7 +28,7 @@ describe('Login Tests', () => {
         cy.waitForStableAndInteractiveDOM();
         takeSnapshotAndCompare(this.test?.title, 'after login', {
             capture: 'viewport',
-            wait: 2000,
+            wait: 4000,
             blackout: [{ tid: TIDs.banners_slider }, { tid: TIDs.simple_navigation_image }],
         });
 
@@ -48,7 +48,7 @@ describe('Login Tests', () => {
         cy.waitForStableAndInteractiveDOM();
         takeSnapshotAndCompare(this.test?.title, 'after login', {
             capture: 'viewport',
-            wait: 2000,
+            wait: 4000,
             blackout: [{ tid: TIDs.banners_slider }, { tid: TIDs.simple_navigation_image }],
         });
 
