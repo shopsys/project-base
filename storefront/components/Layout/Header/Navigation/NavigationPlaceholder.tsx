@@ -23,7 +23,7 @@ export const NavigationPlaceholder: FC<NavigationProps> = ({ navigation, skeleto
                     >
                         {navigationItem.name}
                         {hasChildren && (
-                            <ArrowIcon className="ml-2 text-linkInverted group-hover:rotate-180 group-hover:text-linkInvertedHovered" />
+                            <ArrowIcon className="ml-2 size-5 text-linkInverted group-hover:rotate-180 group-hover:text-linkInvertedHovered" />
                         )}
                     </ExtendedNextLink>
                 </li>

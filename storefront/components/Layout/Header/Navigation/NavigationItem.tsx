@@ -42,7 +42,7 @@ export const NavigationItem: FC<NavigationItemProps> = ({ navigationItem, skelet
                         >
                             <ArrowIcon
                                 className={twJoin(
-                                    ' text-linkInverted',
+                                    'size-5 text-linkInverted',
                                     isMenuOpenedDelayed && 'group-hover:text-linkInvertedHovered',
                                 )}
                             />

@@ -62,7 +62,7 @@ export const StoreListItem: FC<StoreListItemProps> = ({ store, isSelected }) => 
                     </div>
                 </div>
                 <div>
-                    <ArrowIcon className={`transform ${isExpanded ? 'rotate-180' : ''}`} />
+                    <ArrowIcon className={`size-5 transform ${isExpanded ? 'rotate-180' : ''}`} />
                 </div>
             </div>
 

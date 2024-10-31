@@ -108,6 +108,6 @@ const ContentArrow: FC<ContentArrowProps> = ({ isActive, isRight, isShowed, onCl
         variant="inverted"
         onClick={onClick}
     >
-        <ArrowIcon className={twJoin('w-5', isRight ? '-rotate-90' : 'rotate-90')} />
+        <ArrowIcon className={twJoin('size-5', isRight ? '-rotate-90' : 'rotate-90')} />
     </Button>
 );

@@ -35,7 +35,7 @@ export const UserNavigation: FC = () => {
                 onClick={() => setIsExpanded((prev) => !prev)}
             >
                 {isExpanded ? t('Hide menu') : t('Show menu')}
-                <ArrowIcon className={twJoin('h-3 w-3 transition', isExpanded ? 'rotate-180' : 'rotate-0')} />
+                <ArrowIcon className={twJoin('size-4 transition', isExpanded ? 'rotate-180' : 'rotate-0')} />
             </button>
 
             <m.div

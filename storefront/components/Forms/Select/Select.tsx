@@ -25,7 +25,7 @@ const DropdownIndicator = (props: any) => {
                 animate={{ rotate: props.selectProps.menuIsOpen ? 180 : 0 }}
                 transition={{ type: 'tween', duration: 0.2 }}
             >
-                <ArrowIcon className={twJoin('text-inputText', props.isDisabled && 'text-inputTextDisabled')} />
+                <ArrowIcon className={twJoin('size-5 text-inputText', props.isDisabled && 'text-inputTextDisabled')} />
             </m.div>
         </components.DropdownIndicator>
     );

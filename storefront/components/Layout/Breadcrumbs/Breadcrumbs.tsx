@@ -32,7 +32,7 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({ breadcrumbs, type, className
             <BreadcrumbsMetadata breadcrumbs={breadcrumbs} />
 
             <div className={twMergeCustom(breadcrumbsTwClass, className)}>
-                <ArrowIcon className="mr-3 w-2.5 rotate-90 text-borderAccent lg:hidden" />
+                <ArrowIcon className="mr-3 size-4 rotate-90 text-borderAccent lg:hidden" />
 
                 <BreadcrumbsLink href="/" skeletonType="homepage">
                     {t('Home page')}
@@ -59,7 +59,7 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({ breadcrumbs, type, className
 
 export const BreadcrumbsSpan: FC = ({ tid }) => (
     <span className="hidden items-center text-borderAccent lg:flex" tid={tid}>
-        <ArrowIcon className="w-2.5 -rotate-90" />
+        <ArrowIcon className="size-4 -rotate-90" />
     </span>
 );
 

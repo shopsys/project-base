@@ -36,7 +36,7 @@ export const OrderAction: FC<OrderActionProps> = ({
         >
             <div className="order-2 lg:order-1">
                 <Button tid={TIDs.blocks_orderaction_back} variant="inverted" onClick={backStepClickHandler}>
-                    <ArrowIcon className={twJoin('relative top-0 mr-1 rotate-90')} />
+                    <ArrowIcon className={twJoin('relative top-0 mr-1 size-4 rotate-90')} />
                     {buttonBack}
                 </Button>
             </div>
@@ -44,7 +44,7 @@ export const OrderAction: FC<OrderActionProps> = ({
                 <SubmitButton isWithDisabledLook={hasDisabledLook} onClick={nextStepClickHandler}>
                     {shouldShowSpinnerOnNextStepButton && <SpinnerIcon className="w-5" />}
                     <span>{buttonNext}</span>
-                    <ArrowIcon className="relative top-0 ml-1 -rotate-90" />
+                    <ArrowIcon className="relative top-0 ml-1 size-4 -rotate-90" />
                 </SubmitButton>
             </div>
         </div>
