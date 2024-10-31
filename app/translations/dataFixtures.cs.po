@@ -880,6 +880,9 @@ msgstr "Ergonomie"
 msgid "Expect delivery by the end of next month"
 msgstr "Očekávejte dodávku koncem příštího měsíce"
 
+msgid "Explore our comprehensive documentation to get the most out of our platform. Find guides, tutorials, and detailed information to help you navigate and utilize all features effectively. Click the link to access the full documentation."
+msgstr "Prozkoumejte naši komplexní dokumentaci, abyste získali maximum z naší platformy. Najdete zde průvodce, návody a podrobné informace, které vám pomohou efektivně se orientovat a využívat všechny funkce. Klikněte na odkaz pro přístup k celé dokumentaci."
+
 msgid "Extension rod plastic TM-4610"
 msgstr "Nástavec tyčový plast TM-4610"
 
@@ -1074,6 +1077,9 @@ msgstr "JURA Impressa J9 TFT Carbon"
 
 msgid "Job at Shopsys"
 msgstr "Práce v Shopsys"
+
+msgid "Join our team and be part of an innovative company. Explore exciting career opportunities and grow with us!"
+msgstr "Přidejte se k nám a buďte součástí inovativní společnosti. Objevte vzrušující kariérní příležitosti a rosťte s námi!"
 
 msgid "Kabel HDMI A - HDMI A M/M 2m gold-plated connectors High Speed HD"
 msgstr "Kabel HDMI A - HDMI A M/M 2m zlacene konektory High Speed HD"
@@ -1830,6 +1836,9 @@ msgstr "Konec nemotornému odkládání hrnců na novou kuchyňskou linku nebo n
 
 msgid "This product is not an independently functional unit and may require professional installation."
 msgstr "Přenosný pevný disk GT SuperSpeed USB 3.0 se inspiruje dlouhou historií sportovních vozů"
+
+msgid "This slider item promotes our latest offers and updates. Stay tuned for more exciting news and promotions. Click the link to learn more!"
+msgstr "Tenhle posuvník propaguje naše nejnovější nabídky a aktualizace. Buďte v obraze a sledujte další vzrušující novinky a akce. Klikněte na odkaz a dozvíte se více!"
 
 msgid "Ticket for 100 CZK"
 msgstr "Poukázka na 100 CZK"
