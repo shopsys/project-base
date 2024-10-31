@@ -45,7 +45,7 @@ export const PickupPlacePopup: FC<PickupPlacePopupProps> = ({ transportUuid, onC
                     onSelectStoreCallback={onSelectStoreHandler}
                 />
             )}
-            <div className="mt-5 flex justify-between">
+            <div className="sticky -inset-4 flex justify-between bg-background p-4">
                 <Button onClick={() => updatePortalContent(null)}>{t('Close')}</Button>
                 <Button
                     isDisabled={selectedStoreUuid === ''}

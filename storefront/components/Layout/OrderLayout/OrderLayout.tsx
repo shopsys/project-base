@@ -20,7 +20,7 @@ export const OrderLayout: FC<OrderLayoutProps> = ({ children, page, isFetchingDa
     const isPageLoading = useSessionStore((s) => s.isPageLoading);
 
     return (
-        <>
+        <div className="h-full">
             <SeoMeta defaultTitle={t('Order')} />
 
             <NotificationBars />
@@ -34,7 +34,7 @@ export const OrderLayout: FC<OrderLayoutProps> = ({ children, page, isFetchingDa
 
             <Adverts withGapBottom withWebline positionName="header" />
 
-            <div className="min-h-[70vh]">
+            <div className="h-full min-h-[70vh]">
                 <SkeletonManager
                     isFetchingData={!canContentBeDisplayed || isFetchingData}
                     isPageLoading={isPageLoading}
@@ -49,6 +49,6 @@ export const OrderLayout: FC<OrderLayoutProps> = ({ children, page, isFetchingDa
             <Webline wrapperClassName="bg-backgroundAccentLess">
                 <Footer simpleFooter />
             </Webline>
-        </>
+        </div>
     );
 };
