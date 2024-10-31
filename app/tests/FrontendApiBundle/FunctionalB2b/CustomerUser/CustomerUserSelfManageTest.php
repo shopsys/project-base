@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Tests\FrontendApiBundle\FunctionalB2b\CustomerUser;
 
 use App\DataFixtures\Demo\CompanyDataFixture;
+use App\DataFixtures\Demo\CompanyOrderDataFixture;
 use App\DataFixtures\Demo\CustomerUserRoleGroupDataFixture;
 use App\Model\Customer\User\CustomerUser;
+use App\Model\Order\Order;
 use Shopsys\FrameworkBundle\Model\Customer\User\Role\CustomerUserRoleGroup;
 use Tests\FrontendApiBundle\FunctionalB2b\CustomerUser\Helper\ChangePersonalDataInputProvider;
 use Tests\FrontendApiBundle\Test\GraphQlB2bDomainWithLoginTestCase;
@@ -110,5 +112,28 @@ class CustomerUserSelfManageTest extends GraphQlB2bDomainWithLoginTestCase
         $response = $this->getResponseContentForGql(__DIR__ . '/../_graphql/AddNewCustomerUserMutation.graphql');
 
         $this->assertAccessDeniedError($response);
+    }
+
+    /**
+     * @see \Tests\FrontendApiBundle\FunctionalB2b\CustomerUser\CustomerUserOwnerTest::testGetAnotherCustomerUserOrderDetail()
+     */
+    public function testGetAnotherCustomerUserOrderDetailQueryReturnsNotFound(): void
+    {
+        $anotherUserOrder = $this->getReference(CompanyOrderDataFixture::ORDER_PREFIX . 26, Order::class);
+        $response = $this->getResponseContentForGql(__DIR__ . '/../_graphql/OrderQuery.graphql', [
+            'orderUuid' => $anotherUserOrder->getUuid(),
+        ]);
+
+        $this->assertResponseContainsArrayOfErrors($response);
+
+        $errors = $this->getErrorsFromResponse($response);
+
+        $this->assertArrayHasKey(0, $errors);
+        $this->assertArrayHasKey('extensions', $errors[0]);
+
+        $extensions = $errors[0]['extensions'];
+
+        $this->assertSame('order-not-found', $extensions['userCode']);
+        $this->assertSame(404, $extensions['code']);
     }
 }
