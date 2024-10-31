@@ -90,7 +90,7 @@
         "@types/uuid": "~9.0.8",
         "@typescript-eslint/eslint-plugin": "~6.20.0",
         "@typescript-eslint/parser": "~6.20.0",
-        "@urql/introspection": "^1.0.3",
+        "@urql/introspection": "^1.1.0",
         "@vitejs/plugin-react": "~4.2.1",
         "autoprefixer": "~10.4.17",
         "concurrently": "~8.2.2",
