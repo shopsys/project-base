@@ -42,7 +42,7 @@ export const MobileMenuContent: FC<MobileMenuContentProps> = ({ navigationItems,
                         title={t('Back')}
                         onClick={() => handleBackClick(historyMenuGroups)}
                     >
-                        <ArrowIcon className="w-5 rotate-90" />
+                        <ArrowIcon className="size-5 rotate-90" />
                     </button>
                 )}
 

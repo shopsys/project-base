@@ -134,6 +134,6 @@ type ResetButtonProps = { text: string; onClick: () => void };
 const ResetButton: FC<ResetButtonProps> = ({ text, onClick, tid }) => (
     <button className="flex w-full items-center bg-backgroundMost px-2 py-1 text-sm" tid={tid} onClick={onClick}>
         {text}
-        <ArrowIcon className="ml-2" />
+        <ArrowIcon className="ml-2 size-4" />
     </button>
 );

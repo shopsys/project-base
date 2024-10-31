@@ -40,7 +40,13 @@ export const ContactInformationEmail: FC = () => {
     });
 
     const openLoginPopup = () => {
-        updatePortalContent(<LoginPopup shouldOverwriteCustomerUserCart defaultEmail={emailValue} />);
+        updatePortalContent(
+            <LoginPopup
+                shouldOverwriteCustomerUserCart
+                defaultEmail={emailValue}
+                formHeading={t('Log in and continue with order')}
+            />,
+        );
     };
 
     return (
@@ -70,7 +76,7 @@ export const ContactInformationEmail: FC = () => {
                         type="button"
                         onClick={openLoginPopup}
                     >
-                        {t('Sign in')}
+                        {t('Log in and continue with order')}
                     </Button>
                 </div>
             )}

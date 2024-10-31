@@ -8,10 +8,14 @@ export const clickOnUserIconInHeader = () => {
 };
 
 export const goToRegistrationPageFromHeader = () => {
-    clickOnUserIconInHeader();
-    cy.getByTID([TIDs.login_popup_register_button]).click();
-    checkUrl(url.registration);
-    cy.waitForStableAndInteractiveDOM();
+    cy.getByTID([TIDs.my_account_link])
+        .should('be.visible')
+        .realHover()
+        .then(() => {
+            cy.getByTID([TIDs.login_popup_register_button]).click();
+            checkUrl(url.registration);
+            cy.waitForStableAndInteractiveDOM();
+        });
 };
 
 export const submitRegistrationForm = () => {
@@ -27,9 +31,13 @@ export const logoutFromCustomerPage = () => {
 };
 
 export const loginFromHeader = (email: string | undefined, password: string) => {
-    clickOnUserIconInHeader();
-    fillInEmailAndPasswordInLoginPopup(email, password);
-    submitLoginForm();
+    cy.getByTID([TIDs.my_account_link])
+        .should('be.visible')
+        .realHover()
+        .then(() => {
+            fillInEmailAndPasswordInLoginPopup(email, password);
+            submitLoginForm();
+        });
 };
 
 export const logoutFromHeader = () => {
@@ -40,11 +48,10 @@ export const logoutFromHeader = () => {
 };
 
 export const fillInEmailAndPasswordInLoginPopup = (email: string | undefined, password: string) => {
-    const getLoginPopup = () => cy.getByTID([TIDs.layout_popup]);
     if (email) {
-        getLoginPopup().get('#login-form-email').type(email, { force: true });
+        cy.get('#login-form-email').type(email, { force: true });
     }
-    getLoginPopup().get('#login-form-password').type(password, { force: true });
+    cy.get('#login-form-password').type(password, { force: true });
 };
 
 export const fillInEmailAndPasswordOnLoginPage = (email: string, password: string) => {

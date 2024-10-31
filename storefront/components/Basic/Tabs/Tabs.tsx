@@ -77,7 +77,7 @@ export const TabsContent: TabFC<TabsContentProps & Partial<PropsWithRef<TabPanel
             >
                 {headingTextMobile}
                 <AnimateRotateDiv className="flex items-start" condition={isActiveOnMobile}>
-                    <ArrowIcon className={twJoin('w-4 rotate-0 text-text transition')} />
+                    <ArrowIcon className={twJoin('size-4 rotate-0 text-text transition')} />
                 </AnimateRotateDiv>
             </h3>
 

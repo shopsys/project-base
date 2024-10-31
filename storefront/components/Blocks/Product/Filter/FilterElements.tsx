@@ -21,7 +21,7 @@ export const FilterGroupTitle: FC<{ isOpen: boolean; title: string; onClick: () 
             {title}
             {isActive && <div className="ml- size-2 rounded-full bg-textSuccess vl:hidden" />}
         </div>
-        <ArrowIcon className={twJoin('w-2.5 rotate-0 select-none text-xs transition', isOpen && 'rotate-180')} />
+        <ArrowIcon className={twJoin('size-5 rotate-0 select-none text-xs transition', isOpen && 'rotate-180')} />
     </div>
 );
 

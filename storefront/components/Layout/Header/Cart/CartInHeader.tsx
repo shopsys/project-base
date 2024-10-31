@@ -48,6 +48,7 @@ export const CartInHeader: FC = ({ className }) => {
     return (
         <>
             <div
+                tid={TIDs.header_cart}
                 className={twMergeCustom(
                     'group relative lg:flex',
                     (isClicked || isHovered) && 'z-aboveOverlay',

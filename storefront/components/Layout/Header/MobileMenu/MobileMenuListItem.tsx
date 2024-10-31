@@ -25,7 +25,7 @@ export const DropdownMenuListItem: FC<DropdownMenuListProps> = ({ navigationItem
 
             {isWithChildren && (
                 <span className="flex w-11 cursor-pointer items-center justify-center text-text" onClick={onExpand}>
-                    <ArrowIcon className="w-5 -rotate-90" />
+                    <ArrowIcon className="size-5 -rotate-90" />
                 </span>
             )}
         </div>
