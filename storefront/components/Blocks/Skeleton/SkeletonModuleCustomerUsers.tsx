@@ -1,5 +1,7 @@
 import Skeleton from 'react-loading-skeleton';
 
+export const SkeletonModuleAddButton: FC = () => <Skeleton className="mb-4 h-8 w-[124px] rounded-lg" />;
+
 export const SkeletonCustomerUsersTable: FC = () => (
     <>
         <Skeleton className="mb-0.5 h-12 w-full" />

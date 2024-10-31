@@ -4,7 +4,7 @@ import { CustomerUserAreaEnum, CustomerUserRoleEnum } from 'types/customer';
 
 export const useUserPermissions = () => {
     const { type } = useDomainConfig();
-    const [{ data: currentCustomerUserData }] = useCurrentCustomerUserQuery({
+    const [{ data: currentCustomerUserData, fetching: isCurrentCustomerFetching }] = useCurrentCustomerUserQuery({
         requestPolicy: 'network-only',
     });
     const currentCustomerUser = currentCustomerUserData?.currentCustomerUser;
@@ -20,5 +20,6 @@ export const useUserPermissions = () => {
         canManageProfile,
         isB2B,
         isCompanyUser,
+        isPermissionsFetching: isCurrentCustomerFetching,
     };
 };
