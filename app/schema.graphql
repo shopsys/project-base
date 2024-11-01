@@ -1969,6 +1969,8 @@ type Query {
   ): Complaint!
   "Returns list of complaints that can be paginated using `first`, `last`, `before` and `after` keywords"
   complaints(after: String, before: String, first: Int, last: Int, searchInput: SearchInput): ComplaintConnection!
+  "Check if customer can be registered with provided data"
+  couldBeCustomerRegisteredQuery(companyNumber: String = null, email: String!): Boolean!
   "Returns available countries"
   countries: [Country!]!
   "Returns currently logged in customer user"

@@ -593,6 +593,25 @@ Returns list of complaints that can be paginated using `first`, `last`, `before`
 <td></td>
 </tr>
 <tr>
+<td colspan="2" valign="top"><strong>couldBeCustomerRegisteredQuery</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td>
+
+Check if customer can be registered with provided data
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">companyNumber</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">email</td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td></td>
+</tr>
+<tr>
 <td colspan="2" valign="top"><strong>countries</strong></td>
 <td valign="top">[<a href="#country">Country</a>!]!</td>
 <td>

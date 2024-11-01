@@ -2415,6 +2415,8 @@ export type TypeQuery = {
   complaint: TypeComplaint;
   /** Returns list of complaints that can be paginated using `first`, `last`, `before` and `after` keywords */
   complaints: TypeComplaintConnection;
+  /** Check if customer can be registered with provided data */
+  couldBeCustomerRegisteredQuery: Scalars['Boolean']['output'];
   /** Returns available countries */
   countries: Array<TypeCountry>;
   /** Returns currently logged in customer user */
@@ -2593,6 +2595,12 @@ export type TypeQueryComplaintsArgs = {
   first: InputMaybe<Scalars['Int']['input']>;
   last: InputMaybe<Scalars['Int']['input']>;
   searchInput: InputMaybe<TypeSearchInput>;
+};
+
+
+export type TypeQueryCouldBeCustomerRegisteredQueryArgs = {
+  companyNumber?: InputMaybe<Scalars['String']['input']>;
+  email: Scalars['String']['input'];
 };
 
 

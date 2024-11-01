@@ -158,6 +158,7 @@ const useHandleCreateOrderResult = () => {
         if (wasOrderCreated && createdOrder) {
             const orderConfirmationUrlQuery: OrderConfirmationUrlQuery = {
                 orderUuid: createdOrder.uuid,
+                companyNumber: user?.companyNumber ?? formValues.companyNumber,
                 orderEmail: user?.email ?? formValues.email,
                 orderPaymentType: createdOrder.payment.type,
                 orderPaymentStatusPageValidityHash: undefined,
