@@ -26,7 +26,7 @@ export const CollapsibleDescriptionWithImage: FC<CollapsibleDescriptionWithImage
                 <div className="h-full flex-shrink-0 sm:h-32">
                     <Image
                         alt={imageName}
-                        className="h-full w-auto rounded-lg"
+                        className="h-auto w-full rounded-lg sm:h-full sm:w-auto"
                         height={500}
                         src={imageUrl}
                         width={500}
