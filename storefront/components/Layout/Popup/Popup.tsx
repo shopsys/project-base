@@ -32,7 +32,7 @@ export const Popup: FC<PopupProps> = ({ children, hideCloseButton, className, co
                 top: Math.round(windowDimensions.height / 2 - popupRef.current.offsetHeight / 2),
             });
         }
-    }, [windowDimensions]);
+    }, [windowDimensions, children]);
 
     return (
         <div key={key}>

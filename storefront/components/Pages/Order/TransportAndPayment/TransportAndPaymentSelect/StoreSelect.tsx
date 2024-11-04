@@ -16,7 +16,7 @@ export const StoreSelect: FC<StoreSelectProps> = ({ selectedStoreUuid, stores, o
     const mappedStores = useMemo(() => mapConnectionEdges<StoreOrPacketeryPoint>(stores.edges), [stores.edges]);
 
     return (
-        <ul className="max-h-[70dvh] overflow-y-auto">
+        <ul className="max-h-fit overflow-y-auto">
             {mappedStores?.map((pickupPlace) => (
                 <TransportAndPaymentListItem
                     key={pickupPlace.identifier}
