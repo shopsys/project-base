@@ -8,22 +8,14 @@ import { TIDs } from 'cypress/tids';
 import useTranslation from 'next-translate/useTranslation';
 import { getInternationalizedStaticUrls } from 'utils/staticUrls/getInternationalizedStaticUrls';
 
-type MenuUnauthenticatedProps = {
-    isHoveredDelayed: boolean;
-    isClicked: boolean;
-};
-
-export const MenuIconicItemUserUnauthenticatedContent: FC<MenuUnauthenticatedProps> = ({
-    isHoveredDelayed,
-    isClicked,
-}) => {
+export const MenuIconicItemUserUnauthenticatedContent: FC = () => {
     const { t } = useTranslation();
     const { url } = useDomainConfig();
     const [registrationUrl] = getInternationalizedStaticUrls(['/registration'], url);
 
     return (
-        <div className="flex w-full flex-col gap-8 lg:flex-row lg:p-5">
-            <div className="order-2 mb-auto rounded-xl bg-backgroundBrandLess p-5 text-textInverted lg:order-1 lg:w-1/2 lg:p-9">
+        <div className="flex w-full flex-col gap-8 vl:flex-row vl:p-5">
+            <div className="order-2 mb-auto rounded-xl bg-backgroundBrandLess p-5 text-textInverted vl:order-1 vl:w-1/2 vl:p-9">
                 <h4>{t('Benefits of registration')}</h4>
                 <div className="my-4">
                     <p className="text-textInverted">
@@ -51,11 +43,8 @@ export const MenuIconicItemUserUnauthenticatedContent: FC<MenuUnauthenticatedPro
                     </Button>
                 </ExtendedNextLink>
             </div>
-            <div className="order-1 w-full lg:order-2 lg:w-[364px]">
-                <LoginForm
-                    formContentWrapperClassName={isHoveredDelayed || isClicked ? '-hidden' : 'hidden'}
-                    formHeading={t('Log in')}
-                />
+            <div className="order-1 w-full vl:order-2 vl:w-[364px]">
+                <LoginForm formHeading={t('Log in')} />
             </div>
         </div>
     );

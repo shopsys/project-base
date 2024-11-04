@@ -3,10 +3,6 @@ import { generateCustomerRegistrationData } from 'fixtures/generators';
 import { checkUrl } from 'support';
 import { TIDs } from 'tids';
 
-export const clickOnUserIconInHeader = () => {
-    cy.getByTID([TIDs.layout_header_menuiconic_login_link_popup]).click();
-};
-
 export const goToRegistrationPageFromHeader = () => {
     cy.getByTID([TIDs.my_account_link])
         .should('be.visible')
