@@ -263,7 +263,7 @@ class ProductsTest extends ProductsGraphQlTestCase
     {
         $firstDomainLocale = $this->getLocaleForFirstDomain();
         $productName = t(
-            'Sencor SDB 4002M4',
+            '47" LG 47LA790V (FHD)',
             [],
             Translator::DATA_FIXTURES_TRANSLATION_DOMAIN,
             $firstDomainLocale,
@@ -275,7 +275,7 @@ class ProductsTest extends ProductsGraphQlTestCase
             "edges": [
                 {
                     "node": {
-                        "name": "' . $productName . '"
+                        "name": "' . addslashes($productName) . '"
                     }
                 }
             ]

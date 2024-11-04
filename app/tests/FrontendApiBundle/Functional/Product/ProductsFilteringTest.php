@@ -113,13 +113,13 @@ class ProductsFilteringTest extends ProductsGraphQlTestCase
 
         $productsExpected = [
             ['name' => t(
-                'ZN-8009 steam iron Ferrato stainless steel 2200 Watt Blue',
+                'Sencor SDB 4002M4',
                 [],
                 Translator::DATA_FIXTURES_TRANSLATION_DOMAIN,
                 $this->firstDomainLocale,
             )],
             ['name' => t(
-                'Sencor SDB 4002M4',
+                '47" LG 47LA790V (FHD)',
                 [],
                 Translator::DATA_FIXTURES_TRANSLATION_DOMAIN,
                 $this->firstDomainLocale,

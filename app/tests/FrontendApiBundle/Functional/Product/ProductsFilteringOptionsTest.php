@@ -38,7 +38,7 @@ class ProductsFilteringOptionsTest extends GraphQlTestCase
         $query = $this->getElectronicsQuery();
 
         $minimalPrice = $this->getFormattedMoneyAmountConvertedToDomainDefaultCurrency('319');
-        $maximalPrice = $this->getFormattedMoneyAmountConvertedToDomainDefaultCurrency('21590');
+        $maximalPrice = $this->getFormattedMoneyAmountConvertedToDomainDefaultCurrency('9889.9');
 
         $materials = [
             [
@@ -286,7 +286,7 @@ class ProductsFilteringOptionsTest extends GraphQlTestCase
         $response = $this->getResponseContentForQuery($query);
         $data = $this->getResponseDataForGraphQlType($response, 'category');
 
-        $this->assertSame(4, $data['products']['productFilterOptions']['inStock']);
+        $this->assertSame(3, $data['products']['productFilterOptions']['inStock']);
         $this->assertSame($minimalPrice, $data['products']['productFilterOptions']['minimalPrice']);
         $this->assertSame($maximalPrice, $data['products']['productFilterOptions']['maximalPrice']);
 
