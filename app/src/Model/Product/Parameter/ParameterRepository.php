@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace App\Model\Product\Parameter;
 
 use Doctrine\ORM\Query\Expr\Join;
-use Doctrine\ORM\QueryBuilder;
 use Shopsys\FrameworkBundle\Model\Product\Parameter\Exception\ParameterValueNotFoundException;
 use Shopsys\FrameworkBundle\Model\Product\Parameter\ParameterRepository as BaseParameterRepository;
 use Shopsys\FrameworkBundle\Model\Product\Parameter\ParameterValue;
 use Shopsys\FrameworkBundle\Model\Product\Parameter\ParameterValueData;
 use Shopsys\FrameworkBundle\Model\Product\Parameter\ProductParameterValue;
-use Shopsys\FrameworkBundle\Model\Product\Product as BaseProduct;
 
 /**
  * @method \Shopsys\FrameworkBundle\Model\Product\Parameter\Parameter[] getParametersUsedByProductsInCategory(\App\Model\Category\Category $category, \Shopsys\FrameworkBundle\Component\Domain\Config\DomainConfig $domainConfig)
@@ -23,6 +21,7 @@ use Shopsys\FrameworkBundle\Model\Product\Product as BaseProduct;
  * @method \Doctrine\ORM\QueryBuilder getProductParameterValuesByProductQueryBuilder(\App\Model\Product\Product $product)
  * @method \Shopsys\FrameworkBundle\Model\Product\Parameter\Parameter[] getParametersUsedByProductsInCategoryWithoutSlider(\App\Model\Category\Category $category, int $domainId)
  * @method \Shopsys\FrameworkBundle\Model\Product\Parameter\ParameterValue[] getParameterValuesUsedByProductsInCategoryByParameter(\App\Model\Category\Category $category, \Shopsys\FrameworkBundle\Model\Product\Parameter\Parameter $parameter, int $domainId, string $locale)
+ * @method \Doctrine\ORM\QueryBuilder getProductParameterValuesByProductSortedByOrderingPriorityAndNameQueryBuilder(\App\Model\Product\Product $product, string $locale)
  */
 class ParameterRepository extends BaseParameterRepository
 {
@@ -41,32 +40,6 @@ class ParameterRepository extends BaseParameterRepository
         }
 
         return $parameterValue;
-    }
-
-    /**
-     * @param \App\Model\Product\Product $product
-     * @param string $locale
-     * @return \Doctrine\ORM\QueryBuilder
-     */
-    protected function getProductParameterValuesByProductSortedByOrderingPriorityAndNameQueryBuilder(
-        BaseProduct $product,
-        string $locale,
-    ): QueryBuilder {
-        return $this->em->createQueryBuilder()
-            ->select('ppv')
-            ->from(ProductParameterValue::class, 'ppv')
-            ->join('ppv.parameter', 'p')
-            ->join('p.translations', 'pt')
-            ->leftJoin('p.group', 'pg')
-            ->where('ppv.product = :product_id')
-            ->andWhere('pt.locale = :locale')
-            ->setParameters([
-                'product_id' => $product->getId(),
-                'locale' => $locale,
-            ])
-            ->orderBy('p.orderingPriority', 'DESC')
-            ->addOrderBy('pg.orderingPriority', 'DESC')
-            ->addOrderBy('pt.name');
     }
 
     /**
