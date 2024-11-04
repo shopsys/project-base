@@ -6,6 +6,11 @@ fragment ListedOrderFragment on Order {
     productItems {
         __typename
         quantity
+        product {
+            __typename
+            isVisible
+            isSellingDenied
+        }
     }
     transport {
         __typename
