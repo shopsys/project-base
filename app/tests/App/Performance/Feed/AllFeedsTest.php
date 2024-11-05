@@ -34,12 +34,11 @@ class AllFeedsTest extends KernelTestCase
             'debug' => EnvironmentType::isDebug(EnvironmentType::TEST),
         ]);
 
-        $container = static::$container;
-        $container->get(Domain::class)
+        static::getContainer()->get(Domain::class)
             ->switchDomainById(Domain::FIRST_DOMAIN_ID);
 
-        $this->maxDuration = $container->getParameter('shopsys.performance_test.feed.max_duration_seconds');
-        $this->minDuration = $container->getParameter('shopsys.performance_test.feed.min_duration_seconds');
+        $this->maxDuration = static::getContainer()->getParameter('shopsys.performance_test.feed.max_duration_seconds');
+        $this->minDuration = static::getContainer()->getParameter('shopsys.performance_test.feed.min_duration_seconds');
     }
 
     public function testAllFeedsGeneration()
@@ -78,7 +77,7 @@ class AllFeedsTest extends KernelTestCase
 
         $this->exportJmeterCsvReport(
             $performanceTestSamples,
-            static::$container->getParameter('kernel.project_dir') . '/build/stats/performance-tests-feeds.csv',
+            static::getContainer()->getParameter('kernel.project_dir') . '/build/stats/performance-tests-feeds.csv',
         );
 
         $this->assertSamplesAreSuccessful($performanceTestSamples);
@@ -108,9 +107,9 @@ class AllFeedsTest extends KernelTestCase
     public function getAllFeedGenerationData()
     {
         /** @var \Shopsys\FrameworkBundle\Model\Feed\FeedRegistry $feedRegistry */
-        $feedRegistry = static::$container->get(FeedRegistry::class);
+        $feedRegistry = static::getContainer()->get(FeedRegistry::class);
         /** @var \Shopsys\FrameworkBundle\Component\Domain\Domain $domain */
-        $domain = static::$container->get(Domain::class);
+        $domain = static::getContainer()->get(Domain::class);
 
         return $this->getFeedGenerationData(
             $feedRegistry->getFeedsForCurrentTime(),
@@ -185,7 +184,7 @@ class AllFeedsTest extends KernelTestCase
         $this->setUp();
 
         /** @var \Symfony\Component\Routing\RouterInterface $router */
-        $router = static::$container->get('router');
+        $router = static::getContainer()->get('router');
 
         $uri = $router->generate(
             self::ROUTE_NAME_GENERATE_FEED,
@@ -199,7 +198,7 @@ class AllFeedsTest extends KernelTestCase
         $auth->authenticateRequest($request);
 
         /** @var \Doctrine\ORM\EntityManager $entityManager */
-        $entityManager = static::$container->get('doctrine.orm.entity_manager');
+        $entityManager = static::getContainer()->get('doctrine.orm.entity_manager');
 
         $startTime = microtime(true);
         $entityManager->beginTransaction();
