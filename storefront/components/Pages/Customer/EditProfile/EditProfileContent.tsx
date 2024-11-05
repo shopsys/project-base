@@ -1,22 +1,19 @@
-import { BillingAddress } from './EditProfile/BillingAddress';
-import { ChangePassword } from './EditProfile/ChangePassword';
-import { CompanyCustomer } from './EditProfile/CompanyCustomer';
-import { DeliveryAddress } from './EditProfile/DeliveryAddress';
-import { PersonalData } from './EditProfile/PersonalData';
+import { BillingAddress } from './BillingAddress';
+import { CompanyCustomer } from './CompanyCustomer';
+import { DeliveryAddress } from './DeliveryAddress';
+import { PersonalData } from './PersonalData';
 import { SubmitButton } from 'components/Forms/Button/SubmitButton';
 import { Form, FormButtonWrapper, FormContentWrapper } from 'components/Forms/Form/Form';
 import {
     useCustomerChangeProfileForm,
     useCustomerChangeProfileFormMeta,
-} from 'components/Pages/Customer/customerChangeProfileFormMeta';
-import { useChangePasswordMutation } from 'graphql/requests/customer/mutations/ChangePasswordMutation.generated';
+} from 'components/Pages/Customer/EditProfile/customerChangeProfileFormMeta';
 import { useChangePersonalDataMutation } from 'graphql/requests/customer/mutations/ChangePersonalDataMutation.generated';
 import { GtmMessageOriginType } from 'gtm/enums/GtmMessageOriginType';
 import useTranslation from 'next-translate/useTranslation';
 import { FormProvider, SubmitHandler } from 'react-hook-form';
 import { CurrentCustomerType } from 'types/customer';
 import { CustomerChangeProfileFormType } from 'types/form';
-import { getUserFriendlyErrors } from 'utils/errors/friendlyErrorMessageParser';
 import { handleFormErrors } from 'utils/forms/handleFormErrors';
 import { useErrorPopup } from 'utils/forms/useErrorPopup';
 import { showSuccessMessage } from 'utils/toasts/showSuccessMessage';
@@ -28,7 +25,6 @@ type EditProfileContentProps = {
 export const EditProfileContent: FC<EditProfileContentProps> = ({ currentCustomerUser }) => {
     const { t } = useTranslation();
     const [, customerEditProfile] = useChangePersonalDataMutation();
-    const [, changePassword] = useChangePasswordMutation();
 
     const [formProviderMethods] = useCustomerChangeProfileForm({
         ...currentCustomerUser,
@@ -38,6 +34,7 @@ export const EditProfileContent: FC<EditProfileContentProps> = ({ currentCustome
         },
     });
     const formMeta = useCustomerChangeProfileFormMeta(formProviderMethods);
+    const isSubmitting = formProviderMethods.formState.isSubmitting;
 
     const onSubmitCustomerChangeProfileFormHandler: SubmitHandler<CustomerChangeProfileFormType> = async (
         customerChangeProfileFormData,
@@ -45,17 +42,10 @@ export const EditProfileContent: FC<EditProfileContentProps> = ({ currentCustome
     ) => {
         event?.preventDefault();
 
-        const postponedProfileChangeAction = await onChangeProfileHandler(customerChangeProfileFormData);
-        const passwordChangeResponse = await onChangePasswordHandler(customerChangeProfileFormData);
-
-        if (!passwordChangeResponse.error) {
-            postponedProfileChangeAction();
-        }
+        onChangeProfileHandler(customerChangeProfileFormData);
     };
 
-    const onChangeProfileHandler = async (
-        customerChangeProfileFormData: CustomerChangeProfileFormType,
-    ): Promise<() => void> => {
+    const onChangeProfileHandler = async (customerChangeProfileFormData: CustomerChangeProfileFormType) => {
         const changeProfileResult = await customerEditProfile({
             input: {
                 billingAddressUuid: currentCustomerUser.billingAddressUuid,
@@ -75,53 +65,10 @@ export const EditProfileContent: FC<EditProfileContentProps> = ({ currentCustome
         });
 
         if (changeProfileResult.data?.ChangePersonalData !== undefined) {
-            return () => showSuccessMessage(formMeta.messages.success);
+            showSuccessMessage(formMeta.messages.success);
         }
 
-        return () => handleFormErrors(changeProfileResult.error, formProviderMethods, t, formMeta.messages.error);
-    };
-
-    const onChangePasswordHandler = async (
-        customerChangeProfileFormData: CustomerChangeProfileFormType,
-    ): Promise<{ error: boolean }> => {
-        if (
-            customerChangeProfileFormData.newPassword === '' ||
-            customerChangeProfileFormData.newPasswordConfirm === ''
-        ) {
-            return { error: false };
-        }
-
-        const changePasswordResult = await changePassword({
-            email: customerChangeProfileFormData.email,
-            oldPassword: customerChangeProfileFormData.oldPassword,
-            newPassword: customerChangeProfileFormData.newPassword,
-        });
-
-        if (changePasswordResult.data?.ChangePassword !== undefined) {
-            showSuccessMessage(t('Your password has been changed.'));
-            return { error: false };
-        }
-
-        if (changePasswordResult.error) {
-            const { applicationError } = getUserFriendlyErrors(changePasswordResult.error, t);
-
-            if (applicationError?.type === 'invalid-account-or-password') {
-                formProviderMethods.setError('oldPassword', {
-                    message: t('The current password is incorrect'),
-                });
-            }
-        }
-
-        handleFormErrors(
-            changePasswordResult.error,
-            formProviderMethods,
-            t,
-            t('There was an error while changing your password'),
-        );
-
-        return {
-            error: !!changePasswordResult.error,
-        };
+        handleFormErrors(changeProfileResult.error, formProviderMethods, t, formMeta.messages.error);
     };
 
     useErrorPopup(formProviderMethods, formMeta.fields, undefined, GtmMessageOriginType.other);
@@ -131,11 +78,6 @@ export const EditProfileContent: FC<EditProfileContentProps> = ({ currentCustome
             <Form onSubmit={formProviderMethods.handleSubmit(onSubmitCustomerChangeProfileFormHandler)}>
                 <FormContentWrapper>
                     <PersonalData />
-
-                    <ChangePassword
-                        email={currentCustomerUser.email}
-                        hasPasswordSet={currentCustomerUser.hasPasswordSet}
-                    />
 
                     {currentCustomerUser.companyCustomer && <CompanyCustomer />}
 
@@ -147,7 +89,7 @@ export const EditProfileContent: FC<EditProfileContentProps> = ({ currentCustome
                     />
 
                     <FormButtonWrapper className="mt-0 pb-6">
-                        <SubmitButton>{t('Save profile')}</SubmitButton>
+                        <SubmitButton isDisabled={isSubmitting}>{t('Save profile')}</SubmitButton>
                     </FormButtonWrapper>
                 </FormContentWrapper>
             </Form>

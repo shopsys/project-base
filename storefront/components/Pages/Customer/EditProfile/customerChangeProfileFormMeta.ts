@@ -8,11 +8,9 @@ import {
     validateEmail,
     validateFirstName,
     validateLastName,
-    validateNewPassword,
     validatePostcode,
     validateStreet,
     validateTelephoneRequired,
-    validateNewPasswordConfirm,
 } from 'components/Forms/validationRules';
 import useTranslation from 'next-translate/useTranslation';
 import { useMemo } from 'react';
@@ -29,17 +27,6 @@ export const useCustomerChangeProfileForm = (
     const resolver = yupResolver(
         Yup.object().shape<Record<keyof CustomerChangeProfileFormType, any>>({
             email: validateEmail(t),
-            oldPassword: Yup.string(),
-            newPassword: Yup.string().when('oldPassword', {
-                is: (oldPassword: string) => oldPassword.length > 0,
-                then: () => validateNewPassword(t),
-                otherwise: (schema) => schema,
-            }),
-            newPasswordConfirm: Yup.string().when('newPassword', {
-                is: (newPassword: string) => newPassword.length > 0,
-                then: () => validateNewPasswordConfirm(t),
-                otherwise: (schema) => schema,
-            }),
             telephone: validateTelephoneRequired(t),
             firstName: validateFirstName(t),
             lastName: validateLastName(t),
@@ -109,21 +96,6 @@ export const useCustomerChangeProfileFormMeta = (
                     label: t('Your email'),
                     errorMessage: errors.email?.message,
                 },
-                oldPassword: {
-                    name: 'oldPassword' as const,
-                    label: t('Current password'),
-                    errorMessage: errors.oldPassword?.message,
-                },
-                newPassword: {
-                    name: 'newPassword' as const,
-                    label: t('New password'),
-                    errorMessage: errors.newPassword?.message,
-                },
-                newPasswordConfirm: {
-                    name: 'newPasswordConfirm' as const,
-                    label: t('New password again'),
-                    errorMessage: errors.newPasswordConfirm?.message,
-                },
                 telephone: {
                     name: 'telephone' as const,
                     label: t('Phone'),
@@ -183,9 +155,6 @@ export const useCustomerChangeProfileFormMeta = (
         }),
         [
             errors.email?.message,
-            errors.oldPassword?.message,
-            errors.newPassword?.message,
-            errors.newPasswordConfirm?.message,
             errors.telephone?.message,
             errors.firstName?.message,
             errors.lastName?.message,

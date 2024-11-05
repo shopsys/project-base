@@ -53,7 +53,7 @@ export const UserNavigation: FC = () => {
                         type={menuItem.type}
                     >
                         {menuItem.text}
-                        {menuItem.count && (
+                        {menuItem.count !== undefined && (
                             <div
                                 className={twJoin(
                                     'flex min-h-[24px] min-w-[24px] items-center justify-center rounded-full bg-backgroundDark px-1 text-sm text-textInverted',

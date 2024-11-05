@@ -3,6 +3,7 @@ import { SalesRepresentative } from './SalesRepresentative';
 import { ComplaintsIcon } from 'components/Basic/Icon/ComplaintsIcon';
 import { EditIcon } from 'components/Basic/Icon/EditIcon';
 import { ExitIcon } from 'components/Basic/Icon/ExitIcon';
+import { LockCheckIcon } from 'components/Basic/Icon/LockCheck';
 import { SearchListIcon } from 'components/Basic/Icon/SearchListIcon';
 import { UserIcon } from 'components/Basic/Icon/UserIcon';
 import { useDomainConfig } from 'components/providers/DomainConfigProvider';
@@ -20,11 +21,22 @@ export const MenuIconicItemUserAuthenticatedContent: FC = () => {
     const user = useCurrentCustomerData();
     const { canManageUsers } = useUserPermissions();
     const { url } = useDomainConfig();
-    const [customerOrdersUrl, customerComplaintsUrl, customerEditProfileUrl, customerUsersUrl] =
-        getInternationalizedStaticUrls(
-            ['/customer/orders', '/customer/complaints', '/customer/edit-profile', '/customer/users'],
-            url,
-        );
+    const [
+        customerOrdersUrl,
+        customerComplaintsUrl,
+        customerEditProfileUrl,
+        customerChangePasswordUrl,
+        customerUsersUrl,
+    ] = getInternationalizedStaticUrls(
+        [
+            '/customer/orders',
+            '/customer/complaints',
+            '/customer/edit-profile',
+            '/customer/change-password',
+            '/customer/users',
+        ],
+        url,
+    );
 
     return (
         <>
@@ -59,6 +71,14 @@ export const MenuIconicItemUserAuthenticatedContent: FC = () => {
                         {t('My complaints')}
                     </MenuIconicSubItemLink>
                 </MenuIconicItemUserAuthenticatedContentListItem>
+                {canManageUsers && (
+                    <MenuIconicItemUserAuthenticatedContentListItem>
+                        <MenuIconicSubItemLink href={customerUsersUrl} type="customer-users">
+                            <UserIcon className="max-h-5.5 w-6" />
+                            {t('Customer users')}
+                        </MenuIconicSubItemLink>
+                    </MenuIconicItemUserAuthenticatedContentListItem>
+                )}
                 <MenuIconicItemUserAuthenticatedContentListItem>
                     <MenuIconicSubItemLink
                         href={customerEditProfileUrl}
@@ -69,14 +89,16 @@ export const MenuIconicItemUserAuthenticatedContent: FC = () => {
                         {t('Edit profile')}
                     </MenuIconicSubItemLink>
                 </MenuIconicItemUserAuthenticatedContentListItem>
-                {canManageUsers && (
-                    <MenuIconicItemUserAuthenticatedContentListItem>
-                        <MenuIconicSubItemLink href={customerUsersUrl} type="customer-users">
-                            <UserIcon className="max-h-5.5 w-6" />
-                            {t('Customer users')}
-                        </MenuIconicSubItemLink>
-                    </MenuIconicItemUserAuthenticatedContentListItem>
-                )}
+                <MenuIconicItemUserAuthenticatedContentListItem>
+                    <MenuIconicSubItemLink
+                        href={customerChangePasswordUrl}
+                        tid={TIDs.header_change_password_link}
+                        type="changePassword"
+                    >
+                        <LockCheckIcon className="size-6" />
+                        {t('Change password')}
+                    </MenuIconicSubItemLink>
+                </MenuIconicItemUserAuthenticatedContentListItem>
                 <MenuIconicItemUserAuthenticatedContentListItem>
                     <MenuIconicSubItemLink tid={TIDs.header_logout} onClick={logout}>
                         <ExitIcon className="size-6" />

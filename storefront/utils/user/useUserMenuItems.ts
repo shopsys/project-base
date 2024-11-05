@@ -24,6 +24,7 @@ export const useUserMenuItems = (): UserMenuItemType[] => {
         customerComplaintsUrl,
         customerUsersUrl,
         customerEditProfileUrl,
+        customerChangePasswordUrl,
         productComparisonUrl,
         wishlistUrl,
     ] = getInternationalizedStaticUrls(
@@ -32,6 +33,7 @@ export const useUserMenuItems = (): UserMenuItemType[] => {
             '/customer/complaints',
             '/customer/users',
             '/customer/edit-profile',
+            '/customer/change-password',
             '/product-comparison',
             '/wishlist',
         ],
@@ -39,11 +41,6 @@ export const useUserMenuItems = (): UserMenuItemType[] => {
     );
 
     const userMenuItems: UserMenuItemType[] = [
-        {
-            text: t('Edit profile'),
-            link: customerEditProfileUrl,
-            type: 'editProfile',
-        },
         {
             text: t('Orders'),
             link: customerOrdersUrl,
@@ -53,6 +50,16 @@ export const useUserMenuItems = (): UserMenuItemType[] => {
             text: t('Complaints'),
             link: customerComplaintsUrl,
             type: 'complaintList',
+        },
+        {
+            text: t('Edit profile'),
+            link: customerEditProfileUrl,
+            type: 'editProfile',
+        },
+        {
+            text: t('Change password'),
+            link: customerChangePasswordUrl,
+            type: 'changePassword',
         },
         {
             text: t('Wishlist'),
@@ -73,11 +80,12 @@ export const useUserMenuItems = (): UserMenuItemType[] => {
     }
 
     return [
-        ...userMenuItems,
+        ...userMenuItems.slice(0, 2),
         {
             text: t('Customer users'),
             link: customerUsersUrl,
             type: 'customer-users',
         },
+        ...userMenuItems.slice(2),
     ];
 };

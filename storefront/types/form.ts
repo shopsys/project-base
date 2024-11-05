@@ -32,9 +32,6 @@ export type PersonalDataExportFormType = {
 export type CustomerChangeProfileFormType = {
     companyCustomer: boolean;
     email: string;
-    oldPassword: string;
-    newPassword: string;
-    newPasswordConfirm: string;
     telephone: string;
     firstName: string;
     lastName: string;
@@ -46,6 +43,12 @@ export type CustomerChangeProfileFormType = {
     postcode: string;
     country: SelectOptionType;
     newsletterSubscription: boolean;
+};
+
+export type ChangePasswordFormType = {
+    oldPassword: string;
+    newPassword: string;
+    newPasswordConfirm: string;
 };
 
 export type CustomerUserManageProfileFormType = {

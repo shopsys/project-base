@@ -2,6 +2,7 @@ import { ExtendedNextLink } from 'components/Basic/ExtendedNextLink/ExtendedNext
 import { ComplaintsIcon } from 'components/Basic/Icon/ComplaintsIcon';
 import { EditIcon } from 'components/Basic/Icon/EditIcon';
 import { ExitIcon } from 'components/Basic/Icon/ExitIcon';
+import { LockCheckIcon } from 'components/Basic/Icon/LockCheck';
 import { SearchListIcon } from 'components/Basic/Icon/SearchListIcon';
 import { UserIcon } from 'components/Basic/Icon/UserIcon';
 import { Webline } from 'components/Layout/Webline/Webline';
@@ -18,11 +19,22 @@ export const CustomerContent: FC = () => {
     const logout = useLogout();
     const { url } = useDomainConfig();
     const { canManageUsers } = useUserPermissions();
-    const [customerOrdersUrl, customerEditProfileUrl, customerComplaintsUrl, customerUsersUrl] =
-        getInternationalizedStaticUrls(
-            ['/customer/orders', '/customer/edit-profile', '/customer/complaints', '/customer/users'],
-            url,
-        );
+    const [
+        customerOrdersUrl,
+        customerEditProfileUrl,
+        customerChangePasswordUrl,
+        customerComplaintsUrl,
+        customerUsersUrl,
+    ] = getInternationalizedStaticUrls(
+        [
+            '/customer/orders',
+            '/customer/edit-profile',
+            '/customer/change-password',
+            '/customer/complaints',
+            '/customer/users',
+        ],
+        url,
+    );
 
     return (
         <>
@@ -33,7 +45,7 @@ export const CustomerContent: FC = () => {
             </Webline>
 
             <Webline>
-                <ul className="mb-8 flex flex-col flex-wrap gap-4 md:flex-row">
+                <ul className="mx-auto mb-8 flex w-full max-w-[400px] flex-col gap-4">
                     <CustomerListItem>
                         <ExtendedNextLink href={customerOrdersUrl} type="orderList">
                             <SearchListIcon className="mr-5 size-6" />
@@ -48,13 +60,6 @@ export const CustomerContent: FC = () => {
                         </ExtendedNextLink>
                     </CustomerListItem>
 
-                    <CustomerListItem>
-                        <ExtendedNextLink href={customerEditProfileUrl} type="editProfile">
-                            <EditIcon className="mr-5 size-6" />
-                            {t('Edit profile')}
-                        </ExtendedNextLink>
-                    </CustomerListItem>
-
                     {canManageUsers && (
                         <CustomerListItem>
                             <ExtendedNextLink href={customerUsersUrl}>
@@ -63,6 +68,20 @@ export const CustomerContent: FC = () => {
                             </ExtendedNextLink>
                         </CustomerListItem>
                     )}
+
+                    <CustomerListItem>
+                        <ExtendedNextLink href={customerEditProfileUrl} type="editProfile">
+                            <EditIcon className="mr-5 size-6" />
+                            {t('Edit profile')}
+                        </ExtendedNextLink>
+                    </CustomerListItem>
+
+                    <CustomerListItem>
+                        <ExtendedNextLink href={customerChangePasswordUrl} type="changePassword">
+                            <LockCheckIcon className="mr-5 size-6" />
+                            {t('Change password')}
+                        </ExtendedNextLink>
+                    </CustomerListItem>
 
                     <CustomerListItem>
                         <a tid={TIDs.customer_page_logout} onClick={logout}>
@@ -79,7 +98,7 @@ export const CustomerContent: FC = () => {
 const CustomerListItem: FC = ({ children }) => (
     <li
         className={twJoin(
-            'block flex-1 cursor-pointer rounded-xl text-lg transition [&_a]:block [&_a]:h-full [&_a]:w-full [&_a]:p-5 [&_a]:text-text [&_a]:no-underline hover:[&_a]:no-underline',
+            'block flex-1 cursor-pointer rounded-xl text-lg transition [&_a]:block [&_a]:h-full [&_a]:w-full [&_a]:p-5 [&_a]:text-text [&_a]:no-underline hover:[&_a]:text-textAccent hover:[&_a]:no-underline',
             'border border-background bg-backgroundMore hover:border-borderAccentLess hover:bg-background',
         )}
     >

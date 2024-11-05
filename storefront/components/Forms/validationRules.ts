@@ -196,6 +196,10 @@ export const validatePasswordConfirm = (t: Translate): Schema => {
     return passwordConfirmValidationSchema(t, 'password', t('Please enter password again'));
 };
 
+export const validateOldPassword = (t: Translate): Schema => {
+    return passwordValidationSchema(t, t('Please enter your current password'));
+};
+
 export const validateNewPassword = (t: Translate): Schema => {
     return passwordValidationSchema(t, t('Please enter new password'));
 };
