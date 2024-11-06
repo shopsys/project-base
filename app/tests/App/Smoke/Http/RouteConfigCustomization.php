@@ -10,6 +10,7 @@ use App\Model\Administrator\Administrator;
 use Shopsys\FrameworkBundle\Component\DataFixture\PersistentReferenceFacade;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Component\Router\Security\RouteCsrfProtector;
+use Shopsys\FrameworkBundle\Model\Localization\Localization;
 use Shopsys\FrameworkBundle\Model\Pricing\Vat\Vat;
 use Shopsys\FrameworkBundle\Model\Pricing\Vat\VatDeletionCronModule;
 use Shopsys\FrameworkBundle\Model\Product\Unit\Unit;
@@ -402,6 +403,13 @@ class RouteConfigCustomization
                 $config->changeDefaultRequestDataSet('Use catnums instead of ID')
                     ->setParameter('catnums', '9177759,7700768,9146508')
                     ->setExpectedStatusCode(200);
+            })
+            ->customizeByRouteName('admin_localization_selectlocale', function (RouteConfig $config) {
+                /** @var \Shopsys\FrameworkBundle\Component\Domain\Domain $domain */
+                $domain = $this->container->get(Domain::class);
+                $config->changeDefaultRequestDataSet()
+                    ->setParameter('locale', $domain->getDomainConfigById(Domain::FIRST_DOMAIN_ID)->getLocale())
+                    ->setExpectedStatusCode(302);
             });
     }
 

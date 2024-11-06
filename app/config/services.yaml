@@ -86,6 +86,10 @@ services:
 
     App\FrontendApi\Model\Token\TokenAuthenticator: ~
 
+    App\Model\Administrator\AdministratorDataFactory:
+        arguments:
+            - '%shopsys.admin_default_locale%'
+
     App\Model\Cart\CartFacade:
         lazy: true
 
