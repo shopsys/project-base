@@ -117,6 +117,12 @@
             "catnum": {
                 "type": "text"
             },
+            "product_type": {
+                "type": "keyword"
+            },
+            "priority_by_product_type": {
+                "type": "integer"
+            },
             "partno": {
                 "type": "text"
             },

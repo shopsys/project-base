@@ -36,7 +36,7 @@ describe('Order Repeat Tests From Order List (Logged-in User)', { retries: { run
         cy.preselectPaymentForTest(payment.creditCard.uuid);
         cy.createOrder(generateCreateOrderInput(email));
         cy.addProductToCartForTest(products.philips32PFL4308.uuid, 4);
-        cy.addProductToCartForTest(products.lg47LA790VFHD.uuid, 2);
+        cy.addProductToCartForTest(products.a4techMouse.uuid, 2);
         cy.visitAndWaitForStableAndInteractiveDOM(url.customer.orders);
 
         repeatOrderFromOrderList(true);
@@ -56,7 +56,7 @@ describe('Order Repeat Tests From Order List (Logged-in User)', { retries: { run
         cy.preselectPaymentForTest(payment.creditCard.uuid);
         cy.createOrder(generateCreateOrderInput(email));
         cy.addProductToCartForTest(products.philips32PFL4308.uuid, 4);
-        cy.addProductToCartForTest(products.lg47LA790VFHD.uuid, 2);
+        cy.addProductToCartForTest(products.a4techMouse.uuid, 2);
         cy.visitAndWaitForStableAndInteractiveDOM(url.customer.orders);
 
         repeatOrderFromOrderList(false);
@@ -103,7 +103,7 @@ describe('Order Repeat Tests From Order Detail (Unlogged User)', () => {
         cy.preselectPaymentForTest(payment.creditCard.uuid);
         cy.createOrder(generateCreateOrderInput(email)).then((order) => {
             cy.addProductToCartForTest(products.philips32PFL4308.uuid, 4);
-            cy.addProductToCartForTest(products.lg47LA790VFHD.uuid, 2);
+            cy.addProductToCartForTest(products.a4techMouse.uuid, 2);
 
             cy.visitAndWaitForStableAndInteractiveDOM(url.order.orderDetail + `/${order.urlHash}`);
         });
@@ -126,7 +126,7 @@ describe('Order Repeat Tests From Order Detail (Unlogged User)', () => {
         cy.preselectPaymentForTest(payment.creditCard.uuid);
         cy.createOrder(generateCreateOrderInput(email)).then((order) => {
             cy.addProductToCartForTest(products.philips32PFL4308.uuid, 4);
-            cy.addProductToCartForTest(products.lg47LA790VFHD.uuid, 2);
+            cy.addProductToCartForTest(products.a4techMouse.uuid, 2);
 
             cy.visitAndWaitForStableAndInteractiveDOM(url.order.orderDetail + `/${order.urlHash}`);
         });

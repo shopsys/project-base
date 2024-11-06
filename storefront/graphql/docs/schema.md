@@ -120,6 +120,7 @@
     * [ComplaintInput](#complaintinput)
     * [ComplaintItemInput](#complaintiteminput)
     * [ContactFormInput](#contactforminput)
+    * [CreateInquiryInput](#createinquiryinput)
     * [DeliveryAddressInput](#deliveryaddressinput)
     * [EditCustomerUserPersonalDataInput](#editcustomeruserpersonaldatainput)
     * [LoginInput](#logininput)
@@ -149,6 +150,7 @@
     * [PersonalDataAccessRequestTypeEnum](#personaldataaccessrequesttypeenum)
     * [ProductListTypeEnum](#productlisttypeenum)
     * [ProductOrderingModeEnum](#productorderingmodeenum)
+    * [ProductTypeEnum](#producttypeenum)
     * [RecommendationType](#recommendationtype)
     * [StoreOpeningStatusEnum](#storeopeningstatusenum)
     * [TransportTypeEnum](#transporttypeenum)
@@ -1494,6 +1496,20 @@ Create a new delivery address
 <tr>
 <td colspan="2" align="right" valign="top">input</td>
 <td valign="top"><a href="#deliveryaddressinput">DeliveryAddressInput</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>CreateInquiry</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td>
+
+Send the inquiry for the product
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">input</td>
+<td valign="top"><a href="#createinquiryinput">CreateInquiryInput</a>!</td>
 <td></td>
 </tr>
 <tr>
@@ -5248,6 +5264,11 @@ Product images
 <td></td>
 </tr>
 <tr>
+<td colspan="2" valign="top"><strong>isInquiryType</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td></td>
+</tr>
+<tr>
 <td colspan="2" valign="top"><strong>isMainVariant</strong></td>
 <td valign="top"><a href="#boolean">Boolean</a>!</td>
 <td></td>
@@ -5339,6 +5360,11 @@ Product part number
 Product price
 
 </td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>productType</strong></td>
+<td valign="top"><a href="#producttypeenum">ProductTypeEnum</a>!</td>
+<td></td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>productVideos</strong></td>
@@ -7847,6 +7873,11 @@ Product images
 <td></td>
 </tr>
 <tr>
+<td colspan="2" valign="top"><strong>isInquiryType</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td></td>
+</tr>
+<tr>
 <td colspan="2" valign="top"><strong>isMainVariant</strong></td>
 <td valign="top"><a href="#boolean">Boolean</a>!</td>
 <td></td>
@@ -7938,6 +7969,11 @@ Product part number
 Product price
 
 </td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>productType</strong></td>
+<td valign="top"><a href="#producttypeenum">ProductTypeEnum</a>!</td>
+<td></td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>productVideos</strong></td>
@@ -9105,6 +9141,11 @@ Product images
 <td></td>
 </tr>
 <tr>
+<td colspan="2" valign="top"><strong>isInquiryType</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td></td>
+</tr>
+<tr>
 <td colspan="2" valign="top"><strong>isMainVariant</strong></td>
 <td valign="top"><a href="#boolean">Boolean</a>!</td>
 <td></td>
@@ -9201,6 +9242,11 @@ Product part number
 Product price
 
 </td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>productType</strong></td>
+<td valign="top"><a href="#producttypeenum">ProductTypeEnum</a>!</td>
+<td></td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>productVideos</strong></td>
@@ -9958,6 +10004,101 @@ Message that will be sent to recipient
 <td>
 
 Name of the sender
+
+</td>
+</tr>
+</tbody>
+</table>
+
+### CreateInquiryInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>companyName</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td>
+
+The customer’s company name
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>companyNumber</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td>
+
+The customer’s company identification number
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>companyTaxNumber</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td>
+
+The customer’s company tax number
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>email</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td>
+
+The customer's email address
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>firstName</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td>
+
+Customer user first name
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>lastName</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td>
+
+Customer user last name
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>note</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td>
+
+Customer's question or note to the inquiry product
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>productUuid</strong></td>
+<td valign="top"><a href="#uuid">Uuid</a>!</td>
+<td>
+
+Product UUID
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>telephone</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td>
+
+The customer's telephone number
 
 </td>
 </tr>
@@ -11495,6 +11636,35 @@ Order by relevance
 </tbody>
 </table>
 
+### ProductTypeEnum
+
+One of possible product types
+
+<table>
+<thead>
+<th align="left">Value</th>
+<th align="left">Description</th>
+</thead>
+<tbody>
+<tr>
+<td valign="top"><strong>BASIC</strong></td>
+<td>
+
+Basic product
+
+</td>
+</tr>
+<tr>
+<td valign="top"><strong>INQUIRY</strong></td>
+<td>
+
+Product with inquiry form instead of add to cart button
+
+</td>
+</tr>
+</tbody>
+</table>
+
 ### RecommendationType
 
 <table>
@@ -12243,6 +12413,11 @@ Product images
 <td></td>
 </tr>
 <tr>
+<td colspan="2" valign="top"><strong>isInquiryType</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td></td>
+</tr>
+<tr>
 <td colspan="2" valign="top"><strong>isMainVariant</strong></td>
 <td valign="top"><a href="#boolean">Boolean</a>!</td>
 <td></td>
@@ -12334,6 +12509,11 @@ Product part number
 Product price
 
 </td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>productType</strong></td>
+<td valign="top"><a href="#producttypeenum">ProductTypeEnum</a>!</td>
+<td></td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>productVideos</strong></td>

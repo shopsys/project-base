@@ -19,6 +19,7 @@ use Shopsys\FrameworkBundle\Component\DataFixture\AbstractReferenceFixture;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Component\Translation\Translator;
 use Shopsys\FrameworkBundle\Model\Product\Parameter\Parameter;
+use Shopsys\FrameworkBundle\Model\Product\ProductTypeEnum;
 
 class ProductDataFixture extends AbstractReferenceFixture implements DependentFixtureInterface
 {
@@ -140,12 +141,12 @@ class ProductDataFixture extends AbstractReferenceFixture implements DependentFi
 
         $productData = $this->productDemoDataFactory->createDefaultData('5965879P');
 
+        $productData->productType = ProductTypeEnum::TYPE_INQUIRY;
         $productData->partno = '47LA790V';
         $productData->ean = '8845781245928';
         $productData->weight = 4000;
-        $this->productDemoDataSetter->setPriceForAllPricingGroups($productData, '17843');
         $this->productDemoDataSetter->setSellingFrom($productData, '14.1.2000');
-        $this->productDemoDataSetter->setStocksQuantity($productData, 800);
+        $this->productDemoDataSetter->setStocksQuantity($productData, 0);
         $this->productDemoDataSetter->setCategoriesForAllDomains($productData, [CategoryDataFixture::CATEGORY_ELECTRONICS, CategoryDataFixture::CATEGORY_TV, CategoryDataFixture::CATEGORY_PC]);
         $this->productDemoDataSetter->setBrand($productData, BrandDataFixture::BRAND_LG);
 
@@ -1384,6 +1385,7 @@ class ProductDataFixture extends AbstractReferenceFixture implements DependentFi
 
         $productData = $this->productDemoDataFactory->createDefaultData('9178302');
 
+        $productData->productType = ProductTypeEnum::TYPE_INQUIRY;
         $productData->partno = '4002M4';
         $productData->ean = '8845781245931';
         $this->productDemoDataSetter->setPriceForAllPricingGroups($productData, '577.7');

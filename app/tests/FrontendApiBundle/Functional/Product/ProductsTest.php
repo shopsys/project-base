@@ -263,7 +263,7 @@ class ProductsTest extends ProductsGraphQlTestCase
     {
         $firstDomainLocale = $this->getLocaleForFirstDomain();
         $productName = t(
-            'ZN-8009 steam iron Ferrato stainless steel 2200 Watt Blue',
+            '47" LG 47LA790V (FHD)',
             [],
             Translator::DATA_FIXTURES_TRANSLATION_DOMAIN,
             $firstDomainLocale,
@@ -275,7 +275,7 @@ class ProductsTest extends ProductsGraphQlTestCase
             "edges": [
                 {
                     "node": {
-                        "name": "' . $productName . '"
+                        "name": "' . addslashes($productName) . '"
                     }
                 }
             ]
