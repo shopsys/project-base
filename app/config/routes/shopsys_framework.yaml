@@ -1,7 +1,9 @@
 shopsys_administration:
     prefix: /%admin_url%
     resource: "@ShopsysAdministrationBundle/Controller"
+    type: attribute
 
 shopsys_framework:
     prefix: /%admin_url%
     resource: "@ShopsysFrameworkBundle/Controller/Admin"
+    type: attribute
