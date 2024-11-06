@@ -23,6 +23,15 @@ SliderItem:
             gtmCreative:
                 type: "String"
                 description: "GTM creative"
+            description:
+                type: "String!"
+                description: "Slider description"
+            rgbBackgroundColor:
+                type: "String"
+                description: "RGB color code for the background of the slider description box"
+            opacity:
+                type: "Float"
+                description: "Opacity level for the background color of the slider description box"
             images:
                 type: "[Image!]!"
                 description: "Slider item images"

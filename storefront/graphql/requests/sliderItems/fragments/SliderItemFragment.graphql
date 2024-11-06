@@ -5,6 +5,9 @@ fragment SliderItemFragment on SliderItem {
     link
     extendedText
     extendedTextLink
+    description
+    rgbBackgroundColor
+    opacity
     webMainImage: mainImage (type: "web") {
         ...ImageFragment
     }

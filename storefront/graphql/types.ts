@@ -3084,6 +3084,8 @@ export type TypeSettings = {
 
 export type TypeSliderItem = {
   __typename?: 'SliderItem';
+  /** Slider description */
+  description: Maybe<Scalars['String']['output']>;
   /** Text below slider */
   extendedText: Maybe<Scalars['String']['output']>;
   /** Target link of text below slider */
@@ -3100,6 +3102,10 @@ export type TypeSliderItem = {
   mainImage: TypeImage;
   /** Slider name */
   name: Scalars['String']['output'];
+  /** Opacity level for the background color of the slider description box */
+  opacity: Scalars['Float']['output'];
+  /** RGB color code for the background of the slider description box */
+  rgbBackgroundColor: Scalars['String']['output'];
   /** UUID */
   uuid: Scalars['Uuid']['output'];
 };

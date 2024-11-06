@@ -2363,6 +2363,8 @@ type Settings {
 }
 
 type SliderItem {
+  "Slider description"
+  description: String
   "Text below slider"
   extendedText: String
   "Target link of text below slider"
@@ -2379,6 +2381,10 @@ type SliderItem {
   mainImage(type: String = null): Image!
   "Slider name"
   name: String!
+  "Opacity level for the background color of the slider description box"
+  opacity: Float!
+  "RGB color code for the background of the slider description box"
+  rgbBackgroundColor: String!
   "UUID"
   uuid: Uuid!
 }
