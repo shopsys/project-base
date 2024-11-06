@@ -51,7 +51,10 @@ class PaymentDataFixture extends AbstractReferenceFixture implements DependentFi
         $paymentData = $this->paymentDataFactory->create();
         $paymentData->type = Payment::TYPE_BASIC;
 
-        foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataLocales() as $locale) {
+        foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataDomains() as $domainConfig) {
+            $locale = $domainConfig->getLocale();
+
+            $paymentData->enabled[$domainConfig->getId()] = true;
             $paymentData->name[$locale] = t('Credit card', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
             $paymentData->description[$locale] = t('Quick, cheap and reliable!', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
             $paymentData->instructions[$locale] = t(
@@ -73,7 +76,10 @@ class PaymentDataFixture extends AbstractReferenceFixture implements DependentFi
         $paymentData = $this->paymentDataFactory->create();
         $paymentData->type = Payment::TYPE_BASIC;
 
-        foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataLocales() as $locale) {
+        foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataDomains() as $domainConfig) {
+            $locale = $domainConfig->getLocale();
+
+            $paymentData->enabled[$domainConfig->getId()] = true;
             $paymentData->name[$locale] = t('Cash on delivery', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
         }
 
@@ -90,7 +96,10 @@ class PaymentDataFixture extends AbstractReferenceFixture implements DependentFi
         $paymentData = $this->paymentDataFactory->create();
         $paymentData->type = Payment::TYPE_BASIC;
 
-        foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataLocales() as $locale) {
+        foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataDomains() as $domainConfig) {
+            $locale = $domainConfig->getLocale();
+
+            $paymentData->enabled[$domainConfig->getId()] = true;
             $paymentData->name[$locale] = t('Cash', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
         }
 
@@ -105,7 +114,10 @@ class PaymentDataFixture extends AbstractReferenceFixture implements DependentFi
         $paymentData = $this->paymentDataFactory->create();
         $paymentData->type = Payment::TYPE_BASIC;
 
-        foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataLocales() as $locale) {
+        foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataDomains() as $domainConfig) {
+            $locale = $domainConfig->getLocale();
+
+            $paymentData->enabled[$domainConfig->getId()] = true;
             $paymentData->name[$locale] = t('Pay later', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
         }
 
@@ -178,6 +190,7 @@ class PaymentDataFixture extends AbstractReferenceFixture implements DependentFi
         $paymentData->type = Payment::TYPE_GOPAY;
 
         foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataDomainIds() as $domainId) {
+            $paymentData->enabled[$domainId] = true;
             $paymentData->goPayPaymentMethodByDomainId[$domainId] = $this->getReferenceForDomain(
                 GoPayDataFixture::BANK_ACCOUNT_METHOD,
                 $domainId,
@@ -206,6 +219,7 @@ class PaymentDataFixture extends AbstractReferenceFixture implements DependentFi
         $paymentData->type = Payment::TYPE_GOPAY;
 
         foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataDomainIds() as $domainId) {
+            $paymentData->enabled[$domainId] = true;
             $paymentData->goPayPaymentMethodByDomainId[$domainId] = $this->getReferenceForDomain(
                 GoPayDataFixture::PAYMENT_CARD_METHOD,
                 $domainId,
