@@ -102,7 +102,7 @@ describe('Cart Login Tests', { retries: { runMode: 0 } }, () => {
         });
 
         goToHomepageFromHeader();
-        addProductToCartFromPromotedProductsOnHomepage(products.lg47LA790VFHD.catnum);
+        addProductToCartFromPromotedProductsOnHomepage(products.a4techMouse.catnum);
         checkPopupIsVisible(true);
         goToCartPageFromHeader();
 

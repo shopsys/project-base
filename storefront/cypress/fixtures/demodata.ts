@@ -107,9 +107,9 @@ export const products = {
         url: '/philips-32pfl4308',
         catnum: '9176508',
     },
-    lg47LA790VFHD: {
-        uuid: '4670eedd-f063-5e1f-9839-1b8dd13cb5b0',
-        catnum: '5965879P',
+    a4techMouse: {
+        uuid: 'd5a669ed-46aa-5c55-b1fe-54e7b81de4cd',
+        catnum: '5960453',
     },
     philips54CRT: {
         uuid: 'eff2bd27-7a46-5ccf-879c-915095bfb8fb	',
