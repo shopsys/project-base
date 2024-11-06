@@ -1,0 +1,3 @@
+query CouldBeCustomerRegisteredQuery($email: String!, $companyNumber: String) {
+    couldBeCustomerRegisteredQuery(email: $email, companyNumber: $companyNumber)
+}

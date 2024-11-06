@@ -39,6 +39,7 @@ const ApplicationErrors = {
     'register-by-order-is-not-possible': 'flash-message',
     'too-many-login-attempts': 'flash-message',
     'invalid-account-or-password': 'no-flash-message',
+    'company-already-registered': 'flash-message',
 } as const;
 
 type KeysMatching<T, V extends ApplicationErrorVerbosityLevel> = {

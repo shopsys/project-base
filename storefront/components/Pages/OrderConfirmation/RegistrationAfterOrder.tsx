@@ -6,7 +6,7 @@ import { Form, FormBlockWrapper, FormContentWrapper } from 'components/Forms/For
 import { FormLine } from 'components/Forms/Lib/FormLine';
 import { PasswordInputControlled } from 'components/Forms/TextInput/PasswordInputControlled';
 import { TIDs } from 'cypress/tids';
-import { useIsCustomerUserRegisteredQuery } from 'graphql/requests/customer/queries/IsCustomerUserRegisteredQuery.generated';
+import { useCouldBeCustomerRegisteredQuery } from 'graphql/requests/customer/queries/CouldBeCustomerRegisteredQuery.generated';
 import { GtmMessageOriginType } from 'gtm/enums/GtmMessageOriginType';
 import Trans from 'next-translate/Trans';
 import useTranslation from 'next-translate/useTranslation';
@@ -29,15 +29,16 @@ export const RegistrationAfterOrder: FC = () => {
     const { registerByOrder } = useRegistration();
     const isInvalidRegistrationRef = useRef(false);
     const { query } = useRouter();
-    const { orderUuid, orderEmail, orderUrlHash } = query as OrderConfirmationUrlQuery;
+    const { orderUuid, companyNumber, orderEmail, orderUrlHash } = query as OrderConfirmationUrlQuery;
     const isUserLoggedIn = useIsUserLoggedIn();
 
     useErrorPopup(formProviderMethods, formMeta.fields, undefined, GtmMessageOriginType.order_confirmation_page);
 
-    const [{ data: isCustomerUserRegisteredData, fetching: isInformationAboutUserRegistrationFetching }] =
-        useIsCustomerUserRegisteredQuery({
+    const [{ data: couldBeCustomerRegisteredData, fetching: isInformationAboutUserRegistrationFetching }] =
+        useCouldBeCustomerRegisteredQuery({
             variables: {
                 email: orderEmail!,
+                companyNumber: companyNumber!,
             },
             pause: !orderEmail,
         });
@@ -72,7 +73,7 @@ export const RegistrationAfterOrder: FC = () => {
         isUserLoggedIn ||
         !orderUuid ||
         isInformationAboutUserRegistrationFetching ||
-        isCustomerUserRegisteredData?.isCustomerUserRegistered === true
+        couldBeCustomerRegisteredData?.couldBeCustomerRegisteredQuery === false
     ) {
         return null;
     }

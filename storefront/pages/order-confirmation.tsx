@@ -24,6 +24,7 @@ import { getInternationalizedStaticUrls } from 'utils/staticUrls/getInternationa
 
 export type OrderConfirmationUrlQuery = {
     orderUuid: string | undefined;
+    companyNumber: string | undefined;
     orderEmail: string | undefined;
     orderPaymentType: string | undefined;
     orderUrlHash?: string | undefined;

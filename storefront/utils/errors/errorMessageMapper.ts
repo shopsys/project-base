@@ -26,6 +26,7 @@ const getErrorMessageTranslationString = (errorCode: FlashMessageKeys, t: Transl
         'invalid-quantity': t('Complaint item quantity exceeds the order item quantity.'),
         'register-by-order-is-not-possible': t('It was not possible to create register new user from the order'),
         'too-many-login-attempts': t('Too many login attempts. Try again later.'),
+        'company-already-registered': t('Customer is already registered.'),
     };
 
     return ERROR_MESSAGES[errorCode];
