@@ -96,12 +96,14 @@ export const ProductDetailContent: FC<ProductDetailContentProps> = ({ product, i
                         </div>
                     </div>
                 </div>
+
                 <ProductDetailTabs
                     description={product.description}
                     files={product.files}
                     parameters={product.parameters}
                     relatedProducts={product.relatedProducts}
                 />
+
                 {isLuigisBoxActive && (
                     <DeferredRecommendedProducts
                         itemUuids={[product.uuid]}
@@ -114,6 +116,7 @@ export const ProductDetailContent: FC<ProductDetailContentProps> = ({ product, i
                         )}
                     />
                 )}
+
                 <DeferredProductDetailAccessories accessories={product.accessories} />
             </Webline>
         </>
