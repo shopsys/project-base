@@ -8,8 +8,8 @@ parameters:
     # Symfony's FrameworkBundle sets throw_at (error_reporting) to 0 in production by default
     debug.error_handler.throw_at: -1
     locale: en
-    shopsys.admin_default_locale: en
     shopsys.admin_display_timezone: Europe/Prague
+    shopsys.allowed_admin_locales: ['en', 'cs']
     shopsys.cron_timezone: Europe/Prague
 
     # Set to true to log validation errors with log level ERROR instead of INFO

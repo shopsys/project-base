@@ -207,7 +207,7 @@ class PriceExtensionTest extends FunctionalTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $localization = new Localization($this->domain, 'en', $administratorFrontSecurityFacadeMock);
+        $localization = new Localization($this->domain, ['en'], $administratorFrontSecurityFacadeMock);
 
         return new PriceExtension(
             $currencyFacadeMock,
