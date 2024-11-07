@@ -402,6 +402,13 @@ class RouteConfigCustomization
                 $config->changeDefaultRequestDataSet('Use catnums instead of ID')
                     ->setParameter('catnums', '9177759,7700768,9146508')
                     ->setExpectedStatusCode(200);
+            })
+            ->customizeByRouteName('admin_localization_selectlocale', function (RouteConfig $config) {
+                /** @var \Shopsys\FrameworkBundle\Component\Domain\Domain $domain */
+                $domain = $this->container->get(Domain::class);
+                $config->changeDefaultRequestDataSet()
+                    ->setParameter('locale', $domain->getDomainConfigById(Domain::FIRST_DOMAIN_ID)->getLocale())
+                    ->setExpectedStatusCode(302);
             });
     }
 

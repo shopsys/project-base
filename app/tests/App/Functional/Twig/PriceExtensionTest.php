@@ -10,6 +10,7 @@ use Shopsys\FrameworkBundle\Component\CurrencyFormatter\CurrencyFormatterFactory
 use Shopsys\FrameworkBundle\Component\Domain\AdminDomainTabsFacade;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Component\Money\Money;
+use Shopsys\FrameworkBundle\Model\Administrator\Security\AdministratorFrontSecurityFacade;
 use Shopsys\FrameworkBundle\Model\Localization\IntlCurrencyRepository;
 use Shopsys\FrameworkBundle\Model\Localization\Localization;
 use Shopsys\FrameworkBundle\Model\Pricing\Currency\Currency;
@@ -202,7 +203,11 @@ class PriceExtensionTest extends FunctionalTestCase
         $currencyFacadeMock
             ->method('getDefaultCurrency')
             ->willReturn($domain1DefaultCurrency);
-        $localization = new Localization($this->domain, 'en');
+        $administratorFrontSecurityFacadeMock = $this->getMockBuilder(AdministratorFrontSecurityFacade::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $localization = new Localization($this->domain, ['en'], $administratorFrontSecurityFacadeMock);
 
         return new PriceExtension(
             $currencyFacadeMock,
