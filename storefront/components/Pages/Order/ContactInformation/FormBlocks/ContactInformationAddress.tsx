@@ -77,16 +77,17 @@ export const ContactInformationAddress: FC = () => {
             <FormLine>
                 <Controller
                     name={formMeta.fields.country.name}
-                    render={({ fieldState: { invalid, error }, field }) => (
+                    render={({ fieldState: { error }, field }) => (
                         <>
                             <Select
-                                hasError={invalid}
-                                id={formMeta.formName + '-' + formMeta.fields.country.name}
-                                isDisabled={!canManageProfile}
+                                isRequired
                                 label={formMeta.fields.country.label}
                                 options={countriesAsSelectOptions}
-                                value={countriesAsSelectOptions.find((option) => option.value === field.value.value)}
-                                onChange={(...selectOnChangeEventData) => {
+                                tid={formMeta.formName + '-' + formMeta.fields.country.name}
+                                activeOption={countriesAsSelectOptions.find(
+                                    (option) => option.value === field.value.value,
+                                )}
+                                onSelectOption={(...selectOnChangeEventData) => {
                                     field.onChange(...selectOnChangeEventData);
                                     updateContactInformation({
                                         country: selectOnChangeEventData[0] as SelectOptionType,

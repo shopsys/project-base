@@ -85,17 +85,19 @@ export const BillingAddress: FC = () => {
             <FormLine bottomGap>
                 <Controller
                     name={formMeta.fields.country.name}
-                    render={({ fieldState: { invalid, error }, field }) => (
+                    render={({ fieldState: { error }, field }) => (
                         <>
                             <Select
-                                required
-                                hasError={invalid}
-                                id={formMeta.formName + '-' + formMeta.fields.country.name}
+                                isRequired
                                 isDisabled={!canManageProfile}
                                 label={formMeta.fields.country.label}
                                 options={countriesAsSelectOptions}
-                                value={field.value}
-                                onChange={field.onChange}
+                                tid={formMeta.formName + '-' + formMeta.fields.country.name}
+                                activeOption={
+                                    field.value &&
+                                    countriesAsSelectOptions.find((option) => option.value === field.value.value)
+                                }
+                                onSelectOption={field.onChange}
                             />
                             <FormLineError error={error} inputType="select" />
                         </>

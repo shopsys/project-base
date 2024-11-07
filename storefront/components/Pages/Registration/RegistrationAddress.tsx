@@ -76,15 +76,17 @@ export const RegistrationAddress: FC = () => {
             <FormLine>
                 <Controller
                     name={formMeta.fields.country.name}
-                    render={({ fieldState: { invalid, error }, field }) => (
+                    render={({ fieldState: { error }, field }) => (
                         <>
                             <Select
-                                hasError={invalid}
-                                id={formMeta.formName + '-' + formMeta.fields.country.name}
+                                isRequired
                                 label={formMeta.fields.country.label}
                                 options={countriesAsSelectOptions}
-                                value={countriesAsSelectOptions.find((option) => option.value === field.value.value)}
-                                onChange={field.onChange}
+                                tid={formMeta.formName + '-' + formMeta.fields.country.name}
+                                activeOption={countriesAsSelectOptions.find(
+                                    (option) => option.value === field.value.value,
+                                )}
+                                onSelectOption={field.onChange}
                             />
                             <FormLineError error={error} inputType="select" />
                         </>

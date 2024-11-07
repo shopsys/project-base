@@ -2,7 +2,7 @@ import { CompareIcon } from 'components/Basic/Icon/CompareIcon';
 import { ComplaintsIcon } from 'components/Basic/Icon/ComplaintsIcon';
 import { EditIcon } from 'components/Basic/Icon/EditIcon';
 import { HeartIcon } from 'components/Basic/Icon/HeartIcon';
-import { LockCheckIcon } from 'components/Basic/Icon/LockCheck';
+import { LockCheckIcon } from 'components/Basic/Icon/LockCheckIcon';
 import { SearchListIcon } from 'components/Basic/Icon/SearchListIcon';
 import { UserIcon } from 'components/Basic/Icon/UserIcon';
 import { useDomainConfig } from 'components/providers/DomainConfigProvider';

@@ -161,21 +161,20 @@ export const ManageCustomerUserPopup: FC<ManageCustomerUserPopupProps> = ({ cust
                             />
                             <Controller
                                 name={formMeta.fields.roleGroup.name}
-                                render={({ fieldState: { invalid, error }, field }) => (
+                                render={({ fieldState: { error }, field }) => (
                                     <>
                                         <Select
-                                            required
-                                            hasError={invalid}
-                                            id={formMeta.formName + '-' + formMeta.fields.roleGroup.name}
+                                            isRequired
                                             label={formMeta.fields.roleGroup.label}
                                             options={customerUserRoleGroupsAsSelectOptions}
+                                            tid={formMeta.formName + '-' + formMeta.fields.roleGroup.name}
+                                            activeOption={customerUserRoleGroupsAsSelectOptions.find(
+                                                (option) => option.value === field.value.value,
+                                            )}
                                             isDisabled={
                                                 !canManageProfile || (mode === 'edit' && customerUser?.uuid === uuid)
                                             }
-                                            value={customerUserRoleGroupsAsSelectOptions.find(
-                                                (option) => option.value === field.value.value,
-                                            )}
-                                            onChange={field.onChange}
+                                            onSelectOption={field.onChange}
                                         />
                                         <FormLineError error={error} inputType="select" />
                                     </>
