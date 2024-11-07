@@ -1,4 +1,4 @@
-import { AnimateCollapseDiv } from 'components/Basic/Animations/AnimateCollapseDiv';
+import { AnimateNavigationMenu } from 'components/Basic/Animations/AnimateNavigationMenu';
 import { ExtendedNextLink } from 'components/Basic/ExtendedNextLink/ExtendedNextLink';
 import { ArrowIcon } from 'components/Basic/Icon/ArrowIcon';
 import { NavigationItemColumn } from 'components/Layout/Header/Navigation/NavigationItemColumn';
@@ -12,15 +12,29 @@ import { useDebounce } from 'utils/useDebounce';
 type NavigationItemProps = {
     navigationItem: TypeCategoriesByColumnFragment;
     skeletonType?: PageType;
+    isAnimationDisabled: boolean;
+    handleAnimations: () => void;
 };
 
-export const NavigationItem: FC<NavigationItemProps> = ({ navigationItem, skeletonType }) => {
+export const NavigationItem: FC<NavigationItemProps> = ({
+    navigationItem,
+    skeletonType,
+    isAnimationDisabled,
+    handleAnimations,
+}) => {
     const [isMenuOpened, setIsMenuOpened] = useState(false);
     const hasChildren = !!navigationItem.categoriesByColumns.length;
-    const isMenuOpenedDelayed = useDebounce(isMenuOpened, 200);
+    const isMenuOpenedDelayed = useDebounce(isMenuOpened && true, 200);
 
     return (
-        <li className="group" onMouseEnter={() => setIsMenuOpened(true)} onMouseLeave={() => setIsMenuOpened(false)}>
+        <li
+            className="group"
+            onMouseLeave={() => setIsMenuOpened(false)}
+            onMouseEnter={() => {
+                setIsMenuOpened(true);
+                handleAnimations();
+            }}
+        >
             <ExtendedNextLink
                 href={navigationItem.link}
                 skeletonType={skeletonType}
@@ -53,14 +67,17 @@ export const NavigationItem: FC<NavigationItemProps> = ({ navigationItem, skelet
 
             <AnimatePresence initial={false}>
                 {hasChildren && isMenuOpenedDelayed && (
-                    <AnimateCollapseDiv className="absolute left-0 right-0 z-menu !grid grid-cols-4 gap-11 bg-background px-10 shadow-md">
+                    <AnimateNavigationMenu
+                        className="absolute left-0 right-0 z-menu !grid grid-cols-4 gap-11 bg-background px-10 shadow-md"
+                        disableAnimation={isAnimationDisabled}
+                    >
                         <NavigationItemColumn
                             className="py-12"
                             columnCategories={navigationItem.categoriesByColumns}
                             skeletonType={skeletonType}
                             onLinkClick={() => setIsMenuOpened(false)}
                         />
-                    </AnimateCollapseDiv>
+                    </AnimateNavigationMenu>
                 )}
             </AnimatePresence>
         </li>
