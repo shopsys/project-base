@@ -33,8 +33,7 @@ export const MenuIconicItemUserAuthenticated: FC = () => {
                 onMouseLeave={() => isDesktop && setIsHovered(false)}
             >
                 <MenuIconicItemLink
-                    className="text-nowrap rounded-t transition-all max-lg:hidden"
-                    href={customerUrl}
+                    className="text-nowrap rounded-t transition-all cursor-pointer max-lg:hidden"
                     type="account"
                 >
                     <div className="relative">
