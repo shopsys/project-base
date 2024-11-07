@@ -67,7 +67,7 @@ export const UserNavigation: FC = () => {
                 <Button
                     className={twJoin(
                         getMenuItemTwClass(),
-                        'font-primary bg-transparent text-base font-normal leading-5 text-text !outline-none hover:bg-transparent hover:text-textAccent hover:underline',
+                        'font-primary bg-transparent !px-2 !text-base font-normal leading-5 text-text !outline-none hover:bg-transparent hover:text-textAccent hover:underline',
                     )}
                     onClick={logoutHandler}
                 >
