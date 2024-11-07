@@ -23,6 +23,7 @@ import { useMediaMin } from 'utils/ui/useMediaMin';
 type TabsContentProps = {
     headingTextMobile: string;
     isActive: boolean;
+    skipInitialAnimation?: boolean;
 };
 
 type TabFC<T = unknown> = FC<T> & { tabsRole: string };
@@ -58,6 +59,7 @@ export const TabsContent: TabFC<TabsContentProps & Partial<PropsWithRef<TabPanel
     children,
     headingTextMobile,
     isActive,
+    skipInitialAnimation = false,
     ...props
 }) => {
     const [isActiveOnMobile, setIsActiveOnMobile] = useState<boolean | undefined>(false);
@@ -85,6 +87,7 @@ export const TabsContent: TabFC<TabsContentProps & Partial<PropsWithRef<TabPanel
                 {(isActiveOnMobile || (isActive && isLg)) && (
                     <AnimateCollapseDiv
                         className="relative !block w-full"
+                        initial={skipInitialAnimation ? 'open' : 'closed'}
                         keyName={`tabs-content-${headingTextMobile}`}
                     >
                         {children}
