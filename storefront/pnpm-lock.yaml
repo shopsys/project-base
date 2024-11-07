@@ -111,8 +111,8 @@ importers:
         specifier: ~6.0.2
         version: 6.0.2(react@18.2.0)
       react-toastify:
-        specifier: ~10.0.4
-        version: 10.0.4(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        specifier: ~10.0.6
+        version: 10.0.6(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       redis:
         specifier: ~4.6.13
         version: 4.6.13
@@ -3995,11 +3995,11 @@ packages:
     peerDependencies:
       react: ^18.0.0
 
-  react-toastify@10.0.4:
-    resolution: {integrity: sha512-etR3RgueY8pe88SA67wLm8rJmL1h+CLqUGHuAoNsseW35oTGJEri6eBTyaXnFKNQ80v/eO10hBYLgz036XRGgA==}
+  react-toastify@10.0.6:
+    resolution: {integrity: sha512-yYjp+omCDf9lhZcrZHKbSq7YMuK0zcYkDFTzfRFgTXkTFHZ1ToxwAonzA4JI5CxA91JpjFLmwEsZEgfYfOqI1A==}
     peerDependencies:
-      react: '>=16'
-      react-dom: '>=16'
+      react: '>=18'
+      react-dom: '>=18'
 
   react-transition-group@4.4.5:
     resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
@@ -9361,7 +9361,7 @@ snapshots:
       prop-types: 15.8.1
       react: 18.2.0
 
-  react-toastify@10.0.4(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+  react-toastify@10.0.6(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       clsx: 2.1.0
       react: 18.2.0
