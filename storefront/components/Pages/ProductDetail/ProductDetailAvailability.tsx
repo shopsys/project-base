@@ -14,7 +14,7 @@ export const ProductDetailAvailability: FC<ProductDetailAvailabilityProps> = ({ 
     const { t } = useTranslation();
     const updatePortalContent = useSessionStore((s) => s.updatePortalContent);
 
-    if (!product.availableStoresCount || product.isInquiryType) {
+    if (product.isInquiryType) {
         return null;
     }
 
@@ -22,11 +22,12 @@ export const ProductDetailAvailability: FC<ProductDetailAvailabilityProps> = ({ 
         <div
             className={twJoin(
                 'mr-1 flex items-center font-secondary text-sm',
-                product.availability.status === TypeAvailabilityStatusEnum.InStock && 'text-availabilityInStock',
+                product.availability.status === TypeAvailabilityStatusEnum.InStock &&
+                    'cursor-pointer text-availabilityInStock',
                 product.availability.status === TypeAvailabilityStatusEnum.OutOfStock && 'text-availabilityOutOfStock',
-                'cursor-pointer',
             )}
             onClick={() =>
+                product.availability.status !== TypeAvailabilityStatusEnum.OutOfStock &&
                 updatePortalContent(
                     <Popup>
                         <ProductDetailAvailabilityList storeAvailabilities={product.storeAvailabilities} />
@@ -34,10 +35,14 @@ export const ProductDetailAvailability: FC<ProductDetailAvailabilityProps> = ({ 
                 )
             }
         >
-            {`${product.availability.name}. ${t('This item is available immediately in {{ count }} stores', {
-                availability: product.availability.name,
-                count: product.availableStoresCount,
-            })}`}
+            {`${product.availability.name}. ${
+                product.availability.status === TypeAvailabilityStatusEnum.InStock && product.availableStoresCount > 0
+                    ? t('This item is available immediately in {{ count }} stores', {
+                          availability: product.availability.name,
+                          count: product.availableStoresCount,
+                      })
+                    : ''
+            }`}
         </div>
     );
 };

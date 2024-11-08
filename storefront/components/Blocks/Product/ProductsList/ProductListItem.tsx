@@ -125,9 +125,9 @@ export const ProductListItem = forwardRef<HTMLLIElement, ProductItemProps>(
                     <div className="min-h-10 xs:min-h-[60px] sm:min-h-10">
                         {visibleItemsConfig.storeAvailability && !product.isInquiryType && (
                             <ProductAvailableStoresCount
+                                availability={product.availability}
                                 availableStoresCount={product.availableStoresCount}
                                 isMainVariant={product.isMainVariant}
-                                name={product.availability.name}
                             />
                         )}
                     </div>

@@ -1,15 +1,16 @@
+import { TypeAvailability, TypeAvailabilityStatusEnum } from 'graphql/types';
 import useTranslation from 'next-translate/useTranslation';
 
 type ProductAvailableStoresCountProps = {
+    availability: TypeAvailability;
     isMainVariant: boolean;
     availableStoresCount: number;
-    name: string;
 };
 
 export const ProductAvailableStoresCount: FC<ProductAvailableStoresCountProps> = ({
+    availability,
     availableStoresCount,
     isMainVariant,
-    name,
 }) => {
     const { t } = useTranslation();
 
@@ -19,7 +20,11 @@ export const ProductAvailableStoresCount: FC<ProductAvailableStoresCountProps> =
 
     return (
         <div className="text-sm text-availabilityInStock">
-            {`${name}, ${t('ready to ship immediately')} ${availableStoresCount !== 0 ? t('or at {{ count }} stores', { count: availableStoresCount }) : ''}`}
+            {`${availability.name}${
+                availability.status !== TypeAvailabilityStatusEnum.OutOfStock
+                    ? `, ${t('ready to ship immediately')} ${availableStoresCount !== 0 ? t('or at {{ count }} stores', { count: availableStoresCount }) : ''}`
+                    : ''
+            }`}
         </div>
     );
 };

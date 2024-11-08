@@ -63,9 +63,9 @@ export const CategoryBestsellersListItem: FC<CategoryBestsellersListItemProps> =
                 {!product.isInquiryType && (
                     <div className="max-w-48">
                         <ProductAvailableStoresCount
+                            availability={product.availability}
                             availableStoresCount={product.availableStoresCount}
                             isMainVariant={product.isMainVariant}
-                            name={product.availability.name}
                         />
                     </div>
                 )}
