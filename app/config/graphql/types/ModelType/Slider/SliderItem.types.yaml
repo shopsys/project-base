@@ -1,16 +1,12 @@
 SliderItem:
     type: object
+    inherits:
+        - 'SliderItemDecorator'
     config:
         fields:
             uuid:
                 type: "Uuid!"
                 description: "UUID"
-            name:
-                type: "String!"
-                description: "Slider name"
-            link:
-                type: "String!"
-                description: "Target link"
             extendedText:
                 type: "String"
                 description: "Text below slider"
@@ -23,28 +19,3 @@ SliderItem:
             gtmCreative:
                 type: "String"
                 description: "GTM creative"
-            description:
-                type: "String!"
-                description: "Slider description"
-            rgbBackgroundColor:
-                type: "String"
-                description: "RGB color code for the background of the slider description box"
-            opacity:
-                type: "Float"
-                description: "Opacity level for the background color of the slider description box"
-            images:
-                type: "[Image!]!"
-                description: "Slider item images"
-                resolve: '@=query("imagesByEntityPromiseQuery", value, args["type"])'
-                args:
-                    type:
-                        type: "String"
-                        defaultValue: null
-            mainImage:
-                type: "Image!"
-                description: "Slider item image by params"
-                resolve: '@=query("mainImageByEntityPromiseQuery", value, args["type"])'
-                args:
-                    type:
-                        type: "String"
-                        defaultValue: null
