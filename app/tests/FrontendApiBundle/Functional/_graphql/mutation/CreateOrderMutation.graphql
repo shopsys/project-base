@@ -116,13 +116,7 @@ mutation CreateOrder(
         cart {
             modifications {
                 itemModifications {
-                    cartItemsWithChangedQuantity {
-                        uuid
-                    }
                     cartItemsWithModifiedPrice {
-                        uuid
-                    }
-                    noLongerAvailableCartItemsDueToQuantity {
                         uuid
                     }
                     noLongerListableCartItems {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\FrontendApiBundle\Functional\Product\Flag;
 
+use App\DataFixtures\Demo\FlagDataFixture;
+use App\Model\Product\Flag\Flag;
 use App\Model\Product\Flag\FlagFacade;
 use Shopsys\FrameworkBundle\Component\ArrayUtils\ArraySorter;
 use Shopsys\FrameworkBundle\Component\Translation\Translator;
@@ -24,7 +26,7 @@ class FlagTest extends GraphQlTestCase
 
     public function testFlagByUuid(): void
     {
-        $flag = $this->flagFacade->getById(6);
+        $flag = $this->getReference(FlagDataFixture::FLAG_PRODUCT_MADEIN_DE, Flag::class);
 
         $query = '
             query {
@@ -91,8 +93,8 @@ class FlagTest extends GraphQlTestCase
     public function testFlagByUuidFilteredByAnotherFlag(): void
     {
         $limit = 5;
-        $flagAction = $this->flagFacade->getById(2);
-        $flagNew = $this->flagFacade->getById(3);
+        $flagAction = $this->getReference(FlagDataFixture::FLAG_PRODUCT_ACTION, Flag::class);
+        $flagNew = $this->getReference(FlagDataFixture::FLAG_PRODUCT_NEW, Flag::class);
 
         $query = '
             query {
@@ -153,13 +155,13 @@ class FlagTest extends GraphQlTestCase
                             'name' => t('TV, audio', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getFirstDomainLocale()),
                         ],
                         [
-                            'name' => t('Electronics', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getFirstDomainLocale()),
-                        ],
-                        [
                             'name' => t('Printers', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getFirstDomainLocale()),
                         ],
                         [
                             'name' => t('Books', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getFirstDomainLocale()),
+                        ],
+                        [
+                            'name' => t('Electronics', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getFirstDomainLocale()),
                         ],
                         [
                             'name' => t('Mobile Phones', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getFirstDomainLocale()),

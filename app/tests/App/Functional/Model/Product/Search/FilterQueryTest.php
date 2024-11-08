@@ -4,8 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\App\Functional\Model\Product\Search;
 
+use App\DataFixtures\Demo\BrandDataFixture;
+use App\DataFixtures\Demo\CategoryDataFixture;
 use App\DataFixtures\Demo\CurrencyDataFixture;
+use App\DataFixtures\Demo\FlagDataFixture;
+use App\DataFixtures\Demo\ParameterDataFixture;
 use App\DataFixtures\Demo\PricingGroupDataFixture;
+use App\Model\Category\Category;
+use App\Model\Product\Brand\Brand;
+use App\Model\Product\Flag\Flag;
 use Elasticsearch\Client;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Component\Elasticsearch\IndexDefinitionLoader;
@@ -15,6 +22,7 @@ use Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroup;
 use Shopsys\FrameworkBundle\Model\Pricing\PriceConverter;
 use Shopsys\FrameworkBundle\Model\Product\Elasticsearch\ProductIndex;
 use Shopsys\FrameworkBundle\Model\Product\Listing\ProductListOrderingConfig;
+use Shopsys\FrameworkBundle\Model\Product\Parameter\Parameter;
 use Shopsys\FrameworkBundle\Model\Product\Search\FilterQuery;
 use Shopsys\FrameworkBundle\Model\Product\Search\FilterQueryFactory;
 use Tests\App\Test\ParameterTransactionFunctionalTestCase;
@@ -45,8 +53,10 @@ class FilterQueryTest extends ParameterTransactionFunctionalTestCase
     {
         $this->skipTestIfFirstDomainIsNotInEnglish();
 
+        $brandApple = $this->getReference(BrandDataFixture::BRAND_APPLE, Brand::class);
+
         $filter = $this->createFilter()
-            ->filterByBrands([1]);
+            ->filterByBrands([$brandApple->getId()]);
 
         $this->assertIdWithFilter($filter, [5]);
     }
@@ -55,21 +65,26 @@ class FilterQueryTest extends ParameterTransactionFunctionalTestCase
     {
         $this->skipTestIfFirstDomainIsNotInEnglish();
 
-        $filter = $this->createFilter()
-            ->filterByFlags([3])
-            ->applyDefaultOrdering();
+        $flagNew = $this->getReference(FlagDataFixture::FLAG_PRODUCT_NEW, Flag::class);
 
-        $this->assertIdWithFilter($filter, [25, 27, 29, 9, 13, 14, 19, 31, 35, 44]);
+        $filter = $this->createFilter()
+            ->filterByFlags([$flagNew->getId()])
+            ->applyOrderingByIdAscending();
+
+        $this->assertIdWithFilter($filter, [9, 10, 13, 14, 19, 21, 22, 25, 27, 29, 31, 35, 42, 44, 50, 144]);
     }
 
     public function testFlagBrand(): void
     {
         $this->skipTestIfFirstDomainIsNotInEnglish();
 
+        $brandGenius = $this->getReference(BrandDataFixture::BRAND_GENIUS, Brand::class);
+        $flagSale = $this->getReference(FlagDataFixture::FLAG_PRODUCT_SALE, Flag::class);
+
         $filter = $this->createFilter()
-            ->filterByBrands([12])
-            ->filterByFlags([1])
-            ->applyDefaultOrdering();
+            ->filterByBrands([$brandGenius->getId()])
+            ->filterByFlags([$flagSale->getId()])
+            ->applyOrderingByIdAscending();
 
         $this->assertIdWithFilter($filter, []);
     }
@@ -85,10 +100,13 @@ class FilterQueryTest extends ParameterTransactionFunctionalTestCase
             PricingGroup::class,
         );
 
+        $categoryBooks = $this->getReference(CategoryDataFixture::CATEGORY_BOOKS, Category::class);
+        $flagSale = $this->getReference(FlagDataFixture::FLAG_PRODUCT_SALE, Flag::class);
+
         $filter = $this->createFilter()
             ->filterOnlyInStock()
-            ->filterByCategory([9])
-            ->filterByFlags([1])
+            ->filterByCategory([$categoryBooks->getId()])
+            ->filterByFlags([$flagSale->getId()])
             ->filterByPrices(
                 $pricingGroup,
                 null,
@@ -106,15 +124,19 @@ class FilterQueryTest extends ParameterTransactionFunctionalTestCase
     {
         $this->skipTestIfFirstDomainIsNotInEnglish();
 
-        $parameters = [51 => [$this->getParameterValueIdForFirstDomain(
+        $parameterCover = $this->getReference(ParameterDataFixture::PARAM_COVER, Parameter::class);
+        $parameterPagesCount = $this->getReference(ParameterDataFixture::PARAM_PAGES_COUNT, Parameter::class);
+        $parameterDimensions = $this->getReference(ParameterDataFixture::PARAM_DIMENSIONS, Parameter::class);
+
+        $parameters = [$parameterCover->getId() => [$this->getParameterValueIdForFirstDomain(
             'hardcover',
         ), $this->getParameterValueIdForFirstDomain(
             'paper',
-        )], 50 => [$this->getParameterValueIdForFirstDomain(
+        )], $parameterPagesCount->getId() => [$this->getParameterValueIdForFirstDomain(
             '55',
         ), $this->getParameterValueIdForFirstDomain(
             '48',
-        )], 10 => [$this->getParameterValueIdForFirstDomain(
+        )], $parameterDimensions->getId() => [$this->getParameterValueIdForFirstDomain(
             '50',
         )]];
 
@@ -134,23 +156,28 @@ class FilterQueryTest extends ParameterTransactionFunctionalTestCase
             PricingGroup::class,
         );
 
-        $filter = $this->createFilter()
-            ->filterByCategory([9])
-            ->applyDefaultOrdering();
+        $categoryBooks = $this->getReference(CategoryDataFixture::CATEGORY_BOOKS, Category::class);
 
-        $this->assertIdWithFilter($filter, [72, 25, 27, 29, 28, 26, 33, 39, 40], 'top');
+        $filter = $this->createFilter()
+            ->filterByCategory([$categoryBooks->getId()])
+            ->applyOrderingByIdAscending();
+
+        $this->assertIdWithFilter($filter, [25, 26, 27, 28, 29, 33, 39, 40, 50, 72], 'by id asc');
 
         $nameAscFilter = $filter->applyOrdering(ProductListOrderingConfig::ORDER_BY_NAME_ASC, $pricingGroup);
-        $this->assertIdWithFilter($nameAscFilter, [72, 25, 27, 29, 28, 26, 33, 39, 40], 'name asc');
+        $this->assertIdWithFilter($nameAscFilter, [72, 25, 27, 29, 28, 26, 50, 33, 39, 40], 'name asc');
 
         $nameDescFilter = $filter->applyOrdering(ProductListOrderingConfig::ORDER_BY_NAME_DESC, $pricingGroup);
-        $this->assertIdWithFilter($nameDescFilter, [40, 39, 33, 26, 28, 29, 27, 25, 72], 'name desc');
+        $this->assertIdWithFilter($nameDescFilter, [40, 39, 33, 50, 26, 28, 29, 27, 25, 72], 'name desc');
 
         $priceAscFilter = $filter->applyOrdering(ProductListOrderingConfig::ORDER_BY_PRICE_ASC, $pricingGroup);
-        $this->assertIdWithFilter($priceAscFilter, [40, 33, 39, 29, 25, 26, 27, 28, 72], 'price asc');
+        $this->assertIdWithFilter($priceAscFilter, [40, 33, 50, 39, 29, 25, 26, 27, 28, 72], 'price asc');
 
         $priceDescFilter = $filter->applyOrdering(ProductListOrderingConfig::ORDER_BY_PRICE_DESC, $pricingGroup);
-        $this->assertIdWithFilter($priceDescFilter, [72, 28, 27, 25, 26, 29, 39, 33, 40], 'price desc');
+        $this->assertIdWithFilter($priceDescFilter, [72, 28, 27, 25, 26, 29, 39, 50, 33, 40], 'price desc');
+
+        $priorityFilter = $filter->applyOrdering(ProductListOrderingConfig::ORDER_BY_PRIORITY, $pricingGroup);
+        $this->assertIdWithFilter($priorityFilter, [72, 25, 27, 29, 28, 26, 33, 39, 40, 50], 'priority');
     }
 
     public function testMatchQuery(): void
@@ -170,25 +197,27 @@ class FilterQueryTest extends ParameterTransactionFunctionalTestCase
     {
         $this->skipTestIfFirstDomainIsNotInEnglish();
 
-        $filter = $this->createFilter()
-            ->filterByCategory([9])
-            ->applyDefaultOrdering();
+        $categoryBooks = $this->getReference(CategoryDataFixture::CATEGORY_BOOKS, Category::class);
 
-        $this->assertIdWithFilter($filter, [72, 25, 27, 29, 28, 26, 33, 39, 40]);
+        $filter = $this->createFilter()
+            ->filterByCategory([$categoryBooks->getId()])
+            ->applyOrderingByIdAscending();
+
+        $this->assertIdWithFilter($filter, [25, 26, 27, 28, 29, 33, 39, 40, 50, 72]);
 
         $limit5Filter = $filter->setLimit(5);
-        $this->assertIdWithFilter($limit5Filter, [72, 25, 27, 29, 28]);
+        $this->assertIdWithFilter($limit5Filter, [25, 26, 27, 28, 29]);
 
         $limit1Filter = $filter->setLimit(1);
-        $this->assertIdWithFilter($limit1Filter, [72]);
+        $this->assertIdWithFilter($limit1Filter, [25]);
 
         $limit4Page2Filter = $filter->setLimit(4)
             ->setPage(2);
-        $this->assertIdWithFilter($limit4Page2Filter, [28, 26, 33, 39]);
+        $this->assertIdWithFilter($limit4Page2Filter, [29, 33, 39, 40]);
 
         $limit4Page3Filter = $filter->setLimit(4)
             ->setPage(3);
-        $this->assertIdWithFilter($limit4Page3Filter, [40]);
+        $this->assertIdWithFilter($limit4Page3Filter, [50, 72]);
 
         $limit4Page4Filter = $filter->setLimit(4)
             ->setPage(4);

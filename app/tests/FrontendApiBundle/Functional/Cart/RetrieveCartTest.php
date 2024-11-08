@@ -58,7 +58,6 @@ class RetrieveCartTest extends GraphQlTestCase
                     }
                 }
                 addProductResult{
-                    notOnStockQuantity
                     isNew
                     addedQuantity
                 }
@@ -69,37 +68,31 @@ class RetrieveCartTest extends GraphQlTestCase
         $newlyCreatedCart = $response['data']['AddToCart'];
 
         $expectedAddProductResultData = [
-            'notOnStockQuantity' => 3000,
             'isNew' => true,
-            'addedQuantity' => $maximumAvailableQuantity,
+            'addedQuantity' => $desiredQuantity,
         ];
 
         self::assertEquals($expectedAddProductResultData, $newlyCreatedCart['addProductResult']);
 
         $vatHigh = $this->getReferenceForDomain(VatDataFixture::VAT_HIGH, $this->domain->getId(), Vat::class);
-        self::assertEquals($this->getSerializedPriceConvertedToDomainDefaultCurrency('2891.70', $vatHigh, $maximumAvailableQuantity), $newlyCreatedCart['cart']['totalPrice']);
+        self::assertEquals($this->getSerializedPriceConvertedToDomainDefaultCurrency('2891.70', $vatHigh, $desiredQuantity), $newlyCreatedCart['cart']['totalPrice']);
     }
 
     public function testAddToCartResultIsValidForMoreQuantityThanOnStockOnSecondAdd(): void
     {
-        $maximumAvailableQuantity = $this->productAvailabilityFacade->getGroupedStockQuantityByProductAndDomainId($this->testingProduct, $this->domain->getId());
-
-        $decrease = 200;
-        $notOnStockCount = 3000;
-        $firstAddQuantity = $maximumAvailableQuantity - $decrease;
+        $onStockQuantity = $this->productAvailabilityFacade->getGroupedStockQuantityByProductAndDomainId($this->testingProduct, $this->domain->getId());
 
         $mutation = 'mutation {
             AddToCart(
                 input: {
                     productUuid: "' . $this->testingProduct->getUuid() . '"
-                    quantity: ' . $firstAddQuantity . '
+                    quantity: ' . $onStockQuantity . '
                 }
             ) {
                 cart {
                     uuid
                 }
                 addProductResult{
-                    notOnStockQuantity
                     isNew
                     addedQuantity
                 }
@@ -110,9 +103,8 @@ class RetrieveCartTest extends GraphQlTestCase
         $newlyCreatedCart = $response['data']['AddToCart'];
 
         $expectedAddProductResultData = [
-            'notOnStockQuantity' => 0,
             'isNew' => true,
-            'addedQuantity' => $firstAddQuantity,
+            'addedQuantity' => $onStockQuantity,
         ];
 
         self::assertEquals($expectedAddProductResultData, $newlyCreatedCart['addProductResult']);
@@ -123,7 +115,7 @@ class RetrieveCartTest extends GraphQlTestCase
                 input: {
                     cartUuid: "' . $newlyCreatedCart['cart']['uuid'] . '"
                     productUuid: "' . $this->testingProduct->getUuid() . '"
-                    quantity: ' . ($decrease + $notOnStockCount) . '
+                    quantity: ' . ($onStockQuantity) . '
                 }
             ) {
                 cart {
@@ -133,7 +125,6 @@ class RetrieveCartTest extends GraphQlTestCase
                     }
                 }
                 addProductResult {
-                    notOnStockQuantity
                     isNew
                     addedQuantity
                 }
@@ -144,12 +135,10 @@ class RetrieveCartTest extends GraphQlTestCase
         $existingCart = $response['data']['AddToCart'];
 
         $expectedAddProductResultData = [
-            'notOnStockQuantity' => $notOnStockCount,
             'isNew' => false,
-            'addedQuantity' => $decrease,
+            'addedQuantity' => $onStockQuantity,
         ];
 
-        self::assertEquals($maximumAvailableQuantity, $decrease + $firstAddQuantity);
         self::assertEquals($expectedAddProductResultData, $existingCart['addProductResult']);
     }
 
@@ -167,7 +156,6 @@ class RetrieveCartTest extends GraphQlTestCase
                     uuid
                 }
                 addProductResult{
-                    notOnStockQuantity
                     isNew
                     addedQuantity
                 }
@@ -178,7 +166,6 @@ class RetrieveCartTest extends GraphQlTestCase
         $newlyCreatedCart = $response['data']['AddToCart'];
 
         $expectedAddProductResultData = [
-            'notOnStockQuantity' => 0,
             'isNew' => true,
             'addedQuantity' => $desiredQuantity,
         ];
@@ -201,7 +188,6 @@ class RetrieveCartTest extends GraphQlTestCase
                     }
                 }
                 addProductResult {
-                    notOnStockQuantity
                     isNew
                     addedQuantity
                 }
@@ -212,7 +198,6 @@ class RetrieveCartTest extends GraphQlTestCase
         $existingCart = $response['data']['AddToCart'];
 
         $expectedAddProductResultData = [
-            'notOnStockQuantity' => 0,
             'isNew' => false,
             'addedQuantity' => $desiredQuantity,
         ];
@@ -413,6 +398,9 @@ class RetrieveCartTest extends GraphQlTestCase
                 ],
                 [
                     'name' => t('24" Philips [V]', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $firstDomainLocale),
+                ],
+                [
+                    'name' => t('Canon PIXMA MG2450', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $firstDomainLocale),
                 ],
             ],
             'isSellingDenied' => false,

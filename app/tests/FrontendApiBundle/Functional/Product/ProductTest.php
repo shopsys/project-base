@@ -258,6 +258,9 @@ class ProductTest extends GraphQlTestCase
                         [
                             'name' => t('24" Philips [V]', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $firstDomainLocale),
                         ],
+                        [
+                            'name' => t('Canon PIXMA MG2450', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $firstDomainLocale),
+                        ],
                     ],
                     'isSellingDenied' => false,
                     'description' => t(

@@ -47,7 +47,7 @@ class MultipleProductsQueryTest extends GraphQlTestCase
                     ],
                     [
                         'node' => [
-                            'name' => t('Sencor SDB 4002M4', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $firstDomainLocale),
+                            'name' => t('47" LG 47LA790V (FHD)', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $firstDomainLocale),
                         ],
                     ],
                 ],

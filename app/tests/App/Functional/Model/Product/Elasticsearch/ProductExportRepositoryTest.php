@@ -57,7 +57,6 @@ class ProductExportRepositoryTest extends TransactionFunctionalTestCase
             'selling_denied',
             'availability',
             'availability_status',
-            'availability_dispatch_time',
             'is_main_variant',
             'is_variant',
             'detail_url',

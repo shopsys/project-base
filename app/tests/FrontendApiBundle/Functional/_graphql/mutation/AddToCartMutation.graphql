@@ -22,13 +22,6 @@ mutation AddToCart(
                             uuid
                         }
                     }
-                    cartItemsWithChangedQuantity {
-                        uuid
-                        quantity
-                        product {
-                            uuid
-                        }
-                    }
                     cartItemsWithModifiedPrice {
                         uuid
                         quantity

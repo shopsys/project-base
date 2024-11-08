@@ -31,7 +31,6 @@ class ProductElasticsearchConverter extends BaseProductElasticsearchConverter
         $result['searching_eans'] = $product['searching_eans'] ?? '';
         $result['searching_short_descriptions'] = $product['searching_short_descriptions'] ?? '';
         $result['searching_descriptions'] = $product['searching_descriptions'] ?? '';
-        $result['availability_dispatch_time'] = $product['availability_dispatch_time'] ?? null;
         $result['uuid'] = $product['uuid'] ?? '00000000-0000-0000-0000-000000000000';
         $result['unit'] = $product['unit'] ?? '';
         $result['stock_quantity'] = $product['stock_quantity'] ?? 0;

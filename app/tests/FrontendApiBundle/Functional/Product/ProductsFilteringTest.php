@@ -113,7 +113,7 @@ class ProductsFilteringTest extends ProductsGraphQlTestCase
 
         $productsExpected = [
             ['name' => t(
-                'Sencor SDB 4002M4',
+                'ROCCAT Kone Pure Optical Gaming Mouse',
                 [],
                 Translator::DATA_FIXTURES_TRANSLATION_DOMAIN,
                 $this->firstDomainLocale,

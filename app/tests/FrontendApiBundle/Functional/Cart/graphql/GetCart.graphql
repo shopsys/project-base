@@ -48,12 +48,6 @@ query GetCart(
         }
         modifications {
             itemModifications {
-                noLongerAvailableCartItemsDueToQuantity {
-                    uuid
-                    product {
-                        uuid
-                    }
-                }
                 noLongerListableCartItems {
                     uuid
                     product {
@@ -61,12 +55,6 @@ query GetCart(
                     }
                 }
                 cartItemsWithModifiedPrice {
-                    uuid
-                    product {
-                        uuid
-                    }
-                }
-                cartItemsWithChangedQuantity {
                     uuid
                     product {
                         uuid

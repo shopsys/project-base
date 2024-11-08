@@ -164,7 +164,7 @@ class AnonymousAddToCartTest extends GraphQlTestCase
         $cartItems = $cart->getItems();
 
         self::assertCount(1, $cartItems);
-        self::assertEquals($maximumAvailableQuantity, $cartItems[0]->getQuantity());
+        self::assertEquals($productQuantity, $cartItems[0]->getQuantity());
     }
 
     public function testInvalidProductProvided(): void

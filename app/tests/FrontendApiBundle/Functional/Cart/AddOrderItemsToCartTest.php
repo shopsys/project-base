@@ -102,16 +102,17 @@ class AddOrderItemsToCartTest extends GraphQlWithLoginTestCase
         ];
     }
 
-    public function testCannotAddMoreOrderItemsToCartThanOnStock(): void
+    public function testAddMoreOrderItemsToCartThanOnStock(): void
     {
         $orderUuid = $this->createMinimalOrderQuery();
 
         $addedProduct = $this->getReference(ProductDataFixture::PRODUCT_PREFIX . '1', Product::class);
-        $addedProductQuantity = 2800;
-        $this->addProductToCustomerCart($addedProduct, $addedProductQuantity);
+        $firstAddedProductQuantity = 2800;
+        $secondAddedProductQuantity = 6;
+        $this->addProductToCustomerCart($addedProduct, $firstAddedProductQuantity);
 
         $addedProduct2 = $this->getReference(ProductDataFixture::PRODUCT_PREFIX . '5', Product::class);
-        $addedProductQuantity2 = 6;
+        $addedProductQuantity2 = $secondAddedProductQuantity;
         $this->addProductToCustomerCart($addedProduct2, $addedProductQuantity2);
 
         $cart = $this->findCartOfCurrentCustomer();
@@ -119,40 +120,20 @@ class AddOrderItemsToCartTest extends GraphQlWithLoginTestCase
 
         $addOrderItemsToCart = $this->getOrderRepeatMutation($orderUuid, $cartUuid);
 
-        $response = $this->getResponseDataForGraphQlType(
+        $this->getResponseDataForGraphQlType(
             $this->getResponseContentForQuery($addOrderItemsToCart),
             'AddOrderItemsToCart',
         );
 
         $expectedProducts = [
             [
-                'name' => '22" Sencor SLE 22F46DM4 HELLO KITTY',
-                'quantity' => 2700,
-            ],
-            [
-                'name' => 'Apple iPhone 5S 64GB, gold',
-                'quantity' => 6,
+                'product' => ['name' => '22" Sencor SLE 22F46DM4 HELLO KITTY'],
+                'quantity' => $firstAddedProductQuantity + 2,
+            ], [
+                'product' => ['name' => 'Apple iPhone 5S 64GB, gold'],
+                'quantity' => $secondAddedProductQuantity,
             ],
         ];
-
-        foreach ($response['items'] as $key => $item) {
-            self::assertEquals(
-                $item['product']['name'],
-                t($expectedProducts[$key]['name'], [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain()),
-            );
-
-            self::assertEquals($item['quantity'], $expectedProducts[$key]['quantity']);
-        }
-
-        $this->assertEquals(
-            [
-                'product' => [
-                    'name' => t($expectedProducts[0]['name'], [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $this->getLocaleForFirstDomain()),
-                ],
-                'quantity' => 2700,
-            ],
-            $response['modifications']['itemModifications']['cartItemsWithChangedQuantity'][0],
-        );
 
         $orderUuid = $this->createMinimalOrderQuery();
 
@@ -163,7 +144,7 @@ class AddOrderItemsToCartTest extends GraphQlWithLoginTestCase
             'AddOrderItemsToCart',
         );
 
-        $this->assertEmpty($response['modifications']['itemModifications']['cartItemsWithChangedQuantity']);
+        $this->assertSame($response['items'], $expectedProducts);
     }
 
     /**
@@ -263,16 +244,6 @@ class AddOrderItemsToCartTest extends GraphQlWithLoginTestCase
                             name
                         }
                         quantity
-                    }
-                    modifications {
-                        itemModifications {
-                            cartItemsWithChangedQuantity {
-                                product {
-                                    name
-                                }
-                                quantity
-                            }
-                        }
                     }
                 }
             }

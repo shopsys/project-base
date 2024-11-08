@@ -133,9 +133,7 @@ class CartModificationsResultTest extends GraphQlTestCase
         self::assertNotEmpty($itemModifications['noLongerListableCartItems']);
         self::assertEquals($this->testingProduct->getUuid(), $itemModifications['noLongerListableCartItems'][0]['product']['uuid']);
 
-        self::assertEmpty($itemModifications['noLongerAvailableCartItemsDueToQuantity']);
         self::assertEmpty($itemModifications['cartItemsWithModifiedPrice']);
-        self::assertEmpty($itemModifications['cartItemsWithChangedQuantity']);
     }
 
     public function testCartItemWithModifiedPriceIsReported(): void
@@ -155,50 +153,6 @@ class CartModificationsResultTest extends GraphQlTestCase
         self::assertEquals($this->testingProduct->getUuid(), $itemModifications['cartItemsWithModifiedPrice'][0]['product']['uuid']);
 
         self::assertEmpty($itemModifications['noLongerListableCartItems']);
-        self::assertEmpty($itemModifications['noLongerAvailableCartItemsDueToQuantity']);
-        self::assertEmpty($itemModifications['cartItemsWithChangedQuantity']);
-    }
-
-    public function testCartItemWithChangedQuantityIsReported(): void
-    {
-        $productQuantity = 2;
-        $newlyCreatedCart = $this->addTestingProductToNewCart($productQuantity);
-
-        $this->setOneItemLeftOnStockForTestingProduct();
-
-        $response = $this->getResponseContentForGql(__DIR__ . '/graphql/GetCart.graphql', [
-            'cartUuid' => $newlyCreatedCart['uuid'],
-        ]);
-        $modifications = $response['data']['cart']['modifications'];
-        $itemModifications = $modifications['itemModifications'];
-
-        self::assertNotEmpty($itemModifications['cartItemsWithChangedQuantity']);
-        self::assertEquals($this->testingProduct->getUuid(), $itemModifications['cartItemsWithChangedQuantity'][0]['product']['uuid']);
-
-        self::assertEmpty($itemModifications['noLongerListableCartItems']);
-        self::assertEmpty($itemModifications['noLongerAvailableCartItemsDueToQuantity']);
-        self::assertEmpty($itemModifications['cartItemsWithModifiedPrice']);
-    }
-
-    public function testNoLongerAvailableCartItemDueToQuantityIsReported(): void
-    {
-        $productQuantity = 2;
-        $newlyCreatedCart = $this->addTestingProductToNewCart($productQuantity);
-
-        $this->setNoItemLeftOnStockForTestingProduct();
-
-        $response = $this->getResponseContentForGql(__DIR__ . '/graphql/GetCart.graphql', [
-            'cartUuid' => $newlyCreatedCart['uuid'],
-        ]);
-        $modifications = $response['data']['cart']['modifications'];
-        $itemModifications = $modifications['itemModifications'];
-
-        self::assertNotEmpty($itemModifications['noLongerAvailableCartItemsDueToQuantity']);
-        self::assertEquals($this->testingProduct->getUuid(), $itemModifications['noLongerAvailableCartItemsDueToQuantity'][0]['product']['uuid']);
-
-        self::assertEmpty($itemModifications['noLongerListableCartItems']);
-        self::assertEmpty($itemModifications['cartItemsWithModifiedPrice']);
-        self::assertEmpty($itemModifications['cartItemsWithChangedQuantity']);
     }
 
     public function testTransportWithModifiedPriceIsReported(): void
@@ -350,32 +304,6 @@ class CartModificationsResultTest extends GraphQlTestCase
 
         $this->productFacade->edit($this->testingProduct->getId(), $productData);
         $this->handleDispatchedRecalculationMessages();
-    }
-
-    private function setOneItemLeftOnStockForTestingProduct(): void
-    {
-        $productData = $this->productDataFactory->createFromProduct($this->testingProduct);
-
-        foreach ($productData->productStockData as $productStockData) {
-            $productStockData->productQuantity = 0;
-        }
-
-        $productData->productStockData[1]->productQuantity = 1;
-
-        $this->productFacade->edit($this->testingProduct->getId(), $productData);
-        $this->handleDispatchedRecalculationMessages();
-    }
-
-    private function setNoItemLeftOnStockForTestingProduct(): void
-    {
-        $productData = $this->productDataFactory->createFromProduct($this->testingProduct);
-
-        foreach ($productData->productStockData as $productStockData) {
-            $productStockData->productQuantity = 0;
-        }
-        $this->productFacade->editProductStockRelation($productData, $this->testingProduct);
-        $this->em->clear();
-        gc_collect_cycles();
     }
 
     /**
