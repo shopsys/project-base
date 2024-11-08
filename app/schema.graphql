@@ -393,9 +393,7 @@ type CartItem {
 }
 
 type CartItemModificationsResult {
-  cartItemsWithChangedQuantity: [CartItem!]!
   cartItemsWithModifiedPrice: [CartItem!]!
-  noLongerAvailableCartItemsDueToQuantity: [CartItem!]!
   noLongerListableCartItems: [CartItem!]!
 }
 

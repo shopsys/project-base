@@ -497,9 +497,7 @@ export type TypeCartItem = {
 
 export type TypeCartItemModificationsResult = {
   __typename?: 'CartItemModificationsResult';
-  cartItemsWithChangedQuantity: Array<TypeCartItem>;
   cartItemsWithModifiedPrice: Array<TypeCartItem>;
-  noLongerAvailableCartItemsDueToQuantity: Array<TypeCartItem>;
   noLongerListableCartItems: Array<TypeCartItem>;
 };
 
