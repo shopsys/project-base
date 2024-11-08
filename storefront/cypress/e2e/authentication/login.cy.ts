@@ -32,7 +32,7 @@ describe('Login Tests', () => {
             blackout: [{ tid: TIDs.banners_slider }, { tid: TIDs.simple_navigation_image }],
         });
 
-        cy.visitAndWaitForStableAndInteractiveDOM(url.customer.index);
+        cy.visitAndWaitForStableAndInteractiveDOM(url.customer.orders);
         logoutFromCustomerPage();
         checkAndHideSuccessToast('Successfully logged out');
         checkUrl(url.loginWithCustomerRedirect);

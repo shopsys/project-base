@@ -2,10 +2,7 @@ import { UserNavigation } from 'components/Blocks/UserNavigation/UserNavigation'
 import { Breadcrumbs } from 'components/Layout/Breadcrumbs/Breadcrumbs';
 import { CommonLayout, CommonLayoutProps } from 'components/Layout/CommonLayout';
 import { Webline } from 'components/Layout/Webline/Webline';
-import { useDomainConfig } from 'components/providers/DomainConfigProvider';
-import useTranslation from 'next-translate/useTranslation';
 import { useIsUserLoggedIn } from 'utils/auth/useIsUserLoggedIn';
-import { getInternationalizedStaticUrls } from 'utils/staticUrls/getInternationalizedStaticUrls';
 
 type CustomerLayoutProps = {
     pageHeading?: string;
@@ -13,21 +10,11 @@ type CustomerLayoutProps = {
 
 export const CustomerLayout: FC<CustomerLayoutProps> = ({ pageHeading, children, breadcrumbs, ...props }) => {
     const isUserLoggedIn = useIsUserLoggedIn();
-    const { url } = useDomainConfig();
-    const { t } = useTranslation();
-    const [customerUrl] = getInternationalizedStaticUrls(['/customer'], url);
 
     return (
         <CommonLayout {...props}>
             <Webline>
-                <Breadcrumbs
-                    key="breadcrumb"
-                    type={props.breadcrumbsType}
-                    breadcrumbs={[
-                        { __typename: 'Link', name: t('Customer'), slug: customerUrl },
-                        ...(breadcrumbs ?? []),
-                    ]}
-                />
+                <Breadcrumbs key="breadcrumb" breadcrumbs={breadcrumbs ?? []} type={props.breadcrumbsType} />
             </Webline>
             <Webline className="mt-8 flex flex-col gap-6 lg:mt-4 lg:flex-row vl:mt-12">
                 <UserNavigation />

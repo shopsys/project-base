@@ -159,7 +159,6 @@ export const url = {
     login: '/login',
     loginWithCustomerRedirect: '/login?r=customer',
     customer: {
-        index: '/customer',
         orders: '/customer/orders',
         editProfile: '/customer/edit-profile',
     },

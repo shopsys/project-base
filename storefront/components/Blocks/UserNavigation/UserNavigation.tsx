@@ -2,6 +2,7 @@ import { ExtendedNextLink } from 'components/Basic/ExtendedNextLink/ExtendedNext
 import { ArrowIcon } from 'components/Basic/Icon/ArrowIcon';
 import { ExitIcon } from 'components/Basic/Icon/ExitIcon';
 import { Button } from 'components/Forms/Button/Button';
+import { TIDs } from 'cypress/tids';
 import { m } from 'framer-motion';
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
@@ -13,7 +14,7 @@ import { useUserMenuItems } from 'utils/user/useUserMenuItems';
 
 const getMenuItemTwClass = (menuItemLink?: string, asPath?: string) =>
     twJoin(
-        'border-b border-borderAccent last:border-none no-underline px-4 py-3 flex justify-between gap-4 text-sm',
+        'border-b border-borderAccent last:border-none no-underline px-4 py-3 flex gap-4 text-sm',
         menuItemLink && asPath?.includes(menuItemLink)
             ? 'bg-backgroundAccentLess text-textAccent hover:text-textAccent'
             : 'bg-backgroundMore text-text hover:text-textAccent',
@@ -30,7 +31,7 @@ export const UserNavigation: FC = () => {
         <div className="flex h-fit min-w-[300px] flex-col overflow-hidden rounded-xl">
             <button
                 className={twJoin(
-                    'flex items-center justify-between gap-4 bg-backgroundMore px-6 py-3 no-underline last:border-none lg:hidden',
+                    'flex items-center gap-4 bg-backgroundMore px-6 py-3 no-underline last:border-none lg:hidden',
                     isExpanded && 'border-b border-borderAccent',
                 )}
                 onClick={() => setIsExpanded((prev) => !prev)}
@@ -67,9 +68,10 @@ export const UserNavigation: FC = () => {
                     </ExtendedNextLink>
                 ))}
                 <Button
+                    tid={TIDs.customer_page_logout}
                     className={twJoin(
                         getMenuItemTwClass(),
-                        'font-primary bg-transparent !px-4 text-sm font-normal leading-5 !text-text !outline-none hover:bg-transparent hover:text-textAccent hover:underline',
+                        'font-primary justify-start bg-transparent !px-4 text-sm font-normal leading-5 !text-text !outline-none hover:bg-transparent hover:text-textAccent hover:underline',
                     )}
                     onClick={logoutHandler}
                 >

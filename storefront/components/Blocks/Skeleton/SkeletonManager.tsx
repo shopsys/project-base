@@ -8,7 +8,6 @@ import { SkeletonPageComparison } from './SkeletonPageComparison';
 import { SkeletonPageConfirmation } from './SkeletonPageConfirmation';
 import { SkeletonPageContact } from './SkeletonPageContact';
 import { SkeletonPageContactInformation } from './SkeletonPageContactInformation';
-import { SkeletonPageCustomerAccount } from './SkeletonPageCustomerAccount';
 import { SkeletonPageCustomerChangePassword } from './SkeletonPageCustomerChangePassword';
 import { SkeletonPageCustomerComplaintDetail } from './SkeletonPageCustomerComplaintDetail';
 import { SkeletonPageCustomerComplaintList } from './SkeletonPageCustomerComplaintList';
@@ -84,8 +83,6 @@ export const SkeletonManager: FC<SkeletonManagerProps> = ({
             return <SkeletonPageContact />;
         case 'contact-information':
             return <SkeletonPageContactInformation />;
-        case 'account':
-            return <SkeletonPageCustomerAccount />;
         case 'complaintNew':
             return <SkeletonPageCustomerComplaintNew />;
         case 'complaintDetail':

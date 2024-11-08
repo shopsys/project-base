@@ -89,18 +89,14 @@ export const useUserMenuItems = (): UserMenuItemType[] => {
         },
     ];
 
-    if (!canManageUsers) {
-        return userMenuItems;
-    }
-
-    return [
-        ...userMenuItems.slice(0, 2),
-        {
+    if (canManageUsers) {
+        userMenuItems.splice(2, 0, {
             text: t('Customer users'),
             link: customerUsersUrl,
             type: 'customer-users',
             iconComponent: UserIcon,
-        },
-        ...userMenuItems.slice(2),
-    ];
+        });
+    }
+
+    return userMenuItems;
 };
