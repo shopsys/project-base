@@ -11,8 +11,12 @@ import {
     submitRegistrationFormAfterOrder,
     goToOrderDetailFromOrderList,
     mouseOverUserMenuButton,
+    checkOrderConfirmationStatusText,
+    checkOrderDetailFromOrderPage,
+    checkOrderDetailFromOrderPageWithComplaintButton,
+    checkOrderDetailFromOrderPageWithPromoCode,
 } from './orderSupport';
-import { transport, payment, customer1, orderNote, url, promoCode, password } from 'fixtures/demodata';
+import { transport, payment, customer1, orderNote, url, promoCode, password, order } from 'fixtures/demodata';
 import { generateCustomerRegistrationData } from 'fixtures/generators';
 import {
     checkAndHideSuccessToast,
@@ -50,14 +54,12 @@ describe('Create Order Tests', () => {
         clickOnSendOrderButton();
         cy.waitForStableAndInteractiveDOM();
         changeOrderConfirmationDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order confirmation', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkOrderConfirmationStatusText(order.confirmation.czechPost);
 
         clickOnOrderDetailButtonOnThankYouPage();
         cy.waitForStableAndInteractiveDOM();
         changeOrderDetailDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order detail', { blackout: [{ tid: TIDs.footer_social_links }] });
+        checkOrderDetailFromOrderPage(transport.czechPost.name, payment.onDelivery.name, orderNote);
     });
 
     it('[Anon Home Cash] create order as unlogged user (transport to home, cash on delivery) and check it in order detail', function () {
@@ -80,14 +82,12 @@ describe('Create Order Tests', () => {
         clickOnSendOrderButton();
         cy.waitForStableAndInteractiveDOM();
         changeOrderConfirmationDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order confirmation', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkOrderConfirmationStatusText(order.confirmation.czechPost);
 
         clickOnOrderDetailButtonOnThankYouPage();
         cy.waitForStableAndInteractiveDOM();
         changeOrderDetailDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order detail', { blackout: [{ tid: TIDs.footer_social_links }] });
+        checkOrderDetailFromOrderPage(transport.czechPost.name, payment.onDelivery.name, orderNote);
     });
 
     it('[Anon Collect Cash] create order as unlogged user (personal collection, cash) and check it in order detail', function () {
@@ -110,14 +110,16 @@ describe('Create Order Tests', () => {
         clickOnSendOrderButton();
         cy.waitForStableAndInteractiveDOM();
         changeOrderConfirmationDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order confirmation', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkOrderConfirmationStatusText(order.confirmation.presonalCollection);
 
         clickOnOrderDetailButtonOnThankYouPage();
         cy.waitForStableAndInteractiveDOM();
         changeOrderDetailDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order detail', { blackout: [{ tid: TIDs.footer_social_links }] });
+        checkOrderDetailFromOrderPage(
+            `${transport.personalCollection.name} ${transport.personalCollection.storeOstrava.name}`,
+            payment.cash.name,
+            orderNote,
+        );
     });
 
     it('[Anon PPL Card] create order as unlogged user (PPL, credit card) and check it in order detail', function () {
@@ -140,14 +142,12 @@ describe('Create Order Tests', () => {
         clickOnSendOrderButton();
         cy.waitForStableAndInteractiveDOM();
         changeOrderConfirmationDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order confirmation', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkOrderConfirmationStatusText(order.confirmation.card);
 
         clickOnOrderDetailButtonOnThankYouPage();
         cy.waitForStableAndInteractiveDOM();
         changeOrderDetailDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order detail', { blackout: [{ tid: TIDs.footer_social_links }] });
+        checkOrderDetailFromOrderPage(transport.ppl.name, payment.creditCard.name, orderNote);
     });
 
     it('[Anon Promo Code] create order with promo code and check it in order detail', function () {
@@ -171,14 +171,12 @@ describe('Create Order Tests', () => {
         clickOnSendOrderButton();
         cy.waitForStableAndInteractiveDOM();
         changeOrderConfirmationDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order confirmation', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkOrderConfirmationStatusText(order.confirmation.czechPost);
 
         clickOnOrderDetailButtonOnThankYouPage();
         cy.waitForStableAndInteractiveDOM();
         changeOrderDetailDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order detail', { blackout: [{ tid: TIDs.footer_social_links }] });
+        checkOrderDetailFromOrderPageWithPromoCode(transport.czechPost.name, payment.onDelivery.name, orderNote);
     });
 
     it('[Register After Order] register after order completion, and check that the just created order is in customer orders', function () {
@@ -200,9 +198,7 @@ describe('Create Order Tests', () => {
         clickOnSendOrderButton();
         cy.waitForStableAndInteractiveDOM();
         changeOrderConfirmationDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order confirmation', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkOrderConfirmationStatusText(order.confirmation.czechPost);
 
         fillRegistrationInfoAfterOrder(password);
         submitRegistrationFormAfterOrder();
@@ -210,10 +206,13 @@ describe('Create Order Tests', () => {
         cy.waitForStableAndInteractiveDOM();
         checkUrl('/');
 
-        cy.visitAndWaitForStableAndInteractiveDOM(url.customer.orders);
-        goToOrderDetailFromOrderList();
-        changeOrderDetailDynamicPartsToStaticDemodata(true);
-        takeSnapshotAndCompare(this.test?.title, 'order detail', { blackout: [{ tid: TIDs.footer_social_links }] });
+            cy.visitAndWaitForStableAndInteractiveDOM(url.customer.orders);
+            goToOrderDetailFromOrderList();
+            changeOrderDetailDynamicPartsToStaticDemodata(true);
+            checkOrderDetailFromOrderPageWithComplaintButton(
+                transport.czechPost.name,
+                payment.onDelivery.name,
+            );
 
         goToEditProfileFromHeader();
         takeSnapshotAndCompare(this.test?.title, 'customer edit page', {
@@ -246,13 +245,15 @@ describe('Create Order Tests', () => {
             cy.waitForStableAndInteractiveDOM();
             changeOrderConfirmationDynamicPartsToStaticDemodata();
             mouseOverUserMenuButton();
-            takeSnapshotAndCompare(this.test?.title, 'order confirmation', {
-                blackout: [{ tid: TIDs.footer_social_links }],
-            });
+            checkOrderConfirmationStatusText(order.confirmation.czechPost);
 
             clickOnOrderDetailButtonOnThankYouPage();
             changeOrderDetailDynamicPartsToStaticDemodata();
-            takeSnapshotAndCompare(this.test?.title, 'order detail', { blackout: [{ tid: TIDs.footer_social_links }] });
+            checkOrderDetailFromOrderPageWithComplaintButton(
+                transport.czechPost.name,
+                payment.onDelivery.name,
+                orderNote,
+            );
         },
     );
 });

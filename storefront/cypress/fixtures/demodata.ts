@@ -48,12 +48,6 @@ export const link = {
 
 export const orderNote = 'Just a tiny note in the order.';
 
-export const order = {
-    number: '1234567890',
-    numberHeading: 'Order number 1234567890',
-    creationDate: '10/26/1999 10:10 AM',
-};
-
 export const blogArticle = {
     publicationDate: '10/26/1999',
 };
@@ -143,6 +137,33 @@ export const transport = {
     },
     droneDelivery: {
         name: 'Drone delivery',
+    },
+};
+
+export const order = {
+    number: '1234567890',
+    numberHeading: 'Order number 1234567890',
+    creationDate: '10/26/1999 10:10 AM',
+    confirmation: {
+        presonalCollection: 'We are looking forward to your visit.',
+        czechPost:
+            'the Czech Post will try to deliver your parcel on time, but it will not succeed and despite the constant presence of your person at home, it will not catch you and you will have to pick up the parcel personally at the counter. Here, however, you have to endure an endlessly long line and an eternally grumpy lady postman.',
+        packeta: 'Probably best value for your money',
+        drone: 'Expect delivery by the end of next month',
+        goPay: 'You have chosen GoPay Payment, you will be shown a payment gateway.',
+        card: 'You have chosen payment by credit card. Please finish it in two business days.',
+        orderCreatedText:
+            'Order number 1234567890 has been sent, thank you for your purchase. We will contact you about next order status.',
+    },
+    detail: {
+        products: {
+            helloKitty: {
+                ...products.helloKitty,
+                price: '€139.96',
+                quantity: '1pcs',
+                promoCode: 'Promo code -10%',
+            },
+        },
     },
 };
 

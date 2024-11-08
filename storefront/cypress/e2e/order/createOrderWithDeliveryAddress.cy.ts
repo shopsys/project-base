@@ -7,8 +7,11 @@ import {
     clickOnSendOrderButton,
     changeOrderConfirmationDynamicPartsToStaticDemodata,
     changeOrderDetailDynamicPartsToStaticDemodata,
+    checkOrderConfirmationStatusText,
+    checkOrderDetailFromOrderPage,
+    checkOrderDetailFromOrderPageWithComplaintButton,
 } from './orderSupport';
-import { deliveryAddress, deliveryAddress2, payment, transport, url } from 'fixtures/demodata';
+import { deliveryAddress, deliveryAddress2, order, payment, transport, url } from 'fixtures/demodata';
 import { generateCustomerRegistrationData } from 'fixtures/generators';
 import {
     clickOnLabel,
@@ -52,14 +55,12 @@ describe('Create Order With Delivery Address Tests', () => {
         clickOnSendOrderButton();
         cy.waitForStableAndInteractiveDOM();
         changeOrderConfirmationDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order confirmation', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkOrderConfirmationStatusText(order.confirmation.czechPost);
 
         clickOnOrderDetailButtonOnThankYouPage();
         cy.waitForStableAndInteractiveDOM();
         changeOrderDetailDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order detail', { blackout: [{ tid: TIDs.footer_social_links }] });
+        checkOrderDetailFromOrderPage(transport.czechPost.name, payment.onDelivery.name);
     });
 
     it('[Preserve Form On Checkbox Change] keep filled delivery address after unchecking the checkbox for different delivery address and then checking it again', function () {
@@ -86,14 +87,12 @@ describe('Create Order With Delivery Address Tests', () => {
         clickOnSendOrderButton();
         cy.waitForStableAndInteractiveDOM();
         changeOrderConfirmationDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order confirmation', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkOrderConfirmationStatusText(order.confirmation.czechPost);
 
         clickOnOrderDetailButtonOnThankYouPage();
         cy.waitForStableAndInteractiveDOM();
         changeOrderDetailDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order detail', { blackout: [{ tid: TIDs.footer_social_links }] });
+        checkOrderDetailFromOrderPage(transport.czechPost.name, payment.onDelivery.name);
     });
 });
 
@@ -134,13 +133,11 @@ describe('Delivery Address In Order Tests (Logged-in User)', { retries: { runMod
         clickOnSendOrderButton();
         cy.waitForStableAndInteractiveDOM();
         changeOrderConfirmationDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order confirmation', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkOrderConfirmationStatusText(order.confirmation.czechPost);
 
         clickOnOrderDetailButtonOnThankYouPage();
         changeOrderDetailDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order detail', { blackout: [{ tid: TIDs.footer_social_links }] });
+        checkOrderDetailFromOrderPage(transport.czechPost.name, payment.onDelivery.name);
     });
 
     it('[Logged Preserve Form On Checkbox Change] keep filled delivery address for logged-in user after unchecking the checkbox for different delivery address and then checking it again', function () {
@@ -178,13 +175,11 @@ describe('Delivery Address In Order Tests (Logged-in User)', { retries: { runMod
         clickOnSendOrderButton();
         cy.waitForStableAndInteractiveDOM();
         changeOrderConfirmationDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order confirmation', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkOrderConfirmationStatusText(order.confirmation.czechPost);
 
         clickOnOrderDetailButtonOnThankYouPage();
         changeOrderDetailDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order detail', { blackout: [{ tid: TIDs.footer_social_links }] });
+        checkOrderDetailFromOrderPage(transport.czechPost.name, payment.onDelivery.name);
     });
 
     it('[Logged Default Fill New] first select saved default delivery address for logged-in user, but then fill and keep new delivery address after refresh', function () {
@@ -214,13 +209,11 @@ describe('Delivery Address In Order Tests (Logged-in User)', { retries: { runMod
         clickOnSendOrderButton();
         cy.waitForStableAndInteractiveDOM();
         changeOrderConfirmationDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order confirmation', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkOrderConfirmationStatusText(order.confirmation.czechPost);
 
         clickOnOrderDetailButtonOnThankYouPage();
         changeOrderDetailDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order detail', { blackout: [{ tid: TIDs.footer_social_links }] });
+        checkOrderDetailFromOrderPage(transport.czechPost.name, payment.onDelivery.name);
     });
 
     it('[Logged Default Fill New Default] first select saved default delivery address for logged-in user, then fill new delivery address, then change it to a saved one and back to the new address which should stay filled', function () {
@@ -259,13 +252,11 @@ describe('Delivery Address In Order Tests (Logged-in User)', { retries: { runMod
         clickOnSendOrderButton();
         cy.waitForStableAndInteractiveDOM();
         changeOrderConfirmationDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order confirmation', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkOrderConfirmationStatusText(order.confirmation.czechPost);
 
         clickOnOrderDetailButtonOnThankYouPage();
         changeOrderDetailDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order detail', { blackout: [{ tid: TIDs.footer_social_links }] });
+        checkOrderDetailFromOrderPage(transport.czechPost.name, payment.onDelivery.name);
     });
 });
 
@@ -302,13 +293,14 @@ describe('Delivery Address In Order Tests (Pickup Point)', () => {
         clickOnSendOrderButton();
         cy.waitForStableAndInteractiveDOM();
         changeOrderConfirmationDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order confirmation', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkOrderConfirmationStatusText(order.confirmation.presonalCollection);
 
         clickOnOrderDetailButtonOnThankYouPage();
         changeOrderDetailDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order detail', { blackout: [{ tid: TIDs.footer_social_links }] });
+        checkOrderDetailFromOrderPage(
+            `${transport.personalCollection.name} ${transport.personalCollection.storeOstrava.name}`,
+            payment.cash.name,
+        );
     });
 
     it('[Preserve Pickup On Checkbox Change] prefill delivery address from selected pickup point and keep delivery contact after unchecking the checkbox for different delivery contact and then checking it again', function () {
@@ -335,13 +327,14 @@ describe('Delivery Address In Order Tests (Pickup Point)', () => {
         clickOnSendOrderButton();
         cy.waitForStableAndInteractiveDOM();
         changeOrderConfirmationDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order confirmation', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkOrderConfirmationStatusText(order.confirmation.presonalCollection);
 
         clickOnOrderDetailButtonOnThankYouPage();
         changeOrderDetailDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order detail', { blackout: [{ tid: TIDs.footer_social_links }] });
+        checkOrderDetailFromOrderPage(
+            `${transport.personalCollection.name} ${transport.personalCollection.storeOstrava.name}`,
+            payment.cash.name,
+        );
     });
 });
 
@@ -379,13 +372,14 @@ describe('Delivery Address in Order Tests (Pickup Point, Logged-in User)', { ret
         clickOnSendOrderButton();
         cy.waitForStableAndInteractiveDOM();
         changeOrderConfirmationDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order confirmation', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkOrderConfirmationStatusText(order.confirmation.presonalCollection);
 
         clickOnOrderDetailButtonOnThankYouPage();
         changeOrderDetailDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order detail', { blackout: [{ tid: TIDs.footer_social_links }] });
+        checkOrderDetailFromOrderPageWithComplaintButton(
+            `${transport.personalCollection.name} ${transport.personalCollection.storeOstrava.name}`,
+            payment.cash.name,
+        );
     });
 
     it('[Logged No Prefill On Pickup Preserve On Checkbox Change] not prefill delivery contact for logged-in user with saved address and pickup point, but keep filled delivery information after unchecking and checking checkbox for different delivery address', function () {
@@ -420,12 +414,13 @@ describe('Delivery Address in Order Tests (Pickup Point, Logged-in User)', { ret
         clickOnSendOrderButton();
         cy.waitForStableAndInteractiveDOM();
         changeOrderConfirmationDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order confirmation', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkOrderConfirmationStatusText(order.confirmation.presonalCollection);
 
         clickOnOrderDetailButtonOnThankYouPage();
         changeOrderDetailDynamicPartsToStaticDemodata();
-        takeSnapshotAndCompare(this.test?.title, 'order detail', { blackout: [{ tid: TIDs.footer_social_links }] });
+        checkOrderDetailFromOrderPageWithComplaintButton(
+            `${transport.personalCollection.name} ${transport.personalCollection.storeOstrava.name}`,
+            payment.cash.name,
+        );
     });
 });

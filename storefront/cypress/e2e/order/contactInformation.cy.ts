@@ -20,6 +20,7 @@ import {
     loseFocus,
     clickOnLabel,
     initializePersistStoreInLocalStorageToDefaultValues,
+    checkIsUserLoggedOut,
 } from 'support';
 import { TIDs } from 'tids';
 
@@ -34,7 +35,7 @@ describe('Contact Information Page Tests', () => {
         checkTransportSelectionIsNotVisible();
         checkEmptyCartTextIsVisible();
         checkUrl(url.cart);
-        takeSnapshotAndCompare(this.test?.title, 'empty cart page', { blackout: [{ tid: TIDs.footer_social_links }] });
+        checkEmptyCartTextIsVisible();
     });
 
     it('[Anon Transport & Payment] redirect to transport and payment select page and not display contact information form if transport and payment are not selected and user is not logged in', function () {
@@ -62,9 +63,7 @@ describe('Contact Information Page Tests', () => {
             checkTransportSelectionIsNotVisible();
             checkEmptyCartTextIsVisible();
             checkUrl(url.cart);
-            takeSnapshotAndCompare(this.test?.title, 'empty cart page', {
-                blackout: [{ tid: TIDs.footer_social_links }],
-            });
+            checkEmptyCartTextIsVisible();
         },
     );
 

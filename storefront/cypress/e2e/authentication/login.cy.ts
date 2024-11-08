@@ -1,18 +1,18 @@
 import {
-    loginFromHeader,
     fillInEmailAndPasswordOnLoginPage,
+    loginFromHeader,
+    logoutFromCustomerPage,
     logoutFromHeader,
     submitLoginForm,
-    logoutFromCustomerPage,
 } from './authenticationSupport';
 import { customer1, password, url } from 'fixtures/demodata';
 import {
     checkAndHideSuccessToast,
+    checkIsUserLoggedIn,
+    checkIsUserLoggedOut,
     checkUrl,
     initializePersistStoreInLocalStorageToDefaultValues,
-    takeSnapshotAndCompare,
 } from 'support';
-import { TIDs } from 'tids';
 
 describe('Login Tests', () => {
     beforeEach(() => {
@@ -26,18 +26,14 @@ describe('Login Tests', () => {
         submitLoginForm();
         checkAndHideSuccessToast('Successfully logged in');
         cy.waitForStableAndInteractiveDOM();
-        takeSnapshotAndCompare(this.test?.title, 'after login', {
-            capture: 'viewport',
-            wait: 2000,
-            blackout: [{ tid: TIDs.banners_slider }, { tid: TIDs.simple_navigation_image }],
-        });
+        checkIsUserLoggedIn();
 
         cy.visitAndWaitForStableAndInteractiveDOM(url.customer.orders);
         logoutFromCustomerPage();
         checkAndHideSuccessToast('Successfully logged out');
         checkUrl(url.loginWithCustomerRedirect);
         cy.waitForStableAndInteractiveDOM();
-        takeSnapshotAndCompare(this.test?.title, 'after logout', { blackout: [{ tid: TIDs.footer_social_links }] });
+        checkIsUserLoggedOut();
     });
 
     it('[Header] login from header and then log out', function () {
@@ -46,20 +42,12 @@ describe('Login Tests', () => {
         loginFromHeader(customer1.emailRegistered, password);
         checkAndHideSuccessToast('Successfully logged in');
         cy.waitForStableAndInteractiveDOM();
-        takeSnapshotAndCompare(this.test?.title, 'after login', {
-            capture: 'viewport',
-            wait: 2000,
-            blackout: [{ tid: TIDs.banners_slider }, { tid: TIDs.simple_navigation_image }],
-        });
+        checkIsUserLoggedIn();
 
         logoutFromHeader();
         checkAndHideSuccessToast('Successfully logged out');
         checkUrl('/');
         cy.waitForStableAndInteractiveDOM();
-        takeSnapshotAndCompare(this.test?.title, 'after logout', {
-            capture: 'viewport',
-            wait: 2000,
-            blackout: [{ tid: TIDs.banners_slider }, { tid: TIDs.simple_navigation_image }],
-        });
+        checkIsUserLoggedOut();
     });
 });

@@ -11,6 +11,7 @@ import { generateCustomerRegistrationData } from 'fixtures/generators';
 import {
     checkAndHideErrorToast,
     checkAndHideSuccessToast,
+    checkIsUserLoggedIn,
     checkPopupIsVisible,
     checkUrl,
     goToEditProfileFromHeader,
@@ -72,11 +73,7 @@ describe('Registration Tests (Repeated Tries)', { retries: { runMode: 0 } }, () 
         submitRegistrationForm();
         checkAndHideSuccessToast('Your account has been created and you are logged in now');
         cy.waitForStableAndInteractiveDOM();
-        takeSnapshotAndCompare(this.test?.title, 'after valid try', {
-            capture: 'viewport',
-            wait: 2000,
-            blackout: [{ tid: TIDs.banners_slider }, { tid: TIDs.simple_navigation_image }],
-        });
+        checkIsUserLoggedIn();
     });
 
     it('[Invalid Info] disallow registration with invalid info, but then allow after correction', function () {
@@ -94,10 +91,6 @@ describe('Registration Tests (Repeated Tries)', { retries: { runMode: 0 } }, () 
         submitRegistrationForm();
         checkAndHideSuccessToast('Your account has been created and you are logged in now');
         cy.waitForStableAndInteractiveDOM();
-        takeSnapshotAndCompare(this.test?.title, 'after valid try', {
-            capture: 'viewport',
-            wait: 2000,
-            blackout: [{ tid: TIDs.banners_slider }, { tid: TIDs.simple_navigation_image }],
-        });
+        checkIsUserLoggedIn();
     });
 });

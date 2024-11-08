@@ -71,7 +71,7 @@ export const OrderDetailBasicInfo: FC<OrderDetailBasicInfoProps> = ({ order }) =
                 )}
             </OrderRowWrapper>
             {orderTransport && (
-                <OrderRowWrapper className="flex flex-col gap-4">
+                <OrderRowWrapper className="flex flex-col gap-4" tid={TIDs.order_detail_transport}>
                     <div className="flex gap-4">
                         {t('Transport')} - {orderTransport.name}
                         {isPriceVisible(order.totalPrice.priceWithVat) && (
@@ -90,7 +90,7 @@ export const OrderDetailBasicInfo: FC<OrderDetailBasicInfoProps> = ({ order }) =
                 </OrderRowWrapper>
             )}
             {orderPayment && (
-                <OrderRowWrapper className="flex gap-4">
+                <OrderRowWrapper className="flex gap-4" tid={TIDs.order_detail_payment}>
                     {t('Payment')} - {orderPayment.name}
                     {isPriceVisible(order.totalPrice.priceWithVat) && (
                         <span className="font-bold">{formatPrice(orderPayment.totalPrice.priceWithVat)}</span>
@@ -105,7 +105,7 @@ export const OrderDetailBasicInfo: FC<OrderDetailBasicInfoProps> = ({ order }) =
                     )}
                 </OrderRowWrapper>
             )}
-            <div className="rounded-md border-[5px] border-borderLess bg-background p-7">
+            <div className="rounded-md border-[5px] border-borderLess bg-background p-7" tid={TIDs.order_detail_items}>
                 {filteredOrderItems.map((orderItem) => (
                     <OrderDetailOrderItem
                         key={orderItem.name}
@@ -116,7 +116,7 @@ export const OrderDetailBasicInfo: FC<OrderDetailBasicInfoProps> = ({ order }) =
                 ))}
             </div>
             {!!order.note && (
-                <OrderRowWrapper className="flex gap-2">
+                <OrderRowWrapper className="flex gap-2" tid={TIDs.order_detail_note}>
                     <div>{t('Note')}</div>
                     {' - '}
                     <div className="font-bold">{order.note}</div>
@@ -126,9 +126,9 @@ export const OrderDetailBasicInfo: FC<OrderDetailBasicInfoProps> = ({ order }) =
     );
 };
 
-export const OrderRowWrapper: FC = ({ children, className }) => {
+export const OrderRowWrapper: FC = ({ children, className, tid }) => {
     return (
-        <div className={twMergeCustom('rounded-md bg-backgroundMore px-4 py-3 vl:px-6 vl:py-4', className)}>
+        <div className={twMergeCustom('rounded-md bg-backgroundMore px-4 py-3 vl:px-6 vl:py-4', className)} tid={tid}>
             {children}
         </div>
     );

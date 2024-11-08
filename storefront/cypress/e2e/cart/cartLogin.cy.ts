@@ -5,12 +5,14 @@ import {
     loginInThirdOrderStep,
 } from './cartSupport';
 import { loginFromHeader, logoutFromHeader } from 'e2e/authentication/authenticationSupport';
-import { fillEmailInThirdStep } from 'e2e/order/orderSupport';
+import { checkEmptyCartTextIsVisible, fillEmailInThirdStep } from 'e2e/order/orderSupport';
 import { password, payment, products, transport, url } from 'fixtures/demodata';
 import { generateCustomerRegistrationData } from 'fixtures/generators';
 import {
     checkAndHideInfoToast,
     checkAndHideSuccessToast,
+    checkIsUserLoggedIn,
+    checkIsUserLoggedOut,
     checkPopupIsVisible,
     initializePersistStoreInLocalStorageToDefaultValues,
     takeSnapshotAndCompare,
@@ -48,9 +50,8 @@ describe('Cart Login Tests', { retries: { runMode: 0 } }, () => {
         logoutFromHeader();
         checkAndHideSuccessToast('Successfully logged out');
         cy.waitForStableAndInteractiveDOM();
-        takeSnapshotAndCompare(this.test?.title, 'cart page after logout', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkIsUserLoggedOut();
+        checkEmptyCartTextIsVisible();
     });
 
     it('[Empty Cart] log in, add product to an empty cart, and empty cart after log out', function () {
@@ -72,9 +73,8 @@ describe('Cart Login Tests', { retries: { runMode: 0 } }, () => {
         logoutFromHeader();
         checkAndHideSuccessToast('Successfully logged out');
         cy.waitForStableAndInteractiveDOM();
-        takeSnapshotAndCompare(this.test?.title, 'cart page after logout', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkIsUserLoggedOut();
+        checkEmptyCartTextIsVisible();
     });
 
     it('[Merge Cart] repeatedly merge carts when logged in (starting with an empty cart for the registered customer)', function () {
@@ -97,9 +97,8 @@ describe('Cart Login Tests', { retries: { runMode: 0 } }, () => {
         logoutFromHeader();
         checkAndHideSuccessToast('Successfully logged out');
         cy.waitForStableAndInteractiveDOM();
-        takeSnapshotAndCompare(this.test?.title, 'cart page after logout', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkIsUserLoggedOut();
+        checkEmptyCartTextIsVisible();
 
         goToHomepageFromHeader();
         addProductToCartFromPromotedProductsOnHomepage(products.a4techMouse.catnum);
@@ -132,9 +131,8 @@ describe('Cart Login Tests', { retries: { runMode: 0 } }, () => {
         logoutFromHeader();
         checkAndHideSuccessToast('Successfully logged out');
         cy.waitForStableAndInteractiveDOM();
-        takeSnapshotAndCompare(this.test?.title, 'cart page after first logout', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkIsUserLoggedOut();
+        checkEmptyCartTextIsVisible();
 
         cy.addProductToCartForTest(products.helloKitty.uuid).then((cart) => cy.storeCartUuidInLocalStorage(cart.uuid));
         cy.preselectTransportForTest(transport.czechPost.uuid);

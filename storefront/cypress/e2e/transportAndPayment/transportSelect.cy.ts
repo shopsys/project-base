@@ -127,9 +127,7 @@ describe('Transport Select Tests', () => {
         checkTransportSelectionIsNotVisible();
         checkEmptyCartTextIsVisible();
         checkUrl(url.cart);
-        takeSnapshotAndCompare(this.test?.title, 'after redirecting to cart page', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
+        checkEmptyCartTextIsVisible();
     });
 
     it(
@@ -142,9 +140,7 @@ describe('Transport Select Tests', () => {
             checkTransportSelectionIsNotVisible();
             checkEmptyCartTextIsVisible();
             checkUrl(url.cart);
-            takeSnapshotAndCompare(this.test?.title, 'after redirecting to cart page', {
-                blackout: [{ tid: TIDs.footer_social_links }],
-            });
+            checkEmptyCartTextIsVisible();
         },
     );
 

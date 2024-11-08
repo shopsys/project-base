@@ -45,6 +45,7 @@ const OrderConfirmationPage: FC<ServerSidePropsType> = () => {
             variables: { orderUuid: orderUuid! },
         },
     );
+    console.log("🚀 -> file: order-confirmation.tsx:48 -> orderSentPageContentData:", orderSentPageContentData?.orderSentPageContent)
 
     useEffect(() => {
         fetchCart();

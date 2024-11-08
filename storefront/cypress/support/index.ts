@@ -112,6 +112,18 @@ export const checkUrl = (url: string) => {
     cy.url().should('contain', url);
 };
 
+export const checkIsUserLoggedIn = () => {
+    cy.getByTID([TIDs.my_account_link]).should('be.visible').contains('My account');
+};
+
+export const checkIsUserLoggedOut = () => {
+    cy.getByTID([TIDs.my_account_link]).should('be.visible').contains('Login');
+};
+
+export const checkIsLinkVisible = (href: string, text: string) => {
+    cy.get(`a[href="${href}"]`).should('be.visible').contains(text);
+};
+
 export const goToEditProfileFromHeader = () => {
     cy.getByTID([TIDs.my_account_link])
         .should('be.visible')
@@ -185,15 +197,15 @@ const getSnapshotNameFormatted = (testName: string, snapshotName: string) => {
     // get the test name summary in square brackets using regex
     const testNameSummary = testName.match(/\[(.*?)\]/)?.[0] ?? '';
     const testNameRest = testNameSummary ? testName.replace(testNameSummary + ' ', '') : testName;
-    const filenameLengthSum =
-        (testNameSummary ? testNameSummary.length + 1 : 0) + snapshotName.length + testNameRest.length + 3;
+    const filenameBaseLength = (testNameSummary ? testNameSummary.length + 1 : 0) + snapshotName.length + 3;
+    const filenameLengthSum = filenameBaseLength + testNameRest.length;
 
     return getStringWithAllInfo(
         testNameSummary,
         snapshotName,
         filenameLengthSum < FILENAME_LENGTH_LIMIT
             ? testNameRest
-            : `${testNameRest?.slice(FILENAME_LENGTH_LIMIT - filenameLengthSum)}`,
+            : `${testNameRest?.slice(0, FILENAME_LENGTH_LIMIT - filenameBaseLength)}`,
     );
 };
 
