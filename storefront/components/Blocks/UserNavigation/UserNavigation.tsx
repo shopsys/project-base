@@ -43,7 +43,7 @@ export const UserNavigation: FC = () => {
             <m.div
                 key="user-navigation"
                 animate={isExpanded ? 'open' : 'closed'}
-                className="!flex flex-col bg-backgroundMore px-4 lg:!h-auto"
+                className="!flex flex-col bg-backgroundMore lg:!h-auto"
                 initial={false}
                 variants={collapseExpandAnimation}
             >
