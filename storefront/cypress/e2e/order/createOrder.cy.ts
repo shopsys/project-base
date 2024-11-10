@@ -179,46 +179,47 @@ describe('Create Order Tests', () => {
         checkOrderDetailFromOrderPageWithPromoCode(transport.czechPost.name, payment.onDelivery.name, orderNote);
     });
 
-    it('[Register After Order] register after order completion, and check that the just created order is in customer orders', function () {
-        cy.preselectTransportForTest(transport.czechPost.uuid);
-        cy.preselectPaymentForTest(payment.onDelivery.uuid);
-        cy.visitAndWaitForStableAndInteractiveDOM(url.order.contactInformation);
+    it(
+        '[Register After Order] register after order completion, and check that the just created order is in customer orders',
+        { retries: { runMode: 0 } },
+        function () {
+            cy.preselectTransportForTest(transport.czechPost.uuid);
+            cy.preselectPaymentForTest(payment.onDelivery.uuid);
+            cy.visitAndWaitForStableAndInteractiveDOM(url.order.contactInformation);
 
-        fillEmailInThirdStep('after-order-registration@shopsys.com');
-        fillCustomerInformationInThirdStep(customer1.phone, customer1.firstName, customer1.lastName);
-        fillBillingAdressInThirdStep(customer1.billingStreet, customer1.billingCity, customer1.billingPostCode);
-        loseFocus();
-        takeSnapshotAndCompare(this.test?.title, 'filled contact information form', {
-            blackout: [
-                { tid: TIDs.order_summary_transport_and_payment_image },
-                { tid: TIDs.order_summary_cart_item_image },
-            ],
-        });
+            fillEmailInThirdStep('after-order-registration@shopsys.com');
+            fillCustomerInformationInThirdStep(customer1.phone, customer1.firstName, customer1.lastName);
+            fillBillingAdressInThirdStep(customer1.billingStreet, customer1.billingCity, customer1.billingPostCode);
+            loseFocus();
+            takeSnapshotAndCompare(this.test?.title, 'filled contact information form', {
+                blackout: [
+                    { tid: TIDs.order_summary_transport_and_payment_image },
+                    { tid: TIDs.order_summary_cart_item_image },
+                ],
+            });
 
-        clickOnSendOrderButton();
-        cy.waitForStableAndInteractiveDOM();
-        changeOrderConfirmationDynamicPartsToStaticDemodata();
-        checkOrderConfirmationStatusText(order.confirmation.czechPost);
+            clickOnSendOrderButton();
+            cy.waitForStableAndInteractiveDOM();
+            changeOrderConfirmationDynamicPartsToStaticDemodata();
+            checkOrderConfirmationStatusText(order.confirmation.czechPost);
 
-        fillRegistrationInfoAfterOrder(password);
-        submitRegistrationFormAfterOrder();
-        checkAndHideSuccessToast('Your account has been created and you are logged in now');
-        cy.waitForStableAndInteractiveDOM();
-        checkUrl('/');
+            fillRegistrationInfoAfterOrder(password);
+            submitRegistrationFormAfterOrder();
+            checkAndHideSuccessToast('Your account has been created and you are logged in now');
+            cy.waitForStableAndInteractiveDOM();
+            checkUrl('/');
 
             cy.visitAndWaitForStableAndInteractiveDOM(url.customer.orders);
             goToOrderDetailFromOrderList();
             changeOrderDetailDynamicPartsToStaticDemodata(true);
-            checkOrderDetailFromOrderPageWithComplaintButton(
-                transport.czechPost.name,
-                payment.onDelivery.name,
-            );
+            checkOrderDetailFromOrderPageWithComplaintButton(transport.czechPost.name, payment.onDelivery.name);
 
-        goToEditProfileFromHeader();
-        takeSnapshotAndCompare(this.test?.title, 'customer edit page', {
-            blackout: [{ tid: TIDs.footer_social_links }],
-        });
-    });
+            goToEditProfileFromHeader();
+            takeSnapshotAndCompare(this.test?.title, 'customer edit page', {
+                blackout: [{ tid: TIDs.footer_social_links }],
+            });
+        },
+    );
 
     it(
         '[Logged Home Cash] create order as logged-in user (transport to home, cash on delivery) and check it in order detail',
