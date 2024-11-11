@@ -104,7 +104,7 @@ export const products = {
     },
     philips32PFL4308: {
         uuid: '7de699f8-bc41-5642-9ad8-3924a9d49f47',
-        url: '/philips-32pfl4308',
+        url: '/television-philips-m',
         catnum: '9176508',
     },
     a4techMouse: {
@@ -113,7 +113,7 @@ export const products = {
     },
     philips54CRT: {
         uuid: 'eff2bd27-7a46-5ccf-879c-915095bfb8fb	',
-        name: '54" Philips CRT 32PFL4308',
+        name: '54" Philips CRT [V]',
         catnum: '9176588',
     },
 } as const;
