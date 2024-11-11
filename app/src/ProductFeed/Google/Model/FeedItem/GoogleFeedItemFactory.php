@@ -25,7 +25,7 @@ class GoogleFeedItemFactory extends BaseGoogleFeedItemFactory
         return new GoogleFeedItem(
             $product->getId(),
             $product->getFullname($domainConfig->getLocale()),
-            $product->getCalculatedSellingDenied(),
+            !$this->productAvailabilityFacade->isProductAvailableOnDomainCached($product, $domainConfig->getId()),
             $this->getPrice($product, $domainConfig),
             $this->getCurrency($domainConfig),
             $this->productUrlsBatchLoader->getProductUrl($product, $domainConfig),
