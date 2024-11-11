@@ -8,6 +8,7 @@ import { useSetDefaultDeliveryAddressMutation } from 'graphql/requests/customer/
 import { GtmMessageOriginType } from 'gtm/enums/GtmMessageOriginType';
 import useTranslation from 'next-translate/useTranslation';
 import dynamic from 'next/dynamic';
+import { useEffect } from 'react';
 import { useSessionStore } from 'store/useSessionStore';
 import { twJoin } from 'tailwind-merge';
 import { DeliveryAddressType } from 'types/customer';
@@ -88,6 +89,12 @@ export const AddressList: FC<AddressListProps> = ({ defaultDeliveryAddress, deli
         e.stopPropagation();
         updatePortalContent(<DeliveryAddressPopup deliveryAddress={address} />);
     };
+
+    useEffect(() => {
+        if (defaultDeliveryAddress === undefined && deliveryAddresses.length > 0) {
+            setDefaultItemHandler(deliveryAddresses[0].uuid);
+        }
+    }, [defaultDeliveryAddress, deliveryAddresses]);
 
     return (
         <div className="grid w-full gap-4 vl:grid-cols-2">

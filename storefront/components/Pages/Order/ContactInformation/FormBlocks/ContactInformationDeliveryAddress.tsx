@@ -107,6 +107,7 @@ export const ContactInformationDeliveryAddress: FC = () => {
                                 />
                             </div>
                         )}
+
                         <AnimatePresence initial={false}>
                             {(!user?.deliveryAddresses.length || isNewDeliveryAddressSelected || !!pickupPlace) && (
                                 <AnimateCollapseDiv className="!block" keyName="different-address">
