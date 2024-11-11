@@ -4,7 +4,7 @@ import { ProductListItemPlaceholder } from './ProductsList/ProductListItemPlaceh
 import { ProductsSliderProps, VISIBLE_SLIDER_ITEMS } from './ProductsSlider';
 import { ExtendedNextLink } from 'components/Basic/ExtendedNextLink/ExtendedNextLink';
 import { ArrowSecondaryIcon } from 'components/Basic/Icon/ArrowSecondaryIcon';
-import useTranslation from 'next-translate/useTranslation';
+import { twJoin } from 'tailwind-merge';
 
 type ProductsSliderPlaceholderProps = {
     size?: ProductItemProps['size'];
@@ -16,28 +16,21 @@ export const ProductsSliderPlaceholder: FC<ProductsSliderPlaceholderProps> = ({
     visibleItemsConfig,
     size,
 }) => {
-    const { t } = useTranslation();
-
     return (
         <div className="relative">
             {products.length > VISIBLE_SLIDER_ITEMS && (
-                <div className="absolute -top-11 right-0 hidden items-center justify-center vl:flex ">
-                    <button
-                        className="ml-1 h-8 w-8 cursor-pointer rounded border-none pt-1 outline-none transition"
-                        title={t('Previous products')}
-                    >
-                        <ArrowSecondaryIcon className="w-5 -translate-y-[2px] rotate-90 text-text hover:text-textAccent disabled:text-textDisabled" />
-                    </button>
-                    <button
-                        className="ml-1 h-8 w-8 cursor-pointer rounded border-none pt-1 outline-none transition"
-                        title={t('Next products')}
-                    >
-                        <ArrowSecondaryIcon className="w-5 -translate-y-[2px] -rotate-90 text-text hover:text-textAccent disabled:text-textDisabled" />
-                    </button>
+                <div className="absolute -top-10 right-0 hidden items-center justify-center gap-2 vl:flex">
+                    <SliderButtonPlaceholder type="prev" />
+                    <SliderButtonPlaceholder type="next" />
                 </div>
             )}
 
-            <ul className="grid snap-x snap-mandatory auto-cols-[80%] grid-flow-col overflow-x-auto overscroll-x-contain [-ms-overflow-style:'none'] [scrollbar-width:'none'] md:auto-cols-[45%] lg:auto-cols-[30%] vl:auto-cols-[25%] [&::-webkit-scrollbar]:hidden">
+            <ul
+                className={twJoin(
+                    "grid snap-x snap-mandatory grid-flow-col overflow-x-auto overscroll-x-contain [-ms-overflow-style:'none'] [scrollbar-width:'none'] [&::-webkit-scrollbar]:hidden",
+                    'auto-cols-[225px] sm:auto-cols-[60%]  md:auto-cols-[45%] lg:auto-cols-[30%] vl:auto-cols-[25%] xl:auto-cols-[20%]',
+                )}
+            >
                 {products.map((product, index) =>
                     index < VISIBLE_SLIDER_ITEMS ? (
                         <ProductListItemPlaceholder
@@ -58,3 +51,11 @@ export const ProductsSliderPlaceholder: FC<ProductsSliderPlaceholderProps> = ({
         </div>
     );
 };
+
+type SliderButtonPlaceholderProps = { type: 'prev' | 'next' };
+
+const SliderButtonPlaceholder: FC<SliderButtonPlaceholderProps> = ({ type }) => (
+    <button className="cursor-pointer rounded border-none p-1 text-text outline-none transition hover:text-textAccent disabled:cursor-auto disabled:text-textDisabled">
+        <ArrowSecondaryIcon className={twJoin('w-5', type === 'prev' ? 'rotate-90' : '-rotate-90')} />
+    </button>
+);

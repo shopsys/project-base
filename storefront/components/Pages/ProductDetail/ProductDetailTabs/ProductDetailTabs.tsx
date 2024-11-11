@@ -25,6 +25,7 @@ export type ProductDetailTabsProps = {
 export const ProductDetailTabs: FC<ProductDetailTabsProps> = ({ description, parameters, relatedProducts, files }) => {
     const { t } = useTranslation();
     const [selectedTab, setSelectedTab] = useState(0);
+    const [skipInitialAnimation, setSkipInitialAnimation] = useState(true);
 
     const formatParameterValue = (valueText: string, index: number) => {
         return index > 0 ? ' | ' + valueText : valueText;
@@ -56,7 +57,10 @@ export const ProductDetailTabs: FC<ProductDetailTabsProps> = ({ description, par
         <Tabs
             className="flex flex-col gap-4 lg:gap-0"
             selectedIndex={selectedTab}
-            onSelect={(index) => setSelectedTab(index)}
+            onSelect={(index) => {
+                setSkipInitialAnimation(false);
+                setSelectedTab(index);
+            }}
         >
             <TabsList>
                 <TabsListItem>{t('Overview')}</TabsListItem>
@@ -68,7 +72,11 @@ export const ProductDetailTabs: FC<ProductDetailTabsProps> = ({ description, par
                 {!!files.length && <TabsListItem>{t('Files')}</TabsListItem>}
             </TabsList>
 
-            <TabsContent headingTextMobile={t('Overview')} isActive={selectedTab === 0}>
+            <TabsContent
+                headingTextMobile={t('Overview')}
+                isActive={selectedTab === 0}
+                skipInitialAnimation={skipInitialAnimation}
+            >
                 {description && <UserText htmlContent={description} />}
             </TabsContent>
 
