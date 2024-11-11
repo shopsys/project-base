@@ -42,7 +42,7 @@ export const MobileMenu: FC = () => {
                         initial={{ translateX: '100%' }}
                         transition={{ duration: 0.2, type: 'tween' }}
                         className={twJoin(
-                            'fixed inset-0 z-maximum flex max-h-screen flex-col gap-5 overflow-y-auto bg-background p-8 shadow-md',
+                            'fixed inset-0 z-maximum max-h-screen w-full overflow-y-auto overflow-x-hidden bg-background p-8 shadow-md',
                         )}
                     >
                         <MobileMenuContent

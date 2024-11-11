@@ -25,7 +25,7 @@ export const SubMenu: FC<SubMenuProps> = ({ onNavigate }) => {
     const { wishlist } = useWishlist();
 
     return (
-        <div className="mt-auto flex flex-col">
+        <div className="absolute bottom-8 flex flex-col">
             <SubMenuItem href={storesUrl} type="stores" onClick={onNavigate}>
                 {t('Stores')}
             </SubMenuItem>
