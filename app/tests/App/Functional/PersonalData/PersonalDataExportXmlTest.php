@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\App\Functional\PersonalData;
 
+use App\DataFixtures\Demo\ComplaintStatusDataFixture;
+use App\DataFixtures\Demo\CountryDataFixture;
+use App\DataFixtures\Demo\CurrencyDataFixture;
+use App\DataFixtures\Demo\OrderStatusDataFixture;
+use App\DataFixtures\Demo\PricingGroupDataFixture;
 use App\Model\Customer\User\CustomerUser;
 use App\Model\Customer\User\CustomerUserData;
 use App\Model\Order\Item\OrderItem;
@@ -14,8 +19,11 @@ use DateTime;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Component\Money\Money;
 use Shopsys\FrameworkBundle\Component\Xml\XmlNormalizer;
+use Shopsys\FrameworkBundle\Model\Complaint\Complaint;
+use Shopsys\FrameworkBundle\Model\Complaint\ComplaintData;
+use Shopsys\FrameworkBundle\Model\Complaint\ComplaintItem;
+use Shopsys\FrameworkBundle\Model\Complaint\Status\ComplaintStatus;
 use Shopsys\FrameworkBundle\Model\Country\Country;
-use Shopsys\FrameworkBundle\Model\Country\CountryData;
 use Shopsys\FrameworkBundle\Model\Customer\BillingAddress;
 use Shopsys\FrameworkBundle\Model\Customer\BillingAddressData;
 use Shopsys\FrameworkBundle\Model\Customer\Customer;
@@ -24,9 +32,7 @@ use Shopsys\FrameworkBundle\Model\Customer\DeliveryAddress;
 use Shopsys\FrameworkBundle\Model\Customer\DeliveryAddressData;
 use Shopsys\FrameworkBundle\Model\Order\Item\OrderItemTypeEnum;
 use Shopsys\FrameworkBundle\Model\Pricing\Currency\Currency;
-use Shopsys\FrameworkBundle\Model\Pricing\Currency\CurrencyData;
 use Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroup;
-use Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroupData;
 use Shopsys\FrameworkBundle\Model\Pricing\Price;
 use Tests\App\Functional\Model\Order\TestOrderProvider;
 use Tests\App\Test\TransactionFunctionalTestCase;
@@ -34,9 +40,8 @@ use Twig\Environment;
 
 class PersonalDataExportXmlTest extends TransactionFunctionalTestCase
 {
-    protected const EMAIL = 'no-reply@shopsys.com';
-    protected const EXPECTED_XML_FILE_NAME = 'test.xml';
-    protected const DOMAIN_ID_FIRST = Domain::FIRST_DOMAIN_ID;
+    protected const string EMAIL = 'no-reply@shopsys.com';
+    protected const string EXPECTED_XML_FILE_NAME = 'test.xml';
 
     /**
      * @inject
@@ -45,7 +50,7 @@ class PersonalDataExportXmlTest extends TransactionFunctionalTestCase
 
     public function testExportXml(): void
     {
-        $country = $this->createCountry();
+        $country = $this->getReference(CountryDataFixture::COUNTRY_CZECH_REPUBLIC, Country::class);
 
         $customerData = new CustomerData();
         $customerData->domainId = Domain::FIRST_DOMAIN_ID;
@@ -58,11 +63,8 @@ class PersonalDataExportXmlTest extends TransactionFunctionalTestCase
         $customer->edit($customerData);
 
         $customerUser = $this->createCustomerUser($customer);
-        $status = $this->createMock(OrderStatus::class);
-        $currencyData = new CurrencyData();
-        $currencyData->name = 'CZK';
-        $currencyData->code = 'CZK';
-        $currency = new Currency($currencyData);
+        $currency = $this->getReference(CurrencyDataFixture::CURRENCY_CZK, Currency::class);
+        $status = $this->getReference(OrderStatusDataFixture::ORDER_STATUS_NEW, OrderStatus::class);
         $order = $this->createOrder($currency, $status, $country);
         /** @var \App\Model\Product\Product $product */
         $product = $this->createMock(Product::class);
@@ -72,12 +74,15 @@ class PersonalDataExportXmlTest extends TransactionFunctionalTestCase
         $order->addItem($orderItem);
         $order->setStatus($status);
 
+        $complaint = $this->createComplaint($country, $order, $customerUser);
+
         $generatedXml = $this->twigEnvironment->render('@ShopsysFramework/Front/Content/PersonalData/export.xml.twig', [
             'customerUser' => $customerUser,
             'orders' => [
                 0 => $order,
             ],
             'newsletterSubscriber' => null,
+            'complaints' => [$complaint],
         ]);
 
         $generatedXml = XmlNormalizer::normalizeXml($generatedXml);
@@ -86,23 +91,11 @@ class PersonalDataExportXmlTest extends TransactionFunctionalTestCase
     }
 
     /**
-     * @return \Shopsys\FrameworkBundle\Model\Country\Country
-     */
-    private function createCountry()
-    {
-        $countryData = new CountryData();
-        $countryData->names = ['cz' => 'Czech Republic'];
-        $countryData->code = 'CZ';
-
-        return new Country($countryData);
-    }
-
-    /**
      * @param \Shopsys\FrameworkBundle\Model\Country\Country $country
      * @param \Shopsys\FrameworkBundle\Model\Customer\Customer $customer
      * @return \Shopsys\FrameworkBundle\Model\Customer\BillingAddress
      */
-    private function createBillingAddress(Country $country, Customer $customer)
+    private function createBillingAddress(Country $country, Customer $customer): BillingAddress
     {
         $billingAddressData = new BillingAddressData();
         $billingAddressData->country = $country;
@@ -123,7 +116,7 @@ class PersonalDataExportXmlTest extends TransactionFunctionalTestCase
      * @param \Shopsys\FrameworkBundle\Model\Customer\Customer $customer
      * @return \Shopsys\FrameworkBundle\Model\Customer\DeliveryAddress
      */
-    private function createDeliveryAddress(Country $country, Customer $customer)
+    private function createDeliveryAddress(Country $country, Customer $customer): DeliveryAddress
     {
         $deliveryAddressData = new DeliveryAddressData();
         $deliveryAddressData->country = $country;
@@ -143,16 +136,14 @@ class PersonalDataExportXmlTest extends TransactionFunctionalTestCase
      * @param \Shopsys\FrameworkBundle\Model\Customer\Customer $customer
      * @return \App\Model\Customer\User\CustomerUser
      */
-    private function createCustomerUser(Customer $customer)
+    private function createCustomerUser(Customer $customer): CustomerUser
     {
-        $pricingGroupData = new PricingGroupData();
-        $pricingGroupData->name = 'name';
-        $pricingGroup = new PricingGroup($pricingGroupData, Domain::FIRST_DOMAIN_ID);
+        $pricingGroup = $this->getReferenceForDomain(PricingGroupDataFixture::PRICING_GROUP_ORDINARY, Domain::FIRST_DOMAIN_ID, PricingGroup::class);
 
         $customerUserData = new CustomerUserData();
         $customerUserData->firstName = 'Jaromír';
         $customerUserData->lastName = 'Jágr';
-        $customerUserData->domainId = self::DOMAIN_ID_FIRST;
+        $customerUserData->domainId = Domain::FIRST_DOMAIN_ID;
         $customerUserData->createdAt = new DateTime('2018-04-13');
         $customerUserData->email = 'no-reply@shopsys.com';
         $customerUserData->telephone = '+420987654321';
@@ -175,7 +166,7 @@ class PersonalDataExportXmlTest extends TransactionFunctionalTestCase
         $orderData->status = $status;
         $orderData->email = 'no-reply@shopsys.com';
         $orderData->createdAt = new DateTime('2018-04-13');
-        $orderData->domainId = self::DOMAIN_ID_FIRST;
+        $orderData->domainId = Domain::FIRST_DOMAIN_ID;
         $orderData->lastName = 'Bořič';
         $orderData->firstName = 'Adam';
         $orderData->city = 'Liberec';
@@ -190,5 +181,36 @@ class PersonalDataExportXmlTest extends TransactionFunctionalTestCase
         $orderData->country = $country;
 
         return new Order($orderData, '1523596513', 'hash');
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Country\Country $country
+     * @param \App\Model\Order\Order $order
+     * @param \App\Model\Customer\User\CustomerUser $customerUser
+     * @return \Shopsys\FrameworkBundle\Model\Complaint\Complaint
+     */
+    private function createComplaint(Country $country, Order $order, CustomerUser $customerUser): Complaint
+    {
+        $complaintStatus = $this->getReference(ComplaintStatusDataFixture::COMPLAINT_STATUS_NEW, ComplaintStatus::class);
+
+        $complaintData = new ComplaintData();
+        $complaintData->domainId = Domain::FIRST_DOMAIN_ID;
+        $complaintData->number = '1523596513';
+        $complaintData->order = $order;
+        $complaintData->createdAt = new DateTime('2018-04-13');
+        $complaintData->customerUser = $customerUser;
+        $complaintData->deliveryFirstName = 'Adam';
+        $complaintData->deliveryLastName = 'Bořič';
+        $complaintData->deliveryCompanyName = 'Shopsys';
+        $complaintData->deliveryTelephone = '+420987654321';
+        $complaintData->deliveryStreet = 'Cihelní 5';
+        $complaintData->deliveryCity = 'Liberec';
+        $complaintData->deliveryPostcode = '65421';
+        $complaintData->deliveryCountry = $country;
+        $complaintData->status = $complaintStatus;
+
+        $complaintItem = $this->createMock(ComplaintItem::class);
+
+        return new Complaint($complaintData, [$complaintItem]);
     }
 }

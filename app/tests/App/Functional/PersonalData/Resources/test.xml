@@ -66,11 +66,40 @@
           </item>
         </order_items>
         <order_other_data>
-          <order_status/>
+          <order_status><![CDATA[New]]></order_status>
           <phone><![CDATA[+420987654321]]></phone>
           <email><![CDATA[no-reply@shopsys.com]]></email>
         </order_other_data>
       </order>
     </customer_orders>
+    <customer_complaints>
+      <complaint>
+        <complaint_number>1523596513</complaint_number>
+        <complaint_create_date>2018-04-13T00:00:00+00:00</complaint_create_date>
+        <complaint_addresses>
+          <address>
+            <firstname><![CDATA[Adam]]></firstname>
+            <lastname><![CDATA[Bořič]]></lastname>
+            <company_name><![CDATA[Shopsys]]></company_name>
+            <street><![CDATA[Cihelní 5]]></street>
+            <city><![CDATA[Liberec]]></city>
+            <postal_code><![CDATA[65421]]></postal_code>
+            <telephone><![CDATA[+420987654321]]></telephone>
+            <country_code><![CDATA[CZ]]></country_code>
+          </address>
+        </complaint_addresses>
+        <complaint_items>
+          <item>
+            <item_name/>
+            <item_quantity/>
+            <item_catnum/>
+            <item_description/>
+          </item>
+        </complaint_items>
+        <complaint_other_data>
+          <complaint_status><![CDATA[New]]></complaint_status>
+        </complaint_other_data>
+      </complaint>
+    </customer_complaints>
   </customer>
 </customers>
