@@ -524,11 +524,6 @@ services:
     Symfony\Component\DependencyInjection\ContainerInterface:
         alias: service_container
 
-    Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
-        arguments:
-            - '@Redis'
-            - { 'prefix': '%env(REDIS_PREFIX)%session:', ttl: 604800 }
-
     Symfony\Component\Validator\Constraints\FileValidator:
 
     Symfony\Component\Validator\Constraints\ImageValidator:
