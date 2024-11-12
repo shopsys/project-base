@@ -105,8 +105,6 @@ services:
 
     App\Model\PersonalData\Mail\PersonalDataExportMail: ~
 
-    App\Model\ProductFeed\Mergado\MergadoFeedInfo: ~
-
     App\Model\Product\Elasticsearch\Scope\ProductExportScopeConfig: ~
 
     App\Model\Product\Search\FilterQuery: ~
@@ -119,10 +117,6 @@ services:
         arguments:
             - '%shopsys.sitemaps_dir%'
             - '%shopsys.sitemaps_url_prefix%'
-
-    App\ProductFeed\MergadoFeed\MergadoFeed:
-        tags:
-            - { name: shopsys.feed, hours: 5, minutes: 0 }
 
     App\Twig\:
         resource: '../src/Twig/'

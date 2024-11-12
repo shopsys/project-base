@@ -14,6 +14,7 @@ return [
     Shopsys\MigrationBundle\ShopsysMigrationBundle::class => ['all' => true],
     Shopsys\ProductFeed\HeurekaBundle\ShopsysProductFeedHeurekaBundle::class => ['all' => true],
     Shopsys\ProductFeed\GoogleBundle\ShopsysProductFeedGoogleBundle::class => ['all' => true],
+    Shopsys\ProductFeed\MergadoBundle\ShopsysProductFeedMergadoBundle::class => ['all' => true],
     Shopsys\CategoryFeed\LuigisBoxBundle\ShopsysCategoryFeedLuigisBoxBundle::class => ['all' => true],
     Shopsys\ProductFeed\ZboziBundle\ShopsysProductFeedZboziBundle::class => ['all' => true],
     Shopsys\ProductFeed\HeurekaDeliveryBundle\ShopsysProductFeedHeurekaDeliveryBundle::class => ['all' => true],
