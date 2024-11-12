@@ -2,6 +2,7 @@ import { ExtendedNextLink } from 'components/Basic/ExtendedNextLink/ExtendedNext
 import { Image } from 'components/Basic/Image/Image';
 import { CreateComplaintPopup } from 'components/Blocks/Popup/CreateComplaintPopup';
 import { Button } from 'components/Forms/Button/Button';
+import { TIDs } from 'cypress/tids';
 import { TypeOrderDetailItemFragment } from 'graphql/requests/orders/fragments/OrderDetailItemFragment.generated';
 import { TypeOrderItemTypeEnum } from 'graphql/types';
 import useTranslation from 'next-translate/useTranslation';
@@ -78,6 +79,7 @@ export const OrderDetailOrderItem: FC<OrderDetailOrderItemProps> = ({ orderItem,
                     <Button
                         className="whitespace-nowrap"
                         size="small"
+                        tid={TIDs.order_detail_create_complaint_button}
                         variant="inverted"
                         onClick={(e) => openCreateComplaintPopup(e, orderUuid, orderItem)}
                     >

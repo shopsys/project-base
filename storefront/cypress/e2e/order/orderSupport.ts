@@ -212,6 +212,13 @@ export const changeOrderConfirmationDynamicPartsToStaticDemodata = () => {
     });
 };
 
+export const checkOrderConfirmationStatusText = (statusText: string) => {
+    cy.getByTID([TIDs.order_confirmation_page_text_wrapper])
+        .should('exist')
+        .should('contain.text', order.confirmation.orderCreatedText)
+        .should('contain.text', statusText);
+};
+
 export const submitRegistrationFormAfterOrder = () => {
     cy.getByTID([TIDs.registration_after_order_submit_button]).click();
 };
@@ -220,6 +227,48 @@ export const goToOrderDetailFromOrderList = (index: number = 0) => {
     cy.getByTID([[TIDs.my_orders_link_, index]]).click();
     checkUrl(url.order.orderDetail);
     cy.waitForStableAndInteractiveDOM();
+};
+
+export const checkOrderDetailFromOrderPage = (transportName: string, paymentName: string, note?: string) => {
+    cy.getByTID([TIDs.order_detail_transport]).should('exist').and('be.visible').and('contain.text', transportName);
+    cy.getByTID([TIDs.order_detail_payment]).should('exist').and('be.visible').and('contain.text', paymentName);
+
+    if (note) {
+        cy.getByTID([TIDs.order_detail_note])
+            .should('exist')
+            .and('be.visible')
+            .and('contain.text', note ?? '');
+    }
+
+    cy.getByTID([TIDs.order_detail_items])
+        .should('exist')
+        .and('be.visible')
+        .and('contain.text', order.detail.products.helloKitty.fullName)
+        .and('contain.text', order.detail.products.helloKitty.price)
+        .and('contain.text', order.detail.products.helloKitty.quantity);
+
+    cy.getByTID([TIDs.order_detail_repeat_order_button]).should('exist').and('be.visible');
+};
+
+export const checkOrderDetailFromOrderPageWithComplaintButton = (
+    transportName: string,
+    paymentName: string,
+    note?: string,
+) => {
+    checkOrderDetailFromOrderPage(transportName, paymentName, note);
+    cy.getByTID([TIDs.order_detail_create_complaint_button]).should('exist').and('be.visible');
+};
+
+export const checkOrderDetailFromOrderPageWithPromoCode = (
+    transportName: string,
+    paymentName: string,
+    note?: string,
+) => {
+    checkOrderDetailFromOrderPage(transportName, paymentName, note);
+    cy.getByTID([TIDs.order_detail_items])
+        .should('exist')
+        .and('be.visible')
+        .and('contain.text', order.detail.products.helloKitty.promoCode);
 };
 
 export const repeatOrderFromOrderList = (withMerge?: boolean) => {
