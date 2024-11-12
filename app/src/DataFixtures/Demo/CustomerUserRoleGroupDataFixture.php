@@ -13,9 +13,9 @@ use Shopsys\FrameworkBundle\Model\Customer\User\Role\CustomerUserRoleGroupFacade
 
 class CustomerUserRoleGroupDataFixture extends AbstractReferenceFixture
 {
-    public const ROLE_GROUP_OWNER = 'role_group_owner';
-    public const ROLE_GROUP_USER = 'role_group_user';
-    public const ROLE_GROUP_LIMITED_USER = 'role_group_limited_user';
+    public const string ROLE_GROUP_OWNER = 'role_group_owner';
+    public const string ROLE_GROUP_USER = 'role_group_user';
+    public const string ROLE_GROUP_LIMITED_USER = 'role_group_limited_user';
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Customer\User\Role\CustomerUserRoleGroupDataFactory $customerUserRoleGroupDataFactory
@@ -30,7 +30,7 @@ class CustomerUserRoleGroupDataFixture extends AbstractReferenceFixture
     /**
      * @param \Doctrine\Persistence\ObjectManager $manager
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $this->addReferenceForDefaultRoleGroup();
 

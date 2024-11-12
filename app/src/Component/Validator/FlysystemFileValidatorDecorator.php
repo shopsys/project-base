@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class FlysystemFileValidatorDecorator extends ConstraintValidator
 {
-    private const LOCAL_TEMPORARY_DIRECTORY = 'localeFileUploads';
+    private const string LOCAL_TEMPORARY_DIRECTORY = 'localeFileUploads';
 
     /**
      * @param \Symfony\Component\Validator\Constraints\FileValidator $fileValidator
@@ -26,18 +26,18 @@ class FlysystemFileValidatorDecorator extends ConstraintValidator
      * @param \League\Flysystem\FilesystemOperator $filesystem
      */
     public function __construct(
-        private FileValidator $fileValidator,
-        private string $localTemporaryDir,
-        private Filesystem $symfonyFilesystem,
-        private MountManager $mountManager,
-        private FilesystemOperator $filesystem,
+        private readonly FileValidator $fileValidator,
+        private readonly string $localTemporaryDir,
+        private readonly Filesystem $symfonyFilesystem,
+        private readonly MountManager $mountManager,
+        private readonly FilesystemOperator $filesystem,
     ) {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function validate($value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if ($value === null || $value === '') {
             return;
@@ -76,7 +76,7 @@ class FlysystemFileValidatorDecorator extends ConstraintValidator
     /**
      * @param \Symfony\Component\Validator\Context\ExecutionContextInterface $context
      */
-    public function initialize(ExecutionContextInterface $context)
+    public function initialize(ExecutionContextInterface $context): void
     {
         $this->fileValidator->initialize($context);
     }

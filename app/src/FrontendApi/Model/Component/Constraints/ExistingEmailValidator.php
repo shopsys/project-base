@@ -16,15 +16,17 @@ class ExistingEmailValidator extends ConstraintValidator
      * @param \Shopsys\FrameworkBundle\Component\Domain\Domain $domain
      * @param \App\Model\Customer\User\CustomerUserFacade $customerUserFacade
      */
-    public function __construct(private Domain $domain, private CustomerUserFacade $customerUserFacade)
-    {
+    public function __construct(
+        private readonly Domain $domain,
+        private readonly CustomerUserFacade $customerUserFacade,
+    ) {
     }
 
     /**
      * @param string $value
      * @param \App\FrontendApi\Model\Component\Constraints\ExistingEmail $constraint
      */
-    public function validate($value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof ExistingEmail) {
             throw new UnexpectedTypeException($constraint, ExistingEmail::class);

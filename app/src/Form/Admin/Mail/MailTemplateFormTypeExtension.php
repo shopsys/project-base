@@ -20,7 +20,7 @@ class MailTemplateFormTypeExtension extends AbstractTypeExtension
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->remove('body');
 

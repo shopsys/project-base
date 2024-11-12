@@ -16,7 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class CategoryFormTypeExtension extends AbstractTypeExtension
 {
-    public const DISABLED_FIELDS = [];
+    public const array DISABLED_FIELDS = [];
 
     /**
      * @param \Shopsys\FrameworkBundle\Component\Form\FormBuilderHelper $formBuilderHelper
@@ -37,7 +37,7 @@ class CategoryFormTypeExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $this->formBuilderHelper->disableFieldsByConfigurations($builder, self::DISABLED_FIELDS);
 
