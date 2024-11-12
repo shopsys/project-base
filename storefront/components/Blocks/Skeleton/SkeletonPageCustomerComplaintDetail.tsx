@@ -4,7 +4,7 @@ import { Webline } from 'components/Layout/Webline/Webline';
 
 export const SkeletonPageCustomerComplaintDetail: FC = () => (
     <Webline>
-        <SkeletonModuleBreadcrumbs count={4} />
+        <SkeletonModuleBreadcrumbs count={3} />
 
         <SkeletonModuleCustomerComplaintDetail />
     </Webline>
