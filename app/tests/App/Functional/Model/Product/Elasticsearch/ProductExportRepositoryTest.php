@@ -73,7 +73,7 @@ class ProductExportRepositoryTest extends TransactionFunctionalTestCase
             'seo_meta_description',
             'accessories',
             'name_prefix',
-            'name_sufix',
+            'name_suffix',
             'is_sale_exclusion',
             'product_available_stores_count_information',
             'store_availabilities_information',

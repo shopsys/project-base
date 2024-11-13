@@ -301,7 +301,7 @@
             "name_prefix": {
                 "type": "text"
             },
-            "name_sufix": {
+            "name_suffix": {
                 "type": "text"
             },
             "is_sale_exclusion": {

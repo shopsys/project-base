@@ -75,7 +75,7 @@ class ProductDataFixture extends AbstractReferenceFixture implements DependentFi
             $locale = $domain->getLocale();
             $productData->namePrefix[$locale] = t('Television', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
             $productData->name[$locale] = t('22" Sencor SLE 22F46DM4 HELLO KITTY', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
-            $productData->nameSufix[$locale] = t('plasma', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
+            $productData->nameSuffix[$locale] = t('plasma', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
             $productData->descriptions[$domain->getId()] = t('Television LED, 55 cm diagonal, 1920x1080 Full HD, DVB-T MPEG4 tuner with USB recording and playback (DivX, XviD, MP3, WMA, JPEG), HDMI, SCART, VGA, pink execution, energ. Class B', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $domain->getLocale());
             $productData->shortDescriptions[$domain->getId()] = t('Television LED, 55 cm diagonal, 1920x1080 Full HD, DVB-T MPEG4 tuner with USB recording and playback', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $domain->getLocale());
 
@@ -1603,7 +1603,7 @@ class ProductDataFixture extends AbstractReferenceFixture implements DependentFi
             $locale = $domain->getLocale();
             $productData->name[$locale] = t('36" Philips [V]', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
             $productData->namePrefix[$locale] = t('Default variant - prefix', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
-            $productData->nameSufix[$locale] = t('Default variant - suffix', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
+            $productData->nameSuffix[$locale] = t('Default variant - suffix', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
             $productData->descriptions[$domain->getId()] = t('TV LED, 100Hz, diagonal 80cm 100Hz, Full HD 1920 x 1080, DVB-T / C, 2x HDMI, USB, CI +, VGA, SCART, speakers 16W, energy. Class A + ', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $domain->getLocale());
             $productData->shortDescriptions[$domain->getId()] = t('TV LED, 100Hz, diagonal 80cm 100Hz, Full HD 1920 x 1080, DVB-T / C, 2x HDMI, USB, CI +, VGA, SCART, speakers 16W, energy. Class A + ', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $domain->getLocale());
 
