@@ -127,8 +127,6 @@ class ProductExportRepository extends BaseProductExportRepository
             BaseProductExportFieldProvider::PARAMETERS => $this->extractParametersIncludedVariants($product, $locale, $domainId),
             BaseProductExportFieldProvider::CALCULATED_SELLING_DENIED => $product->getCalculatedSaleExclusion($domainId),
             ProductExportFieldProvider::AVAILABILITY_STATUS => $this->productAvailabilityFacade->getProductAvailabilityStatusByDomainId($product, $domainId),
-            ProductExportFieldProvider::NAME_PREFIX => $product->getNamePrefix($locale),
-            ProductExportFieldProvider::NAME_SUFIX => $product->getNameSufix($locale),
             ProductExportFieldProvider::IS_SALE_EXCLUSION => $product->getSaleExclusion($domainId),
             ProductExportFieldProvider::PRODUCT_AVAILABLE_STORES_COUNT_INFORMATION => $this->productAvailabilityFacade->getProductAvailableStoresCountInformationByDomainId($product, $domainId),
             ProductExportFieldProvider::STORE_AVAILABILITIES_INFORMATION => $this->extractStoreAvailabilitiesInformation($product, $domainId),
@@ -345,11 +343,11 @@ class ProductExportRepository extends BaseProductExportRepository
     private function extractSearchingNames(Product $product, int $domainId, string $locale): string
     {
         if ($product->isMainVariant()) {
-            $variantNames = $product->getFullname($locale);
+            $variantNames = $product->getFullName($locale);
             $variants = $this->getVariantsForDefaultPricingGroup($product, $domainId);
 
             foreach ($variants as $variant) {
-                $variantFullName = $variant->getFullname($locale);
+                $variantFullName = $variant->getFullName($locale);
 
                 if ($variantFullName !== '' && strpos($variantNames, $variantFullName) === false) {
                     $variantNames .= ' ' . $variantFullName;
@@ -359,7 +357,7 @@ class ProductExportRepository extends BaseProductExportRepository
             return trim($variantNames);
         }
 
-        return $product->getFullname($locale);
+        return $product->getFullName($locale);
     }
 
     /**

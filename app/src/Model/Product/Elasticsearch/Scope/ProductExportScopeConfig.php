@@ -43,8 +43,6 @@ class ProductExportScopeConfig extends BaseProductExportScopeConfig
             ProductExportFieldProvider::SEARCHING_NAMES,
             ProductExportFieldProvider::SLUG,
             ProductExportFieldProvider::BREADCRUMB,
-            ProductExportFieldProvider::NAME_PREFIX,
-            ProductExportFieldProvider::NAME_SUFIX,
         ]);
 
         $this->addNewExportScopeRule(self::SCOPE_DESCRIPTION, [

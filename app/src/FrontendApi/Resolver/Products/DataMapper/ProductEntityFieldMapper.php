@@ -47,6 +47,9 @@ use Shopsys\FrontendApiBundle\Model\Resolver\Products\DataMapper\ProductEntityFi
  * @method \GraphQL\Executor\Promise\Promise getVariantsCount(\App\Model\Product\Product $product)
  * @method bool isInquiryType(\App\Model\Product\Product $product)
  * @method string getProductType(\App\Model\Product\Product $product)
+ * @method string|null getNameSuffix(\App\Model\Product\Product $product)
+ * @method string|null getNamePrefix(\App\Model\Product\Product $product)
+ * @method string getFullName(\App\Model\Product\Product $product)
  */
 class ProductEntityFieldMapper extends BaseProductEntityFieldMapper
 {
@@ -123,15 +126,6 @@ class ProductEntityFieldMapper extends BaseProductEntityFieldMapper
     public function getName(Product $product): string
     {
         return $product->getName($this->domain->getLocale()) ?? '';
-    }
-
-    /**
-     * @param \App\Model\Product\Product $product
-     * @return string|null
-     */
-    public function getNameSuffix(Product $product): ?string
-    {
-        return $product->getNameSufix($this->domain->getLocale());
     }
 
     /**

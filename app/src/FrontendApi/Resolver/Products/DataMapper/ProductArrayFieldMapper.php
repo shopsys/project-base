@@ -80,44 +80,11 @@ class ProductArrayFieldMapper extends BaseProductArrayFieldMapper
 
     /**
      * @param array $data
-     * @return string
-     */
-    public function getFullname(array $data): string
-    {
-        return trim(
-            $data['name_prefix']
-                . ' '
-                . $data['name']
-                . ' '
-                . $data['name_sufix'],
-        );
-    }
-
-    /**
-     * @param array $data
      * @return bool
      */
     public function isSellingDenied(array $data): bool
     {
         return $data['calculated_selling_denied'] === true || $data['is_sale_exclusion'] === true;
-    }
-
-    /**
-     * @param array $data
-     * @return string|null
-     */
-    public function getNamePrefix(array $data): ?string
-    {
-        return $data['name_prefix'];
-    }
-
-    /**
-     * @param array $data
-     * @return string|null
-     */
-    public function getNameSuffix(array $data): ?string
-    {
-        return $data['name_sufix'];
     }
 
     /**

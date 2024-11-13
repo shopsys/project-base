@@ -18,16 +18,6 @@ use Shopsys\FrameworkBundle\Model\Product\ProductData as BaseProductData;
 class ProductData extends BaseProductData
 {
     /**
-     * @var string[]|null[]
-     */
-    public $namePrefix;
-
-    /**
-     * @var string[]|null[]
-     */
-    public $nameSufix;
-
-    /**
      * @var \App\Model\Product\Product[]
      */
     public array $relatedProducts;
@@ -41,8 +31,6 @@ class ProductData extends BaseProductData
     {
         parent::__construct();
 
-        $this->namePrefix = [];
-        $this->nameSufix = [];
         $this->relatedProducts = [];
         $this->productVideosData = [];
     }

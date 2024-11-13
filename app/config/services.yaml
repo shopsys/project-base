@@ -501,15 +501,6 @@ services:
     Shopsys\FrontendApiBundle\Model\User\FrontendApiUserFactory:
         alias: App\Model\User\FrontendApi\FrontendApiUserFactory
 
-    Shopsys\ProductFeed\GoogleBundle\Model\FeedItem\GoogleFeedItemFactory:
-        alias: App\ProductFeed\Google\Model\FeedItem\GoogleFeedItemFactory
-
-    Shopsys\ProductFeed\HeurekaBundle\Model\FeedItem\HeurekaFeedItemFactory:
-        alias: App\ProductFeed\Heureka\Model\FeedItem\HeurekaFeedItemFactory
-
-    Shopsys\ProductFeed\ZboziBundle\Model\FeedItem\ZboziFeedItemFactory:
-        alias: App\ProductFeed\Zbozi\Model\FeedItem\ZboziFeedItemFactory
-
     Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory: ~
 
     Symfony\Component\DependencyInjection\ContainerInterface:

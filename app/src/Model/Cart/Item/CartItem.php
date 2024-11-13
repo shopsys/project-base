@@ -24,6 +24,6 @@ class CartItem extends BaseCartItem
      */
     public function getName(?string $locale = null): ?string
     {
-        return $this->getProduct()->getFullname($locale);
+        return $this->getProduct()->getFullName($locale);
     }
 }
