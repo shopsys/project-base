@@ -35,7 +35,7 @@ import {
 } from 'utils/queryParamNames';
 import { useCurrentFilterQuery } from 'utils/queryParams/useCurrentFilterQuery';
 import { useCurrentSortQuery } from 'utils/queryParams/useCurrentSortQuery';
-import { useResetOriginalCategorySlug } from 'utils/seo/useResetOriginalCategorySlug';
+import { useResetSessionFilters } from 'utils/seo/useResetOriginalCategorySlug';
 import { useSeoTitleWithPagination } from 'utils/seo/useSeoTitleWithPagination';
 import { getServerSidePropsWrapper } from 'utils/serverSide/getServerSidePropsWrapper';
 import { initServerSideProps } from 'utils/serverSide/initServerSideProps';
@@ -46,7 +46,7 @@ const FlagDetailPage: NextPage = () => {
     const currentSort = useCurrentSortQuery();
     const orderingMode = getProductListSortFromUrlQuery(router.query[SORT_QUERY_PARAMETER_NAME]);
     const filter = getMappedProductFilter(router.query[FILTER_QUERY_PARAMETER_NAME]);
-    useResetOriginalCategorySlug();
+    useResetSessionFilters();
 
     const [{ data: flagDetailData, fetching: isFlagFetching }] = useFlagDetailQuery({
         variables: {

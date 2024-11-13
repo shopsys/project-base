@@ -38,7 +38,7 @@ import {
 import { useCurrentFilterQuery } from 'utils/queryParams/useCurrentFilterQuery';
 import { useCurrentSortQuery } from 'utils/queryParams/useCurrentSortQuery';
 import { getPrefixedSeoTitle } from 'utils/seo/getPrefixedSeoTitle';
-import { useResetOriginalCategorySlug } from 'utils/seo/useResetOriginalCategorySlug';
+import { useResetSessionFilters } from 'utils/seo/useResetOriginalCategorySlug';
 import { useSeoTitleWithPagination } from 'utils/seo/useSeoTitleWithPagination';
 import { getServerSidePropsWrapper } from 'utils/serverSide/getServerSidePropsWrapper';
 import { initServerSideProps } from 'utils/serverSide/initServerSideProps';
@@ -48,7 +48,7 @@ const BrandDetailPage: NextPage = () => {
     const router = useRouter();
     const currentFilter = useCurrentFilterQuery();
     const currentSort = useCurrentSortQuery();
-    useResetOriginalCategorySlug();
+    useResetSessionFilters();
 
     const [{ data: brandDetailData, fetching: isBrandFetching }] = useBrandDetailQuery({
         variables: {

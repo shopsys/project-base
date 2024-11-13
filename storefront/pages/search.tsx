@@ -12,7 +12,7 @@ import { getNumberFromUrlQuery } from 'utils/parsing/getNumberFromUrlQuery';
 import { getSlugFromServerSideUrl } from 'utils/parsing/getSlugFromServerSideUrl';
 import { LOAD_MORE_QUERY_PARAMETER_NAME, PAGE_QUERY_PARAMETER_NAME } from 'utils/queryParamNames';
 import { useCurrentSearchStringQuery } from 'utils/queryParams/useCurrentSearchStringQuery';
-import { useResetOriginalCategorySlug } from 'utils/seo/useResetOriginalCategorySlug';
+import { useResetSessionFilters } from 'utils/seo/useResetOriginalCategorySlug';
 import { getServerSidePropsWrapper } from 'utils/serverSide/getServerSidePropsWrapper';
 import { initServerSideProps, ServerSidePropsType } from 'utils/serverSide/initServerSideProps';
 import { getInternationalizedStaticUrls } from 'utils/staticUrls/getInternationalizedStaticUrls';
@@ -21,7 +21,7 @@ const SearchPage: FC<ServerSidePropsType> = () => {
     const { t } = useTranslation();
     const { url } = useDomainConfig();
     const currentSearchString = useCurrentSearchStringQuery();
-    useResetOriginalCategorySlug();
+    useResetSessionFilters();
 
     const [searchUrl] = getInternationalizedStaticUrls(['/search'], url);
     const breadcrumbs: TypeBreadcrumbFragment[] = [{ __typename: 'Link', name: t('Search'), slug: searchUrl }];
