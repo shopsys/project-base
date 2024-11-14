@@ -1786,9 +1786,6 @@ msgstr "Obchodní podmínky obchodních domů"
 msgid "Terms and conditions of eshop"
 msgstr "Obchodní podmínky e-shopu"
 
-msgid "Terms of promotion"
-msgstr "Pravidla akce"
-
 msgid "Thank you for your order no. {number} placed at {date}"
 msgstr "Děkujeme za objednávku č. {number} ze dne {date}"
 

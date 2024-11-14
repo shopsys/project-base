@@ -12,7 +12,6 @@ use Shopsys\FrameworkBundle\Form\ImageUploadType;
 use Shopsys\FrameworkBundle\Model\Slider\SliderItem;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints;
 
@@ -23,7 +22,6 @@ class SliderItemFormTypeExtension extends AbstractTypeExtension
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $this->buildExtendedTextAndLinkForm($builder);
         $this->buildVisibilityIntervalForm($builder);
         $this->buildImagesGroup($builder, $options);
         $this->buildGtmForm($builder);
@@ -86,21 +84,6 @@ class SliderItemFormTypeExtension extends AbstractTypeExtension
                 'extensions' => [ImageProcessor::EXTENSION_JPG, ImageProcessor::EXTENSION_JPEG, ImageProcessor::EXTENSION_PNG],
                 'hide_delete_button' => $options['scenario'] === SliderItemFormType::SCENARIO_EDIT,
             ]);
-    }
-
-    /**
-     * @param \Symfony\Component\Form\FormBuilderInterface $builder
-     */
-    private function buildExtendedTextAndLinkForm(FormBuilderInterface $builder): void
-    {
-        $builder->add('sliderExtendedText', TextType::class, [
-            'required' => false,
-            'label' => t('Text displayed under banner'),
-        ])
-        ->add('sliderExtendedTextLink', UrlType::class, [
-            'required' => false,
-            'label' => t('Link of text under banner'),
-        ]);
     }
 
     /**

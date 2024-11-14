@@ -32,18 +32,6 @@ class SliderItem extends BaseSliderItem
 
     /**
      * @var string|null
-     * @ORM\Column(type="text",nullable=true)
-     */
-    protected $sliderExtendedText;
-
-    /**
-     * @var string|null
-     * @ORM\Column(type="text",nullable=true)
-     */
-    protected $sliderExtendedTextLink;
-
-    /**
-     * @var string|null
      * @ORM\Column(type="text",nullable=false)
      */
     protected $gtmId;
@@ -69,8 +57,6 @@ class SliderItem extends BaseSliderItem
 
         $this->datetimeVisibleFrom = $sliderItemData->datetimeVisibleFrom;
         $this->datetimeVisibleTo = $sliderItemData->datetimeVisibleTo;
-        $this->sliderExtendedText = $sliderItemData->sliderExtendedText;
-        $this->sliderExtendedTextLink = $sliderItemData->sliderExtendedTextLink;
         $this->gtmId = $sliderItemData->gtmId;
         $this->gtmCreative = $sliderItemData->gtmCreative;
         $this->uuid = $sliderItemData->uuid ?: Uuid::uuid4()->toString();
@@ -85,8 +71,6 @@ class SliderItem extends BaseSliderItem
 
         $this->datetimeVisibleFrom = $sliderItemData->datetimeVisibleFrom;
         $this->datetimeVisibleTo = $sliderItemData->datetimeVisibleTo;
-        $this->sliderExtendedText = $sliderItemData->sliderExtendedText;
-        $this->sliderExtendedTextLink = $sliderItemData->sliderExtendedTextLink;
         $this->gtmId = $sliderItemData->gtmId;
         $this->gtmCreative = $sliderItemData->gtmCreative;
     }
@@ -121,22 +105,6 @@ class SliderItem extends BaseSliderItem
     public function setDatetimeVisibleTo(?DateTime $datetimeVisibleTo): void
     {
         $this->datetimeVisibleTo = $datetimeVisibleTo;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getSliderExtendedText(): ?string
-    {
-        return $this->sliderExtendedText;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getSliderExtendedTextLink(): ?string
-    {
-        return $this->sliderExtendedTextLink;
     }
 
     /**

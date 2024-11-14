@@ -247,9 +247,6 @@ msgstr ""
 msgid "Link Block"
 msgstr ""
 
-msgid "Link of text under banner"
-msgstr ""
-
 msgid "Linked categories"
 msgstr ""
 
@@ -452,9 +449,6 @@ msgid "Terms-and-conditions.html"
 msgstr ""
 
 msgid "Text"
-msgstr ""
-
-msgid "Text displayed under banner"
 msgstr ""
 
 msgid "Text with image"

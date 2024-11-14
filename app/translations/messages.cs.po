@@ -247,9 +247,6 @@ msgstr "Nastavení právních podmínek upraveno."
 msgid "Link Block"
 msgstr "Blok odkazu"
 
-msgid "Link of text under banner"
-msgstr "Odkaz textu pod bannerem"
-
 msgid "Linked categories"
 msgstr "Propojené kategorie"
 
@@ -453,9 +450,6 @@ msgstr "Obchodni-podminky.html"
 
 msgid "Text"
 msgstr "Text"
-
-msgid "Text displayed under banner"
-msgstr "Text zobrazený pod bannerem"
 
 msgid "Text with image"
 msgstr "Text s obrázkem"

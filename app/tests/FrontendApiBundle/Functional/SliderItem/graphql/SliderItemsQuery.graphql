@@ -3,8 +3,6 @@ query SliderItemsQuery ($imageType: String) {
         uuid
         name
         link
-        extendedText
-        extendedTextLink
         images (type: $imageType) {
             url
             name

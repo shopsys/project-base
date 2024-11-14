@@ -2365,10 +2365,6 @@ type Settings {
 type SliderItem {
   "Slider description"
   description: String
-  "Text below slider"
-  extendedText: String
-  "Target link of text below slider"
-  extendedTextLink: String
   "GTM creative"
   gtmCreative: String
   "GTM ID"

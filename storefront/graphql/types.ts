@@ -3086,10 +3086,6 @@ export type TypeSliderItem = {
   __typename?: 'SliderItem';
   /** Slider description */
   description: Maybe<Scalars['String']['output']>;
-  /** Text below slider */
-  extendedText: Maybe<Scalars['String']['output']>;
-  /** Target link of text below slider */
-  extendedTextLink: Maybe<Scalars['String']['output']>;
   /** GTM creative */
   gtmCreative: Maybe<Scalars['String']['output']>;
   /** GTM ID */

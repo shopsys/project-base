@@ -8468,24 +8468,6 @@ Slider description
 </td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>extendedText</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td>
-
-Text below slider
-
-</td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>extendedTextLink</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td>
-
-Target link of text below slider
-
-</td>
-</tr>
-<tr>
 <td colspan="2" valign="top"><strong>gtmCreative</strong></td>
 <td valign="top"><a href="#string">String</a></td>
 <td>
