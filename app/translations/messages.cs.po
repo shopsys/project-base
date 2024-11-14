@@ -313,12 +313,6 @@ msgstr "Přehled měrných jednotek"
 msgid "Name"
 msgstr "Název"
 
-msgid "Name prefix"
-msgstr "Prefix názvu"
-
-msgid "Name suffix"
-msgstr "Suffix názvu"
-
 msgid "New"
 msgstr "Novinka"
 

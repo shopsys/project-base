@@ -70,12 +70,6 @@ msgstr ""
 msgid "Please enter your email address"
 msgstr ""
 
-msgid "Product prefix name cannot be longer than {{ limit }} characters"
-msgstr ""
-
-msgid "Product suffix name cannot be longer than {{ limit }} characters"
-msgstr ""
-
 msgid "Provided hash is not valid."
 msgstr ""
 

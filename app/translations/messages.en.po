@@ -313,12 +313,6 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-msgid "Name prefix"
-msgstr ""
-
-msgid "Name suffix"
-msgstr ""
-
 msgid "New"
 msgstr ""
 
