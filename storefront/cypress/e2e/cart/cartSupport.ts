@@ -105,14 +105,6 @@ export const checkCartItemSpinboxDecreaseButtonIsEnabled = (catnum: string) => {
     );
 };
 
-export const checkCartItemSpinboxIncreaseButtonIsDisabled = (catnum: string) => {
-    cy.getByTID([[TIDs.pages_cart_list_item_, catnum], TIDs.forms_spinbox_increase]).should(
-        'have.css',
-        'pointer-events',
-        'none',
-    );
-};
-
 export const clickOnPromoCodeButton = () => {
     cy.getByTID([TIDs.blocks_promocode_add_button]).click();
 };

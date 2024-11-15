@@ -22,7 +22,6 @@ fragment ProductDetailInterfaceFragment on Product {
     parameters {
         ...ParameterFragment
     }
-    stockQuantity
     accessories {
         ...ListedProductFragment
     }

@@ -66,7 +66,6 @@ export const ProductAction: FC<ProductActionProps> = ({
             gtmProductListName={gtmProductListName}
             isWithSpinbox={isWithSpinbox}
             listIndex={listIndex}
-            maxQuantity={product.stockQuantity}
             minQuantity={1}
             productUuid={product.uuid}
         />
