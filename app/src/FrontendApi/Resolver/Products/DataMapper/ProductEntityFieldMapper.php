@@ -50,6 +50,7 @@ use Shopsys\FrontendApiBundle\Model\Resolver\Products\DataMapper\ProductEntityFi
  * @method string|null getNameSuffix(\App\Model\Product\Product $product)
  * @method string|null getNamePrefix(\App\Model\Product\Product $product)
  * @method string getFullName(\App\Model\Product\Product $product)
+ * @method int getStockQuantity(\App\Model\Product\Product $product)
  */
 class ProductEntityFieldMapper extends BaseProductEntityFieldMapper
 {
@@ -144,15 +145,6 @@ class ProductEntityFieldMapper extends BaseProductEntityFieldMapper
     public function getCatalogNumber(Product $product): string
     {
         return $product->getCatnum();
-    }
-
-    /**
-     * @param \App\Model\Product\Product $product
-     * @return int
-     */
-    public function getStockQuantity(Product $product): int
-    {
-        return $this->productAvailabilityFacade->getGroupedStockQuantityByProductAndDomainId($product, $this->domain->getId());
     }
 
     /**
