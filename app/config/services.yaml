@@ -220,8 +220,6 @@ services:
     Shopsys\FrameworkBundle\Model\Cart\CartFacade:
         alias: App\Model\Cart\CartFacade
 
-    Shopsys\FrameworkBundle\Model\Cart\CartMigrationFacade: ~
-
     Shopsys\FrameworkBundle\Model\Category\CategoryDataFactoryInterface:
         alias: App\Model\Category\CategoryDataFactory
 
