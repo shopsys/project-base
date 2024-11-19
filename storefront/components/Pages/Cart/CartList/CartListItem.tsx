@@ -5,10 +5,11 @@ import { RemoveCartItemButton } from 'components/Pages/Cart/RemoveCartItemButton
 import { TIDs } from 'cypress/tids';
 import { TypeCartItemFragment } from 'graphql/requests/cart/fragments/CartItemFragment.generated';
 import useTranslation from 'next-translate/useTranslation';
-import { MouseEventHandler, useRef, useEffect } from 'react';
+import { MouseEventHandler, useEffect, useRef, useState } from 'react';
 import { AddToCart } from 'utils/cart/useAddToCart';
 import { useFormatPrice } from 'utils/formatting/useFormatPrice';
 import { isPriceVisible, mapPriceForCalculations } from 'utils/mappers/price';
+import { useDebounce } from 'utils/useDebounce';
 
 type CartListItemProps = {
     item: TypeCartItemFragment;
@@ -23,26 +24,18 @@ export const CartListItem: FC<CartListItemProps> = ({
     onRemoveFromCart,
     onAddToCart,
 }) => {
-    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
     const spinboxRef = useRef<HTMLInputElement>(null);
+    const [spinboxValue, setSpinboxValue] = useState<number>();
+    const debouncedSpinboxValue = useDebounce(spinboxValue, 500);
     const { t } = useTranslation();
     const formatPrice = useFormatPrice();
     const productSlug = product.__typename === 'Variant' ? product.mainVariant!.slug : product.slug;
 
-    const onChangeValueHandler = () => {
-        if (timeoutRef.current === null) {
-            timeoutRef.current = setUpdateTimeout();
-        } else {
-            clearTimeout(timeoutRef.current);
-            timeoutRef.current = setUpdateTimeout();
+    useEffect(() => {
+        if (debouncedSpinboxValue !== undefined && spinboxRef.current?.valueAsNumber !== quantity) {
+            onAddToCart(product.uuid, debouncedSpinboxValue, listIndex, true);
         }
-    };
-
-    const setUpdateTimeout = () => {
-        return setTimeout(() => {
-            onAddToCart(product.uuid, spinboxRef.current!.valueAsNumber, listIndex, true);
-        }, 500);
-    };
+    }, [debouncedSpinboxValue]);
 
     useEffect(() => {
         if (quantity > 0 && spinboxRef.current) {
@@ -110,7 +103,7 @@ export const CartListItem: FC<CartListItemProps> = ({
                     min={1}
                     ref={spinboxRef}
                     step={1}
-                    onChangeValueCallback={onChangeValueHandler}
+                    onChangeValueCallback={setSpinboxValue}
                 />
             </div>
 
