@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\App\Functional\Model\SeoPage;
 
-use Shopsys\FrameworkBundle\Model\Seo\Page\SeoPage;
 use Shopsys\FrameworkBundle\Model\Seo\Page\SeoPageDataFactory;
 use Shopsys\FrameworkBundle\Model\Seo\Page\SeoPageFacade;
 use Tests\App\Test\TransactionFunctionalTestCase;
 
 class SeoPageTest extends TransactionFunctionalTestCase
 {
+    private const int HOMEPAGE_SEO_PAGE_ID = 1;
+
     /**
      * @inject
      */
@@ -25,7 +26,7 @@ class SeoPageTest extends TransactionFunctionalTestCase
     {
         $domainId = $this->domain->getId();
 
-        $seoPage = $this->seoPageFacade->getByDomainIdAndPageSlug($domainId, SeoPage::SEO_PAGE_HOMEPAGE_SLUG);
+        $seoPage = $this->seoPageFacade->getById(self::HOMEPAGE_SEO_PAGE_ID);
         $seoPageData = $this->seoPageDataFactory->createFromSeoPage($seoPage);
 
         $seoPageSlug = $seoPageData->pageSlugsIndexedByDomainId[$domainId];

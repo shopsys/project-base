@@ -12,7 +12,9 @@ use App\DataFixtures\Demo\ProductDataFixture;
 use App\DataFixtures\Demo\SeoPageDataFixture;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Component\Router\FriendlyUrl\FriendlyUrlFacade;
+use Shopsys\FrameworkBundle\Model\Seo\Page\SeoPage;
 use Shopsys\FrameworkBundle\Model\Seo\SeoSettingFacade;
 use Tests\FrontendApiBundle\Test\GraphQlTestCase;
 
@@ -70,7 +72,7 @@ class HreflangLinksTest extends GraphQlTestCase
 
         yield 'SeoPage' => [
             'entityReference' => SeoPageDataFixture::FIRST_DEMO_SEO_PAGE,
-            'routeName' => 'front_page_seo',
+            'routeName' => '',
             'graphQlFileName' => 'SeoPageHreflangLinksQuery.graphql',
             'graphQlType' => 'seoPage',
         ];
@@ -114,11 +116,7 @@ class HreflangLinksTest extends GraphQlTestCase
         $response = $this->getResponseContentForGql(
             __DIR__ . '/graphql/' . $graphQlFileName,
             [
-                'urlSlug' => $this->friendlyUrlFacade->getMainFriendlyUrlSlug(
-                    $this->domain->getId(),
-                    $routeName,
-                    $entity->getId(),
-                ),
+                'urlSlug' => $this->getFriendlyUrlSlug($routeName, $entity),
             ],
         );
         $data = $this->getResponseDataForGraphQlType($response, $graphQlType);
@@ -127,11 +125,7 @@ class HreflangLinksTest extends GraphQlTestCase
             'hreflangLinks' => [
                 [
                     'hreflang' => $this->getFirstDomainLocale(),
-                    'href' => $this->friendlyUrlFacade->getAbsoluteUrlByRouteNameAndEntityId(
-                        $this->domain->getId(),
-                        $routeName,
-                        $entity->getId(),
-                    ),
+                    'href' => $this->getUrlByRouteNameAndEntityId($routeName, Domain::FIRST_DOMAIN_ID, $entity),
                 ],
             ],
         ];
@@ -163,11 +157,7 @@ class HreflangLinksTest extends GraphQlTestCase
         $response = $this->getResponseContentForGql(
             __DIR__ . '/graphql/' . $graphQlFileName,
             [
-                'urlSlug' => $this->friendlyUrlFacade->getMainFriendlyUrlSlug(
-                    $this->domain->getId(),
-                    $routeName,
-                    $entity->getId(),
-                ),
+                'urlSlug' => $this->getFriendlyUrlSlug($routeName, $entity),
             ],
         );
         $data = $this->getResponseDataForGraphQlType($response, $graphQlType);
@@ -176,23 +166,52 @@ class HreflangLinksTest extends GraphQlTestCase
             'hreflangLinks' => [
                 [
                     'hreflang' => $this->getFirstDomainLocale(),
-                    'href' => $this->friendlyUrlFacade->getAbsoluteUrlByRouteNameAndEntityId(
-                        $this->domain->getId(),
-                        $routeName,
-                        $entity->getId(),
-                    ),
+                    'href' => $this->getUrlByRouteNameAndEntityId($routeName, Domain::FIRST_DOMAIN_ID, $entity),
                 ],
                 [
                     'hreflang' => $this->domain->getDomainConfigById($secondDomainId)->getLocale(),
-                    'href' => $this->friendlyUrlFacade->getAbsoluteUrlByRouteNameAndEntityId(
-                        $secondDomainId,
-                        $routeName,
-                        $entity->getId(),
-                    ),
+                    'href' => $this->getUrlByRouteNameAndEntityId($routeName, $secondDomainId, $entity),
                 ],
             ],
         ];
 
         self::assertEquals($expected, $data);
+    }
+
+    /**
+     * @param string $routeName
+     * @param object $entity
+     * @return string
+     */
+    private function getFriendlyUrlSlug(string $routeName, object $entity): string
+    {
+        if ($entity instanceof SeoPage) {
+            return $entity->getPageSlug($this->domain->getId());
+        }
+
+        return $this->friendlyUrlFacade->getMainFriendlyUrlSlug(
+            $this->domain->getId(),
+            $routeName,
+            $entity->getId(),
+        );
+    }
+
+    /**
+     * @param string $routeName
+     * @param int $domainId
+     * @param object $entity
+     * @return string
+     */
+    private function getUrlByRouteNameAndEntityId(string $routeName, int $domainId, object $entity): string
+    {
+        if ($entity instanceof SeoPage) {
+            return $this->domain->getUrl() . '/' . $entity->getPageSlug($domainId);
+        }
+
+        return $this->friendlyUrlFacade->getAbsoluteUrlByRouteNameAndEntityId(
+            $domainId,
+            $routeName,
+            $entity->getId(),
+        );
     }
 }
