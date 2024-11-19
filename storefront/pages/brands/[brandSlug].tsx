@@ -4,15 +4,15 @@ import { CommonLayout } from 'components/Layout/CommonLayout';
 import { BrandDetailContent } from 'components/Pages/BrandDetail/BrandDetailContent';
 import { DEFAULT_PAGE_SIZE } from 'config/constants';
 import {
-    useBrandDetailQuery,
+    BrandDetailQueryDocument,
     TypeBrandDetailQuery,
     TypeBrandDetailQueryVariables,
-    BrandDetailQueryDocument,
+    useBrandDetailQuery,
 } from 'graphql/requests/brands/queries/BrandDetailQuery.generated';
 import {
+    BrandProductsQueryDocument,
     TypeBrandProductsQuery,
     TypeBrandProductsQueryVariables,
-    BrandProductsQueryDocument,
 } from 'graphql/requests/products/queries/BrandProductsQuery.generated';
 import { useGtmFriendlyPageViewEvent } from 'gtm/factories/useGtmFriendlyPageViewEvent';
 import { useGtmPageViewEvent } from 'gtm/utils/pageViewEvents/useGtmPageViewEvent';
@@ -38,6 +38,7 @@ import {
 import { useCurrentFilterQuery } from 'utils/queryParams/useCurrentFilterQuery';
 import { useCurrentSortQuery } from 'utils/queryParams/useCurrentSortQuery';
 import { getPrefixedSeoTitle } from 'utils/seo/getPrefixedSeoTitle';
+import { useResetSessionFilters } from 'utils/seo/useResetOriginalCategorySlug';
 import { useSeoTitleWithPagination } from 'utils/seo/useSeoTitleWithPagination';
 import { getServerSidePropsWrapper } from 'utils/serverSide/getServerSidePropsWrapper';
 import { initServerSideProps } from 'utils/serverSide/initServerSideProps';
@@ -47,6 +48,7 @@ const BrandDetailPage: NextPage = () => {
     const router = useRouter();
     const currentFilter = useCurrentFilterQuery();
     const currentSort = useCurrentSortQuery();
+    useResetSessionFilters();
 
     const [{ data: brandDetailData, fetching: isBrandFetching }] = useBrandDetailQuery({
         variables: {
