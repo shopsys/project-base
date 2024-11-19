@@ -4,9 +4,22 @@ import { useEffect, useState } from 'react';
 type StyleguideIconsProps = { iconList: string[] };
 
 type IconType = {
-    Icon: FC;
+    Icon: FC | undefined;
     name: string;
 };
+
+const IconComponent: FC<IconType> = ({ Icon, name }) =>
+    Icon ? (
+        <>
+            <Icon className="w-10" />
+            <span>{name}</span>
+        </>
+    ) : (
+        <span className="max-w-40 text-sm">
+            Check that icon&apos;s name matches the filename:{' '}
+            <span className="text-base font-medium">{`/components/Basic/Icon/${name}`}</span>
+        </span>
+    );
 
 export const StyleguideIcons: FC<StyleguideIconsProps> = ({ iconList }) => {
     const [icons, setIcons] = useState<IconType[]>();
@@ -33,8 +46,7 @@ export const StyleguideIcons: FC<StyleguideIconsProps> = ({ iconList }) => {
         <StyleguideSection className="gap-3 md:columns-2 lg:columns-3" title="Icons">
             {icons?.map(({ Icon, name }, index) => (
                 <div key={index} className="mt-3 flex items-center gap-3 first:mt-0">
-                    <Icon className="w-10" />
-                    <span>{name}</span>
+                    <IconComponent Icon={Icon} name={name} />
                 </div>
             ))}
         </StyleguideSection>
