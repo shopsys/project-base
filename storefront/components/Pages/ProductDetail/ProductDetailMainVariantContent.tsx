@@ -63,7 +63,7 @@ export const ProductDetailMainVariantContent: FC<ProductDetailMainVariantContent
                         {product.name} {product.nameSuffix}
                     </ProductDetailHeading>
 
-                    <div>
+                    <div className="text-sm">
                         {t('Code')}: {product.catalogNumber}
                     </div>
                 </div>

@@ -54,18 +54,18 @@ export const ProductDetailContent: FC<ProductDetailContentProps> = ({ product, i
                     />
 
                     <div className="flex w-full flex-1 flex-col gap-4">
-                        <div className="flex flex-col gap-1">
+                        <div className="flex flex-col">
                             {product.namePrefix && <ProductDetailPrefix>{product.namePrefix}</ProductDetailPrefix>}
 
                             <ProductDetailHeading>
                                 {product.name} {product.nameSuffix}
                             </ProductDetailHeading>
 
-                            <div className="flex gap-4 text-[13px]">
+                            <div className="flex items-center gap-5 text-sm">
                                 {product.brand && (
                                     <div>
                                         <span>{t('Brand')}: </span>
-                                        <ExtendedNextLink href={product.brand.slug} type="brand">
+                                        <ExtendedNextLink className="text-sm" href={product.brand.slug} type="brand">
                                             {product.brand.name}
                                         </ExtendedNextLink>
                                     </div>
