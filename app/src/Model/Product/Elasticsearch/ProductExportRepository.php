@@ -128,7 +128,6 @@ class ProductExportRepository extends BaseProductExportRepository
             BaseProductExportFieldProvider::CALCULATED_SELLING_DENIED => $product->getCalculatedSaleExclusion($domainId),
             ProductExportFieldProvider::AVAILABILITY_STATUS => $this->productAvailabilityFacade->getProductAvailabilityStatusByDomainId($product, $domainId),
             ProductExportFieldProvider::IS_SALE_EXCLUSION => $product->getSaleExclusion($domainId),
-            ProductExportFieldProvider::PRODUCT_AVAILABLE_STORES_COUNT_INFORMATION => $this->productAvailabilityFacade->getProductAvailableStoresCountInformationByDomainId($product, $domainId),
             ProductExportFieldProvider::STORE_AVAILABILITIES_INFORMATION => $this->extractStoreAvailabilitiesInformation($product, $domainId),
             ProductExportFieldProvider::USPS => $product->getAllNonEmptyShortDescriptionUsp($domainId),
             ProductExportFieldProvider::SEARCHING_NAMES => $this->extractSearchingNames($product, $domainId, $locale),

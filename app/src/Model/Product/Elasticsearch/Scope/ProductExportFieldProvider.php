@@ -11,7 +11,6 @@ class ProductExportFieldProvider extends BaseProductExportFieldProvider
     public const string MAIN_CATEGORY_PATH = 'main_category_path';
     public const string AVAILABILITY_STATUS = 'availability_status';
     public const string IS_SALE_EXCLUSION = 'is_sale_exclusion';
-    public const string PRODUCT_AVAILABLE_STORES_COUNT_INFORMATION = 'product_available_stores_count_information';
     public const string STORE_AVAILABILITIES_INFORMATION = 'store_availabilities_information';
     public const string USPS = 'usps';
     public const string SEARCHING_NAMES = 'searching_names';

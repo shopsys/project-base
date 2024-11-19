@@ -25,7 +25,6 @@ class ProductExportScopeConfig extends BaseProductExportScopeConfig
         ]);
         $this->addExportFieldsToExistingScopeRule(self::SCOPE_STOCKS, [
             ProductExportFieldProvider::AVAILABILITY_STATUS,
-            ProductExportFieldProvider::PRODUCT_AVAILABLE_STORES_COUNT_INFORMATION,
             ProductExportFieldProvider::STORE_AVAILABILITIES_INFORMATION,
             ProductExportFieldProvider::AVAILABLE_STORES_COUNT,
         ]);

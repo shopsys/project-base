@@ -307,9 +307,6 @@
             "is_sale_exclusion": {
                 "type": "boolean"
             },
-            "product_available_stores_count_information": {
-                "type": "text"
-            },
             "store_availabilities_information": {
                 "type": "nested",
                 "properties": {
