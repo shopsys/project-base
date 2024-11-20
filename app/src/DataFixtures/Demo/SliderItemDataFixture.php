@@ -39,22 +39,29 @@ class SliderItemDataFixture extends AbstractReferenceFixture
             $sliderItemData->domainId = $domainId;
             $sliderItemData->hidden = false;
             $sliderItemData->gtmId = 'sliderItemTest';
-            $sliderItemData->sliderExtendedText = t('Terms of promotion', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
-            $sliderItemData->sliderExtendedTextLink = 'https://www.shopsys.cz';
             $sliderItemData->uuid = Uuid::uuid5(self::UUID_NAMESPACE, 'Terms of promotion' . $domainId)->toString();
 
             $sliderItemData->name = 'Shopsys';
             $sliderItemData->link = 'https://www.shopsys.cz';
+            $sliderItemData->description = t('This slider item promotes our latest offers and updates. Stay tuned for more exciting news and promotions. Click the link to learn more!', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
+            $sliderItemData->rgbBackgroundColor = '#4844bd';
+            $sliderItemData->opacity = 0.8;
 
             $this->sliderItemFacade->create($sliderItemData);
 
             $sliderItemData->name = t('Documentation', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
+            $sliderItemData->description = t('Explore our comprehensive documentation to get the most out of our platform. Find guides, tutorials, and detailed information to help you navigate and utilize all features effectively. Click the link to access the full documentation.', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
+            $sliderItemData->rgbBackgroundColor = '#808080';
+            $sliderItemData->opacity = 0.8;
             $sliderItemData->link = 'https://docs.shopsys.com';
             $sliderItemData->uuid = Uuid::uuid5(self::UUID_NAMESPACE, 'Documentation' . $domainId)->toString();
 
             $this->sliderItemFacade->create($sliderItemData);
 
             $sliderItemData->name = t('Become one of us', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
+            $sliderItemData->description = t('Join our team and be part of an innovative company. Explore exciting career opportunities and grow with us!', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale);
+            $sliderItemData->rgbBackgroundColor = '#b3bf45';
+            $sliderItemData->opacity = 0.8;
             $sliderItemData->link = 'https://jobs.shopsys.cz';
             $sliderItemData->uuid = Uuid::uuid5(self::UUID_NAMESPACE, 'Become one of us' . $domainId)->toString();
 

@@ -8459,20 +8459,11 @@ Returns User consent policy article's url
 </thead>
 <tbody>
 <tr>
-<td colspan="2" valign="top"><strong>extendedText</strong></td>
+<td colspan="2" valign="top"><strong>description</strong></td>
 <td valign="top"><a href="#string">String</a></td>
 <td>
 
-Text below slider
-
-</td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>extendedTextLink</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td>
-
-Target link of text below slider
+Slider description
 
 </td>
 </tr>
@@ -8537,6 +8528,24 @@ Slider item image by params
 <td>
 
 Slider name
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>opacity</strong></td>
+<td valign="top"><a href="#float">Float</a>!</td>
+<td>
+
+Opacity level for the background color of the slider description box
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>rgbBackgroundColor</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td>
+
+RGB color code for the background of the slider description box
 
 </td>
 </tr>

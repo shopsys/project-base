@@ -42,8 +42,6 @@ class SliderItemDataFactory extends BaseSliderItemDataFactory
 
         $sliderItemData->datetimeVisibleFrom = $sliderItem->getDatetimeVisibleFrom();
         $sliderItemData->datetimeVisibleTo = $sliderItem->getDatetimeVisibleTo();
-        $sliderItemData->sliderExtendedText = $sliderItem->getSliderExtendedText();
-        $sliderItemData->sliderExtendedTextLink = $sliderItem->getSliderExtendedTextLink();
         $sliderItemData->gtmId = $sliderItem->getGtmId();
         $sliderItemData->gtmCreative = $sliderItem->getGtmCreative();
     }

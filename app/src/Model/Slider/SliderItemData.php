@@ -19,16 +19,6 @@ class SliderItemData extends BaseSliderItemData
     public $datetimeVisibleTo;
 
     /**
-     * @var string|null
-     */
-    public $sliderExtendedText;
-
-    /**
-     * @var string|null
-     */
-    public $sliderExtendedTextLink;
-
-    /**
      * @var \Shopsys\FrameworkBundle\Component\FileUpload\ImageUploadData
      */
     public $mobileImage;

@@ -880,6 +880,9 @@ msgstr ""
 msgid "Expect delivery by the end of next month"
 msgstr ""
 
+msgid "Explore our comprehensive documentation to get the most out of our platform. Find guides, tutorials, and detailed information to help you navigate and utilize all features effectively. Click the link to access the full documentation."
+msgstr ""
+
 msgid "Extension rod plastic TM-4610"
 msgstr ""
 
@@ -1073,6 +1076,9 @@ msgid "JURA Impressa J9 TFT Carbon"
 msgstr ""
 
 msgid "Job at Shopsys"
+msgstr ""
+
+msgid "Join our team and be part of an innovative company. Explore exciting career opportunities and grow with us!"
 msgstr ""
 
 msgid "Kabel HDMI A - HDMI A M/M 2m gold-plated connectors High Speed HD"
@@ -1780,9 +1786,6 @@ msgstr ""
 msgid "Terms and conditions of eshop"
 msgstr ""
 
-msgid "Terms of promotion"
-msgstr ""
-
 msgid "Thank you for your order no. {number} placed at {date}"
 msgstr ""
 
@@ -1829,6 +1832,9 @@ msgid "This pot holder is used to hold pots. No more burnt kitchen tables!"
 msgstr ""
 
 msgid "This product is not an independently functional unit and may require professional installation."
+msgstr ""
+
+msgid "This slider item promotes our latest offers and updates. Stay tuned for more exciting news and promotions. Click the link to learn more!"
 msgstr ""
 
 msgid "Ticket for 100 CZK"

@@ -1,6 +1,6 @@
-import { BannerImage } from './BannerImage';
+import { Banner } from './Banner';
 import { BannersDot } from './BannersDot';
-import { bannersReducer, getBannerOrderCSSProperty } from './bannersUtils';
+import { bannersReducer } from './bannersUtils';
 import { TIDs } from 'cypress/tids';
 import { TypeSliderItemFragment } from 'graphql/requests/sliderItems/fragments/SliderItemFragment.generated';
 import { useEffect, useReducer, useRef } from 'react';
@@ -75,6 +75,7 @@ export const BannersSlider: FC<BannersSliderProps> = ({ sliderItems }) => {
         <div className="flex flex-col" tid={TIDs.banners_slider}>
             <a
                 {...handlers}
+                className="!no-underline"
                 href={sliderItems[bannerSliderState.sliderPosition].link}
                 title={sliderItems[bannerSliderState.sliderPosition].name}
                 onMouseEnter={checkAndClearInterval}
@@ -95,29 +96,15 @@ export const BannersSlider: FC<BannersSliderProps> = ({ sliderItems }) => {
                                       : 'translate-x-0 transform'),
                         )}
                     >
-                        {sliderItems.map((item, index) => {
-                            return (
-                                <div
-                                    key={index}
-                                    className="flex flex-[1_0_100%] basis-full"
-                                    style={{
-                                        order: getBannerOrderCSSProperty(
-                                            index,
-                                            bannerSliderState.sliderPosition,
-                                            numItems,
-                                        ),
-                                    }}
-                                >
-                                    <BannerImage
-                                        desktopAlt={item.webMainImage.name || item.name}
-                                        desktopSrc={item.webMainImage.url}
-                                        isFirst={index === 0}
-                                        mobileAlt={item.mobileMainImage.name || item.name}
-                                        mobileSrc={item.mobileMainImage.url}
-                                    />
-                                </div>
-                            );
-                        })}
+                        {sliderItems.map((item, index) => (
+                            <Banner
+                                key={item.uuid}
+                                banner={item}
+                                bannerSliderState={bannerSliderState}
+                                index={index}
+                                numItems={numItems}
+                            />
+                        ))}
                     </div>
                 </div>
             </a>

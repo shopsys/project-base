@@ -8,8 +8,15 @@ type BannerImageProps = {
     isFirst: boolean;
 };
 
-export const BannerImage: FC<BannerImageProps> = ({ mobileSrc, desktopSrc, mobileAlt, desktopAlt, isFirst }) => (
-    <div className="relative h-[250px] w-full md:h-[345px] vl:h-[425px]">
+export const BannerImage: FC<BannerImageProps> = ({
+    mobileSrc,
+    desktopSrc,
+    mobileAlt,
+    desktopAlt,
+    isFirst,
+    children,
+}) => (
+    <div className="relative h-[250px] w-full grow md:h-[345px] vl:h-[425px]">
         <Image
             fill
             alt={desktopAlt}
@@ -30,5 +37,6 @@ export const BannerImage: FC<BannerImageProps> = ({ mobileSrc, desktopSrc, mobil
             src={mobileSrc}
             onDragStart={(e) => e.preventDefault()}
         />
+        {children}
     </div>
 );
