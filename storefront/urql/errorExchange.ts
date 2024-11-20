@@ -49,7 +49,7 @@ export const getErrorExchange =
                     }
 
                     if (isWithErrorDebugging) {
-                        handleErrorMessagesForDevelopment(error);
+                        handleErrorMessagesForDevelopment(error, t);
                     } else {
                         handleErrorMessagesForUsers(error, t, operation);
                     }
@@ -58,12 +58,16 @@ export const getErrorExchange =
         };
     };
 
-const handleErrorMessagesForDevelopment = (error: CombinedError) => {
-    logException({
-        message: error.message,
-        originalError: JSON.stringify(error),
-        location: 'getErrorExchange.handleErrorMessagesForDevelopment',
-    });
+const handleErrorMessagesForDevelopment = (error: CombinedError, t: Translate) => {
+    const parsedErrors = getUserFriendlyErrors(error, t);
+
+    if (!parsedErrors.applicationError || !isNoLogError(parsedErrors.applicationError.type)) {
+        logException({
+            message: error.message,
+            originalError: JSON.stringify(error),
+            location: 'getErrorExchange.handleErrorMessagesForDevelopment',
+        });
+    }
 
     if (isWithToastAndConsoleErrorDebugging) {
         error.graphQLErrors
