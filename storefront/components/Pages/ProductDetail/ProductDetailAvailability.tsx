@@ -36,7 +36,9 @@ export const ProductDetailAvailability: FC<ProductDetailAvailabilityProps> = ({ 
             }
         >
             {`${product.availability.name}. ${
-                product.availability.status === TypeAvailabilityStatusEnum.InStock && product.availableStoresCount > 0
+                product.availability.status === TypeAvailabilityStatusEnum.InStock &&
+                product.availableStoresCount &&
+                product.availableStoresCount > 0
                     ? t('This item is available immediately in {{ count }} stores', {
                           availability: product.availability.name,
                           count: product.availableStoresCount,

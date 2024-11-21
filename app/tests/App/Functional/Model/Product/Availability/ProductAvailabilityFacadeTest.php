@@ -6,11 +6,11 @@ namespace Tests\App\Functional\Model\Product\Availability;
 
 use App\DataFixtures\Demo\ProductDataFixture;
 use App\Model\Product\Product;
+use App\Model\Product\ProductDataFactory;
 use App\Model\Product\ProductFacade;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Shopsys\FrameworkBundle\Component\Translation\Translator;
 use Shopsys\FrameworkBundle\Model\Product\Availability\ProductAvailabilityFacade;
-use Shopsys\FrameworkBundle\Model\Product\ProductDataFactory;
 use Shopsys\FrameworkBundle\Model\Stock\ProductStockDataFactory;
 use Shopsys\FrameworkBundle\Model\Stock\StockFacade;
 use Shopsys\FrameworkBundle\Model\Stock\StockSettingsData;
@@ -181,5 +181,56 @@ class ProductAvailabilityFacadeTest extends TransactionFunctionalTestCase
                 'transfer' => 10,
             ],
         ];
+    }
+
+    public function testMainVariantStockQuantityIsNull(): void
+    {
+        $mainVariant = $this->getReference(ProductDataFixture::PRODUCT_PREFIX . '83', Product::class);
+
+        $this->assertNull($this->productAvailabilityFacade->getGroupedStockQuantityByProductAndDomainId($mainVariant, self::FIRST_DOMAIN_ID));
+    }
+
+    public function testMainVariantStoresAvailabilitiesIsEmpty(): void
+    {
+        $mainVariant = $this->getReference(ProductDataFixture::PRODUCT_PREFIX . '83', Product::class);
+
+        $this->assertEmpty($this->productAvailabilityFacade->getProductStoresAvailabilitiesInformationByDomainIdIndexedByStoreId($mainVariant, self::FIRST_DOMAIN_ID));
+    }
+
+    public function testMainVariantAvailableStoresCountIsNull(): void
+    {
+        $mainVariant = $this->getReference(ProductDataFixture::PRODUCT_PREFIX . '83', Product::class);
+
+        $this->assertNull($this->productAvailabilityFacade->getAvailableStoresCount($mainVariant, self::FIRST_DOMAIN_ID));
+    }
+
+    public function testMainVariantAvailableOnDomain(): void
+    {
+        $mainVariant = $this->getReference(ProductDataFixture::PRODUCT_PREFIX . '83', Product::class);
+
+        $this->assertTrue($this->productAvailabilityFacade->isProductAvailableOnDomainCached($mainVariant, self::FIRST_DOMAIN_ID));
+    }
+
+    public function testMainVariantIsNotAvailableWhenNoVariantIsAvailable(): void
+    {
+        $mainVariant = $this->getReference(ProductDataFixture::PRODUCT_PREFIX . '83', Product::class);
+        $onlyAvailableVariant = $this->getReference(ProductDataFixture::PRODUCT_PREFIX . '79', Product::class);
+        $this->setProductOutOfStock($onlyAvailableVariant);
+
+        $this->assertFalse($this->productAvailabilityFacade->isProductAvailableOnDomainCached($mainVariant, self::FIRST_DOMAIN_ID));
+    }
+
+    /**
+     * @param \App\Model\Product\Product $onlyAvailableVariant
+     */
+    private function setProductOutOfStock(Product $onlyAvailableVariant): void
+    {
+        $productData = $this->productDataFactory->createFromProduct($onlyAvailableVariant);
+
+        foreach ($productData->productStockData as $productStockData) {
+            $productStockData->productQuantity = 0;
+        }
+        $this->productFacade->edit($onlyAvailableVariant->getId(), $productData);
+        $this->handleDispatchedRecalculationMessages();
     }
 }

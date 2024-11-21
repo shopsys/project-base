@@ -2035,7 +2035,6 @@ class ProductDataFixture extends AbstractReferenceFixture implements DependentFi
         $productData->ean = '8845781243206';
         $this->productDemoDataSetter->setPriceForAllPricingGroups($productData, '8.3', VatDataFixture::VAT_LOW);
         $this->productDemoDataSetter->setSellingFrom($productData, '15.1.2000');
-        $this->productDemoDataSetter->setStocksQuantity($productData, 10000000);
         $this->productDemoDataSetter->setCategoriesForAllDomains($productData, [CategoryDataFixture::CATEGORY_FOOD, CategoryDataFixture::CATEGORY_PC]);
         $this->productDemoDataSetter->setFlags($productData, [FlagDataFixture::FLAG_PRODUCT_ACTION, FlagDataFixture::FLAG_PRODUCT_MADEIN_CZ]);
 
@@ -2403,7 +2402,6 @@ class ProductDataFixture extends AbstractReferenceFixture implements DependentFi
         $productData->ean = '8845781245938';
         $this->productDemoDataSetter->setPriceForAllPricingGroups($productData, '5999');
         $this->productDemoDataSetter->setSellingFrom($productData, '16.1.2000');
-        $this->productDemoDataSetter->setStocksQuantity($productData, 100);
         $this->productDemoDataSetter->setCategoriesForAllDomains($productData, [CategoryDataFixture::CATEGORY_TV, CategoryDataFixture::CATEGORY_PC]);
         $this->productDemoDataSetter->setBrand($productData, BrandDataFixture::BRAND_SENCOR);
 
@@ -2422,7 +2420,6 @@ class ProductDataFixture extends AbstractReferenceFixture implements DependentFi
         $productData->ean = '8845781245914';
         $this->productDemoDataSetter->setPriceForAllPricingGroups($productData, '1110.54896');
         $this->productDemoDataSetter->setSellingFrom($productData, '11.2.2320');
-        $this->productDemoDataSetter->setStocksQuantity($productData, 100);
         $this->productDemoDataSetter->setCategoriesForAllDomains($productData, [CategoryDataFixture::CATEGORY_PHOTO, CategoryDataFixture::CATEGORY_PC]);
         $productData->categoriesByDomainId[Domain::SECOND_DOMAIN_ID] = [];
         $productData->categoriesByDomainId[Domain::SECOND_DOMAIN_ID][] = $this->persistentReferenceFacade->getReference(CategoryDataFixture::CATEGORY_PHOTO, Category::class);

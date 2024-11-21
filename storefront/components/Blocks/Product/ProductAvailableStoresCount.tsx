@@ -3,18 +3,16 @@ import useTranslation from 'next-translate/useTranslation';
 
 type ProductAvailableStoresCountProps = {
     availability: TypeAvailability;
-    isMainVariant: boolean;
-    availableStoresCount: number;
+    availableStoresCount: number | null;
 };
 
 export const ProductAvailableStoresCount: FC<ProductAvailableStoresCountProps> = ({
     availability,
     availableStoresCount,
-    isMainVariant,
 }) => {
     const { t } = useTranslation();
 
-    if (isMainVariant) {
+    if (availableStoresCount === null) {
         return null;
     }
 

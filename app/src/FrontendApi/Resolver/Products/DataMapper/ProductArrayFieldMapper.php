@@ -71,15 +71,6 @@ class ProductArrayFieldMapper extends BaseProductArrayFieldMapper
 
     /**
      * @param array $data
-     * @return int
-     */
-    public function getStockQuantity(array $data): int
-    {
-        return $data['stock_quantity'] ?? 0;
-    }
-
-    /**
-     * @param array $data
      * @return bool
      */
     public function isSellingDenied(array $data): bool
@@ -112,24 +103,6 @@ class ProductArrayFieldMapper extends BaseProductArrayFieldMapper
     public function getSlug(array $data): string
     {
         return '/' . $data['slug'];
-    }
-
-    /**
-     * @param array $data
-     * @return array
-     */
-    public function getStoreAvailabilities(array $data): array
-    {
-        return $data['store_availabilities_information'];
-    }
-
-    /**
-     * @param array $data
-     * @return int
-     */
-    public function getAvailableStoresCount(array $data): int
-    {
-        return $data['available_stores_count'];
     }
 
     /**

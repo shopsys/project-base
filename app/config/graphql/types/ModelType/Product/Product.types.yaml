@@ -22,12 +22,6 @@ Product:
             name:
                 type: "String!"
                 description: "Localized product name (domain dependent)"
-            storeAvailabilities:
-                type: "[StoreAvailability!]!"
-                description: "List of availabilities in individual stores"
-            availableStoresCount:
-                type: "Int!"
-                description: "Number of the stores where the product is available"
             breadcrumb:
                 type: "[Link!]!"
                 description: "Hierarchy of the current element in relation to the structure"
@@ -36,9 +30,6 @@ Product:
                 description: "List of related products"
             availability:
                 type: "Availability!"
-            stockQuantity:
-                type: "Int!"
-                description: "Count of quantity on stock"
             images:
                 type: "[Image!]!"
                 description: "Product images"

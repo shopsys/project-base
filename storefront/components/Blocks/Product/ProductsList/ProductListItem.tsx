@@ -127,7 +127,6 @@ export const ProductListItem = forwardRef<HTMLLIElement, ProductItemProps>(
                             <ProductAvailableStoresCount
                                 availability={product.availability}
                                 availableStoresCount={product.availableStoresCount}
-                                isMainVariant={product.isMainVariant}
                             />
                         )}
                     </div>

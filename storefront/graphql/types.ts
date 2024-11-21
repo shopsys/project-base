@@ -1190,8 +1190,8 @@ export type TypeMainVariant = TypeBreadcrumb & TypeHreflang & TypeProduct & Type
   __typename?: 'MainVariant';
   accessories: Array<TypeProduct>;
   availability: TypeAvailability;
-  /** Number of the stores where the product is available */
-  availableStoresCount: Scalars['Int']['output'];
+  /** Number of the stores where the product is available (null for main variants) */
+  availableStoresCount: Maybe<Scalars['Int']['output']>;
   /** Brand of product */
   brand: Maybe<TypeBrand>;
   /** Hierarchy of the current element in relation to the structure */
@@ -1249,8 +1249,8 @@ export type TypeMainVariant = TypeBreadcrumb & TypeHreflang & TypeProduct & Type
   /** Product URL slug */
   slug: Scalars['String']['output'];
   /** Count of quantity on stock */
-  stockQuantity: Scalars['Int']['output'];
-  /** List of availabilities in individual stores */
+  stockQuantity: Maybe<Scalars['Int']['output']>;
+  /** List of availabilities in individual stores (empty for main variants) */
   storeAvailabilities: Array<TypeStoreAvailability>;
   unit: TypeUnit;
   /** List of product's unique selling propositions */
@@ -2150,8 +2150,8 @@ export type TypePricingSetting = {
 export type TypeProduct = {
   accessories: Array<TypeProduct>;
   availability: TypeAvailability;
-  /** Number of the stores where the product is available */
-  availableStoresCount: Scalars['Int']['output'];
+  /** Number of the stores where the product is available (null for main variants) */
+  availableStoresCount: Maybe<Scalars['Int']['output']>;
   /** Brand of product */
   brand: Maybe<TypeBrand>;
   /** Hierarchy of the current element in relation to the structure */
@@ -2209,8 +2209,8 @@ export type TypeProduct = {
   /** Product URL slug */
   slug: Scalars['String']['output'];
   /** Count of quantity on stock */
-  stockQuantity: Scalars['Int']['output'];
-  /** List of availabilities in individual stores */
+  stockQuantity: Maybe<Scalars['Int']['output']>;
+  /** List of availabilities in individual stores (empty for main variants) */
   storeAvailabilities: Array<TypeStoreAvailability>;
   unit: TypeUnit;
   /** List of product's unique selling propositions */
@@ -2888,8 +2888,8 @@ export type TypeRegularProduct = TypeBreadcrumb & TypeHreflang & TypeProduct & T
   __typename?: 'RegularProduct';
   accessories: Array<TypeProduct>;
   availability: TypeAvailability;
-  /** Number of the stores where the product is available */
-  availableStoresCount: Scalars['Int']['output'];
+  /** Number of the stores where the product is available (null for main variants) */
+  availableStoresCount: Maybe<Scalars['Int']['output']>;
   /** Brand of product */
   brand: Maybe<TypeBrand>;
   /** Hierarchy of the current element in relation to the structure */
@@ -2947,8 +2947,8 @@ export type TypeRegularProduct = TypeBreadcrumb & TypeHreflang & TypeProduct & T
   /** Product URL slug */
   slug: Scalars['String']['output'];
   /** Count of quantity on stock */
-  stockQuantity: Scalars['Int']['output'];
-  /** List of availabilities in individual stores */
+  stockQuantity: Maybe<Scalars['Int']['output']>;
+  /** List of availabilities in individual stores (empty for main variants) */
   storeAvailabilities: Array<TypeStoreAvailability>;
   unit: TypeUnit;
   /** List of product's unique selling propositions */
@@ -3285,8 +3285,8 @@ export type TypeVariant = TypeBreadcrumb & TypeHreflang & TypeProduct & TypeSlug
   __typename?: 'Variant';
   accessories: Array<TypeProduct>;
   availability: TypeAvailability;
-  /** Number of the stores where the product is available */
-  availableStoresCount: Scalars['Int']['output'];
+  /** Number of the stores where the product is available (null for main variants) */
+  availableStoresCount: Maybe<Scalars['Int']['output']>;
   /** Brand of product */
   brand: Maybe<TypeBrand>;
   /** Hierarchy of the current element in relation to the structure */
@@ -3345,8 +3345,8 @@ export type TypeVariant = TypeBreadcrumb & TypeHreflang & TypeProduct & TypeSlug
   /** Product URL slug */
   slug: Scalars['String']['output'];
   /** Count of quantity on stock */
-  stockQuantity: Scalars['Int']['output'];
-  /** List of availabilities in individual stores */
+  stockQuantity: Maybe<Scalars['Int']['output']>;
+  /** List of availabilities in individual stores (empty for main variants) */
   storeAvailabilities: Array<TypeStoreAvailability>;
   unit: TypeUnit;
   /** List of product's unique selling propositions */

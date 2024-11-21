@@ -1009,8 +1009,8 @@ type MainBlogCategoryData {
 type MainVariant implements Product & Hreflang & Breadcrumb & Slug {
   accessories: [Product!]!
   availability: Availability!
-  "Number of the stores where the product is available"
-  availableStoresCount: Int!
+  "Number of the stores where the product is available (null for main variants)"
+  availableStoresCount: Int
   "Brand of product"
   brand: Brand
   "Hierarchy of the current element in relation to the structure"
@@ -1068,8 +1068,8 @@ type MainVariant implements Product & Hreflang & Breadcrumb & Slug {
   "Product URL slug"
   slug: String!
   "Count of quantity on stock"
-  stockQuantity: Int!
-  "List of availabilities in individual stores"
+  stockQuantity: Int
+  "List of availabilities in individual stores (empty for main variants)"
   storeAvailabilities: [StoreAvailability!]!
   unit: Unit!
   "List of product's unique selling propositions"
@@ -1727,8 +1727,8 @@ type PricingSetting {
 interface Product {
   accessories: [Product!]!
   availability: Availability!
-  "Number of the stores where the product is available"
-  availableStoresCount: Int!
+  "Number of the stores where the product is available (null for main variants)"
+  availableStoresCount: Int
   "Brand of product"
   brand: Brand
   "Hierarchy of the current element in relation to the structure"
@@ -1786,8 +1786,8 @@ interface Product {
   "Product URL slug"
   slug: String!
   "Count of quantity on stock"
-  stockQuantity: Int!
-  "List of availabilities in individual stores"
+  stockQuantity: Int
+  "List of availabilities in individual stores (empty for main variants)"
   storeAvailabilities: [StoreAvailability!]!
   unit: Unit!
   "List of product's unique selling propositions"
@@ -2190,8 +2190,8 @@ type RegularCustomerUser implements CustomerUser {
 type RegularProduct implements Product & Hreflang & Breadcrumb & Slug {
   accessories: [Product!]!
   availability: Availability!
-  "Number of the stores where the product is available"
-  availableStoresCount: Int!
+  "Number of the stores where the product is available (null for main variants)"
+  availableStoresCount: Int
   "Brand of product"
   brand: Brand
   "Hierarchy of the current element in relation to the structure"
@@ -2249,8 +2249,8 @@ type RegularProduct implements Product & Hreflang & Breadcrumb & Slug {
   "Product URL slug"
   slug: String!
   "Count of quantity on stock"
-  stockQuantity: Int!
-  "List of availabilities in individual stores"
+  stockQuantity: Int
+  "List of availabilities in individual stores (empty for main variants)"
   storeAvailabilities: [StoreAvailability!]!
   unit: Unit!
   "List of product's unique selling propositions"
@@ -2523,8 +2523,8 @@ scalar Uuid
 type Variant implements Product & Hreflang & Breadcrumb & Slug {
   accessories: [Product!]!
   availability: Availability!
-  "Number of the stores where the product is available"
-  availableStoresCount: Int!
+  "Number of the stores where the product is available (null for main variants)"
+  availableStoresCount: Int
   "Brand of product"
   brand: Brand
   "Hierarchy of the current element in relation to the structure"
@@ -2583,8 +2583,8 @@ type Variant implements Product & Hreflang & Breadcrumb & Slug {
   "Product URL slug"
   slug: String!
   "Count of quantity on stock"
-  stockQuantity: Int!
-  "List of availabilities in individual stores"
+  stockQuantity: Int
+  "List of availabilities in individual stores (empty for main variants)"
   storeAvailabilities: [StoreAvailability!]!
   unit: Unit!
   "List of product's unique selling propositions"

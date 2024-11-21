@@ -16,10 +16,7 @@ class ProductElasticsearchConverter extends BaseProductElasticsearchConverter
     {
         $result = parent::fillEmptyFields($product);
         $result['usps'] = $product['usps'] ?? [];
-        $result['availability_status'] = $product['availability_status'] ?? '';
-        $result['store_availabilities_information'] = $product['store_availabilities_information'] ?? [];
         $result['slug'] = $product['slug'] ?? '';
-        $result['available_stores_count'] = $product['available_stores_count'] ?? 0;
         $result['related_products'] = $product['related_products'] ?? [];
         $result['product_videos'] = $product['product_videos'] ?? [];
         $result['searching_names'] = $product['searching_names'] ?? '';
@@ -30,7 +27,6 @@ class ProductElasticsearchConverter extends BaseProductElasticsearchConverter
         $result['searching_descriptions'] = $product['searching_descriptions'] ?? '';
         $result['uuid'] = $product['uuid'] ?? '00000000-0000-0000-0000-000000000000';
         $result['unit'] = $product['unit'] ?? '';
-        $result['stock_quantity'] = $product['stock_quantity'] ?? 0;
         $result['is_sale_exclusion'] = $product['is_sale_exclusion'] ?? true;
         $result['main_category_path'] = $product['main_category_path'] ?? '';
         $result['breadcrumb'] = $product['breadcrumb'] ?? [];

@@ -55,7 +55,6 @@ export const ProductListItemPlaceholder: FC<ProductListItemPlaceholderProps> = (
                         <ProductAvailableStoresCount
                             availability={product.availability}
                             availableStoresCount={product.availableStoresCount}
-                            isMainVariant={product.isMainVariant}
                         />
                     )}
                 </div>

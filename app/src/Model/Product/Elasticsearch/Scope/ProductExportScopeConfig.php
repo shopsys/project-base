@@ -23,11 +23,6 @@ class ProductExportScopeConfig extends BaseProductExportScopeConfig
             ProductExportFieldProvider::MAIN_CATEGORY_PATH,
             ProductExportFieldProvider::BREADCRUMB,
         ]);
-        $this->addExportFieldsToExistingScopeRule(self::SCOPE_STOCKS, [
-            ProductExportFieldProvider::AVAILABILITY_STATUS,
-            ProductExportFieldProvider::STORE_AVAILABILITIES_INFORMATION,
-            ProductExportFieldProvider::AVAILABLE_STORES_COUNT,
-        ]);
         $this->addExportFieldsToExistingScopeRule(self::SCOPE_VARIANTS, [
             BaseProductExportFieldProvider::PARAMETERS,
             ProductExportFieldProvider::SEARCHING_NAMES,

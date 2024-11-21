@@ -50,6 +50,7 @@ use Shopsys\FrameworkBundle\Model\Seo\HreflangLinksFacade;
  * @method \App\Model\Product\Product[] getVariantsForDefaultPricingGroup(\App\Model\Product\Product $mainVariant, int $domainId)
  * @method string extractProductType(\App\Model\Product\Product $product, int $domainId)
  * @method int extractPriorityByProductType(\App\Model\Product\Product $product, int $domainId)
+ * @method array extractStoreAvailabilitiesInformation(\App\Model\Product\Product $product, int $domainId)
  */
 class ProductExportRepository extends BaseProductExportRepository
 {
@@ -126,9 +127,7 @@ class ProductExportRepository extends BaseProductExportRepository
             ProductExportFieldProvider::MAIN_CATEGORY_PATH => $this->extractMainCategoryPath($product, $domainId, $locale),
             BaseProductExportFieldProvider::PARAMETERS => $this->extractParametersIncludedVariants($product, $locale, $domainId),
             BaseProductExportFieldProvider::CALCULATED_SELLING_DENIED => $product->getCalculatedSaleExclusion($domainId),
-            ProductExportFieldProvider::AVAILABILITY_STATUS => $this->productAvailabilityFacade->getProductAvailabilityStatusByDomainId($product, $domainId),
             ProductExportFieldProvider::IS_SALE_EXCLUSION => $product->getSaleExclusion($domainId),
-            ProductExportFieldProvider::STORE_AVAILABILITIES_INFORMATION => $this->extractStoreAvailabilitiesInformation($product, $domainId),
             ProductExportFieldProvider::USPS => $product->getAllNonEmptyShortDescriptionUsp($domainId),
             ProductExportFieldProvider::SEARCHING_NAMES => $this->extractSearchingNames($product, $domainId, $locale),
             ProductExportFieldProvider::SEARCHING_DESCRIPTIONS => $this->extractSearchingDescriptions($product, $domainId),
@@ -137,7 +136,6 @@ class ProductExportRepository extends BaseProductExportRepository
             ProductExportFieldProvider::SEARCHING_PARTNOS => $this->extractSearchingPartnos($product, $domainId),
             ProductExportFieldProvider::SEARCHING_SHORT_DESCRIPTIONS => $this->extractSearchingShortDescriptions($product, $domainId),
             ProductExportFieldProvider::SLUG => $this->friendlyUrlFacade->getMainFriendlyUrl($domainId, 'front_product_detail', $product->getId())->getSlug(),
-            ProductExportFieldProvider::AVAILABLE_STORES_COUNT => $this->productAvailabilityFacade->getAvailableStoresCount($product, $domainId),
             ProductExportFieldProvider::RELATED_PRODUCTS => $this->extractRelatedProductsId($product),
             ProductExportFieldProvider::BREADCRUMB => $this->extractBreadcrumb($product, $domainId, $locale),
             ProductExportFieldProvider::PRODUCT_VIDEOS => array_map(function (ProductVideo $productVideo) use ($locale) {
@@ -460,29 +458,6 @@ class ProductExportRepository extends BaseProductExportRepository
         }
 
         return $parameterValuesData;
-    }
-
-    /**
-     * @param \App\Model\Product\Product $product
-     * @param int $domainId
-     * @return array
-     */
-    private function extractStoreAvailabilitiesInformation(Product $product, int $domainId): array
-    {
-        $storeAvailabilitiesInformation = $this->productAvailabilityFacade->getProductStoresAvailabilitiesInformationByDomainIdIndexedByStoreId($product, $domainId);
-
-        $result = [];
-
-        foreach ($storeAvailabilitiesInformation as $item) {
-            $result[] = [
-                'store_name' => $item->getStoreName(),
-                'store_id' => $item->getStoreId(),
-                'availability_information' => $item->getAvailabilityInformation(),
-                'availability_status' => $item->getAvailabilityStatus(),
-            ];
-        }
-
-        return $result;
     }
 
     /**

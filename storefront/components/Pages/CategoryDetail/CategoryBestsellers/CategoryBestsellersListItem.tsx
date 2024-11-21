@@ -65,7 +65,6 @@ export const CategoryBestsellersListItem: FC<CategoryBestsellersListItemProps> =
                         <ProductAvailableStoresCount
                             availability={product.availability}
                             availableStoresCount={product.availableStoresCount}
-                            isMainVariant={product.isMainVariant}
                         />
                     </div>
                 )}
