@@ -3,11 +3,13 @@ import { ProductAction } from 'components/Blocks/Product/ProductAction';
 import { ProductAvailableStoresCount } from 'components/Blocks/Product/ProductAvailableStoresCount';
 import { TIDs } from 'cypress/tids';
 import { TypeMainVariantDetailFragment } from 'graphql/requests/products/fragments/MainVariantDetailFragment.generated';
+import { TypeAvailabilityStatusEnum } from 'graphql/types';
 import { GtmMessageOriginType } from 'gtm/enums/GtmMessageOriginType';
 import { GtmProductListNameType } from 'gtm/enums/GtmProductListNameType';
 import useTranslation from 'next-translate/useTranslation';
 import dynamic from 'next/dynamic';
 import { useSessionStore } from 'store/useSessionStore';
+import { twJoin } from 'tailwind-merge';
 import { useFormatPrice } from 'utils/formatting/useFormatPrice';
 import { isPriceVisible } from 'utils/mappers/price';
 
@@ -59,13 +61,20 @@ export const ProductVariantsTable: FC<ProductVariantsTableProps> = ({ variants }
 
                     {!variant.isInquiryType && (
                         <div
-                            className="min-w-40 cursor-pointer text-center lg:text-left"
+                            className={twJoin(
+                                'min-w-40 text-center lg:text-left',
+                                variant.availability.status === TypeAvailabilityStatusEnum.InStock
+                                    ? 'cursor-pointer'
+                                    : '',
+                            )}
                             onClick={() => {
-                                updatePortalContent(
-                                    <ProductVariantsAvailabilityPopup
-                                        storeAvailabilities={variant.storeAvailabilities}
-                                    />,
-                                );
+                                if (variant.availability.status === TypeAvailabilityStatusEnum.InStock) {
+                                    updatePortalContent(
+                                        <ProductVariantsAvailabilityPopup
+                                            storeAvailabilities={variant.storeAvailabilities}
+                                        />,
+                                    );
+                                }
                             }}
                         >
                             <ProductAvailableStoresCount
