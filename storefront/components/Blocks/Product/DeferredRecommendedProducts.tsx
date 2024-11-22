@@ -42,11 +42,9 @@ export const DeferredRecommendedProducts: FC<DeferredRecommendedProductsProps> =
     });
     const shouldRender = useDeferredRender('recommended_products');
 
-    const weblineTwClasses = 'mb-6';
-
     if (areRecommendedProductsFetching) {
         return (
-            <Webline className={weblineTwClasses}>
+            <Webline className="mb-10">
                 <SkeletonModuleProductSlider
                     isWithSimpleCards={recommendationType === TypeRecommendationType.BasketPopup}
                 />
@@ -67,7 +65,7 @@ export const DeferredRecommendedProducts: FC<DeferredRecommendedProductsProps> =
     };
 
     return (
-        <Webline className={weblineTwClasses}>
+        <Webline className="mb-10">
             {shouldRender
                 ? render(
                       <ProductsSlider
