@@ -44,7 +44,7 @@ describe('Cart Page Tests', () => {
                 increaseCartItemQuantityWithSpinbox(products.helloKitty.catnum);
                 increaseCartItemQuantityWithSpinbox(products.helloKitty.catnum);
                 increaseCartItemQuantityWithSpinbox(products.helloKitty.catnum);
-                cy.wait(500);
+                cy.wait(1100);
             },
             1,
             'AddToCartMutation',
@@ -57,7 +57,7 @@ describe('Cart Page Tests', () => {
             () => {
                 decreaseCartItemQuantityWithSpinbox(products.helloKitty.catnum);
                 decreaseCartItemQuantityWithSpinbox(products.helloKitty.catnum);
-                cy.wait(500);
+                cy.wait(1100);
             },
             1,
             'AddToCartMutation',
@@ -71,13 +71,13 @@ describe('Cart Page Tests', () => {
         checkNumberOfApiRequestsTriggeredByActions(
             () => {
                 increaseCartItemQuantityWithSpinbox(products.helloKitty.catnum);
-                checkLoaderOverlayIsNotVisibleAfterTimePeriod(600);
+                checkLoaderOverlayIsNotVisibleAfterTimePeriod(1100);
                 increaseCartItemQuantityWithSpinbox(products.helloKitty.catnum);
-                checkLoaderOverlayIsNotVisibleAfterTimePeriod(600);
+                checkLoaderOverlayIsNotVisibleAfterTimePeriod(1100);
                 increaseCartItemQuantityWithSpinbox(products.helloKitty.catnum);
-                checkLoaderOverlayIsNotVisibleAfterTimePeriod(600);
+                checkLoaderOverlayIsNotVisibleAfterTimePeriod(1100);
                 increaseCartItemQuantityWithSpinbox(products.helloKitty.catnum);
-                checkLoaderOverlayIsNotVisibleAfterTimePeriod(600);
+                checkLoaderOverlayIsNotVisibleAfterTimePeriod(1100);
             },
             4,
             'AddToCartMutation',
@@ -89,9 +89,9 @@ describe('Cart Page Tests', () => {
         checkNumberOfApiRequestsTriggeredByActions(
             () => {
                 decreaseCartItemQuantityWithSpinbox(products.helloKitty.catnum);
-                checkLoaderOverlayIsNotVisibleAfterTimePeriod(600);
+                checkLoaderOverlayIsNotVisibleAfterTimePeriod(1100);
                 decreaseCartItemQuantityWithSpinbox(products.helloKitty.catnum);
-                checkLoaderOverlayIsNotVisibleAfterTimePeriod(600);
+                checkLoaderOverlayIsNotVisibleAfterTimePeriod(1100);
             },
             2,
             'AddToCartMutation',
