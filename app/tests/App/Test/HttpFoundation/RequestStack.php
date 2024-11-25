@@ -37,7 +37,7 @@ class RequestStack extends BaseRequestStack
     /**
      * {@inheritdoc}
      */
-    public function pop()
+    public function pop(): ?Request
     {
         return $this->requestStack->pop();
     }
@@ -45,7 +45,7 @@ class RequestStack extends BaseRequestStack
     /**
      * {@inheritdoc}
      */
-    public function getCurrentRequest()
+    public function getCurrentRequest(): ?Request
     {
         return $this->requestStack->getCurrentRequest();
     }
@@ -61,15 +61,7 @@ class RequestStack extends BaseRequestStack
     /**
      * {@inheritdoc}
      */
-    public function getMasterRequest()
-    {
-        return $this->requestStack->getMasterRequest();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParentRequest()
+    public function getParentRequest(): ?Request
     {
         return $this->requestStack->getParentRequest();
     }

@@ -17,15 +17,17 @@ class ResetPasswordHashValidator extends ConstraintValidator
      * @param \App\Model\Customer\User\CustomerUserPasswordFacade $customerUserPasswordFacade
      * @param \Shopsys\FrameworkBundle\Component\Domain\Domain $domain
      */
-    public function __construct(private CustomerUserPasswordFacade $customerUserPasswordFacade, private Domain $domain)
-    {
+    public function __construct(
+        private readonly CustomerUserPasswordFacade $customerUserPasswordFacade,
+        private readonly Domain $domain,
+    ) {
     }
 
     /**
      * @param mixed $value
      * @param \App\FrontendApi\Model\Component\Constraints\ResetPasswordHash $constraint
      */
-    public function validate($value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof ResetPasswordHash) {
             throw new UnexpectedTypeException($constraint, ResetPasswordHash::class);

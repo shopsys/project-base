@@ -22,7 +22,7 @@ class CKEditorTypeExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $options['config']['allowedContent'] = true;
         $builder->setAttribute('config', $this->resolveConfig($options));

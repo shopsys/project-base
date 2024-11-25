@@ -1,4 +1,4 @@
 shopsys_shop_admin:
     prefix: /%admin_url%
     resource: "../../src/Controller/Admin/"
-    type: annotation
+    type: attribute

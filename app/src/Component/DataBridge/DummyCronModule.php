@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Component\DataBridge;
 
 use App\Component\DataBridge\Transfer\DummyImportTransferFacade;
+use Monolog\Logger;
 use Shopsys\Plugin\Cron\SimpleCronModuleInterface;
-use Symfony\Bridge\Monolog\Logger;
 
 class DummyCronModule implements SimpleCronModuleInterface
 {
@@ -19,7 +19,7 @@ class DummyCronModule implements SimpleCronModuleInterface
     }
 
     /**
-     * @param \Symfony\Bridge\Monolog\Logger $logger
+     * @param \Monolog\Logger $logger
      */
     public function setLogger(Logger $logger): void
     {

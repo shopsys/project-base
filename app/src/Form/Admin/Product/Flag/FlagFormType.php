@@ -20,12 +20,12 @@ use Symfony\Component\Validator\Constraints;
 
 class FlagFormType extends AbstractType
 {
-    public const DISABLED_FIELDS = [];
+    public const array DISABLED_FIELDS = [];
 
     /**
      * @param \Shopsys\FrameworkBundle\Component\Form\FormBuilderHelper $formBuilderHelper
      */
-    public function __construct(private FormBuilderHelper $formBuilderHelper)
+    public function __construct(private readonly FormBuilderHelper $formBuilderHelper)
     {
     }
 
@@ -33,7 +33,7 @@ class FlagFormType extends AbstractType
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name', LocalizedFullWidthType::class, [
@@ -95,7 +95,7 @@ class FlagFormType extends AbstractType
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired(['flag'])

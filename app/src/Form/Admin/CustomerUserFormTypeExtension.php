@@ -11,19 +11,19 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class CustomerUserFormTypeExtension extends AbstractTypeExtension
 {
-    private const DISABLED_FIELDS = [];
+    private const array DISABLED_FIELDS = [];
 
     /**
      * @param \Shopsys\FrameworkBundle\Component\Form\FormBuilderHelper $formBuilderHelper
      */
-    public function __construct(private FormBuilderHelper $formBuilderHelper)
+    public function __construct(private readonly FormBuilderHelper $formBuilderHelper)
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $this->formBuilderHelper->disableFieldsByConfigurations($builder, self::DISABLED_FIELDS);
     }
