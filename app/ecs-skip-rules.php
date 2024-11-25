@@ -21,10 +21,10 @@ return [
     __DIR__ . '/tests/App/Test/Codeception/_generated/AcceptanceTesterActions.php',
     RemoveUselessDefaultCommentFixer::class,
     AssignmentInConditionSniff::class => [
-        __DIR__ . '/project-base/app/src/Kernel.php',
+        __DIR__ . '/src/Kernel.php',
     ],
     DisallowMultipleAssignmentsSniff::class => [
-        __DIR__ . '/project-base/app/src/Kernel.php',
+        __DIR__ . '/src/Kernel.php',
     ],
     PhpdocToPropertyTypeFixer::class => [
         __DIR__ . '/src',
