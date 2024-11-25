@@ -5,6 +5,9 @@
     "barryvdh/elfinder-flysystem-driver": {
         "version": "v0.2.1"
     },
+    "becklyn/ordered-form-bundle": {
+        "version": "1.4.0"
+    },
     "behat/gherkin": {
         "version": "v4.6.0"
     },
@@ -648,8 +651,23 @@
             "config/packages/sentry.yaml"
         ]
     },
+    "shopsys/administration": {
+        "version": "16.0.x-dev"
+    },
+    "shopsys/article-feed-luigis-box": {
+        "version": "16.0.x-dev"
+    },
+    "shopsys/brand-feed-luigis-box": {
+        "version": "16.0.x-dev"
+    },
+    "shopsys/category-feed-luigis-box": {
+        "version": "16.0.x-dev"
+    },
     "shopsys/coding-standards": {
         "version": "v9.1.1"
+    },
+    "shopsys/convertim": {
+        "version": "16.0.x-dev"
     },
     "shopsys/form-types-bundle": {
         "version": "v9.1.1"
@@ -669,6 +687,9 @@
     "shopsys/jsformvalidator-bundle": {
         "version": "1.7.0"
     },
+    "shopsys/luigis-box": {
+        "version": "16.0.x-dev"
+    },
     "shopsys/migrations": {
         "version": "v9.1.1"
     },
@@ -686,6 +707,9 @@
     },
     "shopsys/product-feed-heureka-delivery": {
         "version": "v9.1.1"
+    },
+    "shopsys/product-feed-luigis-box": {
+        "version": "16.0.x-dev"
     },
     "shopsys/product-feed-zbozi": {
         "version": "v9.1.1"
