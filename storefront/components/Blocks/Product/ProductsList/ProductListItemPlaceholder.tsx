@@ -1,7 +1,7 @@
 import { PREDEFINED_VISIBLE_ITEMS_CONFIGS, ProductItemProps } from './ProductListItem';
 import { ProductListItemImage } from './ProductListItemImage';
 import { ExtendedNextLink } from 'components/Basic/ExtendedNextLink/ExtendedNextLink';
-import { ProductAvailableStoresCount } from 'components/Blocks/Product/ProductAvailableStoresCount';
+import { ProductAvailability } from 'components/Blocks/Product/ProductAvailability';
 import { ProductPrice } from 'components/Blocks/Product/ProductPrice';
 import { TypeListedProductFragment } from 'graphql/requests/products/fragments/ListedProductFragment.generated';
 import Skeleton from 'react-loading-skeleton';
@@ -50,14 +50,14 @@ export const ProductListItemPlaceholder: FC<ProductListItemPlaceholderProps> = (
                     )}
                 </div>
 
-                <div className="min-h-10 xs:min-h-[60px] sm:min-h-10">
-                    {visibleItemsConfig.storeAvailability && !product.isInquiryType && (
-                        <ProductAvailableStoresCount
-                            availability={product.availability}
-                            availableStoresCount={product.availableStoresCount}
-                        />
-                    )}
-                </div>
+                {visibleItemsConfig.storeAvailability && (
+                    <ProductAvailability
+                        availability={product.availability}
+                        availableStoresCount={product.availableStoresCount}
+                        className="min-h-10 xs:min-h-[60px] sm:min-h-10"
+                        isInquiryType={product.isInquiryType}
+                    />
+                )}
             </ExtendedNextLink>
 
             <div className="flex w-full items-center justify-between gap-1 sm:justify-normal sm:gap-2.5">

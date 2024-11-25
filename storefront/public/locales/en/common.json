@@ -425,8 +425,6 @@
     "There was an error with your registration. Please try again later.": "There was an error with your registration. Please try again later.",
     "This field is required": "This field is required",
     "This item can no longer be purchased": "This item can no longer be purchased",
-    "This item is available immediately in {{ count }} stores_one": "This item is available immediately in {{ count }} store",
-    "This item is available immediately in {{ count }} stores_other": "This item is available immediately in {{ count }} stores",
     "This value is not a valid email": "This value is not a valid email",
     "This value must be exactly {{ companyNumberLength }} characters": "This value must be exactly {{ companyNumberLength }} characters",
     "Thursday": "Thursday",

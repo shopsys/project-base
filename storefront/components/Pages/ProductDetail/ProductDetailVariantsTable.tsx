@@ -1,6 +1,6 @@
 import { Image } from 'components/Basic/Image/Image';
 import { ProductAction } from 'components/Blocks/Product/ProductAction';
-import { ProductAvailableStoresCount } from 'components/Blocks/Product/ProductAvailableStoresCount';
+import { ProductAvailability } from 'components/Blocks/Product/ProductAvailability';
 import { TIDs } from 'cypress/tids';
 import { TypeMainVariantDetailFragment } from 'graphql/requests/products/fragments/MainVariantDetailFragment.generated';
 import { TypeAvailabilityStatusEnum } from 'graphql/types';
@@ -59,30 +59,24 @@ export const ProductVariantsTable: FC<ProductVariantsTableProps> = ({ variants }
                         {variant.fullName}
                     </div>
 
-                    {!variant.isInquiryType && (
-                        <div
-                            className={twJoin(
-                                'min-w-40 text-center lg:text-left',
-                                variant.availability.status === TypeAvailabilityStatusEnum.InStock
-                                    ? 'cursor-pointer'
-                                    : '',
-                            )}
-                            onClick={() => {
-                                if (variant.availability.status === TypeAvailabilityStatusEnum.InStock) {
-                                    updatePortalContent(
-                                        <ProductVariantsAvailabilityPopup
-                                            storeAvailabilities={variant.storeAvailabilities}
-                                        />,
-                                    );
-                                }
-                            }}
-                        >
-                            <ProductAvailableStoresCount
-                                availability={variant.availability}
-                                availableStoresCount={variant.availableStoresCount}
-                            />
-                        </div>
-                    )}
+                    <ProductAvailability
+                        availability={variant.availability}
+                        availableStoresCount={variant.availableStoresCount}
+                        isInquiryType={variant.isInquiryType}
+                        className={twJoin(
+                            'min-w-40 text-center lg:text-left',
+                            variant.availability.status === TypeAvailabilityStatusEnum.InStock && 'cursor-pointer',
+                        )}
+                        onClick={() => {
+                            if (variant.availability.status === TypeAvailabilityStatusEnum.InStock) {
+                                updatePortalContent(
+                                    <ProductVariantsAvailabilityPopup
+                                        storeAvailabilities={variant.storeAvailabilities}
+                                    />,
+                                );
+                            }
+                        }}
+                    />
 
                     <div className="flex flex-col items-center justify-end gap-2.5 lg:ml-auto lg:min-w-80 lg:max-w-96 lg:flex-row">
                         <div className="min-h-8  lg:min-h-full lg:text-right">

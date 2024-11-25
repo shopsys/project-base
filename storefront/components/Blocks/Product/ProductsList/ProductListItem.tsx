@@ -5,7 +5,7 @@ import { VariantIcon } from 'components/Basic/Icon/VariantIcon';
 import { ProductCompareButton } from 'components/Blocks/Product/ButtonsAction/ProductCompareButton';
 import { ProductWishlistButton } from 'components/Blocks/Product/ButtonsAction/ProductWishlistButton';
 import { ProductAction } from 'components/Blocks/Product/ProductAction';
-import { ProductAvailableStoresCount } from 'components/Blocks/Product/ProductAvailableStoresCount';
+import { ProductAvailability } from 'components/Blocks/Product/ProductAvailability';
 import { ProductPrice } from 'components/Blocks/Product/ProductPrice';
 import { useDomainConfig } from 'components/providers/DomainConfigProvider';
 import { useCurrentCustomerData } from 'connectors/customer/CurrentCustomer';
@@ -122,14 +122,14 @@ export const ProductListItem = forwardRef<HTMLLIElement, ProductItemProps>(
                         )}
                     </div>
 
-                    <div className="min-h-10 xs:min-h-[60px] sm:min-h-10">
-                        {visibleItemsConfig.storeAvailability && !product.isInquiryType && (
-                            <ProductAvailableStoresCount
-                                availability={product.availability}
-                                availableStoresCount={product.availableStoresCount}
-                            />
-                        )}
-                    </div>
+                    {visibleItemsConfig.storeAvailability && (
+                        <ProductAvailability
+                            availability={product.availability}
+                            availableStoresCount={product.availableStoresCount}
+                            className="min-h-10 xs:min-h-[60px] sm:min-h-10"
+                            isInquiryType={product.isInquiryType}
+                        />
+                    )}
                 </ExtendedNextLink>
 
                 <div className="flex w-full items-center justify-between gap-1 sm:justify-normal sm:gap-2.5">
