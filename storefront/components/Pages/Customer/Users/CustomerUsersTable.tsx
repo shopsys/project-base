@@ -9,6 +9,7 @@ import { GtmMessageOriginType } from 'gtm/enums/GtmMessageOriginType';
 import useTranslation from 'next-translate/useTranslation';
 import dynamic from 'next/dynamic';
 import { useSessionStore } from 'store/useSessionStore';
+import { twJoin } from 'tailwind-merge';
 import { useUserPermissions } from 'utils/auth/useUserPermissions';
 import { getUserFriendlyErrors } from 'utils/errors/friendlyErrorMessageParser';
 import { showErrorMessage } from 'utils/toasts/showErrorMessage';
@@ -96,22 +97,40 @@ export const CustomerUsersTable: FC = () => {
     return (
         <Table className="w-full border-0 p-0">
             {customerUsers.map((user) => (
-                <Row key={user.uuid} className="border-none bg-tableBackground odd:bg-tableBackgroundContrast">
+                <Row
+                    key={user.uuid}
+                    className="mb-2 flex flex-col rounded-md border-none bg-tableBackgroundContrast vl:table-row vl:bg-tableBackground vl:odd:bg-tableBackgroundContrast"
+                >
                     <Cell className="py-2 text-left text-sm font-bold uppercase leading-5">
                         {user.lastName} {user.firstName} {currentCustomerUserUuid === user.uuid && `(${t('You')})`}
                     </Cell>
 
-                    <Cell className="hidden py-2 text-left text-sm leading-5 vl:table-cell">{user.email}</Cell>
-                    <Cell align="right" className="flex justify-end gap-2 py-2 text-sm leading-5">
-                        <Button size="small" variant="inverted" onClick={(e) => openManageCustomerUserPopup(e, user)}>
-                            <EditIcon className="size-4" /> <span className="hidden sm:block">{t('Edit')}</span>
+                    <Cell
+                        className={twJoin(
+                            'py-2 text-left text-sm leading-5 vl:table-cell',
+                            'max-w-64 overflow-x-auto whitespace-nowrap sm:max-w-full vl:max-w-56',
+                            '[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-backgroundMost [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar]:h-1',
+                        )}
+                    >
+                        {user.email}
+                    </Cell>
+                    <Cell className="py-2 text-left text-sm leading-5 vl:table-cell">{user.roleGroup.name}</Cell>
+                    <Cell align="right" className="flex flex-row-reverse gap-2 py-2 vl:flex-row vl:justify-end">
+                        <Button
+                            className="flex-1"
+                            size="small"
+                            variant="inverted"
+                            onClick={(e) => openManageCustomerUserPopup(e, user)}
+                        >
+                            <EditIcon className="size-4" /> <span className="sm:block">{t('Edit')}</span>
                         </Button>
                         <Button
+                            className="flex-1"
                             size="small"
                             variant="inverted"
                             onClick={(e) => openDeleteCustomerUserPopup(e, user.uuid)}
                         >
-                            <RemoveIcon className="size-4" /> <span className="hidden sm:block">{t('Delete')}</span>
+                            <RemoveIcon className="size-4" /> <span className="sm:block">{t('Delete')}</span>
                         </Button>
                     </Cell>
                 </Row>
