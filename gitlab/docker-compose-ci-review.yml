@@ -92,7 +92,7 @@ services:
             - traefik.enable=false
 
     img-proxy:
-        image: darthsim/imgproxy:latest
+        image: ghcr.io/imgproxy/imgproxy:latest
 
 volumes:
     web-volume:

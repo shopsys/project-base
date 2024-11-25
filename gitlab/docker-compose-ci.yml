@@ -86,7 +86,7 @@ services:
             - "ES_JAVA_OPTS=-Xms512m -Xmx1024m"
 
     img-proxy:
-        image: darthsim/imgproxy:latest
+        image: ghcr.io/imgproxy/imgproxy:latest
         container_name: shopsys-framework-img-proxy
         ports:
             - "8060:8080"
