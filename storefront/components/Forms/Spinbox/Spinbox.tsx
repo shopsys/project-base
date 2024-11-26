@@ -6,6 +6,7 @@ import { FormEventHandler, forwardRef, useEffect, useRef, useState } from 'react
 import { twJoin } from 'tailwind-merge';
 import { twMergeCustom } from 'utils/twMerge';
 import { useForwardedRef } from 'utils/typescript/useForwardedRef';
+import { useDebounce } from 'utils/useDebounce';
 
 type SpinboxProps = {
     min: number;
@@ -25,13 +26,28 @@ export const Spinbox = forwardRef<HTMLInputElement, SpinboxProps>(
         const intervalRef = useRef<NodeJS.Timeout | null>(null);
         const spinboxRef = useForwardedRef<HTMLInputElement>(spinboxForwardedRef);
         const [value, setValue] = useState<number>();
+        const debouncedValue = useDebounce(value, 500);
+
+        const validateNaNSpinboxValue = (newValue: number) => {
+            if (!spinboxRef.current) {
+                return;
+            }
+
+            if (isNaN(newValue)) {
+                spinboxRef.current.valueAsNumber = debouncedValue ?? min;
+            }
+
+            if (onChangeValueCallback !== undefined && isNaN(newValue)) {
+                onChangeValueCallback(spinboxRef.current.valueAsNumber);
+            }
+        };
 
         const setNewSpinboxValue = (newValue: number) => {
             if (!spinboxRef.current) {
                 return;
             }
 
-            if (isNaN(newValue) || newValue < min) {
+            if (newValue < min) {
                 spinboxRef.current.valueAsNumber = min;
             } else if (newValue > max) {
                 spinboxRef.current.valueAsNumber = max;
@@ -39,15 +55,8 @@ export const Spinbox = forwardRef<HTMLInputElement, SpinboxProps>(
                 spinboxRef.current.valueAsNumber = newValue;
             }
 
-            if (onChangeValueCallback !== undefined) {
-                onChangeValueCallback(spinboxRef.current.valueAsNumber);
-            }
-            setValue(spinboxRef.current.valueAsNumber);
+            setValue(isNaN(newValue) ? debouncedValue : spinboxRef.current.valueAsNumber);
         };
-
-        useEffect(() => {
-            setValue(spinboxRef.current?.valueAsNumber);
-        }, [spinboxRef]);
 
         const onChangeValueHandler = (amountChange: number) => {
             if (spinboxRef.current !== null) {
@@ -55,35 +64,15 @@ export const Spinbox = forwardRef<HTMLInputElement, SpinboxProps>(
             }
         };
 
-        useEffect(() => {
-            if (isHoldingDecrease) {
-                intervalRef.current = setInterval(() => {
-                    onChangeValueHandler(-step);
-                }, 200);
-            } else {
-                clearSpinboxInterval(intervalRef.current);
-            }
-            return () => {
-                clearSpinboxInterval(intervalRef.current);
-            };
-        }, [isHoldingDecrease, onChangeValueHandler, step]);
-
-        useEffect(() => {
-            if (isHoldingIncrease) {
-                intervalRef.current = setInterval(() => {
-                    onChangeValueHandler(step);
-                }, 200);
-            } else {
-                clearSpinboxInterval(intervalRef.current);
-            }
-            return () => {
-                clearSpinboxInterval(intervalRef.current);
-            };
-        }, [isHoldingIncrease, onChangeValueHandler, step]);
-
         const clearSpinboxInterval = (interval: NodeJS.Timeout | null) => {
             if (interval !== null) {
                 clearInterval(interval);
+            }
+        };
+
+        const onBlurHandler: FormEventHandler<HTMLInputElement> = (event) => {
+            if (spinboxRef.current !== null) {
+                validateNaNSpinboxValue(event.currentTarget.valueAsNumber);
             }
         };
 
@@ -93,8 +82,42 @@ export const Spinbox = forwardRef<HTMLInputElement, SpinboxProps>(
             }
         };
 
-        const content = (
-            <>
+        useEffect(() => {
+            setValue(spinboxRef.current?.valueAsNumber);
+        }, [spinboxRef]);
+
+        useEffect(() => {
+            if (onChangeValueCallback !== undefined && debouncedValue !== undefined && !isNaN(debouncedValue)) {
+                onChangeValueCallback(debouncedValue);
+            }
+        }, [debouncedValue]);
+
+        useEffect(() => {
+            if (isHoldingIncrease) {
+                intervalRef.current = setInterval(() => {
+                    onChangeValueHandler(step);
+                }, 200);
+            } else if (isHoldingDecrease) {
+                intervalRef.current = setInterval(() => {
+                    onChangeValueHandler(-step);
+                }, 200);
+            } else {
+                clearSpinboxInterval(intervalRef.current);
+            }
+            return () => {
+                clearSpinboxInterval(intervalRef.current);
+            };
+        }, [isHoldingIncrease, isHoldingDecrease, step]);
+
+        return (
+            <div
+                className={twJoin(
+                    'inline-flex h-12 shrink-0 items-center overflow-hidden rounded-md border-2 border-inputBorder',
+                    'bg-inputBackground',
+                    'border-inputBorder',
+                    size === 'small' ? 'w-20' : 'w-28',
+                )}
+            >
                 <SpinboxButton
                     disabled={value === min}
                     tid={TIDs.forms_spinbox_decrease}
@@ -116,6 +139,7 @@ export const Spinbox = forwardRef<HTMLInputElement, SpinboxProps>(
                     ref={spinboxRef}
                     tid={TIDs.spinbox_input}
                     type="number"
+                    onBlur={onBlurHandler}
                     onInput={onInputHandler}
                 />
 
@@ -130,19 +154,6 @@ export const Spinbox = forwardRef<HTMLInputElement, SpinboxProps>(
                 >
                     <PlusIcon className="size-4" />
                 </SpinboxButton>
-            </>
-        );
-
-        return (
-            <div
-                className={twJoin(
-                    'inline-flex h-12 shrink-0 items-center overflow-hidden rounded-md border-2 border-inputBorder',
-                    'bg-inputBackground',
-                    'border-inputBorder',
-                    size === 'small' ? 'w-20' : 'w-28',
-                )}
-            >
-                {content}
             </div>
         );
     },
