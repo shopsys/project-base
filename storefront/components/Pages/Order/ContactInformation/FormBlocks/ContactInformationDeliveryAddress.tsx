@@ -33,10 +33,6 @@ export const ContactInformationDeliveryAddress: FC = () => {
     const countriesAsSelectOptions = useCountriesAsSelectOptions();
     const isNewDeliveryAddressSelected = deliveryAddressUuid === 'new-delivery-address';
 
-    if (!countriesAsSelectOptions.length) {
-        return null;
-    }
-
     return (
         <FormBlockWrapper>
             <FormHeading>{t('Delivery address')}</FormHeading>
@@ -56,7 +52,7 @@ export const ContactInformationDeliveryAddress: FC = () => {
 
             <AnimatePresence initial={false}>
                 {isDeliveryAddressDifferentFromBilling && (
-                    <AnimateCollapseDiv className="!block" keyName="different-delivery-address">
+                    <AnimateCollapseDiv className="!block !overflow-visible" keyName="different-delivery-address">
                         {showAddressSelection && (
                             <div className="flex w-full flex-col">
                                 <RadiobuttonGroup
@@ -245,24 +241,24 @@ export const ContactInformationDeliveryAddress: FC = () => {
                                             <FormLine>
                                                 <Controller
                                                     name={formMeta.fields.deliveryCountry.name}
-                                                    render={({ fieldState: { invalid, error }, field }) => (
+                                                    render={({ fieldState: { error }, field }) => (
                                                         <>
                                                             <Select
-                                                                hasError={invalid}
+                                                                isRequired
                                                                 label={formMeta.fields.deliveryCountry.label}
-                                                                id={
-                                                                    formMeta.formName +
-                                                                    '-' +
-                                                                    formMeta.fields.deliveryCountry.name
-                                                                }
+                                                                activeOption={countriesAsSelectOptions.find(
+                                                                    (option) => option.value === field.value.value,
+                                                                )}
                                                                 options={countriesAsSelectOptions.map((option) => ({
                                                                     ...option,
                                                                     id: option.value + '-my-id',
                                                                 }))}
-                                                                value={countriesAsSelectOptions.find(
-                                                                    (option) => option.value === field.value.value,
-                                                                )}
-                                                                onChange={(...selectOnChangeEventData) => {
+                                                                tid={
+                                                                    formMeta.formName +
+                                                                    '-' +
+                                                                    formMeta.fields.deliveryCountry.name
+                                                                }
+                                                                onSelectOption={(...selectOnChangeEventData) => {
                                                                     field.onChange(...selectOnChangeEventData);
                                                                     updateContactInformation({
                                                                         deliveryCountry:
@@ -270,7 +266,6 @@ export const ContactInformationDeliveryAddress: FC = () => {
                                                                     });
                                                                 }}
                                                             />
-
                                                             <FormLineError error={error} inputType="select" />
                                                         </>
                                                     )}

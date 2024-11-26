@@ -120,60 +120,6 @@ input[type='number'] {
     -moz-appearance: textfield;
 }
 
-/* Stuff for react-select */
-
-.select__placeholder {
-    @apply hidden;
-}
-
-.select__single-value {
-    @apply !text-text;
-}
-
-.select__single-value--is-disabled {
-    @apply !text-inputTextDisabled;
-}
-
-.select__control {
-    @apply !z-[2] !min-h-[56px] !cursor-pointer !items-end !self-end !rounded-md !border-2 !border-inputBorder !shadow-none  hover:!border-2 hover:!border-inputBorderHovered active:!border-inputBorderActive;
-}
-
-.select__control--is-disabled {
-    @apply !border-inputBorderDisabled !bg-inputBackgroundDisabled !text-textSuccess;
-}
-
-.select__indicator {
-    @apply !flex h-12 w-12 !items-center !justify-center !p-0 transition-all;
-}
-
-.select__menu {
-    @apply !z-[3] !m-0 animate-fadeIn !overflow-hidden !rounded-b-md !border-2 !border-t-0 !border-inputBorder !shadow-none hover:!border-inputBorderHovered active:!border-inputBorderActive;
-}
-
-.select__menu-list {
-    @apply !max-h-[130px] overflow-y-scroll !p-0 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-inputPlaceholder [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar]:h-[0px] [&::-webkit-scrollbar]:w-2;
-}
-
-.select__option {
-    @apply !cursor-pointer !p-3 !font-semibold !text-inputText;
-}
-
-.select__option--is-selected {
-    @apply !bg-inputBackground !text-inputTextActive hover:!text-inputTextActive;
-}
-
-.select__option--is-focused {
-    @apply !bg-inputBackgroundHovered !text-inputTextHovered;
-}
-
-.select__option--is-disabled {
-    @apply !text-inputTextDisabled;
-}
-
-.select__control--menu-is-open {
-    @apply !items-end !rounded-b-none [&.select__indicator>svg]:!text-inputTextActive [&.select__indicator]:!rotate-180;
-}
-
 /* Toastify styling */
 
 .Toastify {
@@ -234,17 +180,4 @@ input[type='number'] {
 
 .lg-outer .lg-thumb-item img {
     @apply !h-auto max-h-full !w-auto max-w-full;
-}
-
-@keyframes fadeOut {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0.25;
-    }
-}
-
-.animate-fadeOut {
-    animation: fadeOut 0.15s ease-in-out;
 }

@@ -12,7 +12,7 @@ import * as Yup from 'yup';
 
 export const StyleguideForms: FC = () => {
     return (
-        <StyleguideSection className="flex flex-col gap-3" title="Forms">
+        <StyleguideSection className="flex max-w-96 flex-col gap-3" title="Forms">
             <StyleguideFormExample />
         </StyleguideSection>
     );
