@@ -14,7 +14,7 @@ import { useUserMenuItems } from 'utils/user/useUserMenuItems';
 
 const getMenuItemTwClass = (menuItemLink?: string, asPath?: string) =>
     twJoin(
-        'border-b border-borderAccent last:border-none no-underline px-4 py-3 flex gap-4 text-sm',
+        'border-b border-borderAccent last:border-none no-underline px-4 py-3 flex gap-4 text-sm items-center',
         menuItemLink && asPath?.includes(menuItemLink)
             ? 'bg-backgroundAccentLess text-textAccent hover:text-textAccent'
             : 'bg-backgroundMore text-text hover:text-textAccent',
