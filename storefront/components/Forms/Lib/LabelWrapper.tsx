@@ -36,7 +36,7 @@ export const LabelWrapper: FC<LabelWrapperProps> = ({
                 // see https://tailwindcss.com/docs/hover-focus-and-other-states#styling-based-on-sibling-state
                 className={twMergeCustom(
                     inputType === 'text-input' &&
-                        'top-2 text-sm peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:font-semibold peer-focus:top-2 peer-focus:text-sm peer-focus:font-normal',
+                        'pointer-events-none top-2 text-sm peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:font-semibold peer-focus:top-2 peer-focus:text-sm peer-focus:font-normal',
                     (inputType === 'text-input' || inputType === 'selectbox' || inputType === 'textarea') &&
                         'absolute left-3 z-[2] block text-inputPlaceholder transition-all peer-hover:text-inputPlaceholderHovered peer-focus:text-inputPlaceholderActive peer-disabled:text-inputPlaceholderDisabled',
                     (inputType === 'text-input' || inputType === 'selectbox' || inputType === 'textarea') &&

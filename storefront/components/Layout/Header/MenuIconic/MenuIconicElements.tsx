@@ -2,9 +2,11 @@ import { AnimateAppearDiv } from 'components/Basic/Animations/AnimateAppearDiv';
 import { ExtendedNextLink } from 'components/Basic/ExtendedNextLink/ExtendedNextLink';
 import { AnimatePresence } from 'framer-motion';
 import { forwardRef } from 'react';
+import { TouchEvent as ReactTouchEvent } from 'react';
 import { PageType } from 'store/slices/createPageLoadingStateSlice';
 import { twJoin } from 'tailwind-merge';
 import { twMergeCustom } from 'utils/twMerge';
+import { useMediaMin } from 'utils/ui/useMediaMin';
 
 export const MenuIconicItem: FC<{ title?: string }> = ({ children, className, title }) => (
     <li className={className} title={title}>
@@ -12,7 +14,13 @@ export const MenuIconicItem: FC<{ title?: string }> = ({ children, className, ti
     </li>
 );
 
-type MenuIconicItemLinkProps = { onClick?: () => void; href?: string; title?: string; type?: PageType };
+type MenuIconicItemLinkProps = {
+    href?: string;
+    title?: string;
+    type?: PageType;
+    onClick?: () => void;
+    onTouchEnd?: (e: ReactTouchEvent<HTMLDivElement>) => void;
+};
 
 export const MenuIconicSubItemLink: FC<MenuIconicItemLinkProps> = ({ children, href, onClick, type, tid }) => {
     const menuIconicSubItemLinkTwClass =
@@ -41,7 +49,7 @@ export const MenuIconicSubItemLink: FC<MenuIconicItemLinkProps> = ({ children, h
 
 export const MenuIconicItemLink: FC<MenuIconicItemLinkProps> = forwardRef(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    ({ children, className, tid, href, title, type, onClick }, _) => {
+    ({ children, className, tid, href, title, type, onClick, onTouchEnd }, _) => {
         const menuIconicItemLinkTwClass =
             'w-10 sm:w-12 lg:w-auto flex flex-col items-center justify-center gap-1 rounded-tr-none text-[13px] leading-4 font-semibold text-linkInverted no-underline transition-colors hover:text-linkInvertedHovered hover:no-underline font-secondary';
 
@@ -66,6 +74,7 @@ export const MenuIconicItemLink: FC<MenuIconicItemLinkProps> = forwardRef(
                 tid={tid}
                 title={title}
                 onClick={onClick}
+                onTouchEnd={onTouchEnd}
             >
                 {children}
             </div>
@@ -96,15 +105,25 @@ export const MenuIconicItemUserPopover: FC<MenuIconicItemUserPopoverProps> = ({
     isAuthenticated,
     children,
 }) => {
-    const positionClasses = isAuthenticated ? '-right-[100%]' : 'right-0';
+    const isDesktop = useMediaMin('vl');
+
+    if (!isDesktop) {
+        return null;
+    }
+
+    const positionClasses = isAuthenticated
+        ? '-right-[100%] min-w-[355px]'
+        : 'right-0 max-w-[335px] lg:right-[-180px] lg:min-w-[740px] vl:min-w-[807px]';
 
     return (
         <AnimatePresence initial={false}>
             {isHovered && (
                 <AnimateAppearDiv
                     className={twMergeCustom(
-                        `pointer-events-auto absolute ${positionClasses} top-[54px] z-cart hidden ${isAuthenticated ? 'min-w-[355px]' : 'max-w-[335px] lg:right-[-180px] lg:min-w-[740px] vl:min-w-[807px]'} origin-top`,
-                        'rounded-xl bg-background p-5 lg:block',
+                        `pointer-events-auto absolute top-[54px] z-cart hidden origin-top`,
+                        'rounded-xl bg-background p-5 vl:block',
+                        'before:absolute before:-top-2.5 before:left-0 before:h-2.5 before:w-full',
+                        positionClasses,
                     )}
                 >
                     {children}

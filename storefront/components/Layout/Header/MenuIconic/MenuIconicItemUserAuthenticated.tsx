@@ -6,68 +6,50 @@ import { Overlay } from 'components/Basic/Overlay/Overlay';
 import { TIDs } from 'cypress/tids';
 import useTranslation from 'next-translate/useTranslation';
 import { useState } from 'react';
-import { desktopFirstSizes } from 'utils/mediaQueries';
 import { twMergeCustom } from 'utils/twMerge';
-import { useGetWindowSize } from 'utils/ui/useGetWindowSize';
+import { useMediaMin } from 'utils/ui/useMediaMin';
 import { useDebounce } from 'utils/useDebounce';
 
 export const MenuIconicItemUserAuthenticated: FC = () => {
     const { t } = useTranslation();
-    const [isClicked, setIsClicked] = useState(false);
-    const [isHovered, setIsHovered] = useState(false);
-    const isHoveredDelayed = useDebounce(isHovered, 200);
-
-    const { width } = useGetWindowSize();
-    const isDesktop = width > desktopFirstSizes.tablet;
+    const [isActive, setIsActive] = useState(false);
+    const isActiveDelayed = useDebounce(isActive, 200);
+    const isDesktop = useMediaMin('vl');
 
     return (
         <>
             <div
-                className={twMergeCustom('group lg:relative lg:flex', (isClicked || isHovered) && 'z-aboveOverlay')}
+                className={twMergeCustom('group lg:relative lg:flex', isActive && 'z-aboveOverlay')}
                 tid={TIDs.my_account_link}
-                onMouseEnter={() => isDesktop && setIsHovered(true)}
-                onMouseLeave={() => isDesktop && setIsHovered(false)}
+                onMouseEnter={() => isDesktop && setIsActive(true)}
+                onMouseLeave={() => isDesktop && setIsActive(false)}
             >
                 <MenuIconicItemLink
-                    className="cursor-pointer text-nowrap rounded-t transition-all max-lg:hidden"
+                    className="cursor-pointer text-nowrap rounded-t transition-all"
                     type="account"
+                    onClick={() => !isDesktop && setIsActive(!isActive)}
+                    onTouchEnd={(e) => {
+                        e.preventDefault();
+                        setIsActive(!isActive);
+                    }}
                 >
                     <div className="relative">
                         <UserIcon className="size-6" />
                         <div className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-actionPrimaryBackground" />
                     </div>
-                    {t('My account')}
+                    <span className="hidden lg:inline-block">{t('My account')}</span>
                 </MenuIconicItemLink>
 
-                <div className="order-2 flex w-10 cursor-pointer items-center justify-center text-lg outline-none sm:w-12 lg:hidden">
-                    <div
-                        className="relative flex items-center justify-center text-textInverted transition-colors"
-                        onClick={() => {
-                            setIsClicked(!isClicked);
-                            setIsClicked(!isHovered);
-                        }}
-                    >
-                        <UserIcon className="size-6 text-textInverted" />
-                        <div className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-actionPrimaryBackground" />
-                    </div>
-                </div>
-
-                <Drawer className="lg:hidden" isClicked={isClicked} setIsClicked={setIsClicked} title={t('My account')}>
+                <Drawer isActive={isActive} setIsActive={setIsActive} title={t('My account')}>
                     <MenuIconicItemUserAuthenticatedContent />
                 </Drawer>
 
-                <MenuIconicItemUserPopover isAuthenticated isHovered={isHoveredDelayed}>
+                <MenuIconicItemUserPopover isAuthenticated isHovered={isActiveDelayed}>
                     <MenuIconicItemUserAuthenticatedContent />
                 </MenuIconicItemUserPopover>
             </div>
 
-            <Overlay
-                isActive={isClicked || isHoveredDelayed}
-                onClick={() => {
-                    setIsClicked(false);
-                    setIsHovered(false);
-                }}
-            />
+            <Overlay isActive={isActiveDelayed} onClick={() => setIsActive(false)} />
         </>
     );
 };
