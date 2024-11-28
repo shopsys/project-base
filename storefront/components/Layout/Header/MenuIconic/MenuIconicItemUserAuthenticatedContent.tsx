@@ -61,6 +61,7 @@ export const MenuIconicItemUserAuthenticatedContent: FC = () => {
                         {t('My orders')}
                     </MenuIconicSubItemLink>
                 </MenuIconicItemUserAuthenticatedContentListItem>
+
                 <MenuIconicItemUserAuthenticatedContentListItem>
                     <MenuIconicSubItemLink
                         href={customerComplaintsUrl}
@@ -71,6 +72,7 @@ export const MenuIconicItemUserAuthenticatedContent: FC = () => {
                         {t('My complaints')}
                     </MenuIconicSubItemLink>
                 </MenuIconicItemUserAuthenticatedContentListItem>
+
                 {canManageUsers && (
                     <MenuIconicItemUserAuthenticatedContentListItem>
                         <MenuIconicSubItemLink href={customerUsersUrl} type="customer-users">
@@ -79,6 +81,7 @@ export const MenuIconicItemUserAuthenticatedContent: FC = () => {
                         </MenuIconicSubItemLink>
                     </MenuIconicItemUserAuthenticatedContentListItem>
                 )}
+
                 <MenuIconicItemUserAuthenticatedContentListItem>
                     <MenuIconicSubItemLink
                         href={customerEditProfileUrl}
@@ -89,6 +92,7 @@ export const MenuIconicItemUserAuthenticatedContent: FC = () => {
                         {t('Edit profile')}
                     </MenuIconicSubItemLink>
                 </MenuIconicItemUserAuthenticatedContentListItem>
+
                 <MenuIconicItemUserAuthenticatedContentListItem>
                     <MenuIconicSubItemLink
                         href={customerChangePasswordUrl}
@@ -99,12 +103,14 @@ export const MenuIconicItemUserAuthenticatedContent: FC = () => {
                         {t('Change password')}
                     </MenuIconicSubItemLink>
                 </MenuIconicItemUserAuthenticatedContentListItem>
+
                 <MenuIconicItemUserAuthenticatedContentListItem>
                     <MenuIconicSubItemLink tid={TIDs.header_logout} onClick={logout}>
                         <ExitIcon className="size-6" />
                         {t('Logout')}
                     </MenuIconicSubItemLink>
                 </MenuIconicItemUserAuthenticatedContentListItem>
+
                 <SalesRepresentative />
             </ul>
         </>
