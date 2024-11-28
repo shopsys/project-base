@@ -24,7 +24,7 @@ export const PromoCode: FC<PromoCodeProps> = ({ discount, promoCode }) => {
             <OrderSummaryContent>
                 <OrderSummaryRow>
                     <OrderSummaryTextAndImage>{`${t('Promo code')}: ${promoCode}`}</OrderSummaryTextAndImage>
-                    {isPriceVisible(discount.priceWithVat) && (
+                    {isPriceVisible(discount.priceWithVat) && Number(discount.priceWithVat) > 0 && (
                         <OrderSummaryPrice>
                             <strong>-{formatPrice(discount.priceWithVat)}</strong>
                         </OrderSummaryPrice>

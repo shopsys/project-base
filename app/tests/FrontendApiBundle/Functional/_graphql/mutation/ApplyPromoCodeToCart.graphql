@@ -8,5 +8,20 @@ mutation ApplyPromoCodeToCart(
     }) {
         uuid
         promoCode
+        transport {
+            price {
+                priceWithVat
+                priceWithoutVat
+                vatAmount
+            }
+        }
+        payment {
+            price {
+                priceWithVat
+                priceWithoutVat
+                vatAmount
+            }
+        }
+        remainingAmountWithVatForFreeTransport
     }
 }

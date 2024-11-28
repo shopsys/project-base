@@ -5,19 +5,25 @@ declare(strict_types=1);
 namespace Tests\FrontendApiBundle\Functional\Cart;
 
 use App\DataFixtures\Demo\CartDataFixture;
+use App\DataFixtures\Demo\PaymentDataFixture;
 use App\DataFixtures\Demo\ProductDataFixture;
 use App\DataFixtures\Demo\PromoCodeDataFixture;
+use App\DataFixtures\Demo\TransportDataFixture;
+use App\DataFixtures\Demo\VatDataFixture;
 use App\Model\Cart\CartFacade;
 use App\Model\Order\PromoCode\PromoCode as AppPromoCode;
 use App\Model\Order\PromoCode\PromoCodeDataFactory;
 use App\Model\Order\PromoCode\PromoCodeFacade;
+use App\Model\Payment\Payment;
 use App\Model\Product\Product;
 use App\Model\Product\ProductDataFactory;
 use App\Model\Product\ProductFacade;
+use App\Model\Transport\Transport;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Shopsys\FrameworkBundle\Model\Cart\Cart;
 use Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserIdentifierFactory;
 use Shopsys\FrameworkBundle\Model\Customer\User\FrontendCustomerUserProvider;
+use Shopsys\FrameworkBundle\Model\Pricing\Vat\Vat;
 use Shopsys\FrontendApiBundle\Component\Constraints\PromoCode;
 use Tests\FrontendApiBundle\Test\GraphQlTestCase;
 
@@ -62,45 +68,38 @@ class ApplyPromoCodeToCartTest extends GraphQlTestCase
     {
         $promoCode = $this->getReferenceForDomain(PromoCodeDataFixture::VALID_PROMO_CODE, 1, AppPromoCode::class);
 
-        $applyPromoCodeMutation = 'mutation {
-            ApplyPromoCodeToCart(input: {
-                cartUuid: "' . CartDataFixture::CART_UUID . '"
-                promoCode: "' . $promoCode->getCode() . '"
-            }) {
-                uuid
-                promoCode
-            }
-        }';
-
-        $response = $this->getResponseContentForQuery($applyPromoCodeMutation);
-        $data = $this->getResponseDataForGraphQlType($response, 'ApplyPromoCodeToCart');
+        $data = $this->applyPromoCodeToCartAndGetResponseData($promoCode->getCode());
 
         self::assertEquals(CartDataFixture::CART_UUID, $data['uuid']);
         self::assertEquals($promoCode->getCode(), $data['promoCode']);
+    }
+
+    public function testApplyPromoCodeForFreeTransport(): void
+    {
+        $promoCode = $this->getReferenceForDomain(PromoCodeDataFixture::PROMO_CODE_FOR_FREE_TRANSPORT_PAYMENT, 1, AppPromoCode::class);
+        $vatZero = $this->getReferenceForDomain(VatDataFixture::VAT_ZERO, $this->domain->getId(), Vat::class);
+        $this->addCzechPostToCart();
+        $this->addCashOnDeliveryPaymentToCart();
+
+        $data = $this->applyPromoCodeToCartAndGetResponseData($promoCode->getCode());
+
+        self::assertEquals($promoCode->getCode(), $data['promoCode']);
+        self::assertSame($this->getSerializedPriceConvertedToDomainDefaultCurrency('0', $vatZero), $data['transport']['price']);
+        self::assertSame($this->getSerializedPriceConvertedToDomainDefaultCurrency('0', $vatZero), $data['payment']['price']);
+        self::assertSame($this->getFormattedMoneyAmountConvertedToDomainDefaultCurrency('0'), $data['remainingAmountWithVatForFreeTransport']);
     }
 
     public function testApplyPromoCodeMultipleTimes(): void
     {
         $promoCode = $this->getReferenceForDomain(PromoCodeDataFixture::VALID_PROMO_CODE, 1, AppPromoCode::class);
 
-        $applyPromoCodeMutation = 'mutation {
-            ApplyPromoCodeToCart(input: {
-                cartUuid: "' . CartDataFixture::CART_UUID . '"
-                promoCode: "' . $promoCode->getCode() . '"
-            }) {
-                uuid
-                promoCode
-            }
-        }';
-
-        $response = $this->getResponseContentForQuery($applyPromoCodeMutation);
-        $data = $this->getResponseDataForGraphQlType($response, 'ApplyPromoCodeToCart');
+        $data = $this->applyPromoCodeToCartAndGetResponseData($promoCode->getCode());
 
         self::assertEquals(CartDataFixture::CART_UUID, $data['uuid']);
         self::assertEquals($promoCode->getCode(), $data['promoCode']);
 
         // apply promo code again
-        $response = $this->getResponseContentForQuery($applyPromoCodeMutation);
+        $response = $this->applyPromoCodeToCart($promoCode->getCode());
 
         $this->assertResponseContainsArrayOfExtensionValidationErrors($response);
         $violations = $this->getErrorsExtensionValidationFromResponse($response);
@@ -118,17 +117,7 @@ class ApplyPromoCodeToCartTest extends GraphQlTestCase
 
         $promoCode = $this->getReferenceForDomain(PromoCodeDataFixture::VALID_PROMO_CODE, 1, AppPromoCode::class);
 
-        $applyPromoCodeMutation = 'mutation {
-            ApplyPromoCodeToCart(input: {
-                cartUuid: "' . $invalidCartUuid . '"
-                promoCode: "' . $promoCode->getCode() . '"
-            }) {
-                uuid
-                promoCode
-            }
-        }';
-
-        $response = $this->getResponseContentForQuery($applyPromoCodeMutation);
+        $response = $this->applyPromoCodeToCart($promoCode->getCode(), $invalidCartUuid);
         $this->assertResponseContainsArrayOfErrors($response);
         $errors = $this->getErrorsFromResponse($response);
 
@@ -140,16 +129,9 @@ class ApplyPromoCodeToCartTest extends GraphQlTestCase
     {
         $promoCode = $this->getReferenceForDomain(PromoCodeDataFixture::VALID_PROMO_CODE, 1, AppPromoCode::class);
 
-        $applyPromoCodeMutation = 'mutation {
-            ApplyPromoCodeToCart(input: {
-                promoCode: "' . $promoCode->getCode() . '"
-            }) {
-                uuid
-                promoCode
-            }
-        }';
-
-        $response = $this->getResponseContentForQuery($applyPromoCodeMutation);
+        $response = $this->getResponseContentForGql(__DIR__ . '/../_graphql/mutation/ApplyPromoCodeToCart.graphql', [
+            'promoCode' => $promoCode->getCode(),
+        ]);
         $this->assertResponseContainsArrayOfErrors($response);
         $errors = $this->getErrorsFromResponse($response);
 
@@ -169,18 +151,7 @@ class ApplyPromoCodeToCartTest extends GraphQlTestCase
 
         $cartUuid = $this->getResponseDataForGraphQlType($response, 'AddToCart')['cart']['uuid'];
 
-        $applyPromoCodeMutation = 'mutation {
-            ApplyPromoCodeToCart(input: {
-                cartUuid: "' . $cartUuid . '"
-                promoCode: "' . $promoCode->getCode() . '"
-            }) {
-                uuid
-                promoCode
-            }
-        }';
-
-        $response = $this->getResponseContentForQuery($applyPromoCodeMutation);
-        $data = $this->getResponseDataForGraphQlType($response, 'ApplyPromoCodeToCart');
+        $data = $this->applyPromoCodeToCartAndGetResponseData($promoCode->getCode(), $cartUuid);
         self::assertEquals($promoCode->getCode(), $data['promoCode']);
 
         // product has to be re-fetched due to identity map clearing to prevent "A new entity was found through the relationship" error
@@ -188,25 +159,9 @@ class ApplyPromoCodeToCartTest extends GraphQlTestCase
 
         $this->hideProduct($productInCart);
 
-        $getCartQuery = '{
-            cart(cartInput: {cartUuid: "' . $cartUuid . '"}) {
-                promoCode
-                modifications {
-                    itemModifications {
-                        noLongerListableCartItems {
-                            product {
-                                uuid
-                            }
-                        }
-                    }
-                    promoCodeModifications {
-                        noLongerApplicablePromoCode
-                    }
-                }
-            }
-        }';
-
-        $response = $this->getResponseContentForQuery($getCartQuery);
+        $response = $this->getResponseContentForGql(__DIR__ . '/graphql/GetCart.graphql', [
+            'cartUuid' => $cartUuid,
+        ]);
         $data = $this->getResponseDataForGraphQlType($response, 'cart');
         $itemModifications = $data['modifications']['itemModifications'];
         $promoCodeModifications = $data['modifications']['promoCodeModifications'];
@@ -224,18 +179,7 @@ class ApplyPromoCodeToCartTest extends GraphQlTestCase
     {
         $validPromoCode = $this->getReferenceForDomain(PromoCodeDataFixture::VALID_PROMO_CODE, 1, AppPromoCode::class);
 
-        $applyPromoCodeMutation = 'mutation {
-            ApplyPromoCodeToCart(input: {
-                cartUuid: "' . CartDataFixture::CART_UUID . '"
-                promoCode: "' . $validPromoCode->getCode() . '"
-            }) {
-                uuid
-                promoCode
-            }
-        }';
-
-        $response = $this->getResponseContentForQuery($applyPromoCodeMutation);
-        $data = $this->getResponseDataForGraphQlType($response, 'ApplyPromoCodeToCart');
+        $data = $this->applyPromoCodeToCartAndGetResponseData($validPromoCode->getCode());
 
         self::assertEquals($validPromoCode->getCode(), $data['promoCode']);
 
@@ -243,25 +187,9 @@ class ApplyPromoCodeToCartTest extends GraphQlTestCase
         $promoCodeData->remainingUses = 0;
         $this->promoCodeFacade->edit($validPromoCode->getId(), $promoCodeData);
 
-        $getCartQuery = '{
-            cart(cartInput: {cartUuid: "' . CartDataFixture::CART_UUID . '"}) {
-                promoCode
-                modifications {
-                    itemModifications {
-                        noLongerListableCartItems {
-                            product {
-                                uuid
-                            }
-                        }
-                    }
-                    promoCodeModifications {
-                        noLongerApplicablePromoCode
-                    }
-                }
-            }
-        }';
-
-        $response = $this->getResponseContentForQuery($getCartQuery);
+        $response = $this->getResponseContentForGql(__DIR__ . '/graphql/GetCart.graphql', [
+            'cartUuid' => CartDataFixture::CART_UUID,
+        ]);
         $data = $this->getResponseDataForGraphQlType($response, 'cart');
 
         $promoCodeModifications = $data['modifications']['promoCodeModifications'];
@@ -278,32 +206,14 @@ class ApplyPromoCodeToCartTest extends GraphQlTestCase
 
         $promoCode = $this->getReferenceForDomain(PromoCodeDataFixture::VALID_PROMO_CODE, 1, AppPromoCode::class);
 
-        $applyPromoCodeMutation = 'mutation {
-            ApplyPromoCodeToCart(input: {
-                cartUuid: "' . $testCartUuid . '"
-                promoCode: "' . $promoCode->getCode() . '"
-            }) {
-                uuid
-                promoCode
-            }
-        }';
-        $this->getResponseContentForQuery($applyPromoCodeMutation);
+        $this->applyPromoCodeToCart($promoCode->getCode());
 
-        $loginMutationWithCartUuid = 'mutation {
-                Login(input: {
-                    email: "no-reply@shopsys.com"
-                    password: "user123"
-                    cartUuid: "' . $testCartUuid . '"
-                }) {
-                    tokens {
-                        accessToken
-                        refreshToken
-                    }
-                }
-            }
-        ';
-
-        $this->getResponseContentForQuery($loginMutationWithCartUuid);
+        $response = $this->getResponseContentForGql(__DIR__ . '/../Login/graphql/LoginMutation.graphql', [
+            'email' => 'no-reply@shopsys.com',
+            'password' => 'user123',
+            'cartUuid' => $testCartUuid,
+        ]);
+        $this->getResponseDataForGraphQlType($response, 'Login');
 
         $cart = $this->findCartOfCustomerByEmail('no-reply@shopsys.com');
 
@@ -325,17 +235,7 @@ class ApplyPromoCodeToCartTest extends GraphQlTestCase
             $promoCodeCode = $promoCode->getCode();
         }
 
-        $applyPromoCodeMutation = 'mutation {
-            ApplyPromoCodeToCart(input: {
-                cartUuid: "' . CartDataFixture::CART_UUID . '"
-                promoCode: "' . $promoCodeCode . '"
-            }) {
-                uuid
-                promoCode
-            }
-        }';
-
-        $response = $this->getResponseContentForQuery($applyPromoCodeMutation);
+        $response = $this->applyPromoCodeToCart($promoCodeCode);
 
         self::assertArrayHasKey('errors', $response);
 
@@ -387,5 +287,50 @@ class ApplyPromoCodeToCartTest extends GraphQlTestCase
         $customerUserIdentifier = $this->customerUserIdentifierFactory->getByCustomerUser($customerUser);
 
         return $this->cartFacade->findCartByCustomerUserIdentifier($customerUserIdentifier);
+    }
+
+    private function addCzechPostToCart(): void
+    {
+        $response = $this->getResponseContentForGql(__DIR__ . '/../_graphql/mutation/ChangeTransportInCartMutation.graphql', [
+            'cartUuid' => CartDataFixture::CART_UUID,
+            'transportUuid' => $this->getReference(TransportDataFixture::TRANSPORT_CZECH_POST, Transport::class)->getUuid(),
+        ]);
+        $this->getResponseDataForGraphQlType($response, 'ChangeTransportInCart');
+    }
+
+    private function addCashOnDeliveryPaymentToCart(): void
+    {
+        $response = $this->getResponseContentForGql(__DIR__ . '/../_graphql/mutation/ChangePaymentInCartMutation.graphql', [
+            'cartUuid' => CartDataFixture::CART_UUID,
+            'paymentUuid' => $this->getReference(PaymentDataFixture::PAYMENT_CASH_ON_DELIVERY, Payment::class)->getUuid(),
+        ]);
+        $this->getResponseDataForGraphQlType($response, 'ChangePaymentInCart');
+    }
+
+    /**
+     * @param string $promoCode
+     * @param string $cartUuid
+     * @return array
+     */
+    private function applyPromoCodeToCartAndGetResponseData(
+        string $promoCode,
+        string $cartUuid = CartDataFixture::CART_UUID,
+    ): array {
+        $response = $this->applyPromoCodeToCart($promoCode, $cartUuid);
+
+        return $this->getResponseDataForGraphQlType($response, 'ApplyPromoCodeToCart');
+    }
+
+    /**
+     * @param string $promoCode
+     * @param string $cartUuid
+     * @return array
+     */
+    private function applyPromoCodeToCart(string $promoCode, string $cartUuid = CartDataFixture::CART_UUID): array
+    {
+        return $this->getResponseContentForGql(__DIR__ . '/../_graphql/mutation/ApplyPromoCodeToCart.graphql', [
+            'cartUuid' => $cartUuid,
+            'promoCode' => $promoCode,
+        ]);
     }
 }

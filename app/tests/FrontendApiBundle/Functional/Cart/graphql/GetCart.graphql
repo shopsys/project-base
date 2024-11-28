@@ -71,6 +71,10 @@ query GetCart(
                 personalPickupStoreUnavailable
                 transportPriceChanged
             }
+            promoCodeModifications {
+                noLongerApplicablePromoCode
+            }
         }
+        promoCode
     }
 }
