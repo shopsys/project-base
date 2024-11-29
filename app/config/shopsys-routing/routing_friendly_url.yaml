@@ -27,6 +27,3 @@ front_stores_detail:
 
 front_flag_detail:
     path: friendly-url
-
-front_page_seo:
-    path: friendly-url

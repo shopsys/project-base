@@ -6,15 +6,14 @@ namespace App\DataFixtures\Demo;
 
 use Doctrine\Persistence\ObjectManager;
 use Shopsys\FrameworkBundle\Component\DataFixture\AbstractReferenceFixture;
+use Shopsys\FrameworkBundle\Component\Domain\Config\DomainConfig;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
-use Shopsys\FrameworkBundle\Component\Router\DomainRouterFactory;
 use Shopsys\FrameworkBundle\Model\Seo\Page\SeoPage;
 use Shopsys\FrameworkBundle\Model\Seo\Page\SeoPageData;
 use Shopsys\FrameworkBundle\Model\Seo\Page\SeoPageDataFactory;
 use Shopsys\FrameworkBundle\Model\Seo\Page\SeoPageFacade;
 use Shopsys\FrameworkBundle\Model\Seo\Page\SeoPageRepository;
 use Shopsys\FrameworkBundle\Model\Seo\Page\SeoPageSlugTransformer;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SeoPageDataFixture extends AbstractReferenceFixture
 {
@@ -32,14 +31,12 @@ class SeoPageDataFixture extends AbstractReferenceFixture
      * @param \Shopsys\FrameworkBundle\Model\Seo\Page\SeoPageRepository $seoPageRepository
      * @param \Shopsys\FrameworkBundle\Model\Seo\Page\SeoPageFacade $seoPageFacade
      * @param \Shopsys\FrameworkBundle\Model\Seo\Page\SeoPageDataFactory $seoPageDataFactory
-     * @param \Shopsys\FrameworkBundle\Component\Router\DomainRouterFactory $domainRouterFactory
      */
     public function __construct(
         private readonly Domain $domain,
         private readonly SeoPageRepository $seoPageRepository,
         private readonly SeoPageFacade $seoPageFacade,
         private readonly SeoPageDataFactory $seoPageDataFactory,
-        private readonly DomainRouterFactory $domainRouterFactory,
     ) {
     }
 
@@ -60,14 +57,12 @@ class SeoPageDataFixture extends AbstractReferenceFixture
 
             foreach ($this->domain->getAll() as $domainConfig) {
                 $domainId = $domainConfig->getId();
-                $locale = $domainConfig->getLocale();
 
                 $seoPageData->pageSlugsIndexedByDomainId[$domainId] = $pageSlug;
 
                 $this->fillSeoPageData(
                     $seoPageData,
-                    $domainId,
-                    $locale,
+                    $domainConfig,
                 );
             }
 
@@ -92,8 +87,7 @@ class SeoPageDataFixture extends AbstractReferenceFixture
             foreach ($this->domainsForDataFixtureProvider->getAllowedDemoDataDomains() as $domainConfig) {
                 $this->fillSeoPageData(
                     $seoPageData,
-                    $domainConfig->getId(),
-                    $domainConfig->getLocale(),
+                    $domainConfig,
                     $seoPage->getId(),
                 );
             }
@@ -104,29 +98,25 @@ class SeoPageDataFixture extends AbstractReferenceFixture
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Seo\Page\SeoPageData $seoPageData
-     * @param int $domainId
-     * @param string $locale
+     * @param \Shopsys\FrameworkBundle\Component\Domain\Config\DomainConfig $domainConfig
      * @param int|null $seoPageId
      */
     private function fillSeoPageData(
         SeoPageData $seoPageData,
-        int $domainId,
-        string $locale,
+        DomainConfig $domainConfig,
         ?int $seoPageId = null,
     ): void {
-        $seoPageDomainRouter = $this->domainRouterFactory->getRouter($domainId);
-
+        $domainId = $domainConfig->getId();
+        $locale = $domainConfig->getLocale();
         $pageName = $seoPageData->pageName;
         $pageSlug = $seoPageData->pageSlugsIndexedByDomainId[$domainId];
 
         $seoPageSlug = SeoPageSlugTransformer::transformFriendlyUrlToSeoPageSlug($pageSlug);
 
         if ($seoPageSlug === SeoPage::SEO_PAGE_HOMEPAGE_SLUG || $seoPageId === null) {
-            $canonicalUrl = $seoPageDomainRouter->generate('front_homepage', [], UrlGeneratorInterface::ABSOLUTE_URL);
+            $canonicalUrl = $domainConfig->getUrl();
         } else {
-            $canonicalUrl = $seoPageDomainRouter->generate('front_page_seo', [
-                'id' => $seoPageId,
-            ], UrlGeneratorInterface::ABSOLUTE_URL);
+            $canonicalUrl = $domainConfig->getUrl() . '/' . $seoPageSlug;
         }
 
         $seoPageData->seoTitlesIndexedByDomainId[$domainId] = $this->formatAttributeValue($pageName, 'title', $locale);
