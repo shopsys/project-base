@@ -42,6 +42,7 @@ export type ProductItemProps = {
     visibleItemsConfig?: ProductVisibleItemsConfigType;
     size?: 'extraSmall' | 'small' | 'medium' | 'large' | 'extraLarge';
     onClick?: (product: TypeListedProductFragment, index: number) => void;
+    textSize?: 'xs' | 'sm';
 } & FunctionComponentProps;
 
 export const ProductListItem = forwardRef<HTMLLIElement, ProductItemProps>(
@@ -58,6 +59,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, ProductItemProps>(
             className,
             visibleItemsConfig = PREDEFINED_VISIBLE_ITEMS_CONFIGS.largeItem,
             size = 'large',
+            textSize = 'sm',
             onClick,
         },
         ref,
@@ -92,7 +94,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, ProductItemProps>(
                 )}
 
                 <ExtendedNextLink
-                    className="flex select-none flex-col gap-2.5 text-text no-underline hover:text-link hover:no-underline"
+                    className="flex h-full select-none flex-col gap-2.5 text-text no-underline hover:text-link hover:no-underline"
                     draggable={false}
                     href={product.slug}
                     type={product.isMainVariant ? 'productMainVariant' : 'product'}
@@ -109,9 +111,21 @@ export const ProductListItem = forwardRef<HTMLLIElement, ProductItemProps>(
                 >
                     <ProductListItemImage product={product} size={size} visibleItemsConfig={visibleItemsConfig} />
 
-                    <div className="line-clamp-3 min-h-[3.75rem] font-secondary text-sm font-semibold group-hover:text-link group-hover:underline">
+                    <div
+                        className={twJoin(
+                            'grow overflow-hidden break-words font-secondary font-semibold group-hover:text-link group-hover:underline',
+                            textSize === 'xs' ? 'text-xs' : 'text-sm',
+                        )}
+                    >
                         {product.fullName}
                     </div>
+
+                    {product.__typename === 'MainVariant' && (
+                        <div className="flex w-fit items-center gap-1.5 whitespace-nowrap rounded-md bg-background px-2.5 py-1.5 font-secondary text-xs group-hover:text-text">
+                            <VariantIcon className="size-3 text-textAccent" />
+                            {product.variantsCount} {t('variants count', { count: product.variantsCount })}
+                        </div>
+                    )}
 
                     {visibleItemsConfig.price && !(product.isMainVariant && product.isSellingDenied) && (
                         <ProductPrice
@@ -154,13 +168,6 @@ export const ProductListItem = forwardRef<HTMLLIElement, ProductItemProps>(
                                 />
                             </>
                         )}
-                    </div>
-                )}
-
-                {product.__typename === 'MainVariant' && (
-                    <div className="flex w-fit items-center gap-1.5 whitespace-nowrap rounded-md bg-background px-2.5 py-1.5 font-secondary text-xs">
-                        <VariantIcon className="size-3 text-textAccent" />
-                        {product.variantsCount} {t('variants count', { count: product.variantsCount })}
                     </div>
                 )}
             </li>

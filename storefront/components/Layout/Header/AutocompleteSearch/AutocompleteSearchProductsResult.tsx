@@ -57,6 +57,7 @@ export const AutocompleteSearchProductsResult: FC<AutocompleteSearchProductsResu
                 visibleSliderItems={VISIBLE_SLIDER_ITEMS_AUTOCOMPLETE}
                 productItemProps={{
                     size: 'small',
+                    textSize: 'xs',
                     visibleItemsConfig: { price: true },
                     onClick: (product) => {
                         onProductDetailRedirectHandler(product);
