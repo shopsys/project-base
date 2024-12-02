@@ -121,10 +121,6 @@ services:
     App\Twig\:
         resource: '../src/Twig/'
 
-    App\Twig\DomainExtension:
-        arguments:
-            $domainImagesUrlPrefix: '%shopsys.domain_images_url_prefix%'
-
     Endroid\QrCode\Writer\PngWriter: ~
 
     FOS\CKEditorBundle\Config\CKEditorConfigurationInterface:
@@ -477,9 +473,6 @@ services:
 
     Shopsys\FrameworkBundle\Model\Transport\TransportRepository:
         alias: App\Model\Transport\TransportRepository
-
-    Shopsys\FrameworkBundle\Twig\DomainExtension:
-        alias: App\Twig\DomainExtension
 
     Shopsys\FrontendApiBundle\Model\Category\CategoryRepository:
         alias: App\FrontendApi\Model\Category\CategoryRepository
