@@ -41,14 +41,13 @@ export const ProductListItemPlaceholder: FC<ProductListItemPlaceholderProps> = (
                     {product.fullName}
                 </div>
 
-                <div className="min-h-6 sm:min-h-7">
-                    {visibleItemsConfig.price && !(product.isMainVariant && product.isSellingDenied) && (
-                        <ProductPrice
-                            isPriceFromVisible={visibleItemsConfig.priceFromWord}
-                            productPrice={product.price}
-                        />
-                    )}
-                </div>
+                {visibleItemsConfig.price && !(product.isMainVariant && product.isSellingDenied) && (
+                    <ProductPrice
+                        className="min-h-6 sm:min-h-7"
+                        isPriceFromVisible={visibleItemsConfig.priceFromWord}
+                        productPrice={product.price}
+                    />
+                )}
 
                 {visibleItemsConfig.storeAvailability && (
                     <ProductAvailability
@@ -60,16 +59,18 @@ export const ProductListItemPlaceholder: FC<ProductListItemPlaceholderProps> = (
                 )}
             </ExtendedNextLink>
 
-            <div className="flex w-full items-center justify-between gap-1 sm:justify-normal sm:gap-2.5">
-                {visibleItemsConfig.addToCart && <Skeleton className="h-9" containerClassName="w-1/2" />}
+            {(visibleItemsConfig.addToCart || visibleItemsConfig.productListButtons) && (
+                <div className="flex w-full items-center justify-between gap-1 sm:justify-normal sm:gap-2.5">
+                    {visibleItemsConfig.addToCart && <Skeleton className="h-9" containerClassName="w-1/2" />}
 
-                {visibleItemsConfig.productListButtons && (
-                    <>
-                        <Skeleton className="size-6" />
-                        <Skeleton className="size-6" />
-                    </>
-                )}
-            </div>
+                    {visibleItemsConfig.productListButtons && (
+                        <>
+                            <Skeleton className="size-6" />
+                            <Skeleton className="size-6" />
+                        </>
+                    )}
+                </div>
+            )}
         </li>
     );
 };

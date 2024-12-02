@@ -113,14 +113,13 @@ export const ProductListItem = forwardRef<HTMLLIElement, ProductItemProps>(
                         {product.fullName}
                     </div>
 
-                    <div className="min-h-6 sm:min-h-7">
-                        {visibleItemsConfig.price && !(product.isMainVariant && product.isSellingDenied) && (
-                            <ProductPrice
-                                isPriceFromVisible={visibleItemsConfig.priceFromWord}
-                                productPrice={product.price}
-                            />
-                        )}
-                    </div>
+                    {visibleItemsConfig.price && !(product.isMainVariant && product.isSellingDenied) && (
+                        <ProductPrice
+                            className="min-h-6 sm:min-h-7"
+                            isPriceFromVisible={visibleItemsConfig.priceFromWord}
+                            productPrice={product.price}
+                        />
+                    )}
 
                     {visibleItemsConfig.storeAvailability && (
                         <ProductAvailability
@@ -132,29 +131,32 @@ export const ProductListItem = forwardRef<HTMLLIElement, ProductItemProps>(
                     )}
                 </ExtendedNextLink>
 
-                <div className="flex w-full items-center justify-between gap-1 sm:justify-normal sm:gap-2.5">
-                    {visibleItemsConfig.addToCart && (
-                        <ProductAction
-                            gtmMessageOrigin={gtmMessageOrigin}
-                            gtmProductListName={gtmProductListName}
-                            listIndex={listIndex}
-                            product={product}
-                        />
-                    )}
+                {(visibleItemsConfig.addToCart || visibleItemsConfig.productListButtons) && (
+                    <div className="flex w-full items-center justify-between gap-1 sm:justify-normal sm:gap-2.5">
+                        {visibleItemsConfig.addToCart && (
+                            <ProductAction
+                                gtmMessageOrigin={gtmMessageOrigin}
+                                gtmProductListName={gtmProductListName}
+                                listIndex={listIndex}
+                                product={product}
+                            />
+                        )}
 
-                    {visibleItemsConfig.productListButtons && (
-                        <>
-                            <ProductCompareButton
-                                isProductInComparison={isProductInComparison}
-                                toggleProductInComparison={toggleProductInComparison}
-                            />
-                            <ProductWishlistButton
-                                isProductInWishlist={isProductInWishlist}
-                                toggleProductInWishlist={toggleProductInWishlist}
-                            />
-                        </>
-                    )}
-                </div>
+                        {visibleItemsConfig.productListButtons && (
+                            <>
+                                <ProductCompareButton
+                                    isProductInComparison={isProductInComparison}
+                                    toggleProductInComparison={toggleProductInComparison}
+                                />
+                                <ProductWishlistButton
+                                    isProductInWishlist={isProductInWishlist}
+                                    toggleProductInWishlist={toggleProductInWishlist}
+                                />
+                            </>
+                        )}
+                    </div>
+                )}
+
                 {product.__typename === 'MainVariant' && (
                     <div className="flex w-fit items-center gap-1.5 whitespace-nowrap rounded-md bg-background px-2.5 py-1.5 font-secondary text-xs">
                         <VariantIcon className="size-3 text-textAccent" />
