@@ -7,6 +7,7 @@ namespace Tests\FrontendApiBundle\Functional\Product;
 use App\DataFixtures\Demo\ProductDataFixture;
 use App\Model\Product\Product;
 use Shopsys\FrameworkBundle\Component\Translation\Translator;
+use Shopsys\FrameworkBundle\Model\Product\Availability\AvailabilityStatusEnum;
 use Tests\FrontendApiBundle\Test\GraphQlTestCase;
 
 class ProductVariantTest extends GraphQlTestCase
@@ -25,46 +26,38 @@ class ProductVariantTest extends GraphQlTestCase
 
     public function testProductMainVariantResultData(): void
     {
-        $query = '
-            query {
-                product(uuid: "' . $this->productAsMainVariant->getUuid() . '") {
-                    __typename,
-                    name,
-                    shortDescription
-                    ...on MainVariant {
-                      variants {
-                        name
-                      }
-                      variantsCount
-                    }
-                }
-            }
-        ';
-
         $firstDomainLocale = $this->getLocaleForFirstDomain();
         $arrayExpected = [
-            'data' => [
-                'product' => [
-                    '__typename' => 'MainVariant',
-                    'name' => t('Television Sencor [M]', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $firstDomainLocale),
-                    'shortDescription' => t(
-                        'Television monitor IPS, 16: 9, 5M: 1, 200cd/m2, 5ms GTG, FullHD 1920x1080, DVB-S2/T2/C, 2x HDMI, USB, SCART, 2 x 5W speakers, energ. Class A',
-                        [],
-                        Translator::DATA_FIXTURES_TRANSLATION_DOMAIN,
-                        $firstDomainLocale,
-                    ),
-                    'variants' => [
-                        // Variant 51,5" Sencor is not sellable, so it's not present
-                        [
-                            'name' => t('60" Sencor [V]', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $firstDomainLocale),
-                        ],
-                    ],
-                    'variantsCount' => 1,
+            '__typename' => 'MainVariant',
+            'name' => t('Television Sencor [M]', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $firstDomainLocale),
+            'shortDescription' => t(
+                'Television monitor IPS, 16: 9, 5M: 1, 200cd/m2, 5ms GTG, FullHD 1920x1080, DVB-S2/T2/C, 2x HDMI, USB, SCART, 2 x 5W speakers, energ. Class A',
+                [],
+                Translator::DATA_FIXTURES_TRANSLATION_DOMAIN,
+                $firstDomainLocale,
+            ),
+            'variants' => [
+                // Variant 51,5" Sencor is not sellable, so it's not present
+                [
+                    'name' => t('60" Sencor [V]', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $firstDomainLocale),
                 ],
             ],
+            'variantsCount' => 1,
+            'availableStoresCount' => null,
+            'stockQuantity' => null,
+            'availability' => [
+                'name' => t('In stock', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $firstDomainLocale),
+                'status' => AvailabilityStatusEnum::IN_STOCK,
+            ],
+            'storeAvailabilities' => [],
         ];
 
-        $this->assertQueryWithExpectedArray($query, $arrayExpected);
+        $response = $this->getResponseContentForGql(__DIR__ . '/graphql/mainVariantByUuid.graphql', [
+            'uuid' => $this->productAsMainVariant->getUuid(),
+        ]);
+
+        $responseData = $this->getResponseDataForGraphQlType($response, 'product');
+        $this->assertSame($arrayExpected, $responseData);
     }
 
     public function testProductVariantResultData(): void

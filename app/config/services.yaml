@@ -105,8 +105,6 @@ services:
 
     App\Model\PersonalData\Mail\PersonalDataExportMail: ~
 
-    App\Model\ProductFeed\Mergado\MergadoFeedInfo: ~
-
     App\Model\Product\Elasticsearch\Scope\ProductExportScopeConfig: ~
 
     App\Model\Product\Search\FilterQuery: ~
@@ -119,10 +117,6 @@ services:
         arguments:
             - '%shopsys.sitemaps_dir%'
             - '%shopsys.sitemaps_url_prefix%'
-
-    App\ProductFeed\MergadoFeed\MergadoFeed:
-        tags:
-            - { name: shopsys.feed, hours: 5, minutes: 0 }
 
     App\Twig\:
         resource: '../src/Twig/'
@@ -225,8 +219,6 @@ services:
 
     Shopsys\FrameworkBundle\Model\Cart\CartFacade:
         alias: App\Model\Cart\CartFacade
-
-    Shopsys\FrameworkBundle\Model\Cart\CartMigrationFacade: ~
 
     Shopsys\FrameworkBundle\Model\Category\CategoryDataFactoryInterface:
         alias: App\Model\Category\CategoryDataFactory
@@ -506,18 +498,6 @@ services:
 
     Shopsys\FrontendApiBundle\Model\User\FrontendApiUserFactory:
         alias: App\Model\User\FrontendApi\FrontendApiUserFactory
-
-    Shopsys\ProductFeed\GoogleBundle\Model\FeedItem\GoogleFeedItemFactory:
-        alias: App\ProductFeed\Google\Model\FeedItem\GoogleFeedItemFactory
-
-    Shopsys\ProductFeed\GoogleBundle\Model\Product\GoogleProductRepository:
-        alias: App\ProductFeed\Google\Model\Product\GoogleProductRepository
-
-    Shopsys\ProductFeed\HeurekaBundle\Model\FeedItem\HeurekaFeedItemFactory:
-        alias: App\ProductFeed\Heureka\Model\FeedItem\HeurekaFeedItemFactory
-
-    Shopsys\ProductFeed\ZboziBundle\Model\FeedItem\ZboziFeedItemFactory:
-        alias: App\ProductFeed\Zbozi\Model\FeedItem\ZboziFeedItemFactory
 
     Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory: ~
 

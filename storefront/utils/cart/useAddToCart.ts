@@ -58,20 +58,6 @@ export const useAddToCart = (gtmMessageOrigin: GtmMessageOriginType, gtmProductL
         dispatchBroadcastChannel('refetchCart');
 
         const addedCartItem = addToCartResult.addProductResult.cartItem;
-        const notOnStockQuantity = addToCartResult.addProductResult.notOnStockQuantity;
-
-        if (notOnStockQuantity > 0) {
-            showErrorMessage(
-                t(
-                    'You have the maximum available amount in your cart, you cannot add more (total {{ quantity }} {{ unitName }})',
-                    {
-                        quantity: addedCartItem.quantity,
-                        unitName: addedCartItem.product.unit.name,
-                    },
-                ),
-                gtmMessageOrigin,
-            );
-        }
 
         import('gtm/handlers/onGtmChangeCartItemEventHandler').then(({ onGtmChangeCartItemEventHandler }) => {
             onGtmChangeCartItemEventHandler(

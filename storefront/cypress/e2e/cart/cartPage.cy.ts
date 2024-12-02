@@ -115,14 +115,16 @@ describe('Cart Page Tests', () => {
         });
     });
 
-    it('[Min Max Quantity] spinbox buttons should not be clickable if they cannot be used due to min/max quantity', function () {
+    it('[Quantity Spinbox Decrease] min spinbox button should not be clickable if it cannot be used due to min quantity', function () {
         checkCartItemSpinboxDecreaseButtonIsDisabled(products.philips32PFL4308.catnum);
-        checkCartItemSpinboxIncreaseButtonIsEnabled(products.philips32PFL4308.catnum);
-
         changeCartItemQuantityWithSpinboxInput(10000, products.philips32PFL4308.catnum);
-
         checkCartItemSpinboxDecreaseButtonIsEnabled(products.philips32PFL4308.catnum);
-        checkCartItemSpinboxIncreaseButtonIsDisabled(products.philips32PFL4308.catnum);
+    });
+
+    it('[Quantity Spinbox Increase] max spinbox button should be always clickable', function () {
+        checkCartItemSpinboxIncreaseButtonIsEnabled(products.philips32PFL4308.catnum);
+        changeCartItemQuantityWithSpinboxInput(10000, products.philips32PFL4308.catnum);
+        checkCartItemSpinboxIncreaseButtonIsEnabled(products.philips32PFL4308.catnum);
     });
 
     it('[Add Remove Promo] add promo code to cart, check it, remove promo code from cart, and then add a different one', function () {

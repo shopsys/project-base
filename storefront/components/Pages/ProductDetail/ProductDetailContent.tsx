@@ -1,7 +1,6 @@
 import { DeferredComparisonAndWishlistButtons } from './ComparisonAndWishlistButtons/DeferredComparisonAndWishlistButtons';
 import { DeferredProductDetailAccessories } from './ProductDetailAccessories/DeferredProductDetailAccessories';
 import { DeferredProductDetailAddToCart } from './ProductDetailAddToCart/DeferredProductDetailAddToCart';
-import { ProductDetailAvailability } from './ProductDetailAvailability';
 import { ProductDetailPrefix, ProductDetailHeading } from './ProductDetailElements';
 import { ProductDetailGallery } from './ProductDetailGallery';
 import { ProductDetailTabs } from './ProductDetailTabs/ProductDetailTabs';
@@ -10,15 +9,20 @@ import { ExtendedNextLink } from 'components/Basic/ExtendedNextLink/ExtendedNext
 import { ProductMetadata } from 'components/Basic/Head/ProductMetadata';
 import { DeferredRecommendedProducts } from 'components/Blocks/Product/DeferredRecommendedProducts';
 import { useLastVisitedProductView } from 'components/Blocks/Product/LastVisitedProducts/lastVisitedProductsUtils';
+import { ProductAvailability } from 'components/Blocks/Product/ProductAvailability';
+import { Popup } from 'components/Layout/Popup/Popup';
 import { Webline } from 'components/Layout/Webline/Webline';
+import { ProductDetailAvailabilityList } from 'components/Pages/ProductDetail/ProductDetailAvailabilityList';
 import { useDomainConfig } from 'components/providers/DomainConfigProvider';
 import { TypeProductDetailFragment } from 'graphql/requests/products/fragments/ProductDetailFragment.generated';
-import { TypeRecommendationType } from 'graphql/types';
+import { TypeAvailabilityStatusEnum, TypeRecommendationType } from 'graphql/types';
 import { useGtmFriendlyPageViewEvent } from 'gtm/factories/useGtmFriendlyPageViewEvent';
 import { useGtmPageViewEvent } from 'gtm/utils/pageViewEvents/useGtmPageViewEvent';
 import { useGtmProductDetailViewEvent } from 'gtm/utils/pageViewEvents/useGtmProductDetailViewEvent';
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
+import { useSessionStore } from 'store/useSessionStore';
+import { twJoin } from 'tailwind-merge';
 import { useFormatPrice } from 'utils/formatting/useFormatPrice';
 import { isPriceVisible } from 'utils/mappers/price';
 import { getUrlWithoutGetParameters } from 'utils/parsing/getUrlWithoutGetParameters';
@@ -31,6 +35,7 @@ type ProductDetailContentProps = {
 export const ProductDetailContent: FC<ProductDetailContentProps> = ({ product, isProductDetailFetching }) => {
     const { t } = useTranslation();
     const router = useRouter();
+    const updatePortalContent = useSessionStore((s) => s.updatePortalContent);
 
     const { isLuigisBoxActive } = useDomainConfig();
     const formatPrice = useFormatPrice();
@@ -88,7 +93,26 @@ export const ProductDetailContent: FC<ProductDetailContentProps> = ({ product, i
                                 </div>
                             )}
 
-                            <ProductDetailAvailability product={product} />
+                            <ProductAvailability
+                                availability={product.availability}
+                                availableStoresCount={product.availableStoresCount}
+                                isInquiryType={product.isInquiryType}
+                                className={twJoin(
+                                    'mr-1 flex items-center font-secondary',
+                                    product.availability.status === TypeAvailabilityStatusEnum.InStock &&
+                                        'cursor-pointer',
+                                )}
+                                onClick={() =>
+                                    product.availability.status === TypeAvailabilityStatusEnum.InStock &&
+                                    updatePortalContent(
+                                        <Popup>
+                                            <ProductDetailAvailabilityList
+                                                storeAvailabilities={product.storeAvailabilities}
+                                            />
+                                        </Popup>,
+                                    )
+                                }
+                            />
 
                             <DeferredProductDetailAddToCart product={product} />
 

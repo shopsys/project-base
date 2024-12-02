@@ -4,8 +4,10 @@ import { Spinbox } from 'components/Forms/Spinbox/Spinbox';
 import { RemoveCartItemButton } from 'components/Pages/Cart/RemoveCartItemButton';
 import { TIDs } from 'cypress/tids';
 import { TypeCartItemFragment } from 'graphql/requests/cart/fragments/CartItemFragment.generated';
+import { TypeAvailabilityStatusEnum } from 'graphql/types';
 import useTranslation from 'next-translate/useTranslation';
 import { MouseEventHandler, useEffect, useRef, useState } from 'react';
+import { twJoin } from 'tailwind-merge';
 import { AddToCart } from 'utils/cart/useAddToCart';
 import { useFormatPrice } from 'utils/formatting/useFormatPrice';
 import { isPriceVisible, mapPriceForCalculations } from 'utils/mappers/price';
@@ -81,7 +83,13 @@ export const CartListItem: FC<CartListItemProps> = ({
                         </div>
                     </div>
 
-                    <div className="block flex-1 vl:text-center">
+                    <div
+                        className={twJoin(
+                            'block flex-1 vl:text-center',
+                            product.availability.status === TypeAvailabilityStatusEnum.OutOfStock &&
+                                'text-availabilityOutOfStock',
+                        )}
+                    >
                         {product.availability.name}
 
                         {!!product.availableStoresCount && (
@@ -99,7 +107,6 @@ export const CartListItem: FC<CartListItemProps> = ({
                 <Spinbox
                     defaultValue={quantity}
                     id={uuid}
-                    max={product.stockQuantity}
                     min={1}
                     ref={spinboxRef}
                     step={1}

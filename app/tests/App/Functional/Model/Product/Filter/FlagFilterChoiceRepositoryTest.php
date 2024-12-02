@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Tests\App\Functional\Model\Product\Filter;
 
 use App\DataFixtures\Demo\CategoryDataFixture;
+use App\DataFixtures\Demo\FlagDataFixture;
 use App\DataFixtures\Demo\PricingGroupDataFixture;
 use App\Model\Category\Category;
+use App\Model\Product\Filter\FlagFilterChoiceRepository;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroup;
-use Shopsys\FrameworkBundle\Model\Product\Filter\FlagFilterChoiceRepository;
 use Shopsys\FrameworkBundle\Model\Product\Flag\Flag;
 use Tests\App\Test\TransactionFunctionalTestCase;
 
@@ -33,14 +34,9 @@ class FlagFilterChoiceRepositoryTest extends TransactionFunctionalTestCase
 
         $this->assertCount(1, $flagFilterChoices);
 
-        $ids = array_map(
-            static function (Flag $flag) {
-                return $flag->getId();
-            },
-            $flagFilterChoices,
-        );
+        $ids = $this->getFlagIds($flagFilterChoices);
 
-        $this->assertContains(2, $ids);
+        $this->assertContains($this->getReference(FlagDataFixture::FLAG_PRODUCT_ACTION, Flag::class)->getId(), $ids);
     }
 
     public function testGetFlagFilterChoicesForSearchPhone(): void
@@ -49,16 +45,13 @@ class FlagFilterChoiceRepositoryTest extends TransactionFunctionalTestCase
 
         $flagFilterChoices = $this->getChoicesForSearchText('phone');
 
-        $this->assertCount(2, $flagFilterChoices);
+        $this->assertCount(3, $flagFilterChoices);
 
-        $ids = array_map(
-            static function (Flag $flag) {
-                return $flag->getId();
-            },
-            $flagFilterChoices,
-        );
+        $ids = $this->getFlagIds($flagFilterChoices);
 
-        $this->assertContains(2, $ids);
+        $this->assertContains($this->getReference(FlagDataFixture::FLAG_PRODUCT_ACTION, Flag::class)->getId(), $ids);
+        $this->assertContains($this->getReference(FlagDataFixture::FLAG_PRODUCT_MADEIN_CZ, Flag::class)->getId(), $ids);
+        $this->assertContains($this->getReference(FlagDataFixture::FLAG_PRODUCT_NEW, Flag::class)->getId(), $ids);
     }
 
     public function testGetFlagFilterChoicesForBook(): void
@@ -68,11 +61,16 @@ class FlagFilterChoiceRepositoryTest extends TransactionFunctionalTestCase
         $flagFilterChoices = $this->getChoicesForSearchText('book');
 
         $this->assertCount(2, $flagFilterChoices);
+
+        $ids = $this->getFlagIds($flagFilterChoices);
+
+        $this->assertContains($this->getReference(FlagDataFixture::FLAG_PRODUCT_MADEIN_CZ, Flag::class)->getId(), $ids);
+        $this->assertContains($this->getReference(FlagDataFixture::FLAG_PRODUCT_NEW, Flag::class)->getId(), $ids);
     }
 
     /**
      * @param string $categoryReferenceName
-     * @return \Shopsys\FrameworkBundle\Model\Product\Flag\Flag[]
+     * @return \App\Model\Product\Flag\Flag[]
      */
     protected function getChoicesForCategoryReference(string $categoryReferenceName): array
     {
@@ -96,7 +94,7 @@ class FlagFilterChoiceRepositoryTest extends TransactionFunctionalTestCase
 
     /**
      * @param string $searchText
-     * @return \Shopsys\FrameworkBundle\Model\Product\Flag\Flag[]
+     * @return \App\Model\Product\Flag\Flag[]
      */
     protected function getChoicesForSearchText(string $searchText): array
     {
@@ -114,5 +112,21 @@ class FlagFilterChoiceRepositoryTest extends TransactionFunctionalTestCase
             $domainConfig1->getLocale(),
             $searchText,
         );
+    }
+
+    /**
+     * @param \App\Model\Product\Flag\Flag[] $flagFilterChoices
+     * @return int[]
+     */
+    private function getFlagIds(array $flagFilterChoices): array
+    {
+        $ids = array_map(
+            static function (Flag $flag) {
+                return $flag->getId();
+            },
+            $flagFilterChoices,
+        );
+
+        return $ids;
     }
 }

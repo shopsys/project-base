@@ -47,6 +47,12 @@ use Shopsys\FrontendApiBundle\Model\Resolver\Products\DataMapper\ProductEntityFi
  * @method \GraphQL\Executor\Promise\Promise getVariantsCount(\App\Model\Product\Product $product)
  * @method bool isInquiryType(\App\Model\Product\Product $product)
  * @method string getProductType(\App\Model\Product\Product $product)
+ * @method string|null getNameSuffix(\App\Model\Product\Product $product)
+ * @method string|null getNamePrefix(\App\Model\Product\Product $product)
+ * @method string getFullName(\App\Model\Product\Product $product)
+ * @method int|null getStockQuantity(\App\Model\Product\Product $product)
+ * @method array getStoreAvailabilities(\App\Model\Product\Product $product)
+ * @method int|null getAvailableStoresCount(\App\Model\Product\Product $product)
  */
 class ProductEntityFieldMapper extends BaseProductEntityFieldMapper
 {
@@ -129,15 +135,6 @@ class ProductEntityFieldMapper extends BaseProductEntityFieldMapper
      * @param \App\Model\Product\Product $product
      * @return string|null
      */
-    public function getNameSuffix(Product $product): ?string
-    {
-        return $product->getNameSufix($this->domain->getLocale());
-    }
-
-    /**
-     * @param \App\Model\Product\Product $product
-     * @return string|null
-     */
     public function getPartNumber(Product $product): ?string
     {
         return $product->getPartno();
@@ -150,15 +147,6 @@ class ProductEntityFieldMapper extends BaseProductEntityFieldMapper
     public function getCatalogNumber(Product $product): string
     {
         return $product->getCatnum();
-    }
-
-    /**
-     * @param \App\Model\Product\Product $product
-     * @return int
-     */
-    public function getStockQuantity(Product $product): int
-    {
-        return $this->productAvailabilityFacade->getGroupedStockQuantityByProductAndDomainId($product, $this->domain->getId());
     }
 
     /**
@@ -228,43 +216,6 @@ class ProductEntityFieldMapper extends BaseProductEntityFieldMapper
     public function getSlug(Product $product): string
     {
         return '/' . $this->friendlyUrlFacade->getMainFriendlyUrlSlug($this->domain->getId(), 'front_product_detail', $product->getId());
-    }
-
-    /**
-     * @param \App\Model\Product\Product $product
-     * @return array<int, array{store_name: string, store_id: int, availability_information: string, availability_status: string}>
-     */
-    public function getStoreAvailabilities(Product $product): array
-    {
-        $storeAvailabilitiesInformation = $this->productAvailabilityFacade->getProductStoresAvailabilitiesInformationByDomainIdIndexedByStoreId(
-            $product,
-            $this->domain->getId(),
-        );
-
-        $result = [];
-
-        foreach ($storeAvailabilitiesInformation as $storeAvailabilityInformation) {
-            $result[] = [
-                'store_name' => $storeAvailabilityInformation->getStoreName(),
-                'store_id' => $storeAvailabilityInformation->getStoreId(),
-                'availability_information' => $storeAvailabilityInformation->getAvailabilityInformation(),
-                'availability_status' => $storeAvailabilityInformation->getAvailabilityStatus(),
-            ];
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param \App\Model\Product\Product $product
-     * @return int
-     */
-    public function getAvailableStoresCount(Product $product): int
-    {
-        return $this->productAvailabilityFacade->getAvailableStoresCount(
-            $product,
-            $this->domain->getId(),
-        );
     }
 
     /**

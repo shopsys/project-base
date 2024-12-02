@@ -8,12 +8,10 @@ use App\Model\Product\Product;
 use Shopsys\FrameworkBundle\Component\Form\FormBuilderHelper;
 use Shopsys\FrameworkBundle\Form\Admin\Product\ProductFormType;
 use Shopsys\FrameworkBundle\Form\GroupType;
-use Shopsys\FrameworkBundle\Form\LocalizedFullWidthType;
 use Shopsys\FrameworkBundle\Form\ProductsType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints;
 
 class ProductFormTypeExtension extends AbstractTypeExtension
 {
@@ -34,30 +32,6 @@ class ProductFormTypeExtension extends AbstractTypeExtension
     {
         /** @var \App\Model\Product\Product|null $product */
         $product = $options['product'];
-
-        $builder->add('namePrefix', LocalizedFullWidthType::class, [
-            'required' => false,
-            'entry_options' => [
-                'constraints' => [
-                    new Constraints\Length(['max' => 255, 'maxMessage' => 'Product prefix name cannot be longer than {{ limit }} characters']),
-                ],
-            ],
-            'label' => t('Name prefix'),
-            'render_form_row' => false,
-            'position' => ['before' => 'name'],
-        ]);
-
-        $builder->add('nameSufix', LocalizedFullWidthType::class, [
-            'required' => false,
-            'entry_options' => [
-                'constraints' => [
-                    new Constraints\Length(['max' => 255, 'maxMessage' => 'Product suffix name cannot be longer than {{ limit }} characters']),
-                ],
-            ],
-            'label' => t('Name suffix'),
-            'render_form_row' => false,
-            'position' => ['after' => 'name'],
-        ]);
 
         $this->setSeoGroup($builder);
         $this->setPricesGroup($builder, $product);

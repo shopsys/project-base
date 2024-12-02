@@ -42,6 +42,7 @@ use Shopsys\FrameworkBundle\Model\Product\ProductData as BaseProductData;
  * @property \Doctrine\Common\Collections\Collection<int,\App\Model\Transport\Transport> $excludedTransports
  * @method setExcludedTransports(\App\Model\Transport\Transport[] $excludedTransports)
  * @method \App\Model\Transport\Transport[] getExcludedTransports()
+ * @method setTranslations(\App\Model\Product\ProductData $productData)
  */
 class Product extends BaseProduct
 {
@@ -126,22 +127,6 @@ class Product extends BaseProduct
     }
 
     /**
-     * @param \App\Model\Product\ProductData $productData
-     */
-    protected function setTranslations(BaseProductData $productData)
-    {
-        parent::setTranslations($productData);
-
-        foreach ($productData->namePrefix as $locale => $namePrefix) {
-            $this->translation($locale)->setNamePrefix($namePrefix);
-        }
-
-        foreach ($productData->nameSufix as $locale => $nameSufix) {
-            $this->translation($locale)->setNameSufix($nameSufix);
-        }
-    }
-
-    /**
      * @return \App\Model\Product\ProductTranslation
      */
     protected function createTranslation()
@@ -213,85 +198,6 @@ class Product extends BaseProduct
                 return $value !== null && $value !== '';
             },
         ));
-    }
-
-    /**
-     * @param string|null $locale
-     * @return string|null
-     */
-    public function getNamePrefix($locale = null): ?string
-    {
-        return $this->translation($locale)->getNamePrefix();
-    }
-
-    /**
-     * @param string|null $locale
-     * @return string|null
-     */
-    public function getNameSufix($locale = null): ?string
-    {
-        return $this->translation($locale)->getNameSufix();
-    }
-
-    /**
-     * @param string|null $locale
-     * @return string
-     */
-    public function getFullname(?string $locale = null): string
-    {
-        return trim(
-            $this->getNamePrefix($locale)
-            . ' '
-            . $this->getName($locale)
-            . ' '
-            . $this->getNameSufix($locale),
-        );
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getFullnames()
-    {
-        $fullnamesByLocale = [];
-
-        foreach ($this->translations as $translation) {
-            $fullnamesByLocale[$translation->getLocale()] = $this->getFullname($translation->getLocale());
-        }
-
-        return $fullnamesByLocale;
-    }
-
-    /**
-     * @param string|null $locale
-     * @return string|null
-     */
-    public function getNameFirstLine(?string $locale = null): ?string
-    {
-        return $this->getNamePrefix($locale);
-    }
-
-    /**
-     * @param string|null $locale
-     * @return string
-     */
-    public function getNameSecondLine(?string $locale = null): string
-    {
-        return trim(
-            $this->getName($locale)
-            . ' '
-            . $this->getNameSufix($locale),
-        );
-    }
-
-    /**
-     * @param int $domainId
-     * @param string $type
-     * @return string
-     */
-    public function getProductFileNameByType(int $domainId, string $type): string
-    {
-        return $type . '_' . $this->getId() . '_' . $domainId . self::PDF_SUFFIX;
     }
 
     /**

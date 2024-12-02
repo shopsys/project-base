@@ -2,7 +2,7 @@ shopsys_framework:
     order:
         processing_middlewares:
             - 'Shopsys\FrameworkBundle\Model\Order\Processing\OrderProcessorMiddleware\SetCustomerUserMiddleware'
-            - 'App\Model\Order\Processing\OrderProcessorMiddleware\AddProductsMiddleware'
+            - 'Shopsys\FrameworkBundle\Model\Order\Processing\OrderProcessorMiddleware\AddProductsMiddleware'
             - 'Shopsys\FrameworkBundle\Model\Order\Processing\OrderProcessorMiddleware\ApplyPercentagePromoCodeMiddleware'
             - 'Shopsys\FrameworkBundle\Model\Order\Processing\OrderProcessorMiddleware\ApplyNominalPromoCodeMiddleware'
             - 'Shopsys\FrameworkBundle\Model\Order\Processing\OrderProcessorMiddleware\AddTransportMiddleware'

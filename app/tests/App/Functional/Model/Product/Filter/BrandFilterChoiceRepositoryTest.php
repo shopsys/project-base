@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\App\Functional\Model\Product\Filter;
 
+use App\DataFixtures\Demo\BrandDataFixture;
 use App\DataFixtures\Demo\CategoryDataFixture;
 use App\DataFixtures\Demo\PricingGroupDataFixture;
 use App\Model\Category\Category;
@@ -40,10 +41,10 @@ class BrandFilterChoiceRepositoryTest extends TransactionFunctionalTestCase
             $brandFilterChoices,
         );
 
-        $this->assertContains(4, $ids);
-        $this->assertContains(6, $ids);
-        $this->assertContains(3, $ids);
-        $this->assertContains(5, $ids);
+        $this->assertContains($this->getReference(BrandDataFixture::BRAND_PHILIPS, Brand::class)->getId(), $ids, 'Philips brand should be present in the filter choices');
+        $this->assertContains($this->getReference(BrandDataFixture::BRAND_A4TECH, Brand::class)->getId(), $ids, 'A4 brand should be present in the filter choices');
+        $this->assertContains($this->getReference(BrandDataFixture::BRAND_LG, Brand::class)->getId(), $ids, 'LG brand should be present in the filter choices');
+        $this->assertContains($this->getReference(BrandDataFixture::BRAND_SENCOR, Brand::class)->getId(), $ids, 'Sencor brand should be present in the filter choices');
     }
 
     public function testGetBrandFilterChoicesForSearchPhone(): void
@@ -52,7 +53,7 @@ class BrandFilterChoiceRepositoryTest extends TransactionFunctionalTestCase
 
         $brandFilterChoices = $this->getChoicesForSearchText('phone');
 
-        $this->assertCount(3, $brandFilterChoices);
+        $this->assertCount(4, $brandFilterChoices);
 
         $ids = array_map(
             static function (Brand $brand) {
@@ -61,9 +62,10 @@ class BrandFilterChoiceRepositoryTest extends TransactionFunctionalTestCase
             $brandFilterChoices,
         );
 
-        $this->assertContains(1, $ids);
-        $this->assertContains(3, $ids);
-        $this->assertContains(20, $ids);
+        $this->assertContains($this->getReference(BrandDataFixture::BRAND_APPLE, Brand::class)->getId(), $ids, 'Apple brand should be present in the filter choices');
+        $this->assertContains($this->getReference(BrandDataFixture::BRAND_LG, Brand::class)->getId(), $ids, 'LG brand should be present in the filter choices');
+        $this->assertContains($this->getReference(BrandDataFixture::BRAND_SAMSUNG, Brand::class)->getId(), $ids, 'Samsung brand should be present in the filter choices');
+        $this->assertContains($this->getReference(BrandDataFixture::BRAND_SONY, Brand::class)->getId(), $ids, 'Sony brand should be present in the filter choices');
     }
 
     public function testGetBrandFilterChoicesForSearch47(): void
@@ -72,7 +74,7 @@ class BrandFilterChoiceRepositoryTest extends TransactionFunctionalTestCase
 
         $this->assertCount(1, $brandFilterChoices);
 
-        $this->assertSame(3, $brandFilterChoices[0]->getId());
+        $this->assertSame($this->getReference(BrandDataFixture::BRAND_LG, Brand::class)->getId(), $brandFilterChoices[0]->getId(), 'LG brand should be present in the filter choices');
     }
 
     /**

@@ -62,25 +62,11 @@ const handleCartPaymentModifications = (
 };
 
 const handleCartItemModifications = (itemModifications: TypeCartItemModificationsFragment, t: Translate): void => {
-    for (const cartItemWithChangedQuantity of itemModifications.cartItemsWithChangedQuantity) {
-        showInfoMessage(
-            t('The quantity of item {{ itemName }} has changed.', {
-                itemName: cartItemWithChangedQuantity.product.fullName,
-            }),
-            GtmMessageOriginType.cart,
-        );
-    }
     for (const cartItemWithModifiedPrice of itemModifications.cartItemsWithModifiedPrice) {
         showInfoMessage(
             t('The price of item {{ itemName }} has changed.', {
                 itemName: cartItemWithModifiedPrice.product.fullName,
             }),
-            GtmMessageOriginType.cart,
-        );
-    }
-    for (const soldOutCartItem of itemModifications.noLongerAvailableCartItemsDueToQuantity) {
-        showInfoMessage(
-            t('Item {{ itemName }} has been sold out.', { itemName: soldOutCartItem.product.fullName }),
             GtmMessageOriginType.cart,
         );
     }

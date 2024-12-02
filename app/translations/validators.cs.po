@@ -70,12 +70,6 @@ msgstr "Prosím vyplňte ID videa"
 msgid "Please enter your email address"
 msgstr "Vyplňte prosím e-mail"
 
-msgid "Product prefix name cannot be longer than {{ limit }} characters"
-msgstr "Prefix produktu nesmí být delší než {{ limit }} znaků"
-
-msgid "Product suffix name cannot be longer than {{ limit }} characters"
-msgstr "Suffix produktu nesmí být delší než {{ limit }} znaků"
-
 msgid "Provided hash is not valid."
 msgstr "Zadaný hash není validní."
 

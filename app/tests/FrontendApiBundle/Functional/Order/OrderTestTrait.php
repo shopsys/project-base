@@ -33,7 +33,7 @@ trait OrderTestTrait
 
         return [
             0 => [
-                'name' => $helloKittyProduct->getFullname($firstDomainLocale),
+                'name' => $helloKittyProduct->getFullName($firstDomainLocale),
                 'unitPrice' => $this->getSerializedPriceConvertedToDomainDefaultCurrency('2891.70', $vatHigh),
                 'totalPrice' => $this->getSerializedPriceConvertedToDomainDefaultCurrency('2891.70', $vatHigh),
                 'quantity' => 1,

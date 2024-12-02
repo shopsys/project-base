@@ -3297,17 +3297,7 @@ Cart item UUID
 </thead>
 <tbody>
 <tr>
-<td colspan="2" valign="top"><strong>cartItemsWithChangedQuantity</strong></td>
-<td valign="top">[<a href="#cartitem">CartItem</a>!]!</td>
-<td></td>
-</tr>
-<tr>
 <td colspan="2" valign="top"><strong>cartItemsWithModifiedPrice</strong></td>
-<td valign="top">[<a href="#cartitem">CartItem</a>!]!</td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>noLongerAvailableCartItemsDueToQuantity</strong></td>
 <td valign="top">[<a href="#cartitem">CartItem</a>!]!</td>
 <td></td>
 </tr>
@@ -5185,10 +5175,10 @@ Represents a product
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>availableStoresCount</strong></td>
-<td valign="top"><a href="#int">Int</a>!</td>
+<td valign="top"><a href="#int">Int</a></td>
 <td>
 
-Number of the stores where the product is available
+Number of the stores where the product is available (null for main variants)
 
 </td>
 </tr>
@@ -5461,7 +5451,7 @@ Product URL slug
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>stockQuantity</strong></td>
-<td valign="top"><a href="#int">Int</a>!</td>
+<td valign="top"><a href="#int">Int</a></td>
 <td>
 
 Count of quantity on stock
@@ -5473,7 +5463,7 @@ Count of quantity on stock
 <td valign="top">[<a href="#storeavailability">StoreAvailability</a>!]!</td>
 <td>
 
-List of availabilities in individual stores
+List of availabilities in individual stores (empty for main variants)
 
 </td>
 </tr>
@@ -7803,10 +7793,10 @@ Represents a product
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>availableStoresCount</strong></td>
-<td valign="top"><a href="#int">Int</a>!</td>
+<td valign="top"><a href="#int">Int</a></td>
 <td>
 
-Number of the stores where the product is available
+Number of the stores where the product is available (null for main variants)
 
 </td>
 </tr>
@@ -8079,7 +8069,7 @@ Product URL slug
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>stockQuantity</strong></td>
-<td valign="top"><a href="#int">Int</a>!</td>
+<td valign="top"><a href="#int">Int</a></td>
 <td>
 
 Count of quantity on stock
@@ -8091,7 +8081,7 @@ Count of quantity on stock
 <td valign="top">[<a href="#storeavailability">StoreAvailability</a>!]!</td>
 <td>
 
-List of availabilities in individual stores
+List of availabilities in individual stores (empty for main variants)
 
 </td>
 </tr>
@@ -9080,10 +9070,10 @@ Represents a product
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>availableStoresCount</strong></td>
-<td valign="top"><a href="#int">Int</a>!</td>
+<td valign="top"><a href="#int">Int</a></td>
 <td>
 
-Number of the stores where the product is available
+Number of the stores where the product is available (null for main variants)
 
 </td>
 </tr>
@@ -9361,7 +9351,7 @@ Product URL slug
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>stockQuantity</strong></td>
-<td valign="top"><a href="#int">Int</a>!</td>
+<td valign="top"><a href="#int">Int</a></td>
 <td>
 
 Count of quantity on stock
@@ -9373,7 +9363,7 @@ Count of quantity on stock
 <td valign="top">[<a href="#storeavailability">StoreAvailability</a>!]!</td>
 <td>
 
-List of availabilities in individual stores
+List of availabilities in individual stores (empty for main variants)
 
 </td>
 </tr>
@@ -12384,10 +12374,10 @@ Represents a product
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>availableStoresCount</strong></td>
-<td valign="top"><a href="#int">Int</a>!</td>
+<td valign="top"><a href="#int">Int</a></td>
 <td>
 
-Number of the stores where the product is available
+Number of the stores where the product is available (null for main variants)
 
 </td>
 </tr>
@@ -12660,7 +12650,7 @@ Product URL slug
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>stockQuantity</strong></td>
-<td valign="top"><a href="#int">Int</a>!</td>
+<td valign="top"><a href="#int">Int</a></td>
 <td>
 
 Count of quantity on stock
@@ -12672,7 +12662,7 @@ Count of quantity on stock
 <td valign="top">[<a href="#storeavailability">StoreAvailability</a>!]!</td>
 <td>
 
-List of availabilities in individual stores
+List of availabilities in individual stores (empty for main variants)
 
 </td>
 </tr>

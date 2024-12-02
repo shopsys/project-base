@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\Product\Search;
 
+use App\Model\Product\Elasticsearch\Scope\ProductExportFieldProvider;
 use Shopsys\FrameworkBundle\Model\Product\Search\ProductElasticsearchConverter as BaseProductElasticsearchConverter;
 
 class ProductElasticsearchConverter extends BaseProductElasticsearchConverter
@@ -15,29 +16,20 @@ class ProductElasticsearchConverter extends BaseProductElasticsearchConverter
     public function fillEmptyFields(array $product): array
     {
         $result = parent::fillEmptyFields($product);
-        $result['name_prefix'] = $product['name_prefix'] ?? null;
-        $result['name_sufix'] = $product['name_sufix'] ?? null;
-        $result['usps'] = $product['usps'] ?? [];
-        $result['availability_status'] = $product['availability_status'] ?? '';
-        $result['product_available_stores_count_information'] = $product['product_available_stores_count_information'] ?? '';
-        $result['store_availabilities_information'] = $product['store_availabilities_information'] ?? [];
-        $result['slug'] = $product['slug'] ?? '';
-        $result['available_stores_count'] = $product['available_stores_count'] ?? 0;
-        $result['related_products'] = $product['related_products'] ?? [];
-        $result['product_videos'] = $product['product_videos'] ?? [];
-        $result['searching_names'] = $product['searching_names'] ?? '';
-        $result['searching_catnums'] = $product['searching_catnums'] ?? '';
-        $result['searching_partnos'] = $product['searching_partnos'] ?? '';
-        $result['searching_eans'] = $product['searching_eans'] ?? '';
-        $result['searching_short_descriptions'] = $product['searching_short_descriptions'] ?? '';
-        $result['searching_descriptions'] = $product['searching_descriptions'] ?? '';
-        $result['availability_dispatch_time'] = $product['availability_dispatch_time'] ?? null;
-        $result['uuid'] = $product['uuid'] ?? '00000000-0000-0000-0000-000000000000';
-        $result['unit'] = $product['unit'] ?? '';
-        $result['stock_quantity'] = $product['stock_quantity'] ?? 0;
-        $result['is_sale_exclusion'] = $product['is_sale_exclusion'] ?? true;
-        $result['main_category_path'] = $product['main_category_path'] ?? '';
-        $result['breadcrumb'] = $product['breadcrumb'] ?? [];
+        $result[ProductExportFieldProvider::USPS] = $product[ProductExportFieldProvider::USPS] ?? [];
+        $result[ProductExportFieldProvider::SLUG] = $product[ProductExportFieldProvider::SLUG] ?? '';
+        $result[ProductExportFieldProvider::RELATED_PRODUCTS] = $product[ProductExportFieldProvider::RELATED_PRODUCTS] ?? [];
+        $result[ProductExportFieldProvider::PRODUCT_VIDEOS] = $product[ProductExportFieldProvider::PRODUCT_VIDEOS] ?? [];
+        $result[ProductExportFieldProvider::SEARCHING_NAMES] = $product[ProductExportFieldProvider::SEARCHING_NAMES] ?? '';
+        $result[ProductExportFieldProvider::SEARCHING_CATNUMS] = $product[ProductExportFieldProvider::SEARCHING_CATNUMS] ?? '';
+        $result[ProductExportFieldProvider::SEARCHING_PARTNOS] = $product[ProductExportFieldProvider::SEARCHING_PARTNOS] ?? '';
+        $result[ProductExportFieldProvider::SEARCHING_EANS] = $product[ProductExportFieldProvider::SEARCHING_EANS] ?? '';
+        $result[ProductExportFieldProvider::SEARCHING_SHORT_DESCRIPTIONS] = $product[ProductExportFieldProvider::SEARCHING_SHORT_DESCRIPTIONS] ?? '';
+        $result[ProductExportFieldProvider::SEARCHING_DESCRIPTIONS] = $product[ProductExportFieldProvider::SEARCHING_DESCRIPTIONS] ?? '';
+
+        $result[ProductExportFieldProvider::IS_SALE_EXCLUSION] = $product[ProductExportFieldProvider::IS_SALE_EXCLUSION] ?? true;
+        $result[ProductExportFieldProvider::MAIN_CATEGORY_PATH] = $product[ProductExportFieldProvider::MAIN_CATEGORY_PATH] ?? '';
+        $result[ProductExportFieldProvider::BREADCRUMB] = $product[ProductExportFieldProvider::BREADCRUMB] ?? [];
 
         return $result;
     }

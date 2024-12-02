@@ -1,11 +1,4 @@
 AvailabilityStatusEnum:
     type: enum
-    config:
-        description: "Product Availability statuses"
-        values:
-            InStock:
-                value: '@=constant("Shopsys\\FrameworkBundle\\Model\\Product\\Availability\\AvailabilityStatusEnum::IN_STOCK")'
-                description: "Product availability status in stock"
-            OutOfStock:
-                value: '@=constant("Shopsys\\FrameworkBundle\\Model\\Product\\Availability\\AvailabilityStatusEnum::OUT_OF_STOCK")'
-                description: "Product availability status out of stock"
+    inherits:
+        - 'AvailabilityStatusEnumDecorator'

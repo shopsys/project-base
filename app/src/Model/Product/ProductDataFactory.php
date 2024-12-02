@@ -30,6 +30,7 @@ use Shopsys\FrameworkBundle\Model\Stock\StockFacade;
  * @property \App\Model\Product\Parameter\ParameterRepository $parameterRepository
  * @method fillProductStockByProduct(\App\Model\Product\ProductData $productData, \App\Model\Product\Product $product)
  * @method fillProductStockByStocks(\App\Model\Product\ProductData $productData)
+ * @method fillNew(\App\Model\Product\ProductData $productData)
  */
 class ProductDataFactory extends BaseProductDataFactory
 {
@@ -126,34 +127,11 @@ class ProductDataFactory extends BaseProductDataFactory
 
     /**
      * @param \App\Model\Product\ProductData $productData
-     */
-    protected function fillNew(BaseProductData $productData): void
-    {
-        parent::fillNew($productData);
-
-        foreach ($this->domain->getAllLocales() as $locale) {
-            $productData->namePrefix[$locale] = null;
-            $productData->nameSufix[$locale] = null;
-        }
-    }
-
-    /**
-     * @param \App\Model\Product\ProductData $productData
      * @param \App\Model\Product\Product $product
      */
     protected function fillFromProduct(BaseProductData $productData, BaseProduct $product): void
     {
         parent::fillFromProduct($productData, $product);
-
-        /** @var \App\Model\Product\ProductTranslation[] $translations */
-        $translations = $product->getTranslations();
-
-        foreach ($translations as $translation) {
-            $locale = $translation->getLocale();
-
-            $productData->namePrefix[$locale] = $translation->getNamePrefix();
-            $productData->nameSufix[$locale] = $translation->getNameSufix();
-        }
 
         $productData->files = $this->uploadedFileDataFactory->createByEntity($product);
         $productData->relatedProducts = $product->getRelatedProducts();

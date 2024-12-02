@@ -1,5 +1,5 @@
 import { ExtendedNextLink } from 'components/Basic/ExtendedNextLink/ExtendedNextLink';
-import { ProductAvailableStoresCount } from 'components/Blocks/Product/ProductAvailableStoresCount';
+import { ProductAvailability } from 'components/Blocks/Product/ProductAvailability';
 import { ProductFlags } from 'components/Blocks/Product/ProductFlags';
 import { ProductListItemImage } from 'components/Blocks/Product/ProductsList/ProductListItemImage';
 import { useDomainConfig } from 'components/providers/DomainConfigProvider';
@@ -59,17 +59,12 @@ export const CategoryBestsellersListItem: FC<CategoryBestsellersListItemProps> =
                     {!!product.flags.length && <ProductFlags flags={product.flags} variant="bestsellers" />}
                     {product.fullName}
                 </span>
-
-                {!product.isInquiryType && (
-                    <div className="max-w-48">
-                        <ProductAvailableStoresCount
-                            availableStoresCount={product.availableStoresCount}
-                            isMainVariant={product.isMainVariant}
-                            name={product.availability.name}
-                        />
-                    </div>
-                )}
-
+                <ProductAvailability
+                    availability={product.availability}
+                    availableStoresCount={product.availableStoresCount}
+                    className="max-w-48"
+                    isInquiryType={product.isInquiryType}
+                />
                 <div className="basis-2/6 font-bold leading-5 text-price md:basis-2/12 md:text-right">
                     {isPriceVisible(product.price.priceWithVat) && formatPrice(product.price.priceWithVat)}
                 </div>

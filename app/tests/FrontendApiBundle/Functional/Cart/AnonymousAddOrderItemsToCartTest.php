@@ -8,6 +8,8 @@ use App\DataFixtures\Demo\OrderDataFixture;
 use App\DataFixtures\Demo\ProductDataFixture;
 use App\Model\Order\Order;
 use App\Model\Product\Product;
+use App\Model\Product\ProductDataFactory;
+use App\Model\Product\ProductFacade;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Ramsey\Uuid\Uuid;
 use Shopsys\FrameworkBundle\Component\Translation\Translator;
@@ -23,6 +25,16 @@ class AnonymousAddOrderItemsToCartTest extends GraphQlTestCase
      * @inject
      */
     private CartApiFacade $cartApiFacade;
+
+    /**
+     * @inject
+     */
+    private ProductFacade $productFacade;
+
+    /**
+     * @inject
+     */
+    private ProductDataFactory $productDataFactory;
 
     /**
      * @param bool $shouldMerge
@@ -186,8 +198,11 @@ class AnonymousAddOrderItemsToCartTest extends GraphQlTestCase
 
     public function testNotAvailableOrderItemIsSkippedWhileAdding(): void
     {
-        // order with one item that is not available
         $order = $this->getReference(OrderDataFixture::ORDER_PREFIX . '7', Order::class);
+
+        $productInOrder = $this->getReference(ProductDataFixture::PRODUCT_PREFIX . '12', Product::class);
+        $this->hideProduct($productInOrder);
+        $productInOrderRefreshed = $this->productFacade->getById($productInOrder->getId());
 
         $locale = $this->getLocaleForFirstDomain();
         $expectedItems = [
@@ -220,7 +235,7 @@ class AnonymousAddOrderItemsToCartTest extends GraphQlTestCase
 
         $expectedNotAddedProducts = [
             [
-                'name' => t('D-Link', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $locale),
+                'name' => $productInOrderRefreshed->getName($locale),
             ],
         ];
 
@@ -332,5 +347,16 @@ class AnonymousAddOrderItemsToCartTest extends GraphQlTestCase
         $data = $this->getResponseDataForGraphQlType($response, 'cart');
         $this->assertArrayHasKey('items', $data);
         $this->assertArrayElements($expectedItems, $data['items']);
+    }
+
+    /**
+     * @param \App\Model\Product\Product $productInOrder
+     */
+    private function hideProduct(Product $productInOrder): void
+    {
+        $productData = $this->productDataFactory->createFromProduct($productInOrder);
+        $productData->hidden = true;
+        $this->productFacade->edit($productInOrder->getId(), $productData);
+        $this->handleDispatchedRecalculationMessages();
     }
 }

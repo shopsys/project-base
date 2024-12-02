@@ -45,7 +45,7 @@ class ProductBreadcrumbGenerator extends BaseProductBreadcrumbGenerator implemen
         $breadcrumbItems = $this->getCategoryBreadcrumbItemsOnDomain($productMainCategory, $domainId, $locale);
 
         $breadcrumbItems[] = new BreadcrumbItem(
-            $product->getFullname($locale),
+            $product->getFullName($locale),
         );
 
         return $breadcrumbItems;

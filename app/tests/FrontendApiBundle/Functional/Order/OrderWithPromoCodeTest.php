@@ -109,7 +109,7 @@ class OrderWithPromoCodeTest extends GraphQlTestCase
 
         return [
             0 => [
-                'name' => $helloKittyProduct->getFullname($firstDomainLocale),
+                'name' => $helloKittyProduct->getFullName($firstDomainLocale),
                 'unitPrice' => $this->getSerializedPriceConvertedToDomainDefaultCurrency('2891.74', $vatHigh),
                 'totalPrice' => $this->getSerializedPriceConvertedToDomainDefaultCurrency('2891.74', $vatHigh),
                 'quantity' => 1,

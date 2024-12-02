@@ -8,7 +8,6 @@ use Shopsys\FrameworkBundle\Model\Product\Search\FilterQuery as BaseFilterQuery;
 
 /**
  * @method \App\Model\Product\Search\FilterQuery applyOrdering(string $orderingModeId, \Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroup $pricingGroup)
- * @method \App\Model\Product\Search\FilterQuery applyDefaultOrdering()
  * @method \App\Model\Product\Search\FilterQuery filterByParameters(array $parameters)
  * @method \App\Model\Product\Search\FilterQuery filterByCategory(int[] $categoryIds)
  * @method \App\Model\Product\Search\FilterQuery filterByBrands(int[] $brandIds)
@@ -24,6 +23,7 @@ use Shopsys\FrameworkBundle\Model\Product\Search\FilterQuery as BaseFilterQuery;
  * @method \App\Model\Product\Search\FilterQuery restrictFields(string[] $fields)
  * @method \App\Model\Product\Search\FilterQuery filterBySliderParameters(\Shopsys\FrameworkBundle\Model\Product\Filter\ParameterFilterData[] $sliderParametersData)
  * @method \App\Model\Product\Search\FilterQuery filterByPrices(\Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroup $pricingGroup, \Shopsys\FrameworkBundle\Component\Money\Money|null $minimalPrice = null, \Shopsys\FrameworkBundle\Component\Money\Money|null $maximalPrice = null)
+ * @method \App\Model\Product\Search\FilterQuery applyOrderingByIdAscending()
  */
 class FilterQuery extends BaseFilterQuery
 {

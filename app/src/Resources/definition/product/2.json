@@ -251,9 +251,6 @@
             "availability_status": {
                 "type": "text"
             },
-            "availability_dispatch_time": {
-                "type": "integer"
-            },
             "is_main_variant": {
                 "type": "boolean"
             },
@@ -304,14 +301,11 @@
             "name_prefix": {
                 "type": "text"
             },
-            "name_sufix": {
+            "name_suffix": {
                 "type": "text"
             },
             "is_sale_exclusion": {
                 "type": "boolean"
-            },
-            "product_available_stores_count_information": {
-                "type": "text"
             },
             "store_availabilities_information": {
                 "type": "nested",

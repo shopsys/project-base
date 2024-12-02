@@ -10,7 +10,6 @@ import { useDebounce } from 'utils/useDebounce';
 
 type SpinboxProps = {
     min: number;
-    max: number;
     step: number;
     defaultValue: number;
     id: string;
@@ -19,7 +18,7 @@ type SpinboxProps = {
 };
 
 export const Spinbox = forwardRef<HTMLInputElement, SpinboxProps>(
-    ({ min, max, onChangeValueCallback, step, defaultValue, size, id }, spinboxForwardedRef) => {
+    ({ min, onChangeValueCallback, step, defaultValue, size, id }, spinboxForwardedRef) => {
         const { t } = useTranslation();
         const [isHoldingDecrease, setIsHoldingDecrease] = useState(false);
         const [isHoldingIncrease, setIsHoldingIncrease] = useState(false);
@@ -49,8 +48,6 @@ export const Spinbox = forwardRef<HTMLInputElement, SpinboxProps>(
 
             if (newValue < min) {
                 spinboxRef.current.valueAsNumber = min;
-            } else if (newValue > max) {
-                spinboxRef.current.valueAsNumber = max;
             } else {
                 spinboxRef.current.valueAsNumber = newValue;
             }
@@ -134,7 +131,6 @@ export const Spinbox = forwardRef<HTMLInputElement, SpinboxProps>(
                     aria-label={`${t('Quantity')} ${id}`}
                     className="h-full min-w-0 flex-1 border-0 p-0 text-center font-secondary text-lg font-bold text-inputText outline-none"
                     defaultValue={defaultValue}
-                    max={max}
                     min={min}
                     ref={spinboxRef}
                     tid={TIDs.spinbox_input}
@@ -144,7 +140,7 @@ export const Spinbox = forwardRef<HTMLInputElement, SpinboxProps>(
                 />
 
                 <SpinboxButton
-                    disabled={value === max}
+                    disabled={false}
                     tid={TIDs.forms_spinbox_increase}
                     title={t('Increase')}
                     onClick={() => onChangeValueHandler(step)}

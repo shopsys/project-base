@@ -9,7 +9,6 @@ mutation AddToCartMutation($input: AddToCartInput!) {
             }
             addedQuantity
             isNew
-            notOnStockQuantity
         }
     }
 }

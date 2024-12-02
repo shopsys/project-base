@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace App\Model\Product;
 
-use Doctrine\ORM\Query\Expr\Join;
-use Doctrine\ORM\QueryBuilder;
 use Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroup;
 use Shopsys\FrameworkBundle\Model\Product\Product;
 use Shopsys\FrameworkBundle\Model\Product\ProductDomain;
 use Shopsys\FrameworkBundle\Model\Product\ProductRepository as BaseProductRepository;
-use Shopsys\FrameworkBundle\Model\Stock\ProductStock;
 
 /**
  * @property \App\Model\Product\Search\ProductElasticsearchRepository $productElasticsearchRepository
@@ -54,24 +51,6 @@ class ProductRepository extends BaseProductRepository
             ->setParameter('catnums', $productCatnums)
             ->getQuery()
             ->execute();
-    }
-
-    /**
-     * @param \Doctrine\ORM\QueryBuilder $queryBuilder
-     * @param int $domainId
-     */
-    public function filterTemporaryExcludedProducts(QueryBuilder $queryBuilder, int $domainId): void
-    {
-        $subquery = $queryBuilder->getEntityManager()->createQueryBuilder()
-            ->select('1')
-            ->from(ProductStock::class, 'ps')
-            ->join('ps.stock', 's')
-            ->join('s.domains', 'sd', Join::WITH, 's.id = sd.stock AND sd.domainId = :domainId AND sd.isEnabled = TRUE')
-            ->where('ps.product = p')
-            ->setParameter('domainId', $domainId)
-            ->having('SUM(ps.productQuantity) > 0');
-
-        $queryBuilder->andWhere('(EXISTS(' . $subquery->getDQL() . ')) AND pd.saleExclusion = false AND p.calculatedSellingDenied = false');
     }
 
     /**

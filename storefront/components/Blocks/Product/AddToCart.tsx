@@ -18,7 +18,6 @@ const AddToCartPopup = dynamic(() =>
 type AddToCartProps = {
     productUuid: string;
     minQuantity: number;
-    maxQuantity: number;
     gtmMessageOrigin: GtmMessageOriginType;
     gtmProductListName: GtmProductListNameType;
     listIndex: number;
@@ -29,7 +28,6 @@ type AddToCartProps = {
 export const AddToCart: FC<AddToCartProps> = ({
     productUuid,
     minQuantity,
-    maxQuantity,
     gtmMessageOrigin,
     gtmProductListName,
     listIndex,
@@ -67,15 +65,7 @@ export const AddToCart: FC<AddToCartProps> = ({
     return (
         <div className={twMergeCustom('flex items-center justify-between gap-2', className)}>
             {isWithSpinbox && (
-                <Spinbox
-                    defaultValue={1}
-                    id={productUuid}
-                    max={maxQuantity}
-                    min={minQuantity}
-                    ref={spinboxRef}
-                    size="small"
-                    step={1}
-                />
+                <Spinbox defaultValue={1} id={productUuid} min={minQuantity} ref={spinboxRef} size="small" step={1} />
             )}
 
             <div className="relative">

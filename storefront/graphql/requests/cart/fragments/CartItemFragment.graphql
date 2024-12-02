@@ -14,14 +14,12 @@ fragment CartItemFragment on CartItem {
         }
         fullName
         catalogNumber
-        stockQuantity
         flags {
             ...SimpleFlagFragment
         }
         mainImage {
             ...ImageFragment
         }
-        stockQuantity
         availability {
             ...AvailabilityFragment
         }

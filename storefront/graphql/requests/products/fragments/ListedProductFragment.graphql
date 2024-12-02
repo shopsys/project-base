@@ -5,7 +5,6 @@ fragment ListedProductFragment on Product {
     slug
     fullName
     name
-    stockQuantity
     isSellingDenied
     flags {
         ...SimpleFlagFragment

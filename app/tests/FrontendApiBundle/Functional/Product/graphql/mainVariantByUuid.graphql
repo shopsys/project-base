@@ -1,0 +1,22 @@
+query mainVariantByUuid ($uuid: Uuid!) {
+    product(uuid: $uuid) {
+        __typename,
+        name,
+        shortDescription
+        ...on MainVariant {
+            variants {
+                name
+            }
+            variantsCount
+        }
+        availableStoresCount
+        stockQuantity
+        availability {
+            name
+            status
+        }
+        storeAvailabilities {
+            __typename
+        }
+    }
+}
