@@ -2,6 +2,7 @@ import { Error404Content } from 'components/Pages/ErrorPage/Error404Content';
 import { Error500Content } from 'components/Pages/ErrorPage/Error500Content';
 import { NextPage } from 'next';
 import { ReactElement } from 'react';
+import { CookiesStoreState, getCookiesStoreState } from 'utils/cookies/cookiesStore';
 import { isWithErrorDebugging, isWithToastAndConsoleErrorDebugging } from 'utils/errors/isWithErrorDebugging';
 import { logException } from 'utils/errors/logException';
 import { getServerSidePropsWrapper } from 'utils/serverSide/getServerSidePropsWrapper';
@@ -16,6 +17,7 @@ type ErrorPageProps = {
     statusCode: number;
     props: Partial<ServerSidePropsType> | Promise<Partial<ServerSidePropsType>>;
     err: string;
+    cookiesStore: CookiesStoreState;
 };
 
 const ErrorPage: NextPage<ErrorPageProps> = ({ hasGetInitialPropsRun, err, statusCode }): ReactElement => {
@@ -29,6 +31,7 @@ const ErrorPage: NextPage<ErrorPageProps> = ({ hasGetInitialPropsRun, err, statu
 ErrorPage.getInitialProps = getServerSidePropsWrapper(({ redisClient, domainConfig, t }) => async (context: any) => {
     const middlewareStatusCode = Number.parseInt(context.res.getHeader(MIDDLEWARE_STATUS_CODE_KEY) || '');
     const middlewareStatusMessage = context.res.getHeader(MIDDLEWARE_STATUS_MESSAGE_KEY);
+    const cookiesStoreState = getCookiesStoreState(context);
 
     const serverSideProps = await initServerSideProps({ context, redisClient, domainConfig, t });
     const statusCode = middlewareStatusCode || context.res.statusCode || 500;
@@ -60,6 +63,7 @@ ErrorPage.getInitialProps = getServerSidePropsWrapper(({ redisClient, domainConf
         statusCode,
         err,
         hasGetInitialPropsRun: true,
+        cookiesStore: cookiesStoreState,
     } as ErrorPageProps;
 });
 
