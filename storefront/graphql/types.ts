@@ -893,6 +893,13 @@ export type TypeCreateOrderResult = {
   orderCreated: Scalars['Boolean']['output'];
 };
 
+export type TypeCreateWatchdogInput = {
+  /** The customer's email address */
+  email: Scalars['String']['input'];
+  /** Product UUID */
+  productUuid: Scalars['Uuid']['input'];
+};
+
 /** Represents an currently logged customer user */
 export type TypeCustomerUser = {
   /** UUID */
@@ -1308,6 +1315,8 @@ export type TypeMutation = {
   CreateInquiry: Scalars['Boolean']['output'];
   /** Creates complete order with products and addresses */
   CreateOrder: TypeCreateOrderResult;
+  /** Create a new watchdog or update validity of the current one */
+  CreateWatchdog: Scalars['Boolean']['output'];
   /** Delete delivery address by Uuid */
   DeleteDeliveryAddress: Array<TypeDeliveryAddress>;
   /** edit customer user to customer */
@@ -1428,6 +1437,11 @@ export type TypeMutationCreateInquiryArgs = {
 
 export type TypeMutationCreateOrderArgs = {
   input: TypeOrderInput;
+};
+
+
+export type TypeMutationCreateWatchdogArgs = {
+  input: TypeCreateWatchdogInput;
 };
 
 

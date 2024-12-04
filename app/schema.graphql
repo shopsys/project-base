@@ -742,6 +742,13 @@ type CreateOrderResult {
   orderCreated: Boolean!
 }
 
+input CreateWatchdogInput {
+  "The customer's email address"
+  email: String!
+  "Product UUID"
+  productUuid: Uuid!
+}
+
 "Represents an currently logged customer user"
 interface CustomerUser {
   "UUID"
@@ -1116,6 +1123,8 @@ type Mutation {
   CreateInquiry(input: CreateInquiryInput!): Boolean!
   "Creates complete order with products and addresses"
   CreateOrder(input: OrderInput!): CreateOrderResult!
+  "Create a new watchdog or update validity of the current one"
+  CreateWatchdog(input: CreateWatchdogInput!): Boolean!
   "Delete delivery address by Uuid"
   DeleteDeliveryAddress(deliveryAddressUuid: Uuid!): [DeliveryAddress!]!
   "edit customer user to customer"
