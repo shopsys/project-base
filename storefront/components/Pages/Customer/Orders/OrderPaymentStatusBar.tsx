@@ -6,9 +6,15 @@ import { twMergeCustom } from 'utils/twMerge';
 type OrderPaymentStatusBarProps = {
     orderPaymentType: string;
     orderIsPaid: boolean;
+    orderIsPaymentInProcess: boolean;
 };
 
-export const OrderPaymentStatusBar: FC<OrderPaymentStatusBarProps> = ({ orderPaymentType, orderIsPaid, className }) => {
+export const OrderPaymentStatusBar: FC<OrderPaymentStatusBarProps> = ({
+    orderPaymentType,
+    orderIsPaid,
+    className,
+    orderIsPaymentInProcess,
+}) => {
     const { t } = useTranslation();
     return (
         <>
@@ -24,6 +30,11 @@ export const OrderPaymentStatusBar: FC<OrderPaymentStatusBarProps> = ({ orderPay
                         <>
                             <InfoIconInCircle className="w-4 text-backgroundSuccessMore" />
                             {t('The order was paid')}
+                        </>
+                    ) : orderIsPaymentInProcess ? (
+                        <>
+                            <InfoIconInCircle className="w-4 text-backgroundWarning" />
+                            {t('The order is awaiting payment verification.')}
                         </>
                     ) : (
                         <>

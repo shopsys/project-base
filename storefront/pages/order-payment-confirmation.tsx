@@ -3,6 +3,7 @@ import { ConfirmationPageContent } from 'components/Blocks/ConfirmationPage/Conf
 import { CommonLayout } from 'components/Layout/CommonLayout';
 import { Webline } from 'components/Layout/Webline/Webline';
 import { PaymentFail } from 'components/Pages/Order/PaymentConfirmation/PaymentFail';
+import { PaymentInProcess } from 'components/Pages/Order/PaymentConfirmation/PaymentInProcess';
 import { PaymentSuccess } from 'components/Pages/Order/PaymentConfirmation/PaymentSuccess';
 import {
     getPaymentSessionExpiredErrorMessage,
@@ -68,24 +69,26 @@ const OrderPaymentConfirmationPage: FC<ServerSidePropsType> = () => {
                 }
             >
                 <Webline>
-                    {paymentStatusData?.UpdatePaymentStatus.isPaid
-                        ? successContentData && (
-                              <PaymentSuccess
-                                  orderPaymentSuccessfulContent={successContentData.orderPaymentSuccessfulContent}
-                                  orderUuid={orderUuid}
-                              />
-                          )
-                        : paymentStatusData &&
-                          failedContentData && (
-                              <PaymentFail
-                                  lastUsedOrderPaymentType={paymentStatusData.UpdatePaymentStatus.payment.type}
-                                  orderPaymentFailedContent={failedContentData.orderPaymentFailedContent}
-                                  orderUuid={orderUuid}
-                                  paymentTransactionCount={
-                                      paymentStatusData.UpdatePaymentStatus.paymentTransactionsCount
-                                  }
-                              />
-                          )}
+                    {paymentStatusData?.UpdatePaymentStatus.isPaid ? (
+                        successContentData && (
+                            <PaymentSuccess
+                                orderPaymentSuccessfulContent={successContentData.orderPaymentSuccessfulContent}
+                                orderUuid={orderUuid}
+                            />
+                        )
+                    ) : paymentStatusData?.UpdatePaymentStatus.isPaymentInProcess ? (
+                        <PaymentInProcess orderUrlHash={paymentStatusData.UpdatePaymentStatus.urlHash} />
+                    ) : (
+                        paymentStatusData &&
+                        failedContentData && (
+                            <PaymentFail
+                                lastUsedOrderPaymentType={paymentStatusData.UpdatePaymentStatus.payment.type}
+                                orderPaymentFailedContent={failedContentData.orderPaymentFailedContent}
+                                orderUuid={orderUuid}
+                                paymentTransactionCount={paymentStatusData.UpdatePaymentStatus.paymentTransactionsCount}
+                            />
+                        )
+                    )}
                 </Webline>
             </CommonLayout>
         </>

@@ -5962,6 +5962,15 @@ The customer's first name
 </td>
 </tr>
 <tr>
+<td colspan="2" valign="top"><strong>hasPaymentInProcess</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td>
+
+Indicates whether order payment is still being processed with GoPay payment type
+
+</td>
+</tr>
+<tr>
 <td colspan="2" valign="top"><strong>heurekaAgreement</strong></td>
 <td valign="top"><a href="#boolean">Boolean</a>!</td>
 <td>
@@ -11505,7 +11514,7 @@ One of the possible methods of the customer user login
 </thead>
 <tbody>
 <tr>
-<td valign="top"><strong>admin</strong></td>
+<td valign="top"><strong>web</strong></td>
 <td></td>
 </tr>
 <tr>
@@ -11521,7 +11530,7 @@ One of the possible methods of the customer user login
 <td></td>
 </tr>
 <tr>
-<td valign="top"><strong>web</strong></td>
+<td valign="top"><strong>admin</strong></td>
 <td></td>
 </tr>
 </tbody>
@@ -11540,10 +11549,6 @@ One of possible types of the order item
 </thead>
 <tbody>
 <tr>
-<td valign="top"><strong>discount</strong></td>
-<td></td>
-</tr>
-<tr>
 <td valign="top"><strong>payment</strong></td>
 <td></td>
 </tr>
@@ -11552,11 +11557,15 @@ One of possible types of the order item
 <td></td>
 </tr>
 <tr>
-<td valign="top"><strong>rounding</strong></td>
+<td valign="top"><strong>discount</strong></td>
 <td></td>
 </tr>
 <tr>
 <td valign="top"><strong>transport</strong></td>
+<td></td>
+</tr>
+<tr>
+<td valign="top"><strong>rounding</strong></td>
 <td></td>
 </tr>
 </tbody>
@@ -11575,18 +11584,10 @@ Status of order
 </thead>
 <tbody>
 <tr>
-<td valign="top"><strong>canceled</strong></td>
+<td valign="top"><strong>new</strong></td>
 <td>
 
-Canceled
-
-</td>
-</tr>
-<tr>
-<td valign="top"><strong>done</strong></td>
-<td>
-
-Done
+New
 
 </td>
 </tr>
@@ -11599,10 +11600,18 @@ In progress
 </td>
 </tr>
 <tr>
-<td valign="top"><strong>new</strong></td>
+<td valign="top"><strong>done</strong></td>
 <td>
 
-New
+Done
+
+</td>
+</tr>
+<tr>
+<td valign="top"><strong>canceled</strong></td>
+<td>
+
+Canceled
 
 </td>
 </tr>
@@ -11653,11 +11662,11 @@ One of possible types of the product list
 </thead>
 <tbody>
 <tr>
-<td valign="top"><strong>COMPARISON</strong></td>
+<td valign="top"><strong>WISHLIST</strong></td>
 <td></td>
 </tr>
 <tr>
-<td valign="top"><strong>WISHLIST</strong></td>
+<td valign="top"><strong>COMPARISON</strong></td>
 <td></td>
 </tr>
 </tbody>
@@ -11676,18 +11685,10 @@ One of possible ordering modes for product
 </thead>
 <tbody>
 <tr>
-<td valign="top"><strong>NAME_ASC</strong></td>
+<td valign="top"><strong>PRIORITY</strong></td>
 <td>
 
-Order by name ascending
-
-</td>
-</tr>
-<tr>
-<td valign="top"><strong>NAME_DESC</strong></td>
-<td>
-
-Order by name descending
+Order by priority
 
 </td>
 </tr>
@@ -11708,10 +11709,18 @@ Order by price descending
 </td>
 </tr>
 <tr>
-<td valign="top"><strong>PRIORITY</strong></td>
+<td valign="top"><strong>NAME_ASC</strong></td>
 <td>
 
-Order by priority
+Order by name ascending
+
+</td>
+</tr>
+<tr>
+<td valign="top"><strong>NAME_DESC</strong></td>
+<td>
+
+Order by name descending
 
 </td>
 </tr>
@@ -11803,22 +11812,6 @@ Status of store opening
 </thead>
 <tbody>
 <tr>
-<td valign="top"><strong>CLOSED</strong></td>
-<td>
-
-Store is currently closed
-
-</td>
-</tr>
-<tr>
-<td valign="top"><strong>CLOSED_SOON</strong></td>
-<td>
-
-Store will be closed soon
-
-</td>
-</tr>
-<tr>
 <td valign="top"><strong>OPEN</strong></td>
 <td>
 
@@ -11827,10 +11820,26 @@ Store is currently opened
 </td>
 </tr>
 <tr>
+<td valign="top"><strong>CLOSED</strong></td>
+<td>
+
+Store is currently closed
+
+</td>
+</tr>
+<tr>
 <td valign="top"><strong>OPEN_SOON</strong></td>
 <td>
 
 Store will be opened soon
+
+</td>
+</tr>
+<tr>
+<td valign="top"><strong>CLOSED_SOON</strong></td>
+<td>
+
+Store will be closed soon
 
 </td>
 </tr>

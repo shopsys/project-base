@@ -1275,6 +1275,8 @@ type Order {
   email: String!
   "The customer's first name"
   firstName: String
+  "Indicates whether order payment is still being processed with GoPay payment type"
+  hasPaymentInProcess: Boolean!
   "Determines whether the customer agrees with sending satisfaction questionnaires within the Verified by Customers Heureka program"
   heurekaAgreement: Boolean!
   "Indicates whether the billing address is other than a delivery address"
@@ -1471,11 +1473,11 @@ input OrderItemsFilterInput {
 
 "One of possible types of the order item"
 enum OrderItemTypeEnum {
-  discount
   payment
   product
-  rounding
+  discount
   transport
+  rounding
 }
 
 type OrderPaymentsConfig {
@@ -1487,14 +1489,14 @@ type OrderPaymentsConfig {
 
 "Status of order"
 enum OrderStatusEnum {
-  "Canceled"
-  canceled
-  "Done"
-  done
-  "In progress"
-  inProgress
   "New"
   new
+  "In progress"
+  inProgress
+  "Done"
+  done
+  "Canceled"
+  canceled
 }
 
 "Information about pagination in a connection."
@@ -1875,8 +1877,8 @@ input ProductListInput {
 
 "One of possible types of the product list"
 enum ProductListTypeEnum {
-  COMPARISON
   WISHLIST
+  COMPARISON
 }
 
 input ProductListUpdateInput {
@@ -1887,16 +1889,16 @@ input ProductListUpdateInput {
 
 "One of possible ordering modes for product"
 enum ProductOrderingModeEnum {
-  "Order by name ascending"
-  NAME_ASC
-  "Order by name descending"
-  NAME_DESC
+  "Order by priority"
+  PRIORITY
   "Order by price ascending"
   PRICE_ASC
   "Order by price descending"
   PRICE_DESC
-  "Order by priority"
-  PRIORITY
+  "Order by name ascending"
+  NAME_ASC
+  "Order by name descending"
+  NAME_DESC
   "Order by relevance"
   RELEVANCE
 }
@@ -2458,14 +2460,14 @@ type StoreEdge {
 
 "Status of store opening"
 enum StoreOpeningStatusEnum {
-  "Store is currently closed"
-  CLOSED
-  "Store will be closed soon"
-  CLOSED_SOON
   "Store is currently opened"
   OPEN
+  "Store is currently closed"
+  CLOSED
   "Store will be opened soon"
   OPEN_SOON
+  "Store will be closed soon"
+  CLOSED_SOON
 }
 
 type Token {
