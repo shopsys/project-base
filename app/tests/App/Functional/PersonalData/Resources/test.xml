@@ -101,5 +101,14 @@
         </complaint_other_data>
       </complaint>
     </customer_complaints>
+    <customer_watchdogs>
+      <watchdog>
+        <watchdog_product_name>22" Sencor SLE 22F46DM4 HELLO KITTY</watchdog_product_name>
+        <watchdog_product_catnum>9177759</watchdog_product_catnum>
+        <watchdog_create_date>2018-04-13T00:00:00+00:00</watchdog_create_date>
+        <watchdog_last_updated_date>2018-04-13T00:00:00+00:00</watchdog_last_updated_date>
+        <watchdog_valid_until_date>2020-04-13T00:00:00+00:00</watchdog_valid_until_date>
+      </watchdog>
+    </customer_watchdogs>
   </customer>
 </customers>
