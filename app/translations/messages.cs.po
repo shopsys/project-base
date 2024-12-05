@@ -136,9 +136,6 @@ msgstr "Opravdu chcete odebrat tuto notifikační lištu?"
 msgid "Domain"
 msgstr "Doména"
 
-msgid "Edit"
-msgstr "Upravit"
-
 msgid "Edit data"
 msgstr "Upravit data"
 
@@ -147,9 +144,6 @@ msgstr "Upravit prodejnu"
 
 msgid "Editing banner"
 msgstr "Upravit banner"
-
-msgid "Editing email template - %name%"
-msgstr "Editace šablony emailu - %name%"
 
 msgid "Editing flag"
 msgstr "Editace příznaku"
@@ -162,9 +156,6 @@ msgstr "Editace notifikační lišty"
 
 msgid "Editing page"
 msgstr "Editace stránky"
-
-msgid "Email template <strong><a href=\"{{ url }}\">{{ name }}</a></strong> modified"
-msgstr "Byla upravena e-mailová šablona <strong><a href=\"{{ url }}\">{{ name }}</a></strong>"
 
 msgid "Enable two factor authentication by Google Authenticator"
 msgstr "Zapnout dvoufaktorové ověřování pomocí Google Autentikátoru"

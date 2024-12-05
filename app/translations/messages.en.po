@@ -136,9 +136,6 @@ msgstr ""
 msgid "Domain"
 msgstr ""
 
-msgid "Edit"
-msgstr ""
-
 msgid "Edit data"
 msgstr ""
 
@@ -146,9 +143,6 @@ msgid "Edit store"
 msgstr ""
 
 msgid "Editing banner"
-msgstr ""
-
-msgid "Editing email template - %name%"
 msgstr ""
 
 msgid "Editing flag"
@@ -161,9 +155,6 @@ msgid "Editing notification bar"
 msgstr ""
 
 msgid "Editing page"
-msgstr ""
-
-msgid "Email template <strong><a href=\"{{ url }}\">{{ name }}</a></strong> modified"
 msgstr ""
 
 msgid "Enable two factor authentication by Google Authenticator"
