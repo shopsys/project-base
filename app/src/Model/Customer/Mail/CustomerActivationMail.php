@@ -12,7 +12,7 @@ use Shopsys\FrameworkBundle\Model\Customer\Mail\CustomerActivationMail as BaseCu
  * @method string getVariableNewPasswordUrl(\App\Model\Customer\User\CustomerUser $customerUser)
  * @method string[] getSubjectValuesIndexedByVariableName(\App\Model\Customer\User\CustomerUser $customerUser)
  * @property \App\Component\Setting\Setting $setting
- * @method __construct(\App\Component\Setting\Setting $setting, \Shopsys\FrameworkBundle\Component\Router\DomainRouterFactory $domainRouterFactory)
+ * @method __construct(\App\Component\Setting\Setting $setting, \Shopsys\FrameworkBundle\Model\Customer\Mail\NewPasswordUrlProvider $newPasswordUrlProvider)
  */
 class CustomerActivationMail extends BaseCustomerActivationMail
 {
