@@ -1,9 +1,9 @@
-import { CartIcon } from 'components/Basic/Icon/CartIcon';
 import { Loader } from 'components/Basic/Loader/Loader';
 import { Button } from 'components/Forms/Button/Button';
 import { Spinbox } from 'components/Forms/Spinbox/Spinbox';
 import { TIDs } from 'cypress/tids';
 import { TypeProductDetailFragment } from 'graphql/requests/products/fragments/ProductDetailFragment.generated';
+import { TypeAvailabilityStatusEnum } from 'graphql/types';
 import { GtmMessageOriginType } from 'gtm/enums/GtmMessageOriginType';
 import { GtmProductListNameType } from 'gtm/enums/GtmProductListNameType';
 import useTranslation from 'next-translate/useTranslation';
@@ -72,6 +72,10 @@ export const ProductDetailAddToCart: FC<ProductDetailAddToCartProps> = ({ produc
         );
     }
 
+    const isWatchdogButtonVisible =
+        (product.uuid && product.availability.status === TypeAvailabilityStatusEnum.OutOfStock) ||
+        product.isSellingDenied;
+
     return (
         <div className="flex items-center gap-2">
             <Spinbox defaultValue={1} id={product.uuid} min={1} ref={spinboxRef} step={1} />
@@ -86,9 +90,9 @@ export const ProductDetailAddToCart: FC<ProductDetailAddToCartProps> = ({ produc
                     isDisabled={isAddingToCart}
                     size="large"
                     tid={TIDs.pages_productdetail_addtocart_button}
+                    variant={isWatchdogButtonVisible ? 'inverted' : 'primary'}
                     onClick={onAddToCartHandler}
                 >
-                    <CartIcon className="w-[18px]" />
                     {t('Add to cart')}
                 </Button>
             </div>
