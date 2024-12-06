@@ -1,6 +1,7 @@
 import { Image } from 'components/Basic/Image/Image';
 import { ProductAction } from 'components/Blocks/Product/ProductAction';
 import { ProductAvailability } from 'components/Blocks/Product/ProductAvailability';
+import { WatchDogButton } from 'components/Blocks/Product/Watchdog/WatchDogButton';
 import { TIDs } from 'cypress/tids';
 import { TypeMainVariantDetailFragment } from 'graphql/requests/products/fragments/MainVariantDetailFragment.generated';
 import { TypeAvailabilityStatusEnum } from 'graphql/types';
@@ -83,14 +84,31 @@ export const ProductVariantsTable: FC<ProductVariantsTableProps> = ({ variants }
                             {isPriceVisible(variant.price.priceWithVat) && formatPrice(variant.price.priceWithVat)}
                         </div>
 
-                        <ProductAction
-                            isWithSpinbox
-                            buttonSize="large"
-                            gtmMessageOrigin={GtmMessageOriginType.product_detail_page}
-                            gtmProductListName={GtmProductListNameType.product_detail_variants_table}
-                            listIndex={index}
-                            product={variant}
-                        />
+                        <div className="flex flex-col gap-2">
+                            <WatchDogButton
+                                availability={variant.availability}
+                                isInquiryType={variant.isInquiryType}
+                                productIsSellingDenied={variant.isSellingDenied}
+                                productUuid={variant.uuid}
+                            />
+
+                            <ProductAction
+                                isWithSpinbox
+                                buttonSize="large"
+                                gtmMessageOrigin={GtmMessageOriginType.product_detail_page}
+                                gtmProductListName={GtmProductListNameType.product_detail_variants_table}
+                                listIndex={index}
+                                product={variant}
+                                buttonVariant={
+                                    (variant.uuid &&
+                                        !variant.isInquiryType &&
+                                        variant.availability.status === TypeAvailabilityStatusEnum.OutOfStock) ||
+                                    variant.isSellingDenied
+                                        ? 'inverted'
+                                        : 'primary'
+                                }
+                            />
+                        </div>
                     </div>
                 </li>
             ))}

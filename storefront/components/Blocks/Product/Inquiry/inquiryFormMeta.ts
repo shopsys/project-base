@@ -62,7 +62,7 @@ export const useInquiryFormMeta = (formProviderMethods: UseFormReturn<InquiryFor
         () => ({
             formName: 'inquiry-form',
             messages: {
-                error: t('An error occurred creating your inquiry'),
+                error: t('An error occurred while creating your inquiry'),
             },
             fields: {
                 email: {
