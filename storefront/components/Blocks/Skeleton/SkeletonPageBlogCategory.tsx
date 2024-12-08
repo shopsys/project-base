@@ -10,9 +10,9 @@ export const SkeletonPageBlogCategory: FC = () => (
         <SkeletonModuleBreadcrumbs count={2} />
         <div className="scroll-mt-5">
             <div className="mb-6 md:mb-10">
-                <Skeleton className="h-[196px] w-full rounded-xl" />
+                <Skeleton className="h-48 w-full rounded-xl" />
             </div>
-            <div className="mb-[60px] flex flex-col gap-3 md:gap-10 vl:flex-row xl:gap-[116px]">
+            <div className="mb-16 flex flex-col gap-3 md:gap-10 vl:flex-row xl:gap-28">
                 <div className="order-2 flex w-full flex-col vl:order-1 vl:flex-1">
                     <div className="mb-16 flex flex-col gap-y-5">
                         {createEmptyArray(DEFAULT_BLOG_PAGE_SIZE).map((_, index) => (

@@ -14,7 +14,7 @@ export const useSeoTitleWithPagination = (
     const currentLoadMore = useCurrentLoadMoreQuery();
     const title = seoTitle || name;
 
-    if (!totalCount || totalCount < pageSize) {
+    if (!totalCount || totalCount <= pageSize) {
         return title;
     }
 

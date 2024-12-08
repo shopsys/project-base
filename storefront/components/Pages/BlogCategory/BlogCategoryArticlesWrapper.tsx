@@ -5,14 +5,13 @@ import { DEFAULT_BLOG_PAGE_SIZE } from 'config/constants';
 import { TypeListedBlogArticleFragment } from 'graphql/requests/articlesInterface/blogArticles/fragments/ListedBlogArticleFragment.generated';
 import { BlogCategoryArticlesDocument } from 'graphql/requests/blogCategories/queries/BlogCategoryArticlesQuery.generated';
 import useTranslation from 'next-translate/useTranslation';
-import { RefObject } from 'react';
 import { createEmptyArray } from 'utils/arrays/createEmptyArray';
 import { useBlogCategoryArticlesData } from 'utils/loadMore/useBlogCategoryArticlesData';
 import { mapConnectionEdges } from 'utils/mappers/connection';
 
 type BlogCategoryArticlesWrapperProps = {
     uuid: string;
-    paginationScrollTargetRef: RefObject<HTMLDivElement>;
+    paginationScrollTargetRef: React.RefObject<HTMLDivElement>;
     blogCategoryTotalCount: number;
 };
 
@@ -38,7 +37,7 @@ export const BlogCategoryArticlesWrapper: FC<BlogCategoryArticlesWrapperProps> =
     );
 
     return (
-        <div className="flex flex-col gap-y-6 md:gap-y-10">
+        <div className="order-2 flex w-full flex-col gap-y-6 md:gap-y-10 vl:order-1 vl:flex-1">
             {areBlogCategoryArticlesFetching ? (
                 <div className="flex flex-col gap-y-5">
                     {createEmptyArray(DEFAULT_BLOG_PAGE_SIZE).map((_, index) => (

@@ -31,7 +31,7 @@ export const BlogArticlesList: FC<BlogArticlesListProps> = ({ blogArticles, isLo
                             'hover:border-borderAccentLess hover:bg-background hover:no-underline',
                         )}
                     >
-                        <div className="w-full text-center md:w-[250px] lg:w-[320px]">
+                        <div className="w-full text-center md:w-[250px] lg:w-80">
                             <Image
                                 alt={blogArticle.mainImage?.name || blogArticle.name}
                                 className="rounded-xl"
@@ -52,13 +52,17 @@ export const BlogArticlesList: FC<BlogArticlesListProps> = ({ blogArticles, isLo
                                 </span>
                                 <div className="flex flex-wrap gap-2">
                                     {blogArticle.blogCategories.map((blogArticleCategory) => (
-                                        <Fragment key={blogArticleCategory.uuid}>
+                                        <>
                                             {blogArticleCategory.parent && (
-                                                <Flag href={blogArticleCategory.link} type="blog">
+                                                <Flag
+                                                    key={blogArticleCategory.uuid}
+                                                    href={blogArticleCategory.link}
+                                                    type="blog"
+                                                >
                                                     {blogArticleCategory.name}
                                                 </Flag>
                                             )}
-                                        </Fragment>
+                                        </>
                                     ))}
                                 </div>
                             </div>
