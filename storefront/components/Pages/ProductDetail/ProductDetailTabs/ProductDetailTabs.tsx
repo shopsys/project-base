@@ -53,6 +53,11 @@ export const ProductDetailTabs: FC<ProductDetailTabsProps> = ({ description, par
         groupParameters: groupParameters.sort((a, b) => a.name.localeCompare(b.name)),
     }));
 
+    let tabIndex = 0;
+    const parametersTabIndex = parameters.length ? ++tabIndex : -1;
+    const relatedProductsTabIndex = relatedProducts.length ? ++tabIndex : -1;
+    const filesTabIndex = files.length ? ++tabIndex : -1;
+
     return (
         <Tabs
             className="flex flex-col gap-4 lg:gap-0"
@@ -81,7 +86,7 @@ export const ProductDetailTabs: FC<ProductDetailTabsProps> = ({ description, par
             </TabsContent>
 
             {!!parameters.length && (
-                <TabsContent headingTextMobile={t('Parameters')} isActive={selectedTab === 1}>
+                <TabsContent headingTextMobile={t('Parameters')} isActive={selectedTab === parametersTabIndex}>
                     {sortedIndividualParameters.length > 0 && (
                         <div>
                             <Table className="mx-auto max-w-screen-lg border-0 p-0">
@@ -138,13 +143,16 @@ export const ProductDetailTabs: FC<ProductDetailTabsProps> = ({ description, par
             )}
 
             {!!relatedProducts.length && (
-                <TabsContent headingTextMobile={t('Related Products')} isActive={selectedTab === 2}>
-                    <ProductDetailRelatedProductsTab relatedProducts={relatedProducts} />{' '}
+                <TabsContent
+                    headingTextMobile={t('Related Products')}
+                    isActive={selectedTab === relatedProductsTabIndex}
+                >
+                    <ProductDetailRelatedProductsTab relatedProducts={relatedProducts} />
                 </TabsContent>
             )}
 
             {!!files.length && (
-                <TabsContent headingTextMobile={t('Files')} isActive={selectedTab === 3}>
+                <TabsContent headingTextMobile={t('Files')} isActive={selectedTab === filesTabIndex}>
                     <ul>
                         {files.map((file) => (
                             <li key={file.url}>
