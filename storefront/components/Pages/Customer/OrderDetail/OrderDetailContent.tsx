@@ -13,11 +13,11 @@ export const OrderDetailContent: FC<OrderDetailContentProps> = ({ order }) => {
     return (
         <div>
             <OrderPaymentStatusBar
+                orderHasPaymentInProcess={order.hasPaymentInProcess}
                 orderIsPaid={order.isPaid}
-                orderIsPaymentInProcess={order.isPaymentInProcess}
                 orderPaymentType={order.payment.type}
             />
-            {order.payment.type === PaymentTypeEnum.GoPay && !order.isPaid && !order.isPaymentInProcess && (
+            {order.payment.type === PaymentTypeEnum.GoPay && !order.isPaid && !order.hasPaymentInProcess && (
                 <div>
                     <PaymentsInOrderSelect
                         orderUuid={order.uuid}

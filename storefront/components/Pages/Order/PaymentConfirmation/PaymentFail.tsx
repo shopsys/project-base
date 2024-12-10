@@ -24,20 +24,16 @@ export const PaymentFail: FC<PaymentFailProps> = ({
     useGtmPageViewEvent(gtmStaticPageViewEvent);
 
     return (
-        <ConfirmationPageContent
-            content={orderPaymentFailedContent}
-            heading={t('Your payment was not successful')}
-            AdditionalContent={
-                <>
-                    {lastUsedOrderPaymentType === PaymentTypeEnum.GoPay && (
-                        <PaymentsInOrderSelect
-                            className="mt-6"
-                            orderUuid={orderUuid}
-                            paymentTransactionCount={paymentTransactionCount}
-                        />
-                    )}
-                </>
-            }
-        />
+        <ConfirmationPageContent content={orderPaymentFailedContent} heading={t('Your payment was not successful')}>
+            <>
+                {lastUsedOrderPaymentType === PaymentTypeEnum.GoPay && (
+                    <PaymentsInOrderSelect
+                        className="mt-6"
+                        orderUuid={orderUuid}
+                        paymentTransactionCount={paymentTransactionCount}
+                    />
+                )}
+            </>
+        </ConfirmationPageContent>
     );
 };

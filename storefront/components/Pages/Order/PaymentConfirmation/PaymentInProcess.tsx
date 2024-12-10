@@ -1,6 +1,5 @@
-import { ArrowIcon } from 'components/Basic/Icon/ArrowIcon';
-import { HeartIcon } from 'components/Basic/Icon/HeartIcon';
-import { Webline } from 'components/Layout/Webline/Webline';
+import { ExtendedNextLink } from 'components/Basic/ExtendedNextLink/ExtendedNextLink';
+import { ConfirmationPageContent } from 'components/Blocks/ConfirmationPage/ConfirmationPageContent';
 import { useDomainConfig } from 'components/providers/DomainConfigProvider';
 import { GtmPageType } from 'gtm/enums/GtmPageType';
 import { useGtmStaticPageViewEvent } from 'gtm/factories/useGtmStaticPageViewEvent';
@@ -23,17 +22,13 @@ export const PaymentInProcess: FC<PaymentInProcessProps> = ({ orderUrlHash }) =>
     useGtmPageViewEvent(gtmStaticPageViewEvent);
 
     return (
-        <Webline className="mt-8 lg:mt-10 vl:mt-20">
-            <div className="flex items-center gap-6">
-                <HeartIcon className="text-green h-20 w-20" />
-                <h1 className="mb-0">
-                    {t('The payment is being processed, you can check the status on the order detail page')}
-                </h1>
-            </div>
-            <a className="w-fit" href={orderDetailUrl}>
+        <ConfirmationPageContent
+            content={t('You can check the status on the order detail page.')}
+            heading={t('The payment is being processed')}
+        >
+            <ExtendedNextLink href={orderDetailUrl} type="orderDetail">
                 {t('Show order detail')}
-                <ArrowIcon className="h-3 w-3 -rotate-90" />
-            </a>
-        </Webline>
+            </ExtendedNextLink>
+        </ConfirmationPageContent>
     );
 };

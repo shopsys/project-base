@@ -2,9 +2,7 @@ import { MetaRobots } from 'components/Basic/Head/MetaRobots';
 import { ConfirmationPageContent } from 'components/Blocks/ConfirmationPage/ConfirmationPageContent';
 import { CommonLayout } from 'components/Layout/CommonLayout';
 import { Webline } from 'components/Layout/Webline/Webline';
-import { PaymentFail } from 'components/Pages/Order/PaymentConfirmation/PaymentFail';
-import { PaymentInProcess } from 'components/Pages/Order/PaymentConfirmation/PaymentInProcess';
-import { PaymentSuccess } from 'components/Pages/Order/PaymentConfirmation/PaymentSuccess';
+import { PaymentStatus } from 'components/Pages/Order/PaymentConfirmation/PaymentStatus';
 import {
     getPaymentSessionExpiredErrorMessage,
     useUpdatePaymentStatus,
@@ -58,37 +56,20 @@ const OrderPaymentConfirmationPage: FC<ServerSidePropsType> = () => {
         );
     }
 
+    const isFetchingData =
+        !paymentStatusData || isOrderPaymentFailedContentFetching || isOrderPaymentSuccessfulContentFetching;
+
     return (
         <>
             <MetaRobots content="noindex" />
-            <CommonLayout
-                pageTypeOverride="order-confirmation"
-                title={t('Order sent')}
-                isFetchingData={
-                    !paymentStatusData || isOrderPaymentFailedContentFetching || isOrderPaymentSuccessfulContentFetching
-                }
-            >
+            <CommonLayout isFetchingData={isFetchingData} pageTypeOverride="order-confirmation" title={t('Order sent')}>
                 <Webline>
-                    {paymentStatusData?.UpdatePaymentStatus.isPaid ? (
-                        successContentData && (
-                            <PaymentSuccess
-                                orderPaymentSuccessfulContent={successContentData.orderPaymentSuccessfulContent}
-                                orderUuid={orderUuid}
-                            />
-                        )
-                    ) : paymentStatusData?.UpdatePaymentStatus.isPaymentInProcess ? (
-                        <PaymentInProcess orderUrlHash={paymentStatusData.UpdatePaymentStatus.urlHash} />
-                    ) : (
-                        paymentStatusData &&
-                        failedContentData && (
-                            <PaymentFail
-                                lastUsedOrderPaymentType={paymentStatusData.UpdatePaymentStatus.payment.type}
-                                orderPaymentFailedContent={failedContentData.orderPaymentFailedContent}
-                                orderUuid={orderUuid}
-                                paymentTransactionCount={paymentStatusData.UpdatePaymentStatus.paymentTransactionsCount}
-                            />
-                        )
-                    )}
+                    <PaymentStatus
+                        failedContentData={failedContentData}
+                        orderUuid={orderUuid}
+                        paymentStatusData={paymentStatusData}
+                        successContentData={successContentData}
+                    />
                 </Webline>
             </CommonLayout>
         </>
