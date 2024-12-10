@@ -1,7 +1,7 @@
 import { RemoveIcon } from 'components/Basic/Icon/RemoveIcon';
 import { LabelLink } from 'components/Basic/LabelLink/LabelLink';
 import { TIDs } from 'cypress/tids';
-import { TypePromoCode } from 'graphql/types';
+import { TypePromoCode, TypePromoCodeTypeEnum } from 'graphql/types';
 import useTranslation from 'next-translate/useTranslation';
 
 type PromoCodeInfoProps = {
@@ -22,9 +22,11 @@ export const PromoCodeInfo: FC<PromoCodeInfoProps> = ({ onRemovePromoCodeCallbac
                 </LabelLink>
             </div>
             <p className="text-textDisabled ">
-                {t(
-                    'The discount was applied to all non-discounted items to which the promotion applies according to the rules.',
-                )}
+                {promoCode.type === TypePromoCodeTypeEnum.FreeTransportPayment
+                    ? t('The discount was applied to the order transport and payment.')
+                    : t(
+                          'The discount was applied to all non-discounted items to which the promotion applies according to the rules.',
+                      )}
             </p>
         </div>
     );
