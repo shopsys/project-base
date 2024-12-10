@@ -204,7 +204,10 @@ class OrderWithPromoCodeTest extends GraphQlTestCase
                             }
                         }
                         cart {
-                            promoCode
+                            promoCode {
+                                code
+                                type
+                            }
                             modifications {
                                 promoCodeModifications {
                                     noLongerApplicablePromoCode
@@ -221,18 +224,10 @@ class OrderWithPromoCodeTest extends GraphQlTestCase
      */
     public function applyPromoCode(string $cartUuid, string $promoCode): void
     {
-        $mutation = 'mutation {
-                        ApplyPromoCodeToCart(
-                            input: {
-                                cartUuid: "' . $cartUuid . '"
-                                promoCode: "' . $promoCode . '"
-                            }
-                        ) {
-                            uuid
-                        }
-                    }';
-
-        $this->getResponseContentForQuery($mutation);
+        $this->getResponseContentForGql(__DIR__ . '/../_graphql/mutation/ApplyPromoCodeToCart.graphql', [
+            'cartUuid' => $cartUuid,
+            'promoCode' => $promoCode,
+        ]);
     }
 
     /**

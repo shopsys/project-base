@@ -75,6 +75,9 @@ query GetCart(
                 noLongerApplicablePromoCode
             }
         }
-        promoCode
+        promoCode {
+            code
+            type
+        }
     }
 }

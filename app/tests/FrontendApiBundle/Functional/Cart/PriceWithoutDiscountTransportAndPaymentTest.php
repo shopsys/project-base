@@ -16,9 +16,12 @@ use App\Model\Product\Product;
 use App\Model\Transport\Transport;
 use Shopsys\FrameworkBundle\Model\Store\Store;
 use Tests\FrontendApiBundle\Test\GraphQlTestCase;
+use Tests\FrontendApiBundle\Test\PromoCodeAssertionTrait;
 
 class PriceWithoutDiscountTransportAndPaymentTest extends GraphQlTestCase
 {
+    use PromoCodeAssertionTrait;
+
     /**
      * @inject
      */
@@ -47,7 +50,7 @@ class PriceWithoutDiscountTransportAndPaymentTest extends GraphQlTestCase
             ],
         );
         $data = $this->getResponseDataForGraphQlType($response, 'ApplyPromoCodeToCart');
-        self::assertEquals($promoCode->getCode(), $data['promoCode']);
+        self::assertPromoCode($promoCode, $data['promoCode']);
 
         $testingTransport = $this->getReference(TransportDataFixture::TRANSPORT_PERSONAL, Transport::class);
         $store = $this->getReference(StoreDataFixture::STORE_PREFIX . 1, Store::class);

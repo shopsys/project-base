@@ -21,9 +21,12 @@ use Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserIdentifierFactory;
 use Shopsys\FrameworkBundle\Model\Pricing\Vat\Vat;
 use Shopsys\FrontendApiBundle\Component\Constraints\PromoCode;
 use Tests\FrontendApiBundle\Test\GraphQlWithLoginTestCase;
+use Tests\FrontendApiBundle\Test\PromoCodeAssertionTrait;
 
 class AuthenticatedApplyPromoCodeToCartTest extends GraphQlWithLoginTestCase
 {
+    use PromoCodeAssertionTrait;
+
     /**
      * @inject
      */
@@ -80,7 +83,7 @@ class AuthenticatedApplyPromoCodeToCartTest extends GraphQlWithLoginTestCase
         $data = $this->getResponseDataForGraphQlType($response, 'ApplyPromoCodeToCart');
 
         self::assertNull($data['uuid']);
-        self::assertEquals($promoCode->getCode(), $data['promoCode']);
+        self::assertPromoCode($promoCode, $data['promoCode']);
 
         $actualPrice = $this->getSerializedPriceConvertedToDomainDefaultCurrency(
             $data['totalPrice']['priceWithoutVat'],
@@ -115,7 +118,7 @@ class AuthenticatedApplyPromoCodeToCartTest extends GraphQlWithLoginTestCase
         $data = $this->getResponseDataForGraphQlType($response, 'ApplyPromoCodeToCart');
 
         self::assertNull($data['uuid']);
-        self::assertEquals($promoCode->getCode(), $data['promoCode']);
+        self::assertPromoCode($promoCode, $data['promoCode']);
 
         // apply promo code again
         $response = $this->getResponseContentForGql(__DIR__ . '/graphql/ApplyPromoCodeToCart.graphql', [
@@ -158,30 +161,12 @@ class AuthenticatedApplyPromoCodeToCartTest extends GraphQlWithLoginTestCase
         ]);
         $data = $this->getResponseDataForGraphQlType($response, 'ApplyPromoCodeToCart');
 
-        self::assertEquals($promoCode->getCode(), $data['promoCode']);
+        self::assertPromoCode($promoCode, $data['promoCode']);
 
         $productInCart = $this->getReference(ProductDataFixture::PRODUCT_PREFIX . 1, Product::class);
         $this->hideProduct($productInCart);
 
-        $getCartQuery = '{
-            cart {
-                promoCode
-                modifications {
-                    itemModifications {
-                        noLongerListableCartItems {
-                            product {
-                                uuid
-                            }
-                        }
-                    }
-                    promoCodeModifications {
-                        noLongerApplicablePromoCode
-                    }
-                }
-            }
-        }';
-
-        $response = $this->getResponseContentForQuery($getCartQuery);
+        $response = $this->getResponseContentForGql(__DIR__ . '/graphql/GetCart.graphql');
 
         $data = $this->getResponseDataForGraphQlType($response, 'cart');
         $itemModifications = $data['modifications']['itemModifications'];
@@ -207,31 +192,13 @@ class AuthenticatedApplyPromoCodeToCartTest extends GraphQlWithLoginTestCase
         ]);
         $data = $this->getResponseDataForGraphQlType($response, 'ApplyPromoCodeToCart');
 
-        self::assertEquals($validPromoCode->getCode(), $data['promoCode']);
+        self::assertPromoCode($validPromoCode, $data['promoCode']);
 
         $promoCodeData = $this->promoCodeDataFactory->createFromPromoCode($validPromoCode);
         $promoCodeData->remainingUses = 0;
         $this->promoCodeFacade->edit($validPromoCode->getId(), $promoCodeData);
 
-        $getCartQuery = '{
-            cart {
-                promoCode
-                modifications {
-                    itemModifications {
-                        noLongerListableCartItems {
-                            product {
-                                uuid
-                            }
-                        }
-                    }
-                    promoCodeModifications {
-                        noLongerApplicablePromoCode
-                    }
-                }
-            }
-        }';
-
-        $response = $this->getResponseContentForQuery($getCartQuery);
+        $response = $this->getResponseContentForGql(__DIR__ . '/graphql/GetCart.graphql');
         $data = $this->getResponseDataForGraphQlType($response, 'cart');
 
         $promoCodeModifications = $data['modifications']['promoCodeModifications'];

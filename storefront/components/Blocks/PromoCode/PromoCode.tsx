@@ -42,7 +42,7 @@ export const PromoCode: FC = () => {
                     {isRemovingPromoCodeFromCart && <LoaderWithOverlay className="w-5" />}
                     <PromoCodeInfo
                         promoCode={promoCode}
-                        onRemovePromoCodeCallback={() => removePromoCodeFromCart(promoCode)}
+                        onRemovePromoCodeCallback={() => removePromoCodeFromCart(promoCode.code)}
                     />
                 </>
             ) : (

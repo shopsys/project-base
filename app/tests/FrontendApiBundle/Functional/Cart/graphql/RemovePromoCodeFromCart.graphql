@@ -1,0 +1,17 @@
+mutation RemovePromoCodeFromCart(
+    $cartUuid: Uuid,
+    $promoCode: String!
+) {
+    RemovePromoCodeFromCart(
+        input: {
+            cartUuid: $cartUuid
+            promoCode: $promoCode
+        }
+    ) {
+       uuid
+        promoCode {
+            code
+            type
+        }
+    }
+}

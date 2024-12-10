@@ -357,7 +357,7 @@ type Cart {
   "Selected bank swift code of goPay payment bank transfer"
   paymentGoPayBankSwift: String
   "Applied promo code if provided"
-  promoCode: String
+  promoCode: PromoCode
   "Remaining amount for free transport and payment; null = transport cannot be free"
   remainingAmountWithVatForFreeTransport: Money
   "Rounding amount if payment has rounding allowed"
@@ -1921,6 +1921,23 @@ enum ProductTypeEnum {
   BASIC
   "Product with inquiry form instead of add to cart button"
   INQUIRY
+}
+
+type PromoCode {
+  "Code of the promo code"
+  code: String!
+  "Type of the promo code"
+  type: PromoCodeTypeEnum!
+}
+
+"One of possible promo code types"
+enum PromoCodeTypeEnum {
+  "Discount type free transport and payment"
+  free_transport_payment
+  "Discount type nominal"
+  nominal
+  "Discount type percent"
+  percent
 }
 
 type Query {

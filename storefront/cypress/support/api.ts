@@ -64,7 +64,9 @@ Cypress.Commands.add('addPromoCodeToCartForTest', (promoCode: string) => {
                     query: `mutation ApplyPromoCodeToCartMutation($input: ApplyPromoCodeToCartInput!) { 
                     ApplyPromoCodeToCart(input: $input) { 
                         uuid 
-                        promoCode
+                        promoCode {
+                            code
+                        }
                     } 
                 }`,
                     variables: {
@@ -82,7 +84,7 @@ Cypress.Commands.add('addPromoCodeToCartForTest', (promoCode: string) => {
             .its('body.data.ApplyPromoCodeToCart')
             .then((cart) => {
                 expect(cart.uuid).equal(cartUuid);
-                expect(cart.promoCode).equal(promoCode);
+                expect(cart.promoCode.code).equal(promoCode);
             });
     });
 });

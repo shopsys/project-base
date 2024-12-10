@@ -26,9 +26,12 @@ use Shopsys\FrameworkBundle\Model\Customer\User\FrontendCustomerUserProvider;
 use Shopsys\FrameworkBundle\Model\Pricing\Vat\Vat;
 use Shopsys\FrontendApiBundle\Component\Constraints\PromoCode;
 use Tests\FrontendApiBundle\Test\GraphQlTestCase;
+use Tests\FrontendApiBundle\Test\PromoCodeAssertionTrait;
 
 class ApplyPromoCodeToCartTest extends GraphQlTestCase
 {
+    use PromoCodeAssertionTrait;
+
     /**
      * @inject
      */
@@ -71,7 +74,7 @@ class ApplyPromoCodeToCartTest extends GraphQlTestCase
         $data = $this->applyPromoCodeToCartAndGetResponseData($promoCode->getCode());
 
         self::assertEquals(CartDataFixture::CART_UUID, $data['uuid']);
-        self::assertEquals($promoCode->getCode(), $data['promoCode']);
+        self::assertPromoCode($promoCode, $data['promoCode']);
     }
 
     public function testApplyPromoCodeForFreeTransport(): void
@@ -83,7 +86,7 @@ class ApplyPromoCodeToCartTest extends GraphQlTestCase
 
         $data = $this->applyPromoCodeToCartAndGetResponseData($promoCode->getCode());
 
-        self::assertEquals($promoCode->getCode(), $data['promoCode']);
+        self::assertPromoCode($promoCode, $data['promoCode']);
         self::assertSame($this->getSerializedPriceConvertedToDomainDefaultCurrency('0', $vatZero), $data['transport']['price']);
         self::assertSame($this->getSerializedPriceConvertedToDomainDefaultCurrency('0', $vatZero), $data['payment']['price']);
         self::assertSame($this->getFormattedMoneyAmountConvertedToDomainDefaultCurrency('0'), $data['remainingAmountWithVatForFreeTransport']);
@@ -96,7 +99,7 @@ class ApplyPromoCodeToCartTest extends GraphQlTestCase
         $data = $this->applyPromoCodeToCartAndGetResponseData($promoCode->getCode());
 
         self::assertEquals(CartDataFixture::CART_UUID, $data['uuid']);
-        self::assertEquals($promoCode->getCode(), $data['promoCode']);
+        self::assertPromoCode($promoCode, $data['promoCode']);
 
         // apply promo code again
         $response = $this->applyPromoCodeToCart($promoCode->getCode());
@@ -152,7 +155,7 @@ class ApplyPromoCodeToCartTest extends GraphQlTestCase
         $cartUuid = $this->getResponseDataForGraphQlType($response, 'AddToCart')['cart']['uuid'];
 
         $data = $this->applyPromoCodeToCartAndGetResponseData($promoCode->getCode(), $cartUuid);
-        self::assertEquals($promoCode->getCode(), $data['promoCode']);
+        self::assertPromoCode($promoCode, $data['promoCode']);
 
         // product has to be re-fetched due to identity map clearing to prevent "A new entity was found through the relationship" error
         $productInCart = $this->getReference(ProductDataFixture::PRODUCT_PREFIX . 1, Product::class);
@@ -181,7 +184,7 @@ class ApplyPromoCodeToCartTest extends GraphQlTestCase
 
         $data = $this->applyPromoCodeToCartAndGetResponseData($validPromoCode->getCode());
 
-        self::assertEquals($validPromoCode->getCode(), $data['promoCode']);
+        self::assertPromoCode($validPromoCode, $data['promoCode']);
 
         $promoCodeData = $this->promoCodeDataFactory->createFromPromoCode($validPromoCode);
         $promoCodeData->remainingUses = 0;

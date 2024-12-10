@@ -1,10 +1,11 @@
 import { RemoveIcon } from 'components/Basic/Icon/RemoveIcon';
 import { LabelLink } from 'components/Basic/LabelLink/LabelLink';
 import { TIDs } from 'cypress/tids';
+import { TypePromoCode } from 'graphql/types';
 import useTranslation from 'next-translate/useTranslation';
 
 type PromoCodeInfoProps = {
-    promoCode: string;
+    promoCode: TypePromoCode;
     onRemovePromoCodeCallback: () => void;
 };
 
@@ -16,7 +17,7 @@ export const PromoCodeInfo: FC<PromoCodeInfoProps> = ({ onRemovePromoCodeCallbac
             <div className="text-textAccent">{t('Your discount with the code has been applied.')}</div>
             <div className="flex items-center font-bold" tid={TIDs.blocks_promocode_promocodeinfo_code}>
                 <LabelLink className="gap-3" onClick={onRemovePromoCodeCallback}>
-                    {promoCode}
+                    {promoCode.code}
                     <RemoveIcon className=" w-3" />
                 </LabelLink>
             </div>
