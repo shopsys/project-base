@@ -37,9 +37,6 @@ msgstr ""
 msgid "Please enter email"
 msgstr ""
 
-msgid "Please enter email content"
-msgstr ""
-
 msgid "Please enter flag color"
 msgstr ""
 
@@ -68,8 +65,5 @@ msgid "Uploaded image is to large ({{ size }} {{ suffix }}). Maximum size of an 
 msgstr ""
 
 msgid "User with provided email address does not exist."
-msgstr ""
-
-msgid "Variable {{ needle }} is required"
 msgstr ""
 
