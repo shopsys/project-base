@@ -36,6 +36,7 @@ class MinimalOrderAsAuthenticatedCustomerUserTest extends GraphQlWithLoginTestCa
         $expectedOrderItems = $this->getExpectedOrderItems();
 
         $expected = [
+            'orderCreated' => true,
             'order' => [
                 'transport' => [
                     'name' => t('Czech post', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $firstDomainLocale),
@@ -74,6 +75,7 @@ class MinimalOrderAsAuthenticatedCustomerUserTest extends GraphQlWithLoginTestCa
                 ],
                 'note' => null,
             ],
+            'cart' => null,
         ];
 
         $response = $this->getResponseContentForGql(__DIR__ . '/graphql/CreateMinimalOrderMutation.graphql', [
