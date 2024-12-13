@@ -47,7 +47,7 @@ export const Banner: FC<BannerProps> = ({ banner, bannerSliderState, index, numI
                 <BannerContent banner={banner} className="hidden lg:block" />
             </BannerImage>
 
-            <BannerContent banner={banner} />
+            <BannerContent banner={banner} className="block lg:hidden" />
         </div>
     );
 };
