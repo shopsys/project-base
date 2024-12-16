@@ -33,7 +33,7 @@ export const OrderDetailBasicInfo: FC<OrderDetailBasicInfoProps> = ({ order }) =
     );
 
     const showRepeatOrderButton = filteredOrderItems.some(
-        (item) => item.product?.isVisible && !item.product.isSellingDenied,
+        (item) => item.product?.isVisible && !item.product.isSellingDenied && !item.product.isInquiryType,
     );
 
     return (

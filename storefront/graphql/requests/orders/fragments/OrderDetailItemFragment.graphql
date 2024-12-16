@@ -21,6 +21,7 @@ fragment OrderDetailItemFragment on OrderItem {
         slug
         isVisible
         isSellingDenied
+        isInquiryType
         mainImage {
             ...ImageFragment
         }
