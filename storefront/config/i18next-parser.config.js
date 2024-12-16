@@ -20,11 +20,9 @@ module.exports = {
     input: [
         '../components/**/*.{ts,tsx}',
         '../connectors/**/*.{ts,tsx}',
-        '../context/**/*.{ts,tsx}',
-        '../helpers/**/*.{ts,tsx}',
-        '../hooks/**/*.{ts,tsx}',
+        '../gtm/**/*.{ts,tsx}',
         '../pages/**/*.{ts,tsx}',
-        '../typeHelpers/**/*.{ts,tsx}',
+        '../store/**/*.{ts,tsx}',
         '../utils/**/*.{ts,tsx}',
     ],
     sort: true,
