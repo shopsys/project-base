@@ -138,15 +138,14 @@ export const ProductListItem = forwardRef<HTMLLIElement, ProductItemProps>(
                             />
                         )}
 
-                        {visibleItemsConfig.storeAvailability && (
-                            <ProductAvailability
-                                availability={product.availability}
-                                availableStoresCount={product.availableStoresCount}
-                                className="min-h-10 xs:min-h-[60px] sm:min-h-10"
-                                isInquiryType={product.isInquiryType}
-                            />
-                        )}
-                    </div>
+                    {visibleItemsConfig.storeAvailability && !product.isSellingDenied && (
+                        <ProductAvailability
+                            availability={product.availability}
+                            availableStoresCount={product.availableStoresCount}
+                            className="min-h-10 xs:min-h-[60px] sm:min-h-10"
+                            isInquiryType={product.isInquiryType}
+                        />
+                    )}
                 </ExtendedNextLink>
 
                 <div className="flex w-full items-center justify-between gap-1 px-2.5 py-5 sm:justify-normal sm:gap-2.5 sm:px-5 sm:py-0">

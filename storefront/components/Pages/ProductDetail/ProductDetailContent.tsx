@@ -93,26 +93,28 @@ export const ProductDetailContent: FC<ProductDetailContentProps> = ({ product, i
                                 </div>
                             )}
 
-                            <ProductAvailability
-                                availability={product.availability}
-                                availableStoresCount={product.availableStoresCount}
-                                isInquiryType={product.isInquiryType}
-                                className={twJoin(
-                                    'mr-1 flex items-center font-secondary',
-                                    product.availability.status === TypeAvailabilityStatusEnum.InStock &&
-                                        'cursor-pointer',
-                                )}
-                                onClick={() =>
-                                    product.availability.status === TypeAvailabilityStatusEnum.InStock &&
-                                    updatePortalContent(
-                                        <Popup>
-                                            <ProductDetailAvailabilityList
-                                                storeAvailabilities={product.storeAvailabilities}
-                                            />
-                                        </Popup>,
-                                    )
-                                }
-                            />
+                            {!product.isSellingDenied && (
+                                <ProductAvailability
+                                    availability={product.availability}
+                                    availableStoresCount={product.availableStoresCount}
+                                    isInquiryType={product.isInquiryType}
+                                    className={twJoin(
+                                        'mr-1 flex items-center font-secondary',
+                                        product.availability.status === TypeAvailabilityStatusEnum.InStock &&
+                                            'cursor-pointer',
+                                    )}
+                                    onClick={() =>
+                                        product.availability.status === TypeAvailabilityStatusEnum.InStock &&
+                                        updatePortalContent(
+                                            <Popup>
+                                                <ProductDetailAvailabilityList
+                                                    storeAvailabilities={product.storeAvailabilities}
+                                                />
+                                            </Popup>,
+                                        )
+                                    }
+                                />
+                            )}
 
                             <DeferredProductDetailAddToCart product={product} />
 
