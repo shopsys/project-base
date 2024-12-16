@@ -34,6 +34,7 @@ export const LastVisitedProductsContent: FC<LastVisitedProductsProps> = ({ produ
                     productItemProps={{
                         visibleItemsConfig: productItemStyleProps.visibleItemsConfig,
                         size: productItemStyleProps.size,
+                        textSize: 'xs',
                     }}
                 />
             ) : (
