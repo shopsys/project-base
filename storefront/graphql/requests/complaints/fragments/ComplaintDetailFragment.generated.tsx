@@ -82,7 +82,7 @@ export type TypeComplaintDetailFragment = { __typename?: 'Complaint', uuid: stri
   }
 };
       export default result;
-
+    
 export const ComplaintDetailFragment = gql`
     fragment ComplaintDetailFragment on Complaint {
   uuid
