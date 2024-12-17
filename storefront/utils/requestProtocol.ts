@@ -1,4 +1,5 @@
 import { getDomainConfig } from './domain/domainConfig';
+import { logException } from './errors/logException';
 import { GetServerSidePropsContext, NextPageContext } from 'next';
 
 type Protocol = 'http' | 'https';
@@ -11,12 +12,13 @@ export const getProtocolClientSide = (): Protocol => {
     return window.location.protocol === 'https:' ? 'https' : 'http';
 };
 
-export const getProtocol = (context: GetServerSidePropsContext | NextPageContext | undefined): Protocol => {
+export const getProtocol = (context: GetServerSidePropsContext | NextPageContext | undefined): Protocol | undefined => {
     if (!context) {
         try {
             return getProtocolClientSide();
         } catch (e) {
-            throw new Error('context must be provided when running on the server side');
+            logException('context must be provided when running on the server side');
+            return undefined;
         }
     }
 
@@ -36,12 +38,13 @@ export const getProtocol = (context: GetServerSidePropsContext | NextPageContext
     return protocol;
 };
 
-export const getIsHttps = (protocol?: string) => {
+export const getIsHttps = (protocol?: string | undefined): boolean | undefined => {
     if (!protocol) {
         try {
             return getProtocolClientSide() === 'https';
         } catch (e) {
-            throw new Error('protocol must be provided when running on the server side');
+            logException('protocol must be provided when running on the server side');
+            return undefined;
         }
     }
 
