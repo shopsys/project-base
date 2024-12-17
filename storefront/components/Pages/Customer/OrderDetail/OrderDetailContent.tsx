@@ -12,8 +12,12 @@ type OrderDetailContentProps = {
 export const OrderDetailContent: FC<OrderDetailContentProps> = ({ order }) => {
     return (
         <div>
-            <OrderPaymentStatusBar orderIsPaid={order.isPaid} orderPaymentType={order.payment.type} />
-            {order.payment.type === PaymentTypeEnum.GoPay && !order.isPaid && (
+            <OrderPaymentStatusBar
+                orderHasPaymentInProcess={order.hasPaymentInProcess}
+                orderIsPaid={order.isPaid}
+                orderPaymentType={order.payment.type}
+            />
+            {order.payment.type === PaymentTypeEnum.GoPay && !order.isPaid && !order.hasPaymentInProcess && (
                 <div>
                     <PaymentsInOrderSelect
                         orderUuid={order.uuid}

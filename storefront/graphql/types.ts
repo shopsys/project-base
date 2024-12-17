@@ -1663,6 +1663,8 @@ export type TypeOrder = {
   email: Scalars['String']['output'];
   /** The customer's first name */
   firstName: Maybe<Scalars['String']['output']>;
+  /** Indicates whether order payment is still being processed with GoPay payment type */
+  hasPaymentInProcess: Scalars['Boolean']['output'];
   /** Determines whether the customer agrees with sending satisfaction questionnaires within the Verified by Customers Heureka program */
   heurekaAgreement: Scalars['Boolean']['output'];
   /** Indicates whether the billing address is other than a delivery address */

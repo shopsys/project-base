@@ -63,12 +63,11 @@ const OrderConfirmationPage: FC<ServerSidePropsType> = () => {
                     <ConfirmationPageContent
                         content={orderSentPageContentData?.orderSentPageContent}
                         heading={t('Your order was created')}
-                        AdditionalContent={
-                            orderPaymentType === PaymentTypeEnum.GoPay ? (
-                                <GoPayGateway orderUuid={orderUuid!} />
-                            ) : undefined
-                        }
-                    />
+                    >
+                        {orderPaymentType === PaymentTypeEnum.GoPay ? (
+                            <GoPayGateway orderUuid={orderUuid!} />
+                        ) : undefined}
+                    </ConfirmationPageContent>
                     <RegistrationAfterOrder />
                 </Webline>
             </CommonLayout>

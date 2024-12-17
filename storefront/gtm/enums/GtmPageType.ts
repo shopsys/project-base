@@ -17,6 +17,7 @@ export enum GtmPageType {
     article_detail = 'article detail',
     payment_fail = 'payment fail',
     payment_success = 'payment success',
+    payment_in_process = 'payment in process',
     not_found = '404',
     user_consent = 'user consent',
     contact = 'contact',

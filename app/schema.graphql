@@ -1275,6 +1275,8 @@ type Order {
   email: String!
   "The customer's first name"
   firstName: String
+  "Indicates whether order payment is still being processed with GoPay payment type"
+  hasPaymentInProcess: Boolean!
   "Determines whether the customer agrees with sending satisfaction questionnaires within the Verified by Customers Heureka program"
   heurekaAgreement: Boolean!
   "Indicates whether the billing address is other than a delivery address"

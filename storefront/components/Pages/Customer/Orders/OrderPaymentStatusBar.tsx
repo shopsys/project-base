@@ -6,33 +6,52 @@ import { twMergeCustom } from 'utils/twMerge';
 type OrderPaymentStatusBarProps = {
     orderPaymentType: string;
     orderIsPaid: boolean;
+    orderHasPaymentInProcess: boolean;
 };
 
-export const OrderPaymentStatusBar: FC<OrderPaymentStatusBarProps> = ({ orderPaymentType, orderIsPaid, className }) => {
+const OrderPaymentStatusContent: FC<{ title: string; iconClassName?: string }> = ({ title, iconClassName }) => (
+    <div className="flex items-center gap-2">
+        <InfoIconInCircle className={twMergeCustom('size-4 text-backgroundWarningMore', iconClassName)} />
+        {title}
+    </div>
+);
+
+const OrderPaymentStatus: FC<{
+    orderIsPaid: boolean;
+    orderHasPaymentInProcess: boolean;
+}> = ({ orderIsPaid, orderHasPaymentInProcess }) => {
     const { t } = useTranslation();
+
+    if (orderIsPaid) {
+        return <OrderPaymentStatusContent iconClassName="text-backgroundSuccessMore" title={t('The order was paid')} />;
+    }
+
+    if (orderHasPaymentInProcess) {
+        return <OrderPaymentStatusContent title={t('The order is awaiting payment verification.')} />;
+    }
+
+    return <OrderPaymentStatusContent title={t('The order has not been paid')} />;
+};
+
+export const OrderPaymentStatusBar: FC<OrderPaymentStatusBarProps> = ({
+    orderPaymentType,
+    orderIsPaid,
+    className,
+    orderHasPaymentInProcess,
+}) => {
+    if (orderPaymentType !== PaymentTypeEnum.GoPay) {
+        return null;
+    }
+
     return (
-        <>
-            {orderPaymentType === PaymentTypeEnum.GoPay && (
-                <div
-                    className={twMergeCustom(
-                        'flex gap-2 rounded-md p-2',
-                        orderIsPaid ? 'bg-backgroundSuccess text-textInverted' : 'bg-backgroundWarning',
-                        className,
-                    )}
-                >
-                    {orderIsPaid ? (
-                        <>
-                            <InfoIconInCircle className="w-4 text-backgroundSuccessMore" />
-                            {t('The order was paid')}
-                        </>
-                    ) : (
-                        <>
-                            <InfoIconInCircle className="w-4 text-backgroundWarningMore" />
-                            {t('The order has not been paid')}
-                        </>
-                    )}
-                </div>
+        <div
+            className={twMergeCustom(
+                'flex gap-2 rounded-md p-2',
+                orderIsPaid ? 'bg-backgroundSuccess text-textInverted' : 'bg-backgroundWarning',
+                className,
             )}
-        </>
+        >
+            <OrderPaymentStatus orderHasPaymentInProcess={orderHasPaymentInProcess} orderIsPaid={orderIsPaid} />
+        </div>
     );
 };

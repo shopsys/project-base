@@ -5962,6 +5962,15 @@ The customer's first name
 </td>
 </tr>
 <tr>
+<td colspan="2" valign="top"><strong>hasPaymentInProcess</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td>
+
+Indicates whether order payment is still being processed with GoPay payment type
+
+</td>
+</tr>
+<tr>
 <td colspan="2" valign="top"><strong>heurekaAgreement</strong></td>
 <td valign="top"><a href="#boolean">Boolean</a>!</td>
 <td>
