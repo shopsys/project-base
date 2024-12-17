@@ -28,7 +28,7 @@ export const OrderItem: FC<OrderItemProps> = ({ order, addOrderItemsToEmptyCart,
     const [customerOrderDetailUrl] = getInternationalizedStaticUrls(['/customer/order-detail'], url);
 
     const showRepeatOrderButton = order.productItems.some(
-        (item) => item.product?.isVisible && !item.product.isSellingDenied,
+        (item) => item.product?.isVisible && !item.product.isSellingDenied && !item.product.isInquiryType,
     );
 
     return (
