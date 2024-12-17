@@ -24,23 +24,26 @@ export const ProductComparisonBody: FC<ProductComparisonBodyProps> = ({ compared
                     </BodyItem>
                 ))}
             </tr>
+
             <tr className="[&>td]:bg-tableBackground [&>td]:odd:bg-tableBackgroundContrast">
                 <BodyItem isSticky>{t('Availability')}</BodyItem>
-                {comparedProducts.map((product) => (
-                    <BodyItem key={`availability-${product.uuid}`}>
-                        <div
-                            className={twJoin(
-                                'break-words text-sm font-bold sm:text-base',
-                                product.availability.status === TypeAvailabilityStatusEnum.InStock &&
-                                    'text-availabilityInStock',
-                                product.availability.status === TypeAvailabilityStatusEnum.OutOfStock &&
-                                    'text-availabilityOutOfStock',
-                            )}
-                        >
-                            {product.availability.name}
-                        </div>
-                    </BodyItem>
-                ))}
+                {comparedProducts
+                    .filter((product) => !product.isSellingDenied)
+                    .map((product) => (
+                        <BodyItem key={`availability-${product.uuid}`}>
+                            <div
+                                className={twJoin(
+                                    'break-words text-sm font-bold sm:text-base',
+                                    product.availability.status === TypeAvailabilityStatusEnum.InStock &&
+                                        'text-availabilityInStock',
+                                    product.availability.status === TypeAvailabilityStatusEnum.OutOfStock &&
+                                        'text-availabilityOutOfStock',
+                                )}
+                            >
+                                {product.availability.name}
+                            </div>
+                        </BodyItem>
+                    ))}
             </tr>
 
             {parametersDataState.map((parameter, parameterIndex) => (
