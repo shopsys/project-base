@@ -1,5 +1,6 @@
 import { ArticleTitle } from './ArticleTitle';
 import { GrapesJsParser } from 'components/Basic/UserText/GrapesJsParser';
+import { VISIBLE_SLIDER_ITEMS_ARTICLE } from 'components/Blocks/Product/ProductsSlider';
 import { Webline } from 'components/Layout/Webline/Webline';
 import { TypeArticleDetailFragment } from 'graphql/requests/articlesInterface/articles/fragments/ArticleDetailFragment.generated';
 import { useFormatDate } from 'utils/formatting/useFormatDate';
@@ -19,7 +20,7 @@ export const ArticleDetailContent: FC<ArticleDetailContentProps> = ({ article })
             </p>
             {article.text !== null && (
                 <div className="order-2 mb-16 flex w-full flex-col">
-                    <GrapesJsParser text={article.text} />
+                    <GrapesJsParser text={article.text} visibleSliderItems={VISIBLE_SLIDER_ITEMS_ARTICLE} />
                 </div>
             )}
         </Webline>

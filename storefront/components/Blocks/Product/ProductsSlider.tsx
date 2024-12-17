@@ -17,9 +17,10 @@ import { wait } from 'utils/wait';
 export const VISIBLE_SLIDER_ITEMS = 5;
 export const VISIBLE_SLIDER_ITEMS_LAST_VISITED = 8;
 export const VISIBLE_SLIDER_ITEMS_BLOG = 3;
+export const VISIBLE_SLIDER_ITEMS_ARTICLE = 4;
 export const VISIBLE_SLIDER_ITEMS_AUTOCOMPLETE = 5;
 
-type ProductsSliderVariant = 'default' | 'blog' | 'lastVisited' | 'autocomplete';
+type ProductsSliderVariant = 'default' | 'blog' | 'article' | 'lastVisited' | 'autocomplete';
 export type ProductsSliderProps = {
     products: TypeListedProductFragment[];
     gtmProductListName: GtmProductListNameType;
@@ -118,6 +119,8 @@ export const ProductsSlider: FC<ProductsSliderProps> = ({
                 return 'auto-cols-[225px] sm:auto-cols-[60%]  md:auto-cols-[45%] lg:auto-cols-[30%] vl:auto-cols-[25%] xl:auto-cols-[20%]';
             case 'blog':
                 return 'auto-cols-[80%] lg:auto-cols-[45%] xl:auto-cols-[33.33%]';
+            case 'article':
+                return 'auto-cols-[80%] sm:auto-cols-[60%] md:auto-cols-[45%] lg:auto-cols-[31%] vl:auto-cols-[33.33%] xl:auto-cols-[25%]';
             case 'lastVisited':
                 return 'auto-cols-[140px] sm:auto-cols-[30%] lg:auto-cols-[19.5%] vl:auto-cols-[14.5%] xl:auto-cols-[12.5%]';
             case 'autocomplete':
