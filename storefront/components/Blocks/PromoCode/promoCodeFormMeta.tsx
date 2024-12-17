@@ -16,7 +16,7 @@ export const usePromoCodeForm = (): [UseFormReturn<PromoCodeFormType>, PromoCode
             promoCode: Yup.string().required(t('This field is required')),
         }),
     );
-    const defaultValues = { promoCode: promoCode ?? '' };
+    const defaultValues = { promoCode: promoCode?.code ?? '' };
 
     return [useShopsysForm(resolver, defaultValues), defaultValues];
 };

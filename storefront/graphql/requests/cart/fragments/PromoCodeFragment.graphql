@@ -1,0 +1,5 @@
+fragment PromoCodeFragment on PromoCode {
+    __typename
+    code
+    type
+}

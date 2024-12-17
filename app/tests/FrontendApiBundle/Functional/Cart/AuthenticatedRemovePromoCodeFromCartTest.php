@@ -11,9 +11,12 @@ use App\Model\Order\PromoCode\PromoCodeFacade;
 use App\Model\Product\Product;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Tests\FrontendApiBundle\Test\GraphQlWithLoginTestCase;
+use Tests\FrontendApiBundle\Test\PromoCodeAssertionTrait;
 
 class AuthenticatedRemovePromoCodeFromCartTest extends GraphQlWithLoginTestCase
 {
+    use PromoCodeAssertionTrait;
+
     /**
      * @inject
      */
@@ -23,16 +26,9 @@ class AuthenticatedRemovePromoCodeFromCartTest extends GraphQlWithLoginTestCase
     {
         $promoCode = $this->applyValidPromoCodeToCustomerCart();
 
-        $removeFromCartMutation = 'mutation {
-            RemovePromoCodeFromCart(input: {
-                promoCode: "' . $promoCode->getCode() . '"
-            }) {
-                uuid
-                promoCode
-            }
-        }';
-
-        $response = $this->getResponseContentForQuery($removeFromCartMutation);
+        $response = $this->getResponseContentForGql(__DIR__ . '/graphql/RemovePromoCodeFromCart.graphql', [
+            'promoCode' => $promoCode->getCode(),
+        ]);
         $data = $this->getResponseDataForGraphQlType($response, 'RemovePromoCodeFromCart');
 
         self::assertNotNull($this->promoCodeFacade->findPromoCodeByCodeAndDomain($promoCode->getCode(), Domain::FIRST_DOMAIN_ID));
@@ -47,18 +43,7 @@ class AuthenticatedRemovePromoCodeFromCartTest extends GraphQlWithLoginTestCase
         $this->em->remove($promoCode);
         $this->em->flush();
 
-        $getCartQuery = '{
-            cart {
-                promoCode
-                modifications {
-                    promoCodeModifications {
-                        noLongerApplicablePromoCode
-                    }
-                }
-            }
-        }';
-
-        $response = $this->getResponseContentForQuery($getCartQuery);
+        $response = $this->getResponseContentForGql(__DIR__ . '/graphql/GetCart.graphql');
         $data = $this->getResponseDataForGraphQlType($response, 'cart');
 
         self::assertNull($data['promoCode']);
@@ -83,19 +68,12 @@ class AuthenticatedRemovePromoCodeFromCartTest extends GraphQlWithLoginTestCase
             'quantity' => 2,
         ]);
 
-        $applyPromoCodeMutation = 'mutation {
-            ApplyPromoCodeToCart(input: {
-                promoCode: "' . $promoCode->getCode() . '"
-            }) {
-                uuid
-                promoCode
-            }
-        }';
-
-        $response = $this->getResponseContentForQuery($applyPromoCodeMutation);
+        $response = $this->getResponseContentForGql(__DIR__ . '/graphql/ApplyPromoCodeToCart.graphql', [
+            'promoCode' => $promoCode->getCode(),
+        ]);
         $data = $this->getResponseDataForGraphQlType($response, 'ApplyPromoCodeToCart');
 
-        self::assertEquals($promoCode->getCode(), $data['promoCode']);
+        self::assertPromoCode($promoCode, $data['promoCode']);
 
         // refresh promo code, so we're able to work with it as with an entity
         return $this->getReferenceForDomain($promoCodeReference, 1, PromoCode::class);

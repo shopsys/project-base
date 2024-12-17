@@ -90,6 +90,7 @@
     * [ProductFilterOptions](#productfilteroptions)
     * [ProductList](#productlist)
     * [ProductPrice](#productprice)
+    * [PromoCode](#promocode)
     * [RegularCustomerUser](#regularcustomeruser)
     * [RegularProduct](#regularproduct)
     * [SalesRepresentative](#salesrepresentative)
@@ -152,6 +153,7 @@
     * [ProductListTypeEnum](#productlisttypeenum)
     * [ProductOrderingModeEnum](#productorderingmodeenum)
     * [ProductTypeEnum](#producttypeenum)
+    * [PromoCodeTypeEnum](#promocodetypeenum)
     * [RecommendationType](#recommendationtype)
     * [StoreOpeningStatusEnum](#storeopeningstatusenum)
     * [TransportTypeEnum](#transporttypeenum)
@@ -3153,7 +3155,7 @@ Selected bank swift code of goPay payment bank transfer
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>promoCode</strong></td>
-<td valign="top"><a href="#string">String</a></td>
+<td valign="top"><a href="#promocode">PromoCode</a></td>
 <td>
 
 Applied promo code if provided
@@ -7592,6 +7594,39 @@ Total value of VAT
 </tbody>
 </table>
 
+### PromoCode
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>code</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td>
+
+Code of the promo code
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>type</strong></td>
+<td valign="top"><a href="#promocodetypeenum">PromoCodeTypeEnum</a>!</td>
+<td>
+
+Type of the promo code
+
+</td>
+</tr>
+</tbody>
+</table>
+
 ### RegularCustomerUser
 
 Represents an currently logged customer user
@@ -11760,6 +11795,45 @@ Basic product
 <td>
 
 Product with inquiry form instead of add to cart button
+
+</td>
+</tr>
+</tbody>
+</table>
+
+### PromoCodeTypeEnum
+
+One of possible promo code types
+
+<table>
+<thead>
+<tr>
+<th align="left">Value</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td valign="top"><strong>free_transport_payment</strong></td>
+<td>
+
+Discount type free transport and payment
+
+</td>
+</tr>
+<tr>
+<td valign="top"><strong>nominal</strong></td>
+<td>
+
+Discount type nominal
+
+</td>
+</tr>
+<tr>
+<td valign="top"><strong>percent</strong></td>
+<td>
+
+Discount type percent
 
 </td>
 </tr>

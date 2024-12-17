@@ -18,6 +18,7 @@ class MinimalOrderTest extends GraphQlTestCase
         $firstDomainLocale = $this->getLocaleForFirstDomain();
         $expectedOrderItems = $this->getExpectedOrderItems();
         $expected = [
+            'orderCreated' => true,
             'order' => [
                 'transport' => [
                     'name' => t('Czech post', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $firstDomainLocale),
@@ -56,6 +57,7 @@ class MinimalOrderTest extends GraphQlTestCase
                 ],
                 'note' => null,
             ],
+            'cart' => null,
         ];
 
         $product = $this->getReference(ProductDataFixture::PRODUCT_PREFIX . '1', Product::class);

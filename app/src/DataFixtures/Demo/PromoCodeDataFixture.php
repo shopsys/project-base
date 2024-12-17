@@ -17,6 +17,7 @@ use Shopsys\FrameworkBundle\Model\Order\PromoCode\PromoCodeFlag\PromoCodeFlag;
 use Shopsys\FrameworkBundle\Model\Order\PromoCode\PromoCodeFlag\PromoCodeFlagFactory;
 use Shopsys\FrameworkBundle\Model\Order\PromoCode\PromoCodeLimit\PromoCodeLimitFactory;
 use Shopsys\FrameworkBundle\Model\Order\PromoCode\PromoCodeProduct\PromoCodeProductFactory;
+use Shopsys\FrameworkBundle\Model\Order\PromoCode\PromoCodeTypeEnum;
 use Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroup;
 
 class PromoCodeDataFixture extends AbstractReferenceFixture implements DependentFixtureInterface
@@ -28,6 +29,7 @@ class PromoCodeDataFixture extends AbstractReferenceFixture implements Dependent
     public const string PROMO_CODE_FOR_REGISTERED_ONLY = 'promo_code_for_registered_only';
     public const string PROMO_CODE_FOR_VIP_PRICING_GROUP = 'promo_code_for_vip_pricing_group';
     public const string PROMO_CODE_FOR_NEW_PRODUCT = 'promo_code_for_new_product';
+    public const string PROMO_CODE_FOR_FREE_TRANSPORT_PAYMENT = 'promo_code_for_free_transport_and_payemnt';
 
     /**
      * @param \App\Model\Order\PromoCode\PromoCodeFacade $promoCodeFacade
@@ -131,10 +133,12 @@ class PromoCodeDataFixture extends AbstractReferenceFixture implements Dependent
 
         $promoCodeData = $this->promoCodeDataFactory->create();
         $promoCodeData->code = 'test100';
-        $promoCodeData->discountType = PromoCode::DISCOUNT_TYPE_NOMINAL;
+        $promoCodeData->discountType = PromoCodeTypeEnum::DISCOUNT_TYPE_NOMINAL;
         $promoCodeData->domainId = $domainId;
         $promoCode = $this->promoCodeFacade->create($promoCodeData);
         $this->setDefaultNominalLimit($promoCode);
+
+        $this->createFreeTransportAndPaymentPromoCode($domainId);
 
         $this->loadForOtherDomains();
     }
@@ -156,10 +160,12 @@ class PromoCodeDataFixture extends AbstractReferenceFixture implements Dependent
 
             $promoCodeData = $this->promoCodeDataFactory->create();
             $promoCodeData->code = 'test100';
-            $promoCodeData->discountType = PromoCode::DISCOUNT_TYPE_NOMINAL;
+            $promoCodeData->discountType = PromoCodeTypeEnum::DISCOUNT_TYPE_NOMINAL;
             $promoCodeData->domainId = $domainId;
             $promoCode = $this->promoCodeFacade->create($promoCodeData);
             $this->setDefaultNominalLimit($promoCode);
+
+            $this->createFreeTransportAndPaymentPromoCode($domainId);
         }
     }
 
@@ -195,5 +201,18 @@ class PromoCodeDataFixture extends AbstractReferenceFixture implements Dependent
         $promoCodeLimit->setPromoCode($promoCode);
         $this->em->persist($promoCodeLimit);
         $this->em->flush();
+    }
+
+    /**
+     * @param int $domainId
+     */
+    private function createFreeTransportAndPaymentPromoCode(int $domainId): void
+    {
+        $promoCodeData = $this->promoCodeDataFactory->create();
+        $promoCodeData->code = 'free-transport';
+        $promoCodeData->domainId = $domainId;
+        $promoCodeData->discountType = PromoCodeTypeEnum::DISCOUNT_TYPE_FREE_TRANSPORT_PAYMENT;
+        $promoCode = $this->promoCodeFacade->create($promoCodeData);
+        $this->addReferenceForDomain(self::PROMO_CODE_FOR_FREE_TRANSPORT_PAYMENT, $promoCode, $domainId);
     }
 }

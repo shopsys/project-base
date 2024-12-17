@@ -217,7 +217,7 @@ const useHandleEventsAfterOrderCreation = () => {
             const gtmCreateOrderEventOrderPart = getGtmCreateOrderEventOrderPart(
                 cart,
                 payment,
-                promoCode,
+                promoCode?.code ?? null,
                 orderNumber,
                 getGtmReviewConsents(),
                 domainConfig,

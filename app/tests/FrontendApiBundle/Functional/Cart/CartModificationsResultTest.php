@@ -6,8 +6,10 @@ namespace Tests\FrontendApiBundle\Functional\Cart;
 
 use App\DataFixtures\Demo\PaymentDataFixture;
 use App\DataFixtures\Demo\ProductDataFixture;
+use App\DataFixtures\Demo\PromoCodeDataFixture;
 use App\DataFixtures\Demo\StoreDataFixture;
 use App\DataFixtures\Demo\TransportDataFixture;
+use App\Model\Order\PromoCode\PromoCode;
 use App\Model\Payment\Payment;
 use App\Model\Payment\PaymentDataFactory;
 use App\Model\Payment\PaymentFacade;
@@ -17,6 +19,7 @@ use App\Model\Product\ProductFacade;
 use App\Model\Transport\Transport;
 use App\Model\Transport\TransportDataFactory;
 use App\Model\Transport\TransportFacade;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Shopsys\FrameworkBundle\Component\Money\Money;
 use Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroupFacade;
 use Shopsys\FrameworkBundle\Model\Store\Store;
@@ -61,6 +64,20 @@ class CartModificationsResultTest extends GraphQlTestCase
      * @inject
      */
     private PaymentDataFactory $paymentDataFactory;
+
+    /**
+     * @return iterable
+     */
+    public static function getTransportWithExceededWeightLimitDataProvider(): iterable
+    {
+        yield 'without promo code' => [
+            'promoCodeReference' => null,
+        ];
+
+        yield 'with promo code for free transport' => [
+            'promoCodeReference' => PromoCodeDataFixture::PROMO_CODE_FOR_FREE_TRANSPORT_PAYMENT,
+        ];
+    }
 
     protected function setUp(): void
     {
@@ -226,7 +243,11 @@ class CartModificationsResultTest extends GraphQlTestCase
         self::assertTrue($transportModifications['transportUnavailable']);
     }
 
-    public function testTransportWithExceededWeightLimitIsReported(): void
+    /**
+     * @param string|null $promoCodeReference
+     */
+    #[DataProvider('getTransportWithExceededWeightLimitDataProvider')]
+    public function testTransportWithExceededWeightLimitIsReported(?string $promoCodeReference): void
     {
         $newlyCreatedCart = $this->addTestingProductToNewCart(1);
         $transport = $this->getReference(TransportDataFixture::TRANSPORT_CZECH_POST, Transport::class);
@@ -236,6 +257,11 @@ class CartModificationsResultTest extends GraphQlTestCase
 
         $transportModifications = $this->getTransportModificationsForCartQuery($newlyCreatedCart['uuid']);
         self::assertFalse($transportModifications['transportWeightLimitExceeded']);
+
+        if ($promoCodeReference !== null) {
+            $promoCode = $this->getReferenceForDomain($promoCodeReference, $this->domain->getId(), PromoCode::class);
+            $this->applyPromoCodeToCart($cartUuid, $promoCode);
+        }
 
         $transportModifications = $this->addTestingProductToExistingCartAndGetTransportModifications(3, $cartUuid);
         self::assertTrue($transportModifications['transportWeightLimitExceeded']);
@@ -441,5 +467,19 @@ class CartModificationsResultTest extends GraphQlTestCase
         $productData = $this->productDataFactory->createFromProduct($this->testingProduct);
         $productData->excludedTransports = [$transport];
         $this->productFacade->edit($this->testingProduct->getId(), $productData);
+    }
+
+    /**
+     * @param string $cartUuid
+     * @param \App\Model\Order\PromoCode\PromoCode $promoCode
+     */
+    private function applyPromoCodeToCart(string $cartUuid, PromoCode $promoCode): void
+    {
+        $response = $this->getResponseContentForGql(__DIR__ . '/../_graphql/mutation/ApplyPromoCodeToCart.graphql', [
+            'cartUuid' => $cartUuid,
+            'promoCode' => $promoCode->getCode(),
+        ]);
+
+        $this->getResponseDataForGraphQlType($response, 'ApplyPromoCodeToCart');
     }
 }

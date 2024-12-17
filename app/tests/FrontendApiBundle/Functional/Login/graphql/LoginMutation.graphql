@@ -1,7 +1,8 @@
-mutation LoginMutation ($email: String!, $password: Password!) {
+mutation LoginMutation ($email: String!, $password: Password!, $cartUuid: Uuid) {
     Login(input: {
         email: $email
         password: $password
+        cartUuid: $cartUuid
     }) {
         tokens {
             accessToken

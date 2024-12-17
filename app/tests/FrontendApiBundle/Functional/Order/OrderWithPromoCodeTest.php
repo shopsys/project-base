@@ -36,21 +36,22 @@ class OrderWithPromoCodeTest extends GraphQlTestCase
      */
     private PromoCodeDataFactory $promoCodeDataFactory;
 
-    public function testCreateOrderWithPromoCode()
+    private const array DEFAULT_ORDER_INPUT_VALUES = [
+        'firstName' => 'firstName',
+        'lastName' => 'lastName',
+        'email' => 'user@example.com',
+        'telephone' => '+53 123456789',
+        'onCompanyBehalf' => false,
+        'street' => '123 Fake Street',
+        'city' => 'Springfield',
+        'postcode' => '12345',
+        'country' => 'CZ',
+        'isDeliveryAddressDifferentFromBilling' => false,
+    ];
+
+    public function testCreateOrderWithPromoCode(): void
     {
         $expectedOrderItems = $this->getExpectedOrderItems();
-        $expected = [
-            'data' => [
-                'CreateOrder' => [
-                    'orderCreated' => true,
-                    'order' => [
-                        'totalPrice' => $this->getSerializedOrderTotalPriceByExpectedOrderItems($expectedOrderItems),
-                        'items' => $expectedOrderItems,
-                    ],
-                    'cart' => null,
-                ],
-            ],
-        ];
         $cartUuid = $this->addProductToCart();
         $this->addCzechPostTransportToCart($cartUuid);
         $this->addCashOnDeliveryPaymentToCart($cartUuid);
@@ -59,7 +60,12 @@ class OrderWithPromoCodeTest extends GraphQlTestCase
 
         $this->applyPromoCode($cartUuid, $validPromoCode->getCode());
 
-        $this->assertQueryWithExpectedArray($this->getMutation($cartUuid), $expected);
+        $responseData = $this->createOrderAndGetResponseData($cartUuid);
+
+        $this->assertTrue($responseData['orderCreated']);
+        $this->assertSame(self::getSerializedOrderTotalPriceByExpectedOrderItems($expectedOrderItems), $responseData['order']['totalPrice']);
+        $this->assertSame($expectedOrderItems, $responseData['order']['items']);
+        $this->assertNull($responseData['cart']);
     }
 
     public function testCreateOrderWithInvalidPromoCode(): void
@@ -77,21 +83,31 @@ class OrderWithPromoCodeTest extends GraphQlTestCase
 
         $this->promoCodeFacade->edit($validPromoCode->getId(), $promoCodeData);
 
-        $mutation = $this->getMutation($cartUuid);
-        $response = $this->getResponseContentForQuery($mutation);
+        $responseData = $this->createOrderAndGetResponseData($cartUuid);
 
-        $this->assertArrayHasKey('data', $response);
-        $this->assertArrayHasKey('CreateOrder', $response['data']);
-        $this->assertArrayHasKey('orderCreated', $response['data']['CreateOrder']);
-        $this->assertFalse($response['data']['CreateOrder']['orderCreated']);
-        $this->assertArrayHasKey('cart', $response['data']['CreateOrder']);
-        $this->assertArrayHasKey('promoCode', $response['data']['CreateOrder']['cart']);
-        $this->assertNull($response['data']['CreateOrder']['cart']['promoCode']);
-        $this->assertArrayHasKey('modifications', $response['data']['CreateOrder']['cart']);
-        $this->assertArrayHasKey('promoCodeModifications', $response['data']['CreateOrder']['cart']['modifications']);
-        $this->assertArrayHasKey('noLongerApplicablePromoCode', $response['data']['CreateOrder']['cart']['modifications']['promoCodeModifications']);
-        $this->assertCount(1, $response['data']['CreateOrder']['cart']['modifications']['promoCodeModifications']['noLongerApplicablePromoCode']);
-        $this->assertEquals('test', $response['data']['CreateOrder']['cart']['modifications']['promoCodeModifications']['noLongerApplicablePromoCode'][0]);
+        $this->assertArrayHasKey('orderCreated', $responseData);
+        $this->assertFalse($responseData['orderCreated']);
+        $this->assertArrayHasKey('cart', $responseData);
+        $this->assertArrayHasKey('promoCode', $responseData['cart']);
+        $this->assertNull($responseData['cart']['promoCode']);
+        $this->assertArrayHasKey('modifications', $responseData['cart']);
+        $this->assertArrayHasKey('promoCodeModifications', $responseData['cart']['modifications']);
+        $this->assertArrayHasKey('noLongerApplicablePromoCode', $responseData['cart']['modifications']['promoCodeModifications']);
+        $this->assertCount(1, $responseData['cart']['modifications']['promoCodeModifications']['noLongerApplicablePromoCode']);
+        $this->assertEquals('test', $responseData['cart']['modifications']['promoCodeModifications']['noLongerApplicablePromoCode'][0]);
+    }
+
+    public function testOrderWithFreeTransportAndPaymentPromoCode(): void
+    {
+        $cartUuid = $this->addProductToCart();
+        $freeTransportAndPaymentPromoCode = $this->getReferenceForDomain(PromoCodeDataFixture::PROMO_CODE_FOR_FREE_TRANSPORT_PAYMENT, 1, PromoCode::class);
+        $this->addCzechPostTransportToCart($cartUuid);
+        $this->addCashOnDeliveryPaymentToCart($cartUuid);
+        $this->applyPromoCode($cartUuid, $freeTransportAndPaymentPromoCode->getCode());
+
+        $responseData = $this->createOrderAndGetResponseData($cartUuid);
+
+        $this->assertTransportAndPaymentItemsAreFree($responseData);
     }
 
     /**
@@ -155,64 +171,16 @@ class OrderWithPromoCodeTest extends GraphQlTestCase
 
     /**
      * @param string $cartUuid
-     * @return string
+     * @return array
      */
-    private function getMutation(string $cartUuid): string
+    private function createOrderAndGetResponseData(string $cartUuid): array
     {
-        return 'mutation {
-                    CreateOrder(
-                        input: {
-                            cartUuid: "' . $cartUuid . '"
-                            firstName: "firstName"
-                            lastName: "lastName"
-                            email: "user@example.com"
-                            telephone: "+53 123456789"
-                            onCompanyBehalf: false
-                            street: "123 Fake Street"
-                            city: "Springfield"
-                            postcode: "12345"
-                            country: "CZ"
-                            isDeliveryAddressDifferentFromBilling: false
-                        }
-                    ) {
-                        orderCreated
-                        order {
-                            totalPrice {
-                                priceWithVat
-                                priceWithoutVat
-                                vatAmount
-                            }
-                            items {
-                                name
-                                unitPrice {
-                                    priceWithVat
-                                    priceWithoutVat
-                                    vatAmount
-                                }
-                                totalPrice {
-                                    priceWithVat
-                                    priceWithoutVat
-                                    vatAmount
-                                }
-                                quantity
-                                vatRate
-                                unit
-                                type
-                                product {
-                                    uuid
-                                }
-                            }
-                        }
-                        cart {
-                            promoCode
-                            modifications {
-                                promoCodeModifications {
-                                    noLongerApplicablePromoCode
-                                }
-                            }
-                        }                        
-                    }
-                }';
+        $response = $this->getResponseContentForGql(__DIR__ . '/graphql/CreateMinimalOrderMutation.graphql', [
+            'cartUuid' => $cartUuid,
+            ...self::DEFAULT_ORDER_INPUT_VALUES,
+        ]);
+
+        return $this->getResponseDataForGraphQlType($response, 'CreateOrder');
     }
 
     /**
@@ -221,18 +189,10 @@ class OrderWithPromoCodeTest extends GraphQlTestCase
      */
     public function applyPromoCode(string $cartUuid, string $promoCode): void
     {
-        $mutation = 'mutation {
-                        ApplyPromoCodeToCart(
-                            input: {
-                                cartUuid: "' . $cartUuid . '"
-                                promoCode: "' . $promoCode . '"
-                            }
-                        ) {
-                            uuid
-                        }
-                    }';
-
-        $this->getResponseContentForQuery($mutation);
+        $this->getResponseContentForGql(__DIR__ . '/../_graphql/mutation/ApplyPromoCodeToCart.graphql', [
+            'cartUuid' => $cartUuid,
+            'promoCode' => $promoCode,
+        ]);
     }
 
     /**
@@ -264,5 +224,21 @@ class OrderWithPromoCodeTest extends GraphQlTestCase
         ]);
 
         return $response['data']['AddToCart']['cart']['uuid'];
+    }
+
+    /**
+     * @param array $responseData
+     */
+    private function assertTransportAndPaymentItemsAreFree(array $responseData): void
+    {
+        foreach ($responseData['order']['items'] as $item) {
+            if ($item['type'] === OrderItemTypeEnum::TYPE_TRANSPORT || $item['type'] === OrderItemTypeEnum::TYPE_PAYMENT) {
+                $this->assertSame(
+                    $this->getFormattedMoneyAmountConvertedToDomainDefaultCurrency('0'),
+                    $item['totalPrice']['priceWithVat'],
+                    sprintf('Total price of %s should be zero', $item['type']),
+                );
+            }
+        }
     }
 }
