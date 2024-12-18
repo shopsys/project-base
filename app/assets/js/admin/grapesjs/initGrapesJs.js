@@ -14,6 +14,8 @@ import './plugins/grapesjs-custom-link-plugin';
 import './plugins/grapesjs-custom-image-file-plugin';
 import './plugins/grapesjs-custom-iframe-plugin';
 import './plugins/grapesjs-table-custom-plugin';
+import './plugins/grapesjs-mail-custom-image-with-variable-plugin';
+import './plugins/grapesjs-mail-custom-image-plugin';
 import 'magnific-popup';
 import { en } from './locales/en';
 import Translator from 'bazinga-translator';
@@ -43,7 +45,8 @@ export default class InitGrapesJs {
                 const elfinderUrl = $(element).data('elfinder-url');
                 const templateHtml = $(element).data('template');
                 const bodyVariables = $(element).data('variables');
-                InitGrapesJs.openGrapesMailEditor(event, textareaId, elfinderUrl, templateHtml, bodyVariables);
+                const customPlugins = $(element).data('custom-plugins');
+                InitGrapesJs.openGrapesMailEditor(event, textareaId, elfinderUrl, templateHtml, bodyVariables, customPlugins);
             });
 
             isAnyButtonOnPage = true;
@@ -182,13 +185,21 @@ export default class InitGrapesJs {
         });
     }
 
-    static openGrapesMailEditor (event, textareaId, elfinderUrl, templateHtml, bodyVariables) {
+    static openGrapesMailEditor (event, textareaId, elfinderUrl, templateHtml, bodyVariables, customPlugins) {
         InitGrapesJs.setupBodyForGrapesJsEditor();
         const editableContent = $('#' + textareaId).val();
         const $templateHtml = $('<div>' + templateHtml + '</div>');
         $templateHtml.find('.gjs-editable').append(editableContent);
 
         const variables = JSON.parse(JSON.stringify(bodyVariables));
+
+        const defaultPlugins = [
+            newsletterPlugin,
+            ckeditorPlugin,
+            'customButtons',
+            'mail-template',
+            'mail-custom-image'
+        ];
 
         const editor = grapesjs.init({
             container: '#grapesjs',
@@ -200,7 +211,7 @@ export default class InitGrapesJs {
             noticeOnUnload: false,
             avoidInlineStyle: false,
             forceClass: false,
-            plugins: [newsletterPlugin, ckeditorPlugin, 'customButtons', 'mail-template'],
+            plugins: defaultPlugins.concat(customPlugins),
             pluginsOpts: {
                 [newsletterPlugin]: {
                     styleManagerSectors: []

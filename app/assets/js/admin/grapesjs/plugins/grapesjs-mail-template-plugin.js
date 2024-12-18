@@ -59,9 +59,10 @@ export default grapesjs.plugins.add('mail-template', editor => {
         content: { type: 'text-ckeditor', content: Translator.trans('Insert your text here'), activeOnRender: 1 }
     });
 
-    // add style to default image block
-    const imageBlock = editor.BlockManager.get('image');
-    imageBlock.attributes.content.style = { ...imageBlock.attributes.content.style, 'max-width': '100%' };
+    const mailImageBlock = editor.BlockManager.get('image');
+    mailImageBlock.attributes.content.style = { ...mailImageBlock.attributes.content.style, 'max-width': '100%' };
+
+    editor.Blocks.remove('image');
 
     // Patch for getCss to return always the content
     // from editable component

@@ -394,6 +394,9 @@ msgstr ""
 msgid "Privacy Policy settings"
 msgstr ""
 
+msgid "Product image"
+msgstr ""
+
 msgid "Promo code"
 msgstr ""
 
