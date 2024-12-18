@@ -34,6 +34,8 @@ import { isPacketeryTransport, mapPacketeryExtendedPoint, packeteryPick } from '
 import { StoreOrPacketeryPoint } from 'utils/packetery/types';
 import { getInternationalizedStaticUrls } from 'utils/staticUrls/getInternationalizedStaticUrls';
 
+const PICKUP_POINT_NOT_SET_ERROR_MESSAGE = 'Packetery pickup point is not set';
+
 const PickupPlacePopup = dynamic(
     () => import('components/Blocks/Popup/PickupPlacePopup').then((component) => component.PickupPlacePopup),
     {
@@ -182,6 +184,10 @@ const getLastOrderPickupPlace = (
         return getGtmPickupPlaceFromStore(lastOrderPickupPlaceFromApi);
     }
 
+    if (!packeteryPickupPoint) {
+        throw new Error(PICKUP_POINT_NOT_SET_ERROR_MESSAGE);
+    }
+
     return getGtmPickupPlaceFromLastOrder(lastOrderPickupPlaceIdentifier, lastOrder);
 };
 
@@ -293,26 +299,33 @@ export const useLoadTransportAndPaymentFromLastOrder = (
             >(LastOrderQueryDocument, {}, { requestPolicy: 'network-only' })
             .toPromise();
 
-        const lastOrderPickupPlace = await loadLastOrderPickupPlace(lastOrderData);
+        try {
+            const lastOrderPickupPlace = await loadLastOrderPickupPlace(lastOrderData);
 
-        const newCart = await changeTransportInCart(
-            lastOrderData?.lastOrder?.transport.uuid ?? null,
-            lastOrderPickupPlace,
-        );
-        const successfullyChangedTransport = newCart?.transport?.uuid === lastOrderData?.lastOrder?.transport.uuid;
-        const successfullyChangedPickupPlace =
-            !!newCart?.selectedPickupPlaceIdentifier &&
-            newCart.selectedPickupPlaceIdentifier === lastOrderPickupPlace?.identifier;
+            const newCart = await changeTransportInCart(
+                lastOrderData?.lastOrder?.transport.uuid ?? null,
+                lastOrderPickupPlace,
+            );
+            const successfullyChangedTransport = newCart?.transport?.uuid === lastOrderData?.lastOrder?.transport.uuid;
+            const successfullyChangedPickupPlace =
+                !!newCart?.selectedPickupPlaceIdentifier &&
+                newCart.selectedPickupPlaceIdentifier === lastOrderPickupPlace?.identifier;
 
-        if (successfullyChangedTransport) {
-            if (successfullyChangedPickupPlace) {
-                setLastOrderPickupPlace(lastOrderPickupPlace);
+            if (successfullyChangedTransport) {
+                if (successfullyChangedPickupPlace) {
+                    setLastOrderPickupPlace(lastOrderPickupPlace);
+                }
+
+                await changePaymentInCart(lastOrderData?.lastOrder?.payment.uuid ?? null, null);
             }
-
-            await changePaymentInCart(lastOrderData?.lastOrder?.payment.uuid ?? null, null);
+        } catch (e: unknown) {
+            const error = e as Error;
+            if (error.message && error.message !== PICKUP_POINT_NOT_SET_ERROR_MESSAGE) {
+                throw Error;
+            }
+        } finally {
+            setIsLoadingTransportAndPaymentFromLastOrder(false);
         }
-
-        setIsLoadingTransportAndPaymentFromLastOrder(false);
     };
 
     useEffect(() => {
