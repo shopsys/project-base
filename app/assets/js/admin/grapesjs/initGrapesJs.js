@@ -95,10 +95,13 @@ export default class InitGrapesJs {
             plugins: plugins,
             pluginsOpts: {
                 [ckeditorPlugin]: {
+                    ckeditor: '',
                     options: {
                         enterMode: 2,
+                        versionCheck: false,
                         allowedContent: true,
                         extraAllowedContent: '*(*)',
+                        removePlugins: 'exportpdf',
                         toolbar: [
                             { name: 'basicstyles', items: ['Bold', 'Italic', 'Strike', '-', 'RemoveFormat'] },
                             { name: 'clipboard', items: ['PasteText', 'PasteFromWord'] },
@@ -203,8 +206,10 @@ export default class InitGrapesJs {
                     styleManagerSectors: []
                 },
                 [ckeditorPlugin]: {
+                    ckeditor: '',
                     options: {
                         enterMode: 2,
+                        versionCheck: false,
                         toolbar: [
                             { name: 'basicstyles', items: ['Bold', 'Italic', 'Strike', '-', 'RemoveFormat'] },
                             { name: 'format', items: ['Format'] },
@@ -216,6 +221,7 @@ export default class InitGrapesJs {
                             { name: 'insert', items: ['SpecialChar', 'strinsert'] }
                         ],
                         extraPlugins: 'strinsert',
+                        removePlugins: 'exportpdf',
                         strinsert_strings: [
                             { 'name': 'Povinné proměnné' },
                             ...variables
