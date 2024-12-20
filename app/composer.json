@@ -24,6 +24,7 @@
     },
     "require": {
         "php": "^8.3",
+        "ext-amqp": "*",
         "ext-bcmath": "*",
         "ext-ctype": "*",
         "ext-curl": "*",
