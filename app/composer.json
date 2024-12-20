@@ -55,7 +55,7 @@
         "guzzlehttp/guzzle": "^7.5.0",
         "helios-ag/fm-elfinder-bundle": "^12.2",
         "heureka/overeno-zakazniky": "^4.0.1",
-        "jms/serializer-bundle": "^4.0.2",
+        "jms/serializer-bundle": "^5.0",
         "jms/translation-bundle": "^2.2.1",
         "league/flysystem": "^3.11.0",
         "league/flysystem-aws-s3-v3": "^3.12.2",
