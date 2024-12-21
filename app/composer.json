@@ -61,7 +61,7 @@
         "league/flysystem-aws-s3-v3": "^3.12.2",
         "nette/utils": "^4.0",
         "overblog/dataloader-bundle": "^0.6.0",
-        "presta/sitemap-bundle": "^3.3",
+        "presta/sitemap-bundle": "^4.1",
         "prezent/doctrine-translatable-bundle": "^1.4",
         "sentry/sentry-symfony": "^5.0.1",
         "shopsys/deployment": "^3.3.2",
