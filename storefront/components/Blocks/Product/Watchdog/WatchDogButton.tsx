@@ -31,8 +31,9 @@ export const WatchDogButton: FC<WatchDogButtonProps> = ({
     const updatePortalContent = useSessionStore((s) => s.updatePortalContent);
 
     const showWatchdogButton =
-        (productUuid && !isInquiryType && availability.status === TypeAvailabilityStatusEnum.OutOfStock) ||
-        productIsSellingDenied;
+        productUuid &&
+        !isInquiryType &&
+        (availability.status === TypeAvailabilityStatusEnum.OutOfStock || productIsSellingDenied);
 
     if (!showWatchdogButton) {
         return null;
