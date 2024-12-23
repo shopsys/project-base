@@ -60,24 +60,26 @@ export const ProductVariantsTable: FC<ProductVariantsTableProps> = ({ variants }
                         {variant.fullName}
                     </div>
 
-                    <ProductAvailability
-                        availability={variant.availability}
-                        availableStoresCount={variant.availableStoresCount}
-                        isInquiryType={variant.isInquiryType}
-                        className={twJoin(
-                            'min-w-40 text-center lg:text-left',
-                            variant.availability.status === TypeAvailabilityStatusEnum.InStock && 'cursor-pointer',
-                        )}
-                        onClick={() => {
-                            if (variant.availability.status === TypeAvailabilityStatusEnum.InStock) {
-                                updatePortalContent(
-                                    <ProductVariantsAvailabilityPopup
-                                        storeAvailabilities={variant.storeAvailabilities}
-                                    />,
-                                );
-                            }
-                        }}
-                    />
+                    {!variant.isSellingDenied && (
+                        <ProductAvailability
+                            availability={variant.availability}
+                            availableStoresCount={variant.availableStoresCount}
+                            isInquiryType={variant.isInquiryType}
+                            className={twJoin(
+                                'min-w-40 text-center lg:text-left',
+                                variant.availability.status === TypeAvailabilityStatusEnum.InStock && 'cursor-pointer',
+                            )}
+                            onClick={() => {
+                                if (variant.availability.status === TypeAvailabilityStatusEnum.InStock) {
+                                    updatePortalContent(
+                                        <ProductVariantsAvailabilityPopup
+                                            storeAvailabilities={variant.storeAvailabilities}
+                                        />,
+                                    );
+                                }
+                            }}
+                        />
+                    )}
 
                     <div className="flex flex-col items-center justify-end gap-2.5 lg:ml-auto lg:min-w-80 lg:max-w-96 lg:flex-row">
                         <div className="min-h-8  lg:min-h-full lg:text-right">

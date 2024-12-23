@@ -5517,7 +5517,7 @@ UUID
 <td valign="top"><a href="#int">Int</a>!</td>
 <td>
 
-Number of sellable variants
+Number of visible variants
 
 </td>
 </tr>

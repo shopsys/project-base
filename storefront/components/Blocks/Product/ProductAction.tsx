@@ -38,7 +38,7 @@ export const ProductAction: FC<ProductActionProps> = ({
     const updatePortalContent = useSessionStore((s) => s.updatePortalContent);
 
     if (product.isSellingDenied) {
-        return <div className="text-center">{t('This item can no longer be purchased')}</div>;
+        return <div className="max-w-[215px] text-center">{t('This item can no longer be purchased')}</div>;
     }
 
     if (!product.isMainVariant && product.isInquiryType) {

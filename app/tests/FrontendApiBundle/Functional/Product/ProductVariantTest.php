@@ -37,12 +37,14 @@ class ProductVariantTest extends GraphQlTestCase
                 $firstDomainLocale,
             ),
             'variants' => [
-                // Variant 51,5" Sencor is not sellable, so it's not present
+                [
+                    'name' => t('51,5" Sencor [V]', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $firstDomainLocale),
+                ],
                 [
                     'name' => t('60" Sencor [V]', [], Translator::DATA_FIXTURES_TRANSLATION_DOMAIN, $firstDomainLocale),
                 ],
             ],
-            'variantsCount' => 1,
+            'variantsCount' => 2,
             'availableStoresCount' => null,
             'stockQuantity' => null,
             'availability' => [

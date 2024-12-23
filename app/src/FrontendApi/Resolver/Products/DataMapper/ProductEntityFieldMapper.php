@@ -67,7 +67,8 @@ class ProductEntityFieldMapper extends BaseProductEntityFieldMapper
      * @param \Shopsys\FrameworkBundle\Model\Product\ProductFrontendLimitProvider $productFrontendLimitProvider
      * @param \Overblog\DataLoader\DataLoaderInterface $productsSellableByIdsBatchLoader
      * @param \Shopsys\FrameworkBundle\Model\Product\ProductVisibilityFacade $productVisibilityFacade
-     * @param \Overblog\DataLoader\DataLoaderInterface $productsSellableCountByIdsBatchLoader
+     * @param \Overblog\DataLoader\DataLoaderInterface $productsVisibleByIdsBatchLoader
+     * @param \Overblog\DataLoader\DataLoaderInterface $productsVisibleCountByIdsBatchLoader
      * @param \Shopsys\FrameworkBundle\Component\Router\FriendlyUrl\FriendlyUrlFacade $friendlyUrlFacade
      * @param \App\Model\Product\ProductRepository $productRepository
      * @param \Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroupSettingFacade $pricingGroupSettingFacade
@@ -88,7 +89,8 @@ class ProductEntityFieldMapper extends BaseProductEntityFieldMapper
         ProductFrontendLimitProvider $productFrontendLimitProvider,
         DataLoaderInterface $productsSellableByIdsBatchLoader,
         ProductVisibilityFacade $productVisibilityFacade,
-        DataLoaderInterface $productsSellableCountByIdsBatchLoader,
+        DataLoaderInterface $productsVisibleByIdsBatchLoader,
+        DataLoaderInterface $productsVisibleCountByIdsBatchLoader,
         protected readonly FriendlyUrlFacade $friendlyUrlFacade,
         protected readonly ProductRepository $productRepository,
         protected readonly PricingGroupSettingFacade $pricingGroupSettingFacade,
@@ -109,7 +111,8 @@ class ProductEntityFieldMapper extends BaseProductEntityFieldMapper
             $productFrontendLimitProvider,
             $productsSellableByIdsBatchLoader,
             $productVisibilityFacade,
-            $productsSellableCountByIdsBatchLoader,
+            $productsVisibleByIdsBatchLoader,
+            $productsVisibleCountByIdsBatchLoader,
         );
     }
 

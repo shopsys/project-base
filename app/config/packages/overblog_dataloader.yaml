@@ -47,6 +47,9 @@ overblog_dataloader:
         productsVisibleByIdsBatchLoader:
             alias: "products_visible_by_ids_batch_loader"
             batch_load_fn: "@Shopsys\\FrontendApiBundle\\Model\\Product\\BatchLoad\\ProductsBatchLoader:loadVisibleByIds"
+        productsVisibleCountByIdsBatchLoader:
+            alias: "products_visible_count_by_ids_batch_loader"
+            batch_load_fn: "@Shopsys\\FrontendApiBundle\\Model\\Product\\BatchLoad\\ProductsBatchLoader:loadVisibleCountByIds"
         readyCategorySeoMixesBatchLoader:
             alias: "ready_category_seo_mixes_batch_loader"
             batch_load_fn: "@Shopsys\\FrontendApiBundle\\Model\\Category\\ReadyCategorySeoMixBatchLoader:loadByCategoryIds"

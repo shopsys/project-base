@@ -37,7 +37,8 @@ class ProductArrayFieldMapper extends BaseProductArrayFieldMapper
      * @param \Shopsys\FrameworkBundle\Model\Product\ProductFrontendLimitProvider $productFrontendLimitProvider
      * @param \Overblog\DataLoader\DataLoaderInterface $productsSellableByIdsBatchLoader
      * @param \App\Model\Customer\User\CurrentCustomerUser $currentCustomerUser
-     * @param \Overblog\DataLoader\DataLoaderInterface $productsSellableCountByIdsBatchLoader
+     * @param \Overblog\DataLoader\DataLoaderInterface $productsVisibleByIdsBatchLoader
+     * @param \Overblog\DataLoader\DataLoaderInterface $productsVisibleCountByIdsBatchLoader
      * @param \Overblog\DataLoader\DataLoaderInterface $categoriesBatchLoader
      * @param \Overblog\DataLoader\DataLoaderInterface $flagsBatchLoader
      * @param \Overblog\DataLoader\DataLoaderInterface $brandsBatchLoader
@@ -51,7 +52,8 @@ class ProductArrayFieldMapper extends BaseProductArrayFieldMapper
         ProductFrontendLimitProvider $productFrontendLimitProvider,
         DataLoaderInterface $productsSellableByIdsBatchLoader,
         CurrentCustomerUser $currentCustomerUser,
-        DataLoaderInterface $productsSellableCountByIdsBatchLoader,
+        DataLoaderInterface $productsVisibleByIdsBatchLoader,
+        DataLoaderInterface $productsVisibleCountByIdsBatchLoader,
         private DataLoaderInterface $categoriesBatchLoader,
         private DataLoaderInterface $flagsBatchLoader,
         private DataLoaderInterface $brandsBatchLoader,
@@ -65,7 +67,8 @@ class ProductArrayFieldMapper extends BaseProductArrayFieldMapper
             $productFrontendLimitProvider,
             $productsSellableByIdsBatchLoader,
             $currentCustomerUser,
-            $productsSellableCountByIdsBatchLoader,
+            $productsVisibleByIdsBatchLoader,
+            $productsVisibleCountByIdsBatchLoader,
         );
     }
 
