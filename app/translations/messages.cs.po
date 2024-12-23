@@ -394,6 +394,9 @@ msgstr "Zásady ochrany osobních údajů"
 msgid "Privacy Policy settings"
 msgstr "Nastavení zásad ochrany osobních údajů"
 
+msgid "Product image"
+msgstr "Obrázek produktu"
+
 msgid "Promo code"
 msgstr "Slevový kupón"
 

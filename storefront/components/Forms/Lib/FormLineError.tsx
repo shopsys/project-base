@@ -28,13 +28,15 @@ export const FormLineError: FC<FormLineErrorProps> = ({ inputType, error, textIn
                     'absolute flex w-4 text-inputError',
                     isInputOrTextArea && `right-5 -translate-y-1/2 ${isTextInputSmall ? '-top-8' : '-top-9'}`,
                     isInputPassword && `right-11 -translate-y-1/2 ${isTextInputSmall ? '-top-8' : '-top-9'}`,
-                    isCheckbox && '-right-5',
+                    isCheckbox && 'right-1 top-1/2 -translate-y-1/2',
                     isSelect && '-top-10 right-11 z-[2]',
                     isDropzone && 'right-0 top-1',
                 )}
             />
             {error.message !== undefined && (
-                <span className="font-secondary text-sm text-inputError">{error.message}</span>
+                <span className={twJoin('font-secondary text-sm text-inputError', isCheckbox && 'block pr-6')}>
+                    {error.message}
+                </span>
             )}
         </div>
     );

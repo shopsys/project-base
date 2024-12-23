@@ -49,4 +49,12 @@
         </exec>
     </target>
 
+    <target name="cron-watchdog" description="Runs Watchdog background jobs. Should be executed periodically by system Cron every 10 minutes.">
+        <exec executable="${path.php.executable}" passthru="true" checkreturn="true">
+            <arg value="${path.bin-console}" />
+            <arg value="shopsys:cron" />
+            <arg value="--instance-name=watchdog" />
+        </exec>
+    </target>
+
 </project>

@@ -18,11 +18,11 @@ import { blurInput } from 'utils/forms/blurInput';
 import { showErrorMessage } from 'utils/toasts/showErrorMessage';
 import { showSuccessMessage } from 'utils/toasts/showSuccessMessage';
 
-type InquiryPopupPopupProps = {
+type InquiryPopupProps = {
     productUuid: string;
 };
 
-export const InquiryPopup: FC<InquiryPopupPopupProps> = ({ productUuid }) => {
+export const InquiryPopup: FC<InquiryPopupProps> = ({ productUuid }) => {
     const { t } = useTranslation();
     const updatePortalContent = useSessionStore((s) => s.updatePortalContent);
     const user = useCurrentCustomerData();

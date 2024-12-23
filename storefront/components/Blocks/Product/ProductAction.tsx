@@ -22,6 +22,7 @@ type ProductActionProps = {
     listIndex: number;
     isWithSpinbox?: boolean;
     buttonSize?: 'small' | 'medium' | 'large';
+    buttonVariant?: 'primary' | 'inverted';
 };
 
 export const ProductAction: FC<ProductActionProps> = ({
@@ -31,12 +32,13 @@ export const ProductAction: FC<ProductActionProps> = ({
     listIndex,
     isWithSpinbox = false,
     buttonSize,
+    buttonVariant = 'primary',
 }) => {
     const { t } = useTranslation();
     const updatePortalContent = useSessionStore((s) => s.updatePortalContent);
 
     if (product.isSellingDenied) {
-        return <div className="text-center">{t('This item can no longer be purchased')}</div>;
+        return <div className="max-w-[215px] text-center">{t('This item can no longer be purchased')}</div>;
     }
 
     if (!product.isMainVariant && product.isInquiryType) {
@@ -62,6 +64,7 @@ export const ProductAction: FC<ProductActionProps> = ({
     return (
         <AddToCart
             buttonSize={buttonSize}
+            buttonVariant={buttonVariant}
             gtmMessageOrigin={gtmMessageOrigin}
             gtmProductListName={gtmProductListName}
             isWithSpinbox={isWithSpinbox}

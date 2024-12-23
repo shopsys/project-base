@@ -12,12 +12,15 @@ export default grapesjs.plugins.add('custom-image', (editor) => {
         category: Translator.trans('Basic objects'),
         attributes: { class: 'gjs-fonts gjs-f-image' },
         content: {
-            type: 'image'
+            type: 'image',
+            attributes: {
+                'data-gjs-type': 'image'
+            }
         }
     });
 
     editor.DomComponents.addType('image', {
-        isComponent: (element) => element.tagName === 'IMG',
+        isComponent: (element) => element.tagName === 'IMG' && element.getAttribute('data-gjs-type') === 'image',
         extend: 'image',
         model: {
             init () {

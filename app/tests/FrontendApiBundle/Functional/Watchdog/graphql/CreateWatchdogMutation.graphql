@@ -1,0 +1,9 @@
+mutation CreateWatchdogMutation(
+    $email: String!
+    $productUuid: Uuid!
+) {
+    CreateWatchdog(input: {
+        email: $email,
+        productUuid: $productUuid
+    })
+}

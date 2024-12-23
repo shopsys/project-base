@@ -19,4 +19,5 @@ export enum GtmEventType {
     send_form = 'send_form',
     login = 'ec.login',
     registration = 'ec.registration',
+    create_watchdog = 'ec.create_watchdog',
 }

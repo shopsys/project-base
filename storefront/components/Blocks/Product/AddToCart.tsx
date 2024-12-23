@@ -23,6 +23,7 @@ type AddToCartProps = {
     listIndex: number;
     isWithSpinbox?: boolean;
     buttonSize?: 'small' | 'medium' | 'large';
+    buttonVariant?: 'primary' | 'inverted';
 };
 
 export const AddToCart: FC<AddToCartProps> = ({
@@ -34,6 +35,7 @@ export const AddToCart: FC<AddToCartProps> = ({
     className,
     isWithSpinbox = true,
     buttonSize = 'medium',
+    buttonVariant = 'primary',
 }) => {
     const spinboxRef = useRef<HTMLInputElement | null>(null);
     const { t } = useTranslation();
@@ -78,6 +80,7 @@ export const AddToCart: FC<AddToCartProps> = ({
                     name="add-to-cart"
                     size={buttonSize}
                     tid={TIDs.blocks_product_addtocart}
+                    variant={buttonVariant}
                     onClick={onAddToCartHandler}
                 >
                     <span>{t('Add to cart')}</span>

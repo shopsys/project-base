@@ -10,6 +10,7 @@ import { ProductMetadata } from 'components/Basic/Head/ProductMetadata';
 import { DeferredRecommendedProducts } from 'components/Blocks/Product/DeferredRecommendedProducts';
 import { useLastVisitedProductView } from 'components/Blocks/Product/LastVisitedProducts/lastVisitedProductsUtils';
 import { ProductAvailability } from 'components/Blocks/Product/ProductAvailability';
+import { WatchDogButton } from 'components/Blocks/Product/Watchdog/WatchDogButton';
 import { Popup } from 'components/Layout/Popup/Popup';
 import { Webline } from 'components/Layout/Webline/Webline';
 import { ProductDetailAvailabilityList } from 'components/Pages/ProductDetail/ProductDetailAvailabilityList';
@@ -115,6 +116,14 @@ export const ProductDetailContent: FC<ProductDetailContentProps> = ({ product, i
                                     }
                                 />
                             )}
+
+                            <WatchDogButton
+                                availability={product.availability}
+                                className="self-start"
+                                isInquiryType={product.isInquiryType}
+                                productIsSellingDenied={product.isSellingDenied}
+                                productUuid={product.uuid}
+                            />
 
                             <DeferredProductDetailAddToCart product={product} />
 

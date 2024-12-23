@@ -9,6 +9,7 @@ use App\DataFixtures\Demo\CountryDataFixture;
 use App\DataFixtures\Demo\CurrencyDataFixture;
 use App\DataFixtures\Demo\OrderStatusDataFixture;
 use App\DataFixtures\Demo\PricingGroupDataFixture;
+use App\DataFixtures\Demo\ProductDataFixture;
 use App\Model\Customer\User\CustomerUser;
 use App\Model\Customer\User\CustomerUserData;
 use App\Model\Order\Item\OrderItem;
@@ -34,6 +35,8 @@ use Shopsys\FrameworkBundle\Model\Order\Item\OrderItemTypeEnum;
 use Shopsys\FrameworkBundle\Model\Pricing\Currency\Currency;
 use Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroup;
 use Shopsys\FrameworkBundle\Model\Pricing\Price;
+use Shopsys\FrameworkBundle\Model\Watchdog\Watchdog;
+use Shopsys\FrameworkBundle\Model\Watchdog\WatchdogData;
 use Tests\App\Functional\Model\Order\TestOrderProvider;
 use Tests\App\Test\TransactionFunctionalTestCase;
 use Twig\Environment;
@@ -76,6 +79,9 @@ class PersonalDataExportXmlTest extends TransactionFunctionalTestCase
 
         $complaint = $this->createComplaint($country, $order, $customerUser);
 
+        $watchdogProduct = $this->getReference(ProductDataFixture::PRODUCT_PREFIX . '1');
+        $watchdog = $this->createWatchdog($customerUser->getEmail(), $watchdogProduct);
+
         $generatedXml = $this->twigEnvironment->render('@ShopsysFramework/Front/Content/PersonalData/export.xml.twig', [
             'customerUser' => $customerUser,
             'orders' => [
@@ -83,6 +89,7 @@ class PersonalDataExportXmlTest extends TransactionFunctionalTestCase
             ],
             'newsletterSubscriber' => null,
             'complaints' => [$complaint],
+            'watchdogs' => [$watchdog],
         ]);
 
         $generatedXml = XmlNormalizer::normalizeXml($generatedXml);
@@ -212,5 +219,23 @@ class PersonalDataExportXmlTest extends TransactionFunctionalTestCase
         $complaintItem = $this->createMock(ComplaintItem::class);
 
         return new Complaint($complaintData, [$complaintItem]);
+    }
+
+    /**
+     * @param string $email
+     * @param \App\Model\Product\Product $product
+     * @return \Shopsys\FrameworkBundle\Model\Watchdog\Watchdog
+     */
+    private function createWatchdog(string $email, Product $product): Watchdog
+    {
+        $watchdogData = new WatchdogData();
+        $watchdogData->domainId = Domain::FIRST_DOMAIN_ID;
+        $watchdogData->email = $email;
+        $watchdogData->product = $product;
+        $watchdogData->createdAt = new DateTime('2018-04-13');
+        $watchdogData->updatedAt = new DateTime('2018-04-13');
+        $watchdogData->validUntil = new DateTime('2020-04-13');
+
+        return new Watchdog($watchdogData);
     }
 }

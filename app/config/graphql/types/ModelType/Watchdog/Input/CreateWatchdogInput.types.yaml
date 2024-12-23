@@ -1,0 +1,4 @@
+CreateWatchdogInput:
+    type: input-object
+    inherits:
+        - 'CreateWatchdogInputDecorator'

@@ -99,6 +99,7 @@ function deploy() {
         ["cron-gopay"]='*/5 * * * *'
         ["cron-data-bridge-import"]='*/5 * * * *'
         ["cron-packetery"]='*/5 * * * *'
+        ["cron-watchdog"]='*/10 * * * *'
     )
 
     VARS=(

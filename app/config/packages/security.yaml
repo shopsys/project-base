@@ -61,6 +61,7 @@ security:
             - ROLE_COMPLAINT_FULL
             - ROLE_COMPLAINT_STATUS_FULL
             - ROLE_INQUIRY_VIEW
+            - ROLE_WATCHDOG_FULL
         ROLE_ALL_VIEW:
             - ROLE_ORDER_VIEW
             - ROLE_CUSTOMER_VIEW
@@ -115,6 +116,7 @@ security:
             - ROLE_COMPLAINT_VIEW
             - ROLE_COMPLAINT_STATUS_VIEW
             - ROLE_INQUIRY_VIEW
+            - ROLE_WATCHDOG_VIEW
         ROLE_ORDER_FULL: [ROLE_ORDER_VIEW]
         ROLE_CUSTOMER_FULL: [ROLE_CUSTOMER_VIEW]
         ROLE_NEWSLETTER_FULL: [ROLE_NEWSLETTER_VIEW]
@@ -165,6 +167,7 @@ security:
         ROLE_FILES_FULL: [ROLE_FILES_VIEW]
         ROLE_COMPLAINT_FULL: [ROLE_COMPLAINT_VIEW]
         ROLE_COMPLAINT_STATUS_FULL: [ROLE_COMPLAINT_STATUS_VIEW]
+        ROLE_WATCHDOG_FULL: [ROLE_WATCHDOG_VIEW]
         # FE API ROLES
         ROLE_API_ALL:
             - ROLE_API_CUSTOMER_SELF_MANAGE
@@ -251,6 +254,10 @@ security:
         - { path: ^/%admin_url%/delivery-address/edit, roles: ROLE_CUSTOMER_FULL }
         - { path: ^/%admin_url%/delivery-address/new, roles: ROLE_CUSTOMER_FULL }
         - { path: ^/%admin_url%/customer/, roles: ROLE_CUSTOMER_VIEW }
+        #watchdog
+        - { path: ^/%admin_url%/watchdog/list, roles: ROLE_WATCHDOG_VIEW }
+        - { path: ^/%admin_url%/watchdog/detail/*, roles: ROLE_WATCHDOG_VIEW }
+        - { path: ^/%admin_url%/watchdog/delete/*, roles: ROLE_WATCHDOG_FULL }
         # newsletter
         - { path: ^/%admin_url%/newsletter/delete, roles: ROLE_NEWSLETTER_FULL }
         - { path: ^/%admin_url%/newsletter/export-csv, roles: ROLE_NEWSLETTER_FULL }

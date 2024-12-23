@@ -272,3 +272,13 @@ export type GtmUserEntryEventType = GtmEventInterface<
         user: GtmUserEntryInfoType | null | undefined;
     }
 >;
+
+export type GtmCreateWatchdogEventType = GtmEventInterface<
+    GtmEventType.create_watchdog,
+    {
+        eventParameters: {
+            email: string;
+            productUuid: string;
+        };
+    }
+>;

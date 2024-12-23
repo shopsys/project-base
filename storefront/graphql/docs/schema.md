@@ -123,6 +123,7 @@
     * [ComplaintItemInput](#complaintiteminput)
     * [ContactFormInput](#contactforminput)
     * [CreateInquiryInput](#createinquiryinput)
+    * [CreateWatchdogInput](#createwatchdoginput)
     * [DeliveryAddressInput](#deliveryaddressinput)
     * [EditCustomerUserPersonalDataInput](#editcustomeruserpersonaldatainput)
     * [LoginInput](#logininput)
@@ -1560,6 +1561,20 @@ Creates complete order with products and addresses
 <tr>
 <td colspan="2" align="right" valign="top">input</td>
 <td valign="top"><a href="#orderinput">OrderInput</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>CreateWatchdog</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td>
+
+Create a new watchdog or update validity of the current one
+
+</td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">input</td>
+<td valign="top"><a href="#createwatchdoginput">CreateWatchdogInput</a>!</td>
 <td></td>
 </tr>
 <tr>
@@ -5502,7 +5517,7 @@ UUID
 <td valign="top"><a href="#int">Int</a>!</td>
 <td>
 
-Number of sellable variants
+Number of visible variants
 
 </td>
 </tr>
@@ -10208,6 +10223,38 @@ Product UUID
 <td>
 
 The customer's telephone number
+
+</td>
+</tr>
+</tbody>
+</table>
+
+### CreateWatchdogInput
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="left">Field</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>email</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td>
+
+The customer's email address
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>productUuid</strong></td>
+<td valign="top"><a href="#uuid">Uuid</a>!</td>
+<td>
+
+Product UUID
 
 </td>
 </tr>

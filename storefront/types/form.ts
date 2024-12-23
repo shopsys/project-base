@@ -126,3 +126,9 @@ export type InquiryFormType = {
     note: string;
     productUuid: string;
 };
+
+export type WatchdogFormType = {
+    email: string;
+    productUuid: string;
+    gdprAgreement: boolean;
+};

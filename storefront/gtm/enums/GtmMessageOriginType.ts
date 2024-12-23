@@ -6,4 +6,5 @@ export enum GtmMessageOriginType {
     order_confirmation_page = 'order confirmation page',
     login_popup = 'login popup',
     other = 'other',
+    watchdog = 'watchdog',
 }
