@@ -1,0 +1,7 @@
+# Shopsys builds additional Router instances that reload app routes,
+# so the upstream `type: mcp` loader cannot be reused safely here.
+_mcp_endpoint:
+    # Upstream MCP bundle handles this endpoint via Symfony\AI\McpBundle\Routing\RouteLoader.
+    controller: mcp.server.controller::handle
+    methods: [GET, POST, DELETE, OPTIONS]
+    path: /_mcp

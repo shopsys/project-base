@@ -1,0 +1,12 @@
+mcp:
+    app: shopsys-database
+    client_transports:
+        http: true
+        stdio: false
+    description: 'Shopsys database MCP server'
+    http:
+        session:
+            store: file
+            directory: '%kernel.cache_dir%/mcp-http-sessions'
+            ttl: 3600
+    version: 1.0.0
