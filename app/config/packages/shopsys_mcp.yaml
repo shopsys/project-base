@@ -1,0 +1,4 @@
+shopsys_mcp:
+    query:
+        max_returned_rows: 500
+        statement_timeout_ms: 10000
