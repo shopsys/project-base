@@ -11,6 +11,8 @@ use Shopsys\FrameworkBundle\Model\Product\Exception\ProductIsAlreadyVariantExcep
 use Shopsys\FrameworkBundle\Model\Product\Exception\VariantCanBeAddedOnlyToMainVariantException;
 use Shopsys\FrameworkBundle\Model\Product\Product as BaseProduct;
 use Shopsys\FrameworkBundle\Model\Product\ProductData as BaseProductData;
+use Shopsys\McpAttributes\Attribute\AsMcpColumn;
+use Shopsys\McpAttributes\Attribute\AsMcpTable;
 
 /**
  * @property \App\Model\Product\Brand\Brand|null $brand
@@ -49,6 +51,7 @@ use Shopsys\FrameworkBundle\Model\Product\ProductData as BaseProductData;
  * @method void setData(\App\Model\Product\ProductData $productData)
  * @method void editRelatedProducts(\App\Model\Product\Product[] $relatedProducts)
  */
+#[AsMcpTable]
 #[ORM\Table(name: 'products')]
 #[ORM\Entity]
 class Product extends BaseProduct
@@ -58,6 +61,7 @@ class Product extends BaseProduct
     /**
      * @var string
      */
+    #[AsMcpColumn]
     #[ORM\Column(type: 'string', length: 100, unique: true, nullable: false)]
     #[Override]
     protected $catnum;
@@ -83,7 +87,6 @@ class Product extends BaseProduct
             $productDomain = new ProductDomain($this, $domainId);
             $this->domains->add($productDomain);
         }
-
         $this->setDomains($productData);
     }
 
@@ -94,10 +97,7 @@ class Product extends BaseProduct
     public function addVariant(BaseProduct $variant): void
     {
         if (!$this->isMainVariant()) {
-            throw new VariantCanBeAddedOnlyToMainVariantException(
-                $this->getId(),
-                $variant->getId(),
-            );
+            throw new VariantCanBeAddedOnlyToMainVariantException($this->getId(), $variant->getId());
         }
 
         if ($variant->isMainVariant()) {
@@ -111,7 +111,6 @@ class Product extends BaseProduct
         if ($this->variants->contains($variant)) {
             return;
         }
-
         $this->variants->add($variant);
         $variant->setMainVariant($this);
         $variant->copyProductCategoryDomains($this->productCategoryDomains->getValues());
@@ -122,20 +121,11 @@ class Product extends BaseProduct
      */
     public function getAllNonEmptyShortDescriptionUsp(int $domainId): array
     {
-        $usps = [
-            $this->getShortDescriptionUsp1($domainId),
-            $this->getShortDescriptionUsp2($domainId),
-            $this->getShortDescriptionUsp3($domainId),
-            $this->getShortDescriptionUsp4($domainId),
-            $this->getShortDescriptionUsp5($domainId),
-        ];
+        $usps = [$this->getShortDescriptionUsp1($domainId), $this->getShortDescriptionUsp2($domainId), $this->getShortDescriptionUsp3($domainId), $this->getShortDescriptionUsp4($domainId), $this->getShortDescriptionUsp5($domainId)];
 
-        return array_values(array_filter(
-            $usps,
-            static function ($value) {
-                return $value !== null && $value !== '';
-            },
-        ));
+        return array_values(array_filter($usps, static function ($value) {
+            return $value !== null && $value !== '';
+        }));
     }
 
     /**
